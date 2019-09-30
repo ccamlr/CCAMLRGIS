@@ -1,0 +1,25 @@
+Package: CCAMLRGIS
+Title: bridging R and the CCAMLR online GIS
+Version: 2.2.3.9000
+Date: 2017-09-15
+Authors@R: c(person("Stephane","Thanassekos",role = c("aut")), person("Lucy", "Robinson", email = "lucy.robinson@ccamlr.org",role = c("aut", "cre")),person("Michael D.","Sumner", role = "ctb", email = "mdsumner@gmail.com"))
+Description: An R package for loading and creating spatial data that is compatible with the CCAMLR online GIS.
+Depends: R (>= 3.4.0)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    methods,
+    maptools,
+    rgdal,
+    rgeos,
+    raster,
+    sp,
+    graticule,
+    classInt,
+    RColorBrewer
+RoxygenNote: 6.0.1
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

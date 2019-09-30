@@ -1,0 +1,26 @@
+[general]
+creator=R package 'raster'
+created=2018-03-23 13:19:41
+[georeference]
+nrows=761
+ncols=644
+xmin=-2021733.44606832
+ymin=2348733.44606832
+xmax=-1699733.44606832
+ymax=2729233.44606832
+projection=+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+[data]
+datatype=FLT4S
+byteorder=little
+nbands=1
+bandorder=BIL
+categorical=FALSE
+minvalue=-1799.95715332031
+maxvalue=-600.537414550781
+nodatavalue=-3.4e+38
+[legend]
+legendtype=
+values=
+color=
+[description]
+layername=GEBCO_2014_geotiff_projected_cubic_resample_500_500m_depths_600_1800m2016.04.27
