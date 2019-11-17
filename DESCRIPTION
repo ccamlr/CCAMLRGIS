@@ -3,7 +3,7 @@ Title: Antarctic spatial data manipulation
 Version: 3.0.0.0
 Date: 2019-11-18
 Authors@R: c(person("Stephane","Thanassekos",role = c("aut", "cre")), person("Lucy", "Robinson", role = c("aut")),person("Michael D.","Sumner", role = "ctb", email = "mdsumner@gmail.com"))
-Description: A package to load and create spatial data, including tools that are relevant to CCAMLR activities.
+Description: A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.
 Depends: R (>= 3.6.1)
 License: GPL-3
 Encoding: UTF-8
