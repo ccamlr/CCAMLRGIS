@@ -4,8 +4,14 @@
 \alias{create_Polys}
 \title{Create Polygons}
 \usage{
-create_Polys(Input, OutputFormat = "ROBJECT", OutputName = NULL,
-  Buffer = 0, Densify = 1, Clip = FALSE)
+create_Polys(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  Buffer = 0,
+  Densify = 1,
+  Clip = FALSE
+)
 }
 \arguments{
 \item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv". The columns in the input should be in the following order: Poly Name, Lats and Lons}

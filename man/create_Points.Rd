@@ -4,8 +4,13 @@
 \alias{create_Points}
 \title{Create Points that are compatible with CCAMLR online GIS}
 \usage{
-create_Points(Input, OutputFormat = "ROBJECT", OutputName = NULL,
-  Buffer = 0, Clip = FALSE)
+create_Points(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  Buffer = 0,
+  Clip = FALSE
+)
 }
 \arguments{
 \item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv".  The columns of the input should be in the following order: Name, Latitude,Longitude}

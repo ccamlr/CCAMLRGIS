@@ -4,8 +4,13 @@
 \alias{create_PolyGrids}
 \title{Create a Polygon Grid}
 \usage{
-create_PolyGrids(Input, OutputFormat = "ROBJECT", OutputName = NULL, dlon,
-  dlat)
+create_PolyGrids(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  dlon,
+  dlat
+)
 }
 \arguments{
 \item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv".  The columns of the input should be in the following order: Latitude,Longitude and Value}
