@@ -3,20 +3,37 @@
 \docType{package}
 \name{CCAMLRGIS}
 \alias{CCAMLRGIS}
-\title{CCAMLRGIS: A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.}
+\title{A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.}
 \description{
 The CCAMLRGIS package provides two broad categories of functions: load functions and create functions.
 }
 \section{Load functions}{
 
-load functions are used to import CCAMLR geo-referenced layers and include:
-load_ASDs, load_SSRUs, load_RBs, load_SSMUs, load_MAs, load_Coastline, load_RefAreas, load_MPAs, and load_EEZs.
+Load functions are used to import CCAMLR geo-referenced layers and include:
+\itemize{
+  \item \link{load_ASDs}
+  \item \link{load_SSRUs}
+  \item \link{load_RBs}
+  \item \link{load_SSMUs}
+  \item \link{load_MAs}
+  \item \link{load_Coastline}
+  \item \link{load_RefAreas}
+  \item \link{load_MPAs}
+  \item \link{load_EEZs}
+}
 }
 
 \section{Create functions}{
 
-create functions are used to create geo-referenced layers from user data and include:
-create_Points, create_Lines, create_Polys, create_PolyGrids, create_Stations and create_RefGrid
+Create functions are used to create geo-referenced layers from user-generated data and include:
+\itemize{
+  \item \link{create_Points}
+  \item \link{create_Lines}
+  \item \link{create_Polys}
+  \item \link{create_PolyGrids}
+  \item \link{create_Stations}
+  \item \link{create_RefGrid}
+}
 }
 
 \section{Vignette}{
