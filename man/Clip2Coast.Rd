@@ -4,17 +4,35 @@
 \alias{Clip2Coast}
 \title{Clip Polygons to the Antarctic coastline}
 \usage{
-Clip2Coast(Pl, Coastline, ID)
+Clip2Coast(Input)
 }
 \arguments{
-\item{Pl}{polygon(s) to be clipped}
-
-\item{Coastline}{calls CCAMLR Coastline_data stored in the package}
-
-\item{ID}{unique IDs for polygons, but think I will get rid of this as polys should have unique IDs}
+\item{Input}{Polygon(s) to be clipped.}
+}
+\value{
+SpatialPolygon carrying the same data as the \code{Input}.
 }
 \description{
-Clip Polygons to the Antarctic CCAMLR Coastline data
+Clip Polygons to the \link{Coast} (removes polygon parts that fall on land) and computes the area of the resulting polygon.
+Uses a SpatialPolygon as input which may be user-generated or created via buffered points (see \link{create_Points}),
+buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}).
 }
-\keyword{Clip}
-\keyword{Coastline}
+\examples{
+Example 1: Use Clip2Coast on a pre-generated polygon
+
+MyPolys=create_Polys(PolyData,Densify=T,Buffer=c(10,-15,120))
+plot(MyPolys,col='red')
+plot(Coast,col='grey',add=T)
+MyPolysClipped=Clip2Coast(MyPolys)
+plot(MyPolysClipped,col='blue',add=T)
+View(MyPolysClipped)
+
+Example 2: Use Clip2Coast while creating a polygon, with Clip=T in create_Polys().
+
+MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
+MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
+plot(MyPolysBefore,col='green')
+plot(Coast,add=T)
+plot(MyPolysAfter,col='red',add=T)
+
+}

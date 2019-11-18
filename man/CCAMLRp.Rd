@@ -4,9 +4,12 @@
 \name{CCAMLRp}
 \alias{CCAMLRp}
 \title{CCAMLRGIS Projection}
-\format{Character string: "+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"}
+\format{Character string}
 \source{
 \url{https://gis.ccamlr.org/}
+}
+\value{
+"+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 }
 \description{
 The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.

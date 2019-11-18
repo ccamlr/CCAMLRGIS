@@ -13,19 +13,43 @@ create_PolyGrids(
 )
 }
 \arguments{
-\item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv".  The columns of the input should be in the following order: Latitude,Longitude and Value}
+\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
+If a .csv file is used as input, this file must be in your working directory and its name given in quotes
+e.g. "DataFile.csv".
 
-\item{OutputFormat}{can be an R object or ESRI Shapefile. R object is specified as "ROBJECT" and returns a SpatialPolygonDataFrame to your R work enviornment (if this parameter is not specified this is the default). The ESRI Shapefile output is specified as "SHAPEFILE" will write an ESRI Shapefile to your work directory or set file path.}
+\strong{The columns in the \code{Input} must be in the following order:
 
-\item{OutputName}{if "SHAPEFILE" format is specified then supply the name of the output shapefile in quotes e.g."MyShape", the default is NULL and assumes an "ROBJECT" format}
+Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}}
 
-\item{dlon}{width of the grid cells in decimal degrees of longitude e.g. dlon=1}
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
 
-\item{dlat}{height of the grid cells in decimal degrees of latitude e.g.: dlat=0.5}
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyGrid") must be provided.}
+
+\item{dlon}{width of the grid cells in decimal degrees of longitude.}
+
+\item{dlat}{height of the grid cells in decimal degrees of latitude.}
+
+\item{Area}{Area, in square kilometers, of the grid cells.}
+
+\item{cuts}{Number of desired color classes.}
+
+\item{cols}{Desired colors.}
 }
 \value{
-Returns polygons in R or output to ESRI shapefile format with attributes that summarise the points included in each polygon. These summary attributes include a count ("Count"), maximum ("Max"), minimum ("Min)", mean ("Mean), standard deviation ("StdDev"), median ("Median") and sum ("Sum").
+Spatial object in your environment or ESRI shapefile in your working directory.
+Data within the resulting object contains the data provided in the \code{Input} after aggregation
+within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
+median of values in each cell is returned (see View(MyGrid@data)).
+
+In addition, colors are generated for each aggregatted values according the chosen \code{cuts} and \code{cols}.
+To generate a color scale, refer to \link{CBar}.
 }
 \description{
-Create a Polygon Grid that can display the amount of catch taken from specifed grid cell sizes
+Create a Polygon Grid to spatially aggregate data in cells of chosen size.
+Cell size may be specified in degrees or as a desired area in square kilometers
+(in which case all cells are of equal area).
 }
