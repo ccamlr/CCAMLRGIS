@@ -96,13 +96,13 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' @param dlat height of the grid cells in decimal degrees of latitude.
 #' @param Area Area, in square kilometers, of the grid cells.
 #' @param cuts Number of desired color classes.
-#' @param cols Desired colors.
+#' @param cols Desired colors. If more that one color is provided, a linear color gradient is generated.
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
 #' Data within the resulting object contains the data provided in the \code{Input} after aggregation
 #' within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
 #' median of values in each cell is returned (see View(MyGrid@@data)).
 #' 
-#' In addition, colors are generated for each aggregatted values according the chosen \code{cuts} and \code{cols}.
+#' In addition, colors are generated for each aggregated values according the chosen \code{cuts} and \code{cols}.
 #' To generate a color scale, refer to \link{CBar}.
 #' @export
 
