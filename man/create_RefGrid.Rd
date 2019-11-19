@@ -2,7 +2,7 @@
 % Please edit documentation in R/create.R
 \name{create_RefGrid}
 \alias{create_RefGrid}
-\title{Create Reference grid}
+\title{Create a Reference grid}
 \usage{
 create_RefGrid(
   bb,
