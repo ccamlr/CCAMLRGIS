@@ -335,7 +335,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' @param dist if desired, a distance constraint in nautical miles may be applied. For example, if \code{dist=2},
 #' stations will be at least 2 nautical miles apart.
 #' @param Buf distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.
-#' @param ShowProgress if set to \code{TRUE}, a progress bar is shown (create_Stations may take a while).
+#' @param ShowProgress if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).
 #' @return Spatial object in your environment. Data within the resulting object contains the strata and stations
 #' locations in both projected space ("x" and "y") and degrees of Latitude/Longitude.
 #' 

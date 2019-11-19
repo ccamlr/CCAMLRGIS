@@ -34,7 +34,7 @@ stations will be at least 2 nautical miles apart.}
 
 \item{Buf}{distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.}
 
-\item{ShowProgress}{if set to \code{TRUE}, a progress bar is shown (create_Stations may take a while).}
+\item{ShowProgress}{if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).}
 }
 \value{
 Spatial object in your environment. Data within the resulting object contains the strata and stations
