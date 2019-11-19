@@ -1,3 +1,4 @@
+#cGrid: CCAMLRGIS internal function to create SpatialPolygonsDataFrame grids
 cGrid=function(Input,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red')){
 require(sp)
 require(rgdal)

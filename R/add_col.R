@@ -1,0 +1,11 @@
+add_col=function(var,cuts=100,cols=c('green','yellow','red')){
+  pal=colorRampPalette(cols)
+   if(length(cuts)==1){
+    cutsTo=seq(min(var,na.rm=T),max(var,na.rm=T),length.out=cuts)
+  }else{
+    cutsTo=cuts
+  } 
+  colsTo=pal(length(cutsTo)-1)
+  varcol=colsTo[cut(var,cutsTo,include.lowest=T,right=F)]
+  return(list('cuts'=cutsTo,'cols'=colsTo,'varcol'=varcol))
+}

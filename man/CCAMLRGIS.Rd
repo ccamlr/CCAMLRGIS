@@ -42,3 +42,7 @@ To learn more about CCAMLRGIS, start with the vignette:
 \code{browseVignettes(package = "CCAMLRGIS")}
 }
 
+\seealso{
+The CCAMLRGIS package relies on several other package which users may want to familiarize themselves with,
+namely \link[=sp]{sp}, \link[=raster]{raster}, \link[=rgeos]{rgeos} and \link[=rgdal]{rgdal}.
+}

@@ -44,8 +44,9 @@ prior to projection (see examples).}
 Spatial object in your environment or ESRI shapefile in your working directory.
 Data within the resulting object contains the data provided in the \code{Input} plus
 and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
-Also, columns "Labx" and "Laby" may be used to add labels to polygons. The data contained in a Spatial 
-Polygon may be accessed via View(MyPolygon@data)
+Also, columns "Labx" and "Laby" may be used to add labels to polygons.
+
+To see the data contained in your spatial object, type: \code{View(MyPolygons@data)}.
 }
 \description{
 Create Polygons such as proposed Research Blocks or Marine Protected Areas.
@@ -72,4 +73,8 @@ plot(Coast,add=T)
 plot(MyPolysAfter,col='red',add=T)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 
+}
+\seealso{
+\code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_PolyGrids}},
+\code{\link{create_Stations}}, \code{\link{create_RefGrid}}.
 }
