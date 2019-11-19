@@ -37,5 +37,11 @@
 #' 
 #' 
 #' @docType package
+#' @import sp
+#' @import rgdal
+#' @import rgeos
+#' @import raster
+#' @import geosphere
+#' @import dplyr
 #' @name CCAMLRGIS
 NULL

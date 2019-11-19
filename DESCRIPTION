@@ -13,6 +13,8 @@ Imports:
     sp,
     rgdal,
     rgeos,
-    raster
+    raster,
+    geosphere,
+    dplyr
 RoxygenNote: 7.0.0
 VignetteBuilder: knitr
