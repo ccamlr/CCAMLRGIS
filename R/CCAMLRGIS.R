@@ -42,6 +42,6 @@
 #' @import rgeos
 #' @import raster
 #' @import geosphere
-#' @import dplyr
+#' @importFrom dplyr distinct group_by summarise_all
 #' @name CCAMLRGIS
 NULL

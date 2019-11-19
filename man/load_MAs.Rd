@@ -2,24 +2,30 @@
 % Please edit documentation in R/load.R
 \name{load_MAs}
 \alias{load_MAs}
-\title{Load Other Fishery Management Areas
-Load Other Fishery Management Areas}
+\title{Load CCAMLR Management Areas}
 \usage{
-load_MAs(format)
-}
-\arguments{
-\item{format}{"GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package}
+load_MAs()
 }
 \description{
-Load Other Fishery Management Areas
-Load Other Fishery Management Areas
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+See examples for offline use.
 }
 \examples{
  
-# if online
-\dontrun{
-MAs <- load_MAs("GEOJSON")
+When online:
+MAs=load_MAs()
+plot(MAs)
+
+If going offline in the future: load and save as RData when online - then reload RData when offline:
+MAs=load_MAs()
+EEZs=load_EEZs()
+save(list=c('MAs','EEZs'), file = "CCAMLRLayers.RData")
+rm(MAs,EEZs)
+load("CCAMLRLayers.RData")
+
 }
-# if offline 
-MAs <- load_MAs("RDATA")
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+\code{\link{load_SSMUs}}, \code{\link{load_Coastline}},
+\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 }

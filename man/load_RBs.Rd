@@ -4,23 +4,28 @@
 \alias{load_RBs}
 \title{Load CCAMLR Research Blocks}
 \usage{
-load_RBs(format)
-}
-\arguments{
-\item{format}{"GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package}
+load_RBs()
 }
 \description{
-Load CCAMLR Research Blocks (RBs)
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+See examples for offline use.
 }
 \examples{
  
-# if online
-\dontrun{
-RBs <- load_RBs("GEOJSON")
-}
+When online:
+RBs=load_RBs()
+plot(RBs)
 
-# if offline 
-RBs <- load_RBs("RDATA")
+If going offline in the future: load and save as RData when online - then reload RData when offline:
+RBs=load_RBs()
+EEZs=load_EEZs()
+save(list=c('RBs','EEZs'), file = "CCAMLRLayers.RData")
+rm(RBs,EEZs)
+load("CCAMLRLayers.RData")
+
 }
-\keyword{Blocks}
-\keyword{Research}
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_SSRUs}},
+\code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+}

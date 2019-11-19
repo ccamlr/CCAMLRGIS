@@ -2,27 +2,30 @@
 % Please edit documentation in R/load.R
 \name{load_SSRUs}
 \alias{load_SSRUs}
-\title{load CCAMLR SSRUs}
+\title{load CCAMLR Small Scale Research Units}
 \usage{
-load_SSRUs(format)
-}
-\arguments{
-\item{format}{"GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package}
+load_SSRUs()
 }
 \description{
-Load CCAMLR Small Scale Research Units (SSRUs)
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+See examples for offline use.
 }
 \examples{
  
-# if online
-\dontrun{
-SSRUs <- load_SSRUs("GEOJSON")
+When online:
+SSRUs=load_SSRUs()
+plot(SSRUs)
+
+If going offline in the future: load and save as RData when online - then reload RData when offline:
+SSRUs=load_SSRUs()
+EEZs=load_EEZs()
+save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")
+rm(SSRUs,EEZs)
+load("CCAMLRLayers.RData")
+
 }
-# if offline 
-SSRUs <- load_SSRUs("RDATA")
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_RBs}},
+\code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 }
-\keyword{Research}
-\keyword{SSRU}
-\keyword{Scale}
-\keyword{Small}
-\keyword{Units}

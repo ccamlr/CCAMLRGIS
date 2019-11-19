@@ -1,4 +1,3 @@
-#add_buffer: CCAMLRGIS internal function to add buffer to geometries
 add_buffer=function(Input,buf=NA){
   require(rgeos)
   buf=buf*1852

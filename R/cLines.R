@@ -1,4 +1,3 @@
-# cLines: CCAMLRGIS internal function to create SpatialLinesDataFrames
 cLines=function(Input,Densify=F){
   require(sp)
   require(dplyr)

@@ -4,17 +4,28 @@
 \alias{load_RefAreas}
 \title{Load CCAMLR Reference Areas}
 \usage{
-load_RefAreas(format)
-}
-\arguments{
-\item{format}{"RDATA" will use the SpatialPolygonsDataFrame last saved with the package}
+load_RefAreas()
 }
 \description{
-Load CCAMLR Reference Areas (RefAreas)
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+See examples for offline use.
 }
 \examples{
  
-RefAreas <- load_RefAreas("RDATA")
+When online:
+RefAreas=load_RefAreas()
+plot(RefAreas)
+
+If going offline in the future: load and save as RData when online - then reload RData when offline:
+RefAreas=load_RefAreas()
+EEZs=load_EEZs()
+save(list=c('RefAreas','EEZs'), file = "CCAMLRLayers.RData")
+rm(RefAreas,EEZs)
+load("CCAMLRLayers.RData")
+
 }
-\keyword{Reference}
-\keyword{areas}
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+\code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+\code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+}

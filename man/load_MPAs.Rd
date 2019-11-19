@@ -2,16 +2,30 @@
 % Please edit documentation in R/load.R
 \name{load_MPAs}
 \alias{load_MPAs}
-\title{load CCAMLR MPAs}
+\title{load CCAMLR Marine Protected Areas}
 \usage{
-load_MPAs(format)
-}
-\arguments{
-\item{format}{"GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package}
+load_MPAs()
 }
 \description{
-Load CCAMLR Marine Protected Areas (MPAs)
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+See examples for offline use.
 }
-\keyword{Areas}
-\keyword{Marine}
-\keyword{Protected}
+\examples{
+ 
+When online:
+MPAs=load_MPAs()
+plot(MPAs)
+
+If going offline in the future: load and save as RData when online - then reload RData when offline:
+MPAs=load_MPAs()
+EEZs=load_EEZs()
+save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+rm(MPAs,EEZs)
+load("CCAMLRLayers.RData")
+
+}
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+\code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+\code{\link{load_RefAreas}}, \code{\link{load_EEZs}}.
+}

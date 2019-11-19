@@ -1,4 +1,3 @@
-#cPoints: CCAMLRGIS internal function to create SpatialPointsDataFrames
 cPoints=function(Input){
   require(sp)
   Locs=SpatialPointsDataFrame(cbind(Input[,3],Input[,2]),Input,proj4string=CRS("+proj=longlat +ellps=WGS84"))

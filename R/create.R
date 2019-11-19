@@ -559,7 +559,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
   return(Stations)
 }
 
-#' Create Reference grid
+#' Create a Reference grid
 #'
 #' Create a Latitude/Longitude reference grid and add it to maps.
 #'

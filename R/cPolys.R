@@ -1,4 +1,3 @@
-#cPolys: CCAMLRGIS internal function to create SpatialPolygonsDataFrames
 cPolys=function(Input,Densify=F){
   require(sp)
   require(dplyr)
