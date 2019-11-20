@@ -1,0 +1,3 @@
+https://nsidc.org/data/G02135/versions/3
+
+ftp://sidads.colorado.edu/DATASETS/NOAA/G02135/south/monthly/geotiff/08_Aug/

@@ -14,3 +14,6 @@ plot(MyGrid,col=MyGrid$Col_Catch_sum)
 \description{
 To be used in conjunction with \link{create_PolyGrids}.
 }
+\seealso{
+\code{\link{create_PolyGrids}}.
+}

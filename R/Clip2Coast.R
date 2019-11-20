@@ -24,7 +24,7 @@
 #' plot(Coast,add=T)
 #' plot(MyPolysAfter,col='red',add=T)
 #' 
-#' #' @seealso 
+#' @seealso 
 #' \link{Coast}, \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
 #' \code{\link{create_PolyGrids}}.
 #' 

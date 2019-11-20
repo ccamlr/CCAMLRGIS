@@ -11,3 +11,6 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
 \description{
 Set of standard colors to plot bathymetry, to be used in conjunction with \link{Depth_cuts}.
 }
+\seealso{
+\code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
+}

@@ -14,3 +14,6 @@ plot(MyLines,lwd=2)
 \description{
 To be used in conjunction with \link{create_Lines}.
 }
+\seealso{
+\code{\link{create_Lines}}.
+}

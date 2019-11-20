@@ -11,5 +11,10 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
 \description{
 Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2019} dataset.
 Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
-and a 2500m resolution. \strong{Not to be used for accurate bathymetry analyses}.
+and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+\strong{Not to be used for accurate bathymetry analyses}.
+}
+\seealso{
+\code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
+\code{\link{get_Depths}}, \code{\link{create_Stations}}.
 }

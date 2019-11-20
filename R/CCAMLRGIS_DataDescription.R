@@ -18,6 +18,7 @@ NULL
 #' @format SpatialPolygons
 #' @usage plot(Coast,col='grey')
 #' @source \url{https://gis.ccamlr.org/}
+#' @seealso \code{\link{Clip2Coast}}.
 #' @name Coast
 NULL
 
@@ -28,6 +29,7 @@ NULL
 #' @docType data
 #' @format Character vector
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
+#' @seealso \code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
 
@@ -38,6 +40,7 @@ NULL
 #' @docType data
 #' @format Numeric vector
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
+#' @seealso \code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
 NULL
 
@@ -52,6 +55,7 @@ NULL
 #' 
 #' MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
+#' @seealso \code{\link{create_PolyGrids}}.
 #' @name GridData
 NULL
 
@@ -66,6 +70,7 @@ NULL
 #' 
 #' MyLines=create_Lines(LineData)
 #' plot(MyLines,lwd=2)
+#' @seealso \code{\link{create_Lines}}. 
 #' @name LineData
 NULL
 
@@ -82,6 +87,7 @@ NULL
 #' plot(MyPoints)
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
 #' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
+#' @seealso \code{\link{create_Points}}.  
 #' @name PointData
 NULL
 
@@ -98,6 +104,7 @@ NULL
 #' plot(MyPolys,col='green',add=T)
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 #' plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=T)
+#' @seealso \code{\link{create_Polys}}.  
 #' @name PolyData
 NULL
 
@@ -105,10 +112,13 @@ NULL
 #'
 #' Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2019} dataset.
 #' Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
-#' and a 2500m resolution. \strong{Not to be used for accurate bathymetry analyses}.
+#' and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+#' \strong{Not to be used for accurate bathymetry analyses}.
 #'
 #' @docType data
 #' @format raster
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
+#' @seealso \code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
+#' \code{\link{get_Depths}}, \code{\link{create_Stations}}.
 #' @name SmallBathy
 NULL

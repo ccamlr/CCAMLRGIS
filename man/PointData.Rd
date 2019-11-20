@@ -16,3 +16,6 @@ plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
 \description{
 To be used in conjunction with \link{create_Points}.
 }
+\seealso{
+\code{\link{create_Points}}.
+}

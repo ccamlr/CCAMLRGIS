@@ -16,3 +16,6 @@ plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=T)
 \description{
 To be used in conjunction with \link{create_Polys}.
 }
+\seealso{
+\code{\link{create_Polys}}.
+}
