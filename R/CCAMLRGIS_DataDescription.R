@@ -29,7 +29,7 @@ NULL
 #' @docType data
 #' @format Character vector
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
-#' @seealso \code{\link{add_col}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
+#' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
 
@@ -40,7 +40,7 @@ NULL
 #' @docType data
 #' @format Numeric vector
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
-#' @seealso \code{\link{add_col}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
+#' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
 NULL
 
@@ -118,7 +118,7 @@ NULL
 #' @docType data
 #' @format raster
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
-#' @seealso \code{\link{add_col}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
+#' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
 #' \code{\link{get_depths}}, \code{\link{create_Stations}}.
 #' @name SmallBathy
 NULL
