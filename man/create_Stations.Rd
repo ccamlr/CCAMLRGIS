@@ -67,7 +67,7 @@ Example 1: Set numbers of stations, no distance constraint
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),ShowProgress=T)
 par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
-CBar(offset = 50,height = 90,fonsize = 0.8,width=25)
+CBar(offset = 50,height = 90,fontsize = 0.8,width=25)
 plot(MyPoly,add=T,border='red',lwd=2)
 contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 plot(MyStations,add=T,col='orange')
@@ -77,7 +77,7 @@ Example 2: Set numbers of stations, with distance constraint
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10,ShowProgress=T)
 par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
-CBar(offset = 50,height = 90,fonsize = 0.8,width=25)
+CBar(offset = 50,height = 90,fontsize = 0.8,width=25)
 plot(MyPoly,add=T,border='red',lwd=2)
 contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)
@@ -89,7 +89,7 @@ Example 3: Automatic numbers of stations, with distance constraint
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10,ShowProgress=T)
 par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
-CBar(offset = 50,height = 90,fonsize = 0.8,width=25)
+CBar(offset = 50,height = 90,fontsize = 0.8,width=25)
 plot(MyPoly,add=T,border='red',lwd=2)
 contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)

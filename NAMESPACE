@@ -3,6 +3,7 @@
 export(CBar)
 export(Clip2Coast)
 export(add_col)
+export(add_labels)
 export(assign_areas)
 export(create_Lines)
 export(create_Points)

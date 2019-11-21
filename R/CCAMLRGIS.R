@@ -33,9 +33,12 @@
 #' 
 #' @seealso 
 #' The CCAMLRGIS package relies on several other package which users may want to familiarize themselves with,
-#' namely \link[=sp]{sp}, \link[=raster]{raster}, \link[=rgeos]{rgeos} and \link[=rgdal]{rgdal}.
+#' namely \href{https://cran.r-project.org/web/packages/sp/sp.pdf}{sp},
+#' \href{https://cran.r-project.org/web/packages/raster/raster.pdf}{raster},
+#' \href{https://cran.r-project.org/web/packages/rgeos/rgeos.pdf}{rgeos} and
+#' \href{https://cran.r-project.org/web/packages/rgdal/rgdal.pdf}{rgdal}.
 #' 
-#' 
+#'  
 #' @docType package
 #' @import sp
 #' @import rgdal

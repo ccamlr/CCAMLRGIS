@@ -10,7 +10,7 @@ create_RefGrid(
   ResLon = 2,
   LabLon = NA,
   lwd = 1,
-  fonsize = 1,
+  fontsize = 1,
   offset = NA
 )
 }
@@ -25,9 +25,9 @@ create_RefGrid(
 
 \item{lwd}{Line thickness of the Reference grid.}
 
-\item{offset}{offset of the Reference grid's labels (distance to plot border).}
-
 \item{fontsize}{Font size of the Reference grid's labels.}
+
+\item{offset}{offset of the Reference grid's labels (distance to plot border).}
 }
 \description{
 Create a Latitude/Longitude reference grid and add it to maps.

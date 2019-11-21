@@ -6,3 +6,5 @@
 ^appveyor\.yml$
 ^NEWS\.md$
 ^docs$
+^doc$
+^Meta$

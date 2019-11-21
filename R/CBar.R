@@ -15,6 +15,7 @@
 #' @param maxVal If desired, the color bar may be generated up to the value \code{maxVal}. See examples.
 #' @param fontsize Size of the text in the color bar.
 #' @param offset Controls the horizontal position of the color bar. Increase to distance from the plotting region.
+#' @param lwd thickness of lines.
 #' 
 #' @seealso 
 #' \code{\link{SmallBathy}}, \code{\link{Depth_cuts}}, \code{\link{Depth_cols}}, \code{\link{add_col}},
@@ -55,7 +56,7 @@
 
 CBar=function(pos='1/1',title='Depth (m)',width=18,height=70,
               Bcuts=Depth_cuts,Bcols=Depth_cols,
-              minVal=NA,maxVal=NA,fontsize=1,offset=100){
+              minVal=NA,maxVal=NA,fontsize=1,offset=100,lwd=1){
   offset=offset*1000
   #Get plot boundaries
   ls=par("usr")
@@ -104,7 +105,7 @@ CBar=function(pos='1/1',title='Depth (m)',width=18,height=70,
   rect(xleft=bxmin,
        ybottom=bymin,
        xright=bxmax,
-       ytop=bymax,xpd=T,lwd=1.5,col='white')
+       ytop=bymax,xpd=T,lwd=lwd,col='white')
   #Col box
   cxmin=bxmin+0.01*xdist
   cxmax=bxmin+0.05*xdist
@@ -118,12 +119,12 @@ CBar=function(pos='1/1',title='Depth (m)',width=18,height=70,
   rect(xleft=cxmin,
        ybottom=cymin,
        xright=cxmax,
-       ytop=cymax,xpd=T,lwd=1.5)
+       ytop=cymax,xpd=T,lwd=lwd)
   #Ticks
   segments(x0=cxmax,
            y0=Ys,
            x1=cxmax+0.01*xdist,
-           y1=Ys,lwd=1,xpd=T,lend=1)
+           y1=Ys,lwd=lwd,xpd=T,lend=1)
   text(cxmax+0.02*xdist,Ys,
        cutsTo,adj=c(0,0.5),xpd=T,cex=fontsize)
   #Title

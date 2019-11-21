@@ -15,6 +15,6 @@ and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\l
 \strong{Not to be used for accurate bathymetry analyses}.
 }
 \seealso{
-\code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
-\code{\link{get_Depths}}, \code{\link{create_Stations}}.
+\code{\link{add_col}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
+\code{\link{get_depths}}, \code{\link{create_Stations}}.
 }

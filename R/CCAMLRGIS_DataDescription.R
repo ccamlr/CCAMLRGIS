@@ -29,7 +29,7 @@ NULL
 #' @docType data
 #' @format Character vector
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
-#' @seealso \code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
+#' @seealso \code{\link{add_col}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
 
@@ -40,7 +40,7 @@ NULL
 #' @docType data
 #' @format Numeric vector
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
-#' @seealso \code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
+#' @seealso \code{\link{add_col}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
 NULL
 
@@ -118,7 +118,27 @@ NULL
 #' @docType data
 #' @format raster
 #' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
-#' @seealso \code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
-#' \code{\link{get_Depths}}, \code{\link{create_Stations}}.
+#' @seealso \code{\link{add_col}}, \code{\link{CBar}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
+#' \code{\link{get_depths}}, \code{\link{create_Stations}}.
 #' @name SmallBathy
+NULL
+
+#' Polygon labels
+#'
+#' Labels for the layers obtained via 'load_' functions. Positions correspond to the centroids
+#' of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
+#' 
+#' @docType data
+#' @format dataframe
+#' @usage 
+#' View(Labels)
+#' 
+#' ASDs=load_ASDs()
+#' plot(ASDs)
+#' add_labels('ASDs',fontsize=1,fonttype=2)
+#' 
+#' @seealso \code{\link{add_labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}.
+#' @name Labels
 NULL

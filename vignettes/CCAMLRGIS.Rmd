@@ -1,0 +1,85 @@
+---
+title: "CCAMLRGIS R Package"
+output: rmarkdown::html_vignette
+date: "`r format(Sys.time(), '%d %b %Y')`"
+vignette: >
+  %\VignetteIndexEntry{CCAMLRGIS R Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+library(CCAMLRGIS)
+set.seed(1234)
+```
+
+### A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.
+
+# Introduction
+
+The CCAMLRGIS package was developed to simplify the production of maps in the CCAMLR Convention Area. It provides two categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online CCAMLR GIS (https://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids. All spatial manipulations are made using the South Pole Lambert Azimuthal Equal Area projection (type ?CCAMLRp for more details).
+
+First, install the package by typing:
+```{r eval=F}
+install.packages("CCAMLRGIS")
+```
+
+Then, load the package by typing:
+```{r eval=F}
+library(CCAMLRGIS)
+```
+
+## 1. Basemaps
+
+Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements.
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
+#Circumpolar map:
+
+#Load ASDs and EEZs
+ASDs=load_ASDs()
+EEZs=load_EEZs()
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0.4,0,0))
+#Plot the bathymetry
+plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
+#Add color scale
+CBar(height=65,fontsize=0.4,offset=600,width=25,maxVal=-1,lwd=0.5)
+#Add reference grid
+create_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon=0,fontsize=0.4,lwd=0.5)
+#Add ASD and EEZ boundaries
+plot(ASDs,add=T,lwd=0.5,border='red')
+plot(EEZs,add=T,lwd=0.5,border='red')
+#Add ASD labels
+add_labels('ASDs',fontsize=0.3,col='red')
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+#Local map (e.g. Subarea 48.6):
+
+#Load ASDs
+ASDs=load_ASDs()
+#Subsample ASDs to only keep Subarea 48.6
+S486=ASDs[ASDs$GAR_Short_Label=='486',]
+#Crop bathymetry to match the extent of S486
+B486=raster::crop(SmallBathy,S486)
+#Optional: mask the bathymetry outside of S486
+#Try running this code with and without 'mask' to see the difference
+B486=raster::mask(B486,S486)
+#Optional: get the maximum depth in that area to constrain the color scale
+minD=raster::minValue(B486)
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0.2,0,0))
+#Plot the bathymetry
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
+#Add color scale
+CBar(height=65,fontsize=0.4,offset=600,width=25,lwd=0.5,minVal=minD,maxVal=-1)
+#Add reference grid
+create_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.4,lwd=0.5,offset = 100000)
+#Add Subarea 48.6 boundaries
+plot(S486,add=T,lwd=0.5,border='red')
+#Add a -2000m contour
+raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
+#Add single label at the centre of the polygon
+l=rgeos::polygonsLabel(S486,labels='48.6',col='red')
+```

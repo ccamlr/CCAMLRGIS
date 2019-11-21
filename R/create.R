@@ -365,7 +365,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),ShowProgress=T)
 #' par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
 #' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
-#' CBar(offset = 50,height = 90,fonsize = 0.8,width=25)
+#' CBar(offset = 50,height = 90,fontsize = 0.8,width=25)
 #' plot(MyPoly,add=T,border='red',lwd=2)
 #' contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 #' plot(MyStations,add=T,col='orange')
@@ -375,7 +375,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10,ShowProgress=T)
 #' par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
 #' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
-#' CBar(offset = 50,height = 90,fonsize = 0.8,width=25)
+#' CBar(offset = 50,height = 90,fontsize = 0.8,width=25)
 #' plot(MyPoly,add=T,border='red',lwd=2)
 #' contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 #' plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)
@@ -387,7 +387,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10,ShowProgress=T)
 #' par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
 #' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
-#' CBar(offset = 50,height = 90,fonsize = 0.8,width=25)
+#' CBar(offset = 50,height = 90,fontsize = 0.8,width=25)
 #' plot(MyPoly,add=T,border='red',lwd=2)
 #' contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 #' plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)
@@ -592,7 +592,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
 #' 
 #' @export
 
-create_RefGrid=function(bb,ResLat=1,ResLon=2,LabLon=NA,lwd=1,fonsize=1,offset=NA){
+create_RefGrid=function(bb,ResLat=1,ResLon=2,LabLon=NA,lwd=1,fontsize=1,offset=NA){
 require(rgdal)
 require(raster)
 require(rgeos)
@@ -739,21 +739,21 @@ par(xpd=T)
 plot(gr,lty=3,add=T,lwd=lwd)
 if(0.5%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==0.5],LatLabs$y[LatLabs$xadj==0.5],LatLabs$Lat[LatLabs$xadj==0.5],
-       cex=fonsize,adj=c(0.5,0.5),xpd=T)}
+       cex=fontsize,adj=c(0.5,0.5),xpd=T)}
 if(1%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==1],LatLabs$y[LatLabs$xadj==1],LatLabs$Lat[LatLabs$xadj==1],
-       cex=fonsize,adj=c(1,0.5),xpd=T)}
+       cex=fontsize,adj=c(1,0.5),xpd=T)}
 if(0%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==0],LatLabs$y[LatLabs$xadj==0],LatLabs$Lat[LatLabs$xadj==0],
-       cex=fonsize,adj=c(0,0.5),xpd=T)}
+       cex=fontsize,adj=c(0,0.5),xpd=T)}
 
 if(0.5%in%LonLabs$xadj){
   text(LonLabs$x[LonLabs$xadj==0.5],LonLabs$y[LonLabs$xadj==0.5],LonLabs$Lon[LonLabs$xadj==0.5],
-       cex=fonsize,adj=c(0.5,0.5),xpd=T)}
+       cex=fontsize,adj=c(0.5,0.5),xpd=T)}
 if(0%in%LonLabs$xadj){
   text(LonLabs$x[LonLabs$xadj==0],LonLabs$y[LonLabs$xadj==0],LonLabs$Lon[LonLabs$xadj==0],
-       cex=fonsize,adj=c(0,0.5),xpd=T)}
+       cex=fontsize,adj=c(0,0.5),xpd=T)}
 if(1%in%LonLabs$xadj){
   text(LonLabs$x[LonLabs$xadj==1],LonLabs$y[LonLabs$xadj==1],LonLabs$Lon[LonLabs$xadj==1],
-       cex=fonsize,adj=c(1,0.5),xpd=T)}
+       cex=fontsize,adj=c(1,0.5),xpd=T)}
 }

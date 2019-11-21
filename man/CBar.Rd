@@ -14,7 +14,8 @@ CBar(
   minVal = NA,
   maxVal = NA,
   fontsize = 1,
-  offset = 100
+  offset = 100,
+  lwd = 1
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ if \code{pos="2/2"}, the color bar will in the bottom half of the plotting regio
 \item{fontsize}{Size of the text in the color bar.}
 
 \item{offset}{Controls the horizontal position of the color bar. Increase to distance from the plotting region.}
+
+\item{lwd}{thickness of lines.}
 }
 \description{
 Adds a color scale to plots. Default behavior set for bathymetry.

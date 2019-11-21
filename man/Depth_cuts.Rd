@@ -12,5 +12,5 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
 Set of depth classes to plot bathymetry, to be used in conjunction with \link{Depth_cols}.
 }
 \seealso{
-\code{\link{add_cols}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
+\code{\link{add_col}}, \code{\link{CBar}}, \code{\link{SmallBathy}}.
 }
