@@ -46,7 +46,7 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
 #Add color scale
 CBar(height=65,fontsize=0.4,offset=600,width=25,maxVal=-1,lwd=0.5)
 #Add reference grid
-create_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon=0,fontsize=0.4,lwd=0.5)
+add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon=0,fontsize=0.4,lwd=0.5)
 #Add ASD and EEZ boundaries
 plot(ASDs,add=T,lwd=0.5,border='red')
 plot(EEZs,add=T,lwd=0.5,border='red')
@@ -54,7 +54,7 @@ plot(EEZs,add=T,lwd=0.5,border='red')
 add_labels('ASDs',fontsize=0.3,col='red')
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
 #Local map (e.g. Subarea 48.6):
 
 #Load ASDs
@@ -75,7 +75,7 @@ plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
 #Add color scale
 CBar(height=65,fontsize=0.4,offset=600,width=25,lwd=0.5,minVal=minD,maxVal=-1)
 #Add reference grid
-create_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.4,lwd=0.5,offset = 100000)
+add_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.4,lwd=0.5,offset = 100000)
 #Add Subarea 48.6 boundaries
 plot(S486,add=T,lwd=0.5,border='red')
 #Add a -2000m contour
@@ -83,3 +83,14 @@ raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
 #Add single label at the centre of the polygon
 l=rgeos::polygonsLabel(S486,labels='48.6',col='red')
 ```
+## 2. Create functions
+
+### 2.1. Points, lines, polygons and grids
+
+These functions are used to transform user data into spatial layers with the appropriate projection. User data may either be generated within an R script or imported from a '.csv' file located in the working directory. Users can set their working directory using the command setwd(). It is however recommended to, instead, create an R project in a folder and put your '.csv' files in it.
+To see your current working directory, type:
+```{r eval=F}
+getwd()
+```
+
+### 2.2. Create Stations

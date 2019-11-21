@@ -95,5 +95,5 @@ CBar(title='Sum of Catch (t)',Bcuts=Gridcol$cuts,Bcols=Gridcol$cols,width=24) #A
 }
 \seealso{
 \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
-\code{\link{create_Stations}}, \code{\link{create_RefGrid}}, \code{\link{add_col}}, \code{\link{CBar}}.
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_col}}, \code{\link{CBar}}.
 }

@@ -76,5 +76,5 @@ text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 }
 \seealso{
 \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_PolyGrids}},
-\code{\link{create_Stations}}, \code{\link{create_RefGrid}}.
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 }

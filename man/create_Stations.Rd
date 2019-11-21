@@ -98,5 +98,5 @@ plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T)
 
 }
 \seealso{
-\code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{create_RefGrid}}.
+\code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{add_RefGrid}}.
 }

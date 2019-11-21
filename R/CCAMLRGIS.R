@@ -24,7 +24,6 @@
 #'   \item \link{create_Polys}
 #'   \item \link{create_PolyGrids}
 #'   \item \link{create_Stations}
-#'   \item \link{create_RefGrid}
 #' }
 #' 
 #' @section Vignette:
