@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_Cscale.R
 \name{add_Cscale}
 \alias{add_Cscale}
-\title{Color scale}
+\title{Add a color scale}
 \usage{
 add_Cscale(
   pos = "1/1",

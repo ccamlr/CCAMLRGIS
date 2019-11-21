@@ -1,4 +1,4 @@
-#' Color scale
+#' Add a color scale
 #'
 #' Adds a color scale to plots. Default behavior set for bathymetry.
 #' 
