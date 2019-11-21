@@ -52,7 +52,7 @@ MyPoints=create_Points(PointData)
 plot(MyPoints)
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
 
-Example 2: Simple points with labels, highlighting on group of points with the same name
+Example 2: Simple points with labels, highlighting one group of points with the same name
 
 MyPoints=create_Points(PointData)
 plot(MyPoints)

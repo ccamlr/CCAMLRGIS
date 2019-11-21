@@ -81,7 +81,7 @@ Example 4: Equal area grid, using custom cuts and colors, and adding a color sca
 #Step 1: Generate your grid
 MyGrid=create_PolyGrids(GridData,Area=10000)
 
-#Step 2: Inspect your grid data (e.g. sum of Catch) to determine whether irregular cuts are required
+#Step 2: Inspect your gridded data (e.g. sum of Catch) to determine whether irregular cuts are required
 hist(MyGrid$Catch_sum,100) #In this case (heterogeneously distributed data) irregular cuts would be preferable
 
 #Step 3: Generate colors according to the desired classes (cuts)

@@ -110,7 +110,7 @@ CBar=function(pos='1/1',title='Depth (m)',width=18,height=70,
   cxmin=bxmin+0.01*xdist
   cxmax=bxmin+0.05*xdist
   cymin=bymin+0.02*ydist
-  cymax=bymax-0.05*ydist
+  cymax=bymax-0.07*ydist
   Ys=seq(cymin,cymax,length.out=length(colsTo)+1)
   rect(xleft=cxmin,
        ybottom=Ys[1:(length(Ys)-1)],
@@ -128,6 +128,6 @@ CBar=function(pos='1/1',title='Depth (m)',width=18,height=70,
   text(cxmax+0.02*xdist,Ys,
        cutsTo,adj=c(0,0.5),xpd=T,cex=fontsize)
   #Title
-  text(cxmin,cymax+0.03*ydist,title,
+  text(cxmin,cymax+0.04*ydist,title,
        cex=1.2*fontsize,adj=c(0,0.5),xpd=T)
 }

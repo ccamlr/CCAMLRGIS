@@ -139,7 +139,7 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' #Step 1: Generate your grid
 #' MyGrid=create_PolyGrids(GridData,Area=10000)
 #' 
-#' #Step 2: Inspect your grid data (e.g. sum of Catch) to determine whether irregular cuts are required
+#' #Step 2: Inspect your gridded data (e.g. sum of Catch) to determine whether irregular cuts are required
 #' hist(MyGrid$Catch_sum,100) #In this case (heterogeneously distributed data) irregular cuts would be preferable
 #' 
 #' #Step 3: Generate colors according to the desired classes (cuts)
@@ -278,7 +278,7 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' plot(MyPoints)
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
 #' 
-#' Example 2: Simple points with labels, highlighting on group of points with the same name
+#' Example 2: Simple points with labels, highlighting one group of points with the same name
 #' 
 #' MyPoints=create_Points(PointData)
 #' plot(MyPoints)

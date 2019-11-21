@@ -1,5 +1,6 @@
 ---
 title: "CCAMLRGIS R Package"
+author: 'CCAMLR Secretariat'
 output: rmarkdown::html_vignette
 date: "`r format(Sys.time(), '%d %b %Y')`"
 vignette: >
@@ -33,9 +34,9 @@ library(CCAMLRGIS)
 
 Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements.
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
-#Circumpolar map:
+#### Circumpolar map:
 
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
 #Load ASDs and EEZs
 ASDs=load_ASDs()
 EEZs=load_EEZs()
@@ -54,9 +55,10 @@ plot(EEZs,add=T,lwd=0.5,border='red')
 add_labels('ASDs',fontsize=0.3,col='red')
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
-#Local map (e.g. Subarea 48.6):
 
+#### Local map (e.g. Subarea 48.6):
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
 #Load ASDs
 ASDs=load_ASDs()
 #Subsample ASDs to only keep Subarea 48.6
@@ -73,7 +75,7 @@ par(mai=c(0,0.2,0,0))
 #Plot the bathymetry
 plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
 #Add color scale
-CBar(height=65,fontsize=0.4,offset=600,width=25,lwd=0.5,minVal=minD,maxVal=-1)
+CBar(height=65,fontsize=0.4,offset=600,width=23,lwd=0.5,minVal=minD,maxVal=-1)
 #Add reference grid
 add_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.4,lwd=0.5,offset = 100000)
 #Add Subarea 48.6 boundaries
@@ -83,14 +85,345 @@ raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
 #Add single label at the centre of the polygon
 l=rgeos::polygonsLabel(S486,labels='48.6',col='red')
 ```
+
 ## 2. Create functions
 
 ### 2.1. Points, lines, polygons and grids
 
 These functions are used to transform user data into spatial layers with the appropriate projection. User data may either be generated within an R script or imported from a '.csv' file located in the working directory. Users can set their working directory using the command setwd(). It is however recommended to, instead, create an R project in a folder and put your '.csv' files in it.
+
 To see your current working directory, type:
+
 ```{r eval=F}
 getwd()
 ```
 
+#### Create points:
+For details, type:
+```{r eval=F}
+?create_Points
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
+
+#Prepare layout for 4 sub-plots
+par(mfrow=c(2,2))
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0.01,0.2,0.01))
+
+#Example 1: Simple points with labels
+MyPoints=create_Points(PointData)
+plot(MyPoints,main='Example 1',cex.main=0.5,cex=0.5,lwd=0.5)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T,cex=0.5)
+box()
+
+#Example 2: Simple points with labels, highlighting one group of points with the same name
+MyPoints=create_Points(PointData)
+plot(MyPoints,main='Example 2',cex.main=0.5,cex=0.5,lwd=0.5)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T,cex=0.5)
+plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1,add=T)
+box()
+
+#Example 3: Buffered points with radius proportional to catch
+MyPoints=create_Points(PointData,Buffer=1*PointData$Catch)
+plot(MyPoints,col='green',main='Example 3',cex.main=0.5,cex=0.5,lwd=0.5)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=T,cex=0.5)
+box()
+
+#Example 4: Buffered points with radius proportional to catch and clipped to the Coast
+MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=T)
+plot(MyPoints,col='cyan',main='Example 4',cex.main=0.5,cex=0.5,lwd=0.5)
+plot(Coast,add=T,col='grey',lwd=0.5)
+box()
+```
+
+#### Create lines:
+For details, type:
+```{r eval=F}
+?create_Lines
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F,fig.height=1}
+
+#Prepare layout for 3 sub-plots
+par(mfrow=c(1,3))
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0.01,0.2,0.01))
+
+#Example 1: Simple and non-densified lines
+MyLines=create_Lines(LineData)
+plot(MyLines,col=rainbow(length(MyLines)),main='Example 1',cex.main=0.5,lwd=1)
+box()
+
+#Example 2: Simple and densified lines (note the curvature of the purple line)
+MyLines=create_Lines(LineData,Densify=T)
+plot(MyLines,col=rainbow(length(MyLines)),main='Example 2',cex.main=0.5,lwd=1)
+box()
+
+#Example 3: Densified, buffered and clipped lines
+MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
+plot(MyLines,col=rainbow(length(MyLines)),main='Example 3',cex.main=0.5,lwd=1)
+plot(Coast,col='grey',add=T,lwd=0.5)
+box()
+```
+
+#### Create polygons:
+For details, type:
+```{r eval=F}
+?create_Polys
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F,fig.height=1.5}
+
+#Prepare layout for 3 sub-plots
+par(mfrow=c(1,3))
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0.01,0.2,0.01))
+
+#Example 1: Simple and non-densified polygons
+MyPolys=create_Polys(PolyData,Densify=F)
+plot(MyPolys,col='blue',main='Example 1',cex.main=0.5,lwd=0.5)
+text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white',cex=0.5)
+box()
+
+#Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
+MyPolys=create_Polys(PolyData)
+plot(MyPolys,col='red',main='Example 2',cex.main=0.5,lwd=0.5)
+text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white',cex=0.5)
+box()
+
+#Example 3: Buffered and clipped polygons
+MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
+MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
+plot(MyPolysBefore,col='green',main='Example 3',cex.main=0.5,lwd=0.5)
+plot(Coast,add=T,lwd=0.5)
+plot(MyPolysAfter,col='orange',add=T,lwd=0.5)
+text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white',cex=0.5)
+box()
+```
+
+#### Create grids:
+For details, type:
+```{r eval=F}
+?create_PolyGrids
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F,fig.height=1}
+
+#Prepare layout for 3 sub-plots
+par(mfrow=c(1,3))
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0.01,0.2,0.01))
+
+#Example 1: Simple grid, using automatic colors
+MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
+plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 1',cex.main=0.5,lwd=0.1)
+box()
+
+#Example 2: Equal area grid, using automatic colors
+MyGrid=create_PolyGrids(GridData,Area=10000)
+plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 2',cex.main=0.5,lwd=0.1)
+box()
+
+#Example 3: Equal area grid, using custom cuts and colors
+MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 3',cex.main=0.5,lwd=0.1)
+box()
+
+```
+
+Customizing a grid and adding a color scale:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F,fig.height=3}
+
+#Prepare layout for 2 sub-plots
+par(mfrow=c(2,1))
+
+#Step 1: Generate your grid
+MyGrid=create_PolyGrids(GridData,Area=10000)
+
+#Step 2: Inspect your gridded data (e.g. sum of Catch) to determine whether irregular cuts are required
+par(mai=c(0.4,0.4,0.1,0.1)) #set plot margins as c(bottom, left, top, right)
+hist(MyGrid$Catch_sum,100,cex=0.5,main='Frequency distribution of data',
+     cex.main=0.5,lwd=0.2,col='grey',cex.axis=0.5)
+box()
+#In this case (heterogeneously distributed data) irregular cuts would be preferable
+#Such as:
+MyCuts=c(0,50,100,500,2000,2500)
+abline(v=MyCuts,col='green',lwd=0.1,lty=2) #Add classes to histogram as green dashed lines
+
+#Step 3: Generate colors according to the desired classes (MyCuts)
+Gridcol=add_col(MyGrid$Catch_sum,cuts=MyCuts,cols=c('yellow','purple'))
+
+#Step 4: Plot result and add color scale
+par(mai=c(0,0,0,0.8)) #set plot margins as c(bottom, left, top, right)
+#Use the colors generated by add_col
+plot(MyGrid,col=Gridcol$varcol,lwd=0.1) 
+#Add color scale using cuts and cols generated by add_col
+CBar(title='Sum of Catch (t)',Bcuts=Gridcol$cuts,Bcols=Gridcol$cols,width=26,
+     fontsize=0.35,lwd=0.5) 
+box()
+
+```
+
 ### 2.2. Create Stations
+
+This function was designed to create random point locations inside a polygon and within bathymetry strata constraints. A distance constraint between stations may also be used if desired.
+
+For details, type:
+```{r eval=F}
+?create_Stations
+```
+
+First, create a polygon within which stations will be created:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+#Create polygons
+MyPolys=create_Polys(PolyData,Densify=T)
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+plot(MyPolys)
+
+#Subsample MyPolys to only keep the polygon with ID 'one'
+MyPoly=MyPolys[MyPolys$ID=='one',]
+
+plot(MyPoly,col='green',add=T)
+text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
+
+```
+
+Example 1. Set numbers of stations, no distance constraint:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
+
+#Create polygon as shown above
+MyPolys=create_Polys(PolyData,Densify=T)
+MyPoly=MyPolys[MyPolys$ID=='one',]
+
+#optional: crop your bathymetry raster to match the extent of your polygon
+BathyCroped=raster::crop(SmallBathy,MyPoly)
+
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0)) 
+
+plot(BathyCroped,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
+CBar(height=90,fontsize=0.5,width=25,lwd=0.5,offset=0,maxVal=-1)
+plot(MyPoly,add=T,border='red',lwd=1)
+contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
+plot(MyStations,add=T,col='orange',cex=0.5)
+```
+
+
+Example 2. Set numbers of stations, with distance constraint:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
+
+#Create polygon as shown above
+MyPolys=create_Polys(PolyData,Densify=T)
+MyPoly=MyPolys[MyPolys$ID=='one',]
+
+#optional: crop your bathymetry raster to match the extent of your polygon
+BathyCroped=raster::crop(SmallBathy,MyPoly)
+
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0)) 
+
+plot(BathyCroped,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
+CBar(height=90,fontsize=0.5,width=25,lwd=0.5,offset=0,maxVal=-1)
+plot(MyPoly,add=T,border='red',lwd=1)
+contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
+plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
+plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
+plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
+```
+
+
+Example 3. Automatic numbers of stations, with distance constraint:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
+
+#Create polygon as shown above
+MyPolys=create_Polys(PolyData,Densify=T)
+MyPoly=MyPolys[MyPolys$ID=='one',]
+
+#optional: crop your bathymetry raster to match the extent of your polygon
+BathyCroped=raster::crop(SmallBathy,MyPoly)
+
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0)) 
+
+plot(BathyCroped,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
+CBar(height=90,fontsize=0.5,width=25,lwd=0.5,offset=0,maxVal=-1)
+plot(MyPoly,add=T,border='red',lwd=1)
+contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
+plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
+plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
+plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
+```
+
+## 3. Load functions
+
+Download the up-to-date spatial layers from the online CCAMLRGIS and load them to your environment.
+
+For details, type:
+```{r eval=F}
+?load_ASDs
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=F}
+
+#Load ASDs, EEZs, and Coastline
+ASDs=load_ASDs()
+EEZs=load_EEZs()
+Coastline=load_Coastline()
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0)) 
+#Plot
+plot(ASDs,col='green',border='blue')
+plot(EEZs,col='orange',border='purple',add=T)
+plot(Coastline,col='grey',add=T)
+add_labels('ASDs',fontsize=0.5,col='red')
+
+```
+
+### Offline use
+
+Since the 'load_' functions require an internet connection, users may desire to save layers on their hard drive for offline use. This may be done, at the risk of not having the most up-to-date layers, as follows:
+
+```{r eval=F}
+
+#Load all layers
+ASDs=load_ASDs()
+EEZs=load_EEZs()
+Coastline=load_Coastline()
+SSRUs=load_SSRUs()
+RBs=load_RBs()
+SSMUs=load_SSMUs()
+MAs=load_MAs()
+RefAreas=load_RefAreas()
+MPAs=load_MPAs()
+
+#Save as .RData file
+save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','RefAreas','MPAs'),
+     file = "CCAMLRLayers.RData")
+
+#Later, when offline load layers:
+load("CCAMLRLayers.RData")
+```
+
+## 4. Other functions
+
+### 4.1. get_depths
+
+### 4.2. seabed_area
+
+### 4.3. assign_areas
+
+## 5. Adding colors and legends
+
+
