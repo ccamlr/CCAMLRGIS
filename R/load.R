@@ -11,11 +11,11 @@
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' ASDs=load_ASDs()
 #' plot(ASDs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' ASDs=load_ASDs()
 #' EEZs=load_EEZs()
 #' save(list=c('ASDs','EEZs'), file = "CCAMLRLayers.RData")
@@ -41,11 +41,11 @@ load_ASDs=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' SSRUs=load_SSRUs()
 #' plot(SSRUs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' SSRUs=load_SSRUs()
 #' EEZs=load_EEZs()
 #' save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")
@@ -71,11 +71,11 @@ load_SSRUs=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' Coastline=load_Coastline()
 #' plot(Coastline)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' Coastline=load_Coastline()
 #' EEZs=load_EEZs()
 #' save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
@@ -101,11 +101,11 @@ load_Coastline=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' RBs=load_RBs()
 #' plot(RBs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' RBs=load_RBs()
 #' EEZs=load_EEZs()
 #' save(list=c('RBs','EEZs'), file = "CCAMLRLayers.RData")
@@ -132,11 +132,11 @@ load_RBs=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' SSMUs=load_SSMUs()
 #' plot(SSMUs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' SSMUs=load_SSMUs()
 #' EEZs=load_EEZs()
 #' save(list=c('SSMUs','EEZs'), file = "CCAMLRLayers.RData")
@@ -162,11 +162,11 @@ load_SSMUs=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' MAs=load_MAs()
 #' plot(MAs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' MAs=load_MAs()
 #' EEZs=load_EEZs()
 #' save(list=c('MAs','EEZs'), file = "CCAMLRLayers.RData")
@@ -192,11 +192,11 @@ load_MAs=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' RefAreas=load_RefAreas()
 #' plot(RefAreas)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' RefAreas=load_RefAreas()
 #' EEZs=load_EEZs()
 #' save(list=c('RefAreas','EEZs'), file = "CCAMLRLayers.RData")
@@ -223,11 +223,11 @@ load_RefAreas=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' MPAs=load_MPAs()
 #' plot(MPAs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
 #' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
@@ -254,11 +254,11 @@ load_MPAs=function(){
 #' 
 #' @export
 #' @examples  
-#' When online:
+#' #When online:
 #' EEZs=load_EEZs()
 #' plot(EEZs)
 #' 
-#' If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
 #' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")

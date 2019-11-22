@@ -18,7 +18,7 @@ Uses a SpatialPolygon as input which may be user-generated or created via buffer
 buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}).
 }
 \examples{
-Example 1: Use Clip2Coast on a pre-generated polygon
+#Example 1: Use Clip2Coast on a pre-generated polygon
 
 MyPolys=create_Polys(PolyData,Densify=T,Buffer=c(10,-15,120))
 plot(MyPolys,col='red')
@@ -27,7 +27,7 @@ MyPolysClipped=Clip2Coast(MyPolys)
 plot(MyPolysClipped,col='blue',add=T)
 View(MyPolysClipped)
 
-Example 2: Use Clip2Coast while creating a polygon, with Clip=T in create_Polys().
+#Example 2: Use Clip2Coast while creating a polygon, with Clip=T in create_Polys().
 
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)

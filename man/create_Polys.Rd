@@ -52,19 +52,19 @@ To see the data contained in your spatial object, type: \code{View(MyPolygons@da
 Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 }
 \examples{
-Example 1: Simple and non-densified polygons
+#Example 1: Simple and non-densified polygons
 
 MyPolys=create_Polys(PolyData,Densify=F)
 plot(MyPolys,col='blue')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
-Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
+#Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 
 MyPolys=create_Polys(PolyData)
 plot(MyPolys,col='red')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
-Example 3: Buffered and clipped polygons
+#Example 3: Buffered and clipped polygons
 
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)

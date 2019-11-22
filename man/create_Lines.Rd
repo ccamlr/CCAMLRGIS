@@ -50,17 +50,17 @@ To see the data contained in your spatial object, type: \code{View(MyLines@data)
 Create Lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
-Example 1: Simple and non-densified lines
+#Example 1: Simple and non-densified lines
 
 MyLines=create_Lines(LineData)
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
-Example 2: Simple and densified lines (note the curvature of the purple line)
+#Example 2: Simple and densified lines (note the curvature of the purple line)
 
 MyLines=create_Lines(LineData,Densify=T)
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
-Example 3: Densified, buffered and clipped lines
+#Example 3: Densified, buffered and clipped lines
 
 MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
 

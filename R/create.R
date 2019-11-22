@@ -35,19 +35,19 @@
 #' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 #' 
 #' @examples
-#' Example 1: Simple and non-densified polygons
+#' #Example 1: Simple and non-densified polygons
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=F)
 #' plot(MyPolys,col='blue')
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
-#' Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
+#' #Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 #' 
 #' MyPolys=create_Polys(PolyData)
 #' plot(MyPolys,col='red')
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
-#' Example 3: Buffered and clipped polygons
+#' #Example 3: Buffered and clipped polygons
 #' 
 #' MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 #' MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
@@ -118,23 +118,23 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_col}}, \code{\link{add_Cscale}}.
 #' 
 #' @examples
-#' Example 1: Simple grid, using automatic colors
+#' #Example 1: Simple grid, using automatic colors
 #' 
 #' MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
 #' View(MyGrid@@data)
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
 #' 
-#' Example 2: Equal area grid, using automatic colors
+#' #Example 2: Equal area grid, using automatic colors
 #' 
 #' MyGrid=create_PolyGrids(GridData,Area=10000)
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
 #' 
-#' Example 3: Equal area grid, using custom cuts and colors
+#' #Example 3: Equal area grid, using custom cuts and colors
 #' 
 #' MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
 #' 
-#' Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
+#' #Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
 #' 
 #' #Step 1: Generate your grid
 #' MyGrid=create_PolyGrids(GridData,Area=10000)
@@ -199,17 +199,17 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 #' 
 #' @examples
-#' Example 1: Simple and non-densified lines
+#' #Example 1: Simple and non-densified lines
 #' 
 #' MyLines=create_Lines(LineData)
 #' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 #'
-#' Example 2: Simple and densified lines (note the curvature of the purple line)
+#' #Example 2: Simple and densified lines (note the curvature of the purple line)
 #' 
 #' MyLines=create_Lines(LineData,Densify=T)
 #' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 #'
-#' Example 3: Densified, buffered and clipped lines
+#' #Example 3: Densified, buffered and clipped lines
 #' 
 #' MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
 #' 
@@ -272,26 +272,26 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 #' 
 #' @examples
-#' Example 1: Simple points with labels
+#' #Example 1: Simple points with labels
 #' 
 #' MyPoints=create_Points(PointData)
 #' plot(MyPoints)
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
 #' 
-#' Example 2: Simple points with labels, highlighting one group of points with the same name
+#' #Example 2: Simple points with labels, highlighting one group of points with the same name
 #' 
 #' MyPoints=create_Points(PointData)
 #' plot(MyPoints)
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
 #' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
 #' 
-#' Example 3: Buffered points with radius proportional to catch
+#' #Example 3: Buffered points with radius proportional to catch
 #' 
 #' MyPoints=create_Points(PointData,Buffer=0.5*PointData$Catch)
 #' plot(MyPoints,col='green')
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=T)
 #' 
-#' Example 4: Buffered points with radius proportional to catch and clipped to the Coast
+#' #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 #' 
 #' MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=T)
 #' plot(MyPoints,col='cyan')
@@ -346,7 +346,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' 
 #' @examples
 #'
-#' First, create a polygon within which stations will be created
+#' #First, create a polygon within which stations will be created
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=T)
 #' plot(MyPolys)
@@ -355,12 +355,12 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' MyPoly=MyPolys[MyPolys$ID=='one',]
 #' plot(MyPoly,col='green',add=T)
 #' 
-#' Second (optional), crop your bathymetry raster to match the extent of your polygon
+#' #Second (optional), crop your bathymetry raster to match the extent of your polygon
 #' 
 #' BathyCroped=crop(SmallBathy,MyPoly)
 #' 
 #' 
-#' Example 1: Set numbers of stations, no distance constraint
+#' #Example 1: Set numbers of stations, no distance constraint
 #' 
 #' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),ShowProgress=T)
 #' par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
@@ -370,7 +370,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 #' plot(MyStations,add=T,col='orange')
 #' 
-#' Example 2: Set numbers of stations, with distance constraint
+#' #Example 2: Set numbers of stations, with distance constraint
 #' 
 #' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10,ShowProgress=T)
 #' par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
@@ -382,7 +382,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=T)
 #' plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T)
 #' 
-#' Example 3: Automatic numbers of stations, with distance constraint
+#' #Example 3: Automatic numbers of stations, with distance constraint
 #' 
 #' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10,ShowProgress=T)
 #' par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale

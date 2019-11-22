@@ -20,7 +20,7 @@
 #' 
 #' @examples
 #' 
-#' Example 1: add color to points
+#' #Example 1: add color to points
 #' 
 #' MyPoints=create_Points(PointData)
 #' MyCols=add_col(MyPoints$Nfishes) #With default cols and cuts
@@ -32,7 +32,7 @@
 #' MyCols=add_col(MyPoints$Nfishes,cols=c('blue','red'),cuts=3) #With custom colors and fewer color classes
 #' plot(MyPoints,pch=21,bg=MyCols$varcol,cex=2)
 #' 
-#' Example 2: add color to a grid, using custom cuts and colors, and adding a color scale (add_Cscale)
+#' #Example 2: add color to a grid, using custom cuts and colors, and adding a color scale (add_Cscale)
 #' 
 #' #Step 1: Generate your grid
 #' MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)

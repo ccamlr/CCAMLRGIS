@@ -14,13 +14,13 @@
 #' 
 #' @examples
 #'
-#' Example 1: Circumpolar grid with Latitude labels at Longitude 0
+#' #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 #' 
 #' par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
 #' plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
 #' add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
 #' 
-#' Example 2: Local grid around created polygons
+#' #Example 2: Local grid around created polygons
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=T)
 #' BathyC=crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys

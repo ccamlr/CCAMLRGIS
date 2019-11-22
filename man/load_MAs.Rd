@@ -12,11 +12,11 @@ See examples for offline use.
 }
 \examples{
  
-When online:
+#When online:
 MAs=load_MAs()
 plot(MAs)
 
-If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online - then reload RData when offline:
 MAs=load_MAs()
 EEZs=load_EEZs()
 save(list=c('MAs','EEZs'), file = "CCAMLRLayers.RData")

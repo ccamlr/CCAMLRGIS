@@ -60,23 +60,23 @@ Cell size may be specified in degrees or as a desired area in square kilometers
 (in which case cells are of equal area).
 }
 \examples{
-Example 1: Simple grid, using automatic colors
+#Example 1: Simple grid, using automatic colors
 
 MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
 View(MyGrid@data)
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
 
-Example 2: Equal area grid, using automatic colors
+#Example 2: Equal area grid, using automatic colors
 
 MyGrid=create_PolyGrids(GridData,Area=10000)
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
 
-Example 3: Equal area grid, using custom cuts and colors
+#Example 3: Equal area grid, using custom cuts and colors
 
 MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
 
-Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
+#Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
 
 #Step 1: Generate your grid
 MyGrid=create_PolyGrids(GridData,Area=10000)

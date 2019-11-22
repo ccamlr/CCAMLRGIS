@@ -48,7 +48,7 @@ A distance constraint between stations may also be used if desired.
 }
 \examples{
 
-First, create a polygon within which stations will be created
+#First, create a polygon within which stations will be created
 
 MyPolys=create_Polys(PolyData,Densify=T)
 plot(MyPolys)
@@ -57,12 +57,12 @@ text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 MyPoly=MyPolys[MyPolys$ID=='one',]
 plot(MyPoly,col='green',add=T)
 
-Second (optional), crop your bathymetry raster to match the extent of your polygon
+#Second (optional), crop your bathymetry raster to match the extent of your polygon
 
 BathyCroped=crop(SmallBathy,MyPoly)
 
 
-Example 1: Set numbers of stations, no distance constraint
+#Example 1: Set numbers of stations, no distance constraint
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),ShowProgress=T)
 par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
@@ -72,7 +72,7 @@ plot(MyPoly,add=T,border='red',lwd=2)
 contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
 plot(MyStations,add=T,col='orange')
 
-Example 2: Set numbers of stations, with distance constraint
+#Example 2: Set numbers of stations, with distance constraint
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10,ShowProgress=T)
 par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
@@ -84,7 +84,7 @@ plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)
 plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=T)
 plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T)
 
-Example 3: Automatic numbers of stations, with distance constraint
+#Example 3: Automatic numbers of stations, with distance constraint
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10,ShowProgress=T)
 par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
