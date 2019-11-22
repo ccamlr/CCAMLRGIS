@@ -9,7 +9,8 @@ create_Points(
   OutputFormat = "ROBJECT",
   OutputName = NULL,
   Buffer = 0,
-  Clip = FALSE
+  Clip = FALSE,
+  SeparateBuf = T
 )
 }
 \arguments{

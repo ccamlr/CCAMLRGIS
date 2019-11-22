@@ -19,6 +19,8 @@
 #' shapefile in quotes (e.g. "MyPolygons") must be provided.
 #' @param Buffer Distance in nautical miles by which to expand the polygons. Can be specified for
 #' each polygon (as a numeric vector).
+#' @param SeparateBuf If set to FALSE when adding a \code{Buffer},
+#' all spatial objects are merged, resulting in a single spatial object.
 #' @param Densify If set to TRUE, additional points between points of equal latitude are added
 #' prior to projection (see examples). 
 #' @param Clip if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).
@@ -58,16 +60,16 @@
 #' 
 #' @export
 
-create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=TRUE,Clip=FALSE){
+create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=T){
   # Load data
   if (class(Input)=="character"){Input=read.csv(Input)}
   # Run cPolys
   Output=cPolys(Input,Densify=Densify)
   # Run add_buffer
   if(length(Buffer)==1){
-    if(Buffer>0){Output=add_buffer(Output,buf=Buffer)}
+    if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
   }else{
-    Output=add_buffer(Output,buf=Buffer)
+    Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)
   }
   # Run Clip2Coast
   if(Clip==T){Output=Clip2Coast(Output)}
@@ -186,6 +188,8 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' @param Densify If set to TRUE, additional points between points of equal latitude are added
 #' prior to projection (see examples). 
 #' @param Clip if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).
+#' @param SeparateBuf If set to FALSE when adding a \code{Buffer},
+#' all spatial objects are merged, resulting in a single spatial object.
 #' 
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
 #' Data within the resulting object contains the data provided in the \code{Input} plus
@@ -218,16 +222,16 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' 
 #' @export
 
-create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=FALSE,Clip=FALSE){
+create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=T){
   # Load data
   if (class(Input)=="character"){Input=read.csv(Input)}
   # Run cLines
   Output=cLines(Input,Densify=Densify)
   # Run add_buffer
   if(length(Buffer)==1){
-    if(Buffer>0){Output=add_buffer(Output,buf=Buffer)}
+    if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
   }else{
-    Output=add_buffer(Output,buf=Buffer)
+    Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)
   }
   # Run Clip2Coast
   if(Clip==T){Output=Clip2Coast(Output)}
@@ -299,16 +303,16 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' @export
 
-create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Clip=FALSE){
+create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Clip=FALSE,SeparateBuf=T){
   # Load data
   if (class(Input)=="character"){Input=read.csv(Input)}
   # Run cLines
   Output=cPoints(Input)
   # Run add_buffer
   if(length(Buffer)==1){
-    if(Buffer>0){Output=add_buffer(Output,buf=Buffer)}
+    if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
   }else{
-    Output=add_buffer(Output,buf=Buffer)
+    Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)
   }
   # Run Clip2Coast
   if(Clip==T){Output=Clip2Coast(Output)}
@@ -336,6 +340,8 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' stations will be at least 2 nautical miles apart.
 #' @param Buf distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.
 #' @param ShowProgress if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).
+#' @param SeparateBuf If set to FALSE when adding a \code{Buffer},
+#' all spatial objects are merged, resulting in a single spatial object.
 #' @return Spatial object in your environment. Data within the resulting object contains the strata and stations
 #' locations in both projected space ("x" and "y") and degrees of Latitude/Longitude.
 #' 

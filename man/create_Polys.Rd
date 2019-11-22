@@ -10,7 +10,8 @@ create_Polys(
   OutputName = NULL,
   Buffer = 0,
   Densify = TRUE,
-  Clip = FALSE
+  Clip = FALSE,
+  SeparateBuf = T
 )
 }
 \arguments{
@@ -39,6 +40,9 @@ each polygon (as a numeric vector).}
 prior to projection (see examples).}
 
 \item{Clip}{if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).}
+
+\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
+all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
