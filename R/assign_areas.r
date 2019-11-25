@@ -1,16 +1,17 @@
 #' Assign Areas
 #'
-#' Given a set of polygons and a set of Latitudes/Longitudes, finds in which polygon those locations fall.
+#' Given a set of polygons and a set of point locations (given in decimal degrees),
+#' finds in which polygon those locations fall.
 #' Finds, for example, in which ASD the given fishing locations occurred.
 #' 
 #' @param Input dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.
-#' @param LocNames vector of names of the Longitudes and Latitudes columns as given in the \code{Input} (e.g., \code{c('Longs','Lats')}).
 #' 
-#' \strong{Note: Longitude column name first}.
+#' \strong{The columns in the \code{Input} must be in the following order:
+#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x.}.
 #' 
-#' @param Polys character vector of spatial objects names (e.g., \code{c('ASDs','RBs')}).
+#' @param Polys character vector of spatial objects names (e.g., \code{Polys=c('ASDs','RBs')}).
 #' 
-#' \strong{Must be matching that of the pre-loaded polygons (via e.g., \code{ASDs=load_ASDs()})}
+#' \strong{Must be matching the names of the pre-loaded spatial objects (loaded via e.g., \code{ASDs=load_ASDs()})}
 #' 
 #' @param AreaNameFormat dependent on the polygons loaded. For the Secretariat's spatial objects loaded via 'load_' functions,
 #' we have the following:
@@ -24,10 +25,10 @@
 #' Several values may be entered if desired (if several \code{Polys} are used),
 #' e.g. \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.
 #' @param Buffer distance in nautical miles to be added around the \code{Polys} of interest.
-#' Can be specified by \code{Polys} (e.g., \code{c(2,5)}). Useful to determine whether locations are within
+#' Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 #' \code{Buffer} nautical miles of a polygon.
 #' @param NamesOut names of the resulting area columns in the output dataframe,
-#' with order matching that of \code{Polys} (e.g., \code{c('Recapture_ASD','Recapture_RB')}).
+#' with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
 #' If not provided will be set as equal to \code{Polys}.
 #' @return dataframe with the same structure as the \code{Input}, with additional columns corresponding
 #' to the \code{Polys} used and named after \code{NamesOut}.
@@ -40,14 +41,14 @@
 #' @examples
 #'
 #' #Generate a dataframe
-#' MyData=data.frame(Lon=runif(100,min=20,max=40),
-#' Lat=runif(100,min=-65,max=-50))
+#' MyData=data.frame(Lat=runif(100,min=-65,max=-50),
+#'                   Lon=runif(100,min=20,max=40))
 #' 
 #' #Assign ASDs and SSRUs to these locations (first load ASDs and SSRUs)
 #' ASDs=load_ASDs()
 #' SSRUs=load_SSRUs()
 #' 
-#' MyData=assign_areas(MyData,LocNames=c("Lon","Lat"),Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
+#' MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 #' 
 #' View(MyData)
 #' table(MyData$MyASDs) #count of locations per ASD
@@ -55,7 +56,7 @@
 #' 
 #' @export
 
-assign_areas=function(Input,LocNames,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL){
+assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL){
   require(sp)
   require(rgeos)
   #Ensure Input is a data.frame
@@ -67,7 +68,7 @@ assign_areas=function(Input,LocNames,Polys,AreaNameFormat='GAR_Long_Label',Buffe
   #Repeat AreaNameFormat if needed
   if(length(AreaNameFormat)==1 & length(Polys)>1){AreaNameFormat=rep(AreaNameFormat,length(Polys))}
   #Get locations
-  Locs=Input[,LocNames]
+  Locs=Input[,c(2,1)]
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==T | is.na(Locs[,2])==T)
   if(length(Missing)>0){
@@ -100,7 +101,7 @@ assign_areas=function(Input,LocNames,Polys,AreaNameFormat='GAR_Long_Label',Buffe
   #Add new, empty columns to input dataframe to store results
   Input=cbind(Input,data.frame(matrix(NA,nrow=dim(Input)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut))))
   #Create a temporary code to match unique locations back to input dataframe
-  tmp=paste0(Input[,LocNames[1]],'|',Input[,LocNames[2]])
+  tmp=paste0(Input[,2],'|',Input[,1])
   #Match assigned areas to input dataframe
   match=match(tmp,Locu$Code)
   for(i in seq(1,length(Polys))){

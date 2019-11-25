@@ -6,7 +6,6 @@
 \usage{
 assign_areas(
   Input,
-  LocNames,
   Polys,
   AreaNameFormat = "GAR_Long_Label",
   Buffer = 0,
@@ -14,15 +13,14 @@ assign_areas(
 )
 }
 \arguments{
-\item{Input}{dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.}
+\item{Input}{dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.
 
-\item{LocNames}{vector of names of the Longitudes and Latitudes columns as given in the \code{Input} (e.g., \code{c('Longs','Lats')}).
+\strong{The columns in the \code{Input} must be in the following order:
+Latitude, Longitude, Variable 1, Variable 2, ... Variable x.}.}
 
-\strong{Note: Longitude column name first}.}
+\item{Polys}{character vector of spatial objects names (e.g., \code{Polys=c('ASDs','RBs')}).
 
-\item{Polys}{character vector of spatial objects names (e.g., \code{c('ASDs','RBs')}).
-
-\strong{Must be matching that of the pre-loaded polygons (via e.g., \code{ASDs=load_ASDs()})}}
+\strong{Must be matching the names of the pre-loaded spatial objects (loaded via e.g., \code{ASDs=load_ASDs()})}}
 
 \item{AreaNameFormat}{dependent on the polygons loaded. For the Secretariat's spatial objects loaded via 'load_' functions,
 we have the following:
@@ -37,11 +35,11 @@ Several values may be entered if desired (if several \code{Polys} are used),
 e.g. \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.}
 
 \item{Buffer}{distance in nautical miles to be added around the \code{Polys} of interest.
-Can be specified by \code{Polys} (e.g., \code{c(2,5)}). Useful to determine whether locations are within
+Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 \code{Buffer} nautical miles of a polygon.}
 
 \item{NamesOut}{names of the resulting area columns in the output dataframe,
-with order matching that of \code{Polys} (e.g., \code{c('Recapture_ASD','Recapture_RB')}).
+with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
 If not provided will be set as equal to \code{Polys}.}
 }
 \value{
@@ -49,20 +47,21 @@ dataframe with the same structure as the \code{Input}, with additional columns c
 to the \code{Polys} used and named after \code{NamesOut}.
 }
 \description{
-Given a set of polygons and a set of Latitudes/Longitudes, finds in which polygon those locations fall.
+Given a set of polygons and a set of point locations (given in decimal degrees),
+finds in which polygon those locations fall.
 Finds, for example, in which ASD the given fishing locations occurred.
 }
 \examples{
 
 #Generate a dataframe
-MyData=data.frame(Lon=runif(100,min=20,max=40),
-Lat=runif(100,min=-65,max=-50))
+MyData=data.frame(Lat=runif(100,min=-65,max=-50),
+                  Lon=runif(100,min=20,max=40))
 
 #Assign ASDs and SSRUs to these locations (first load ASDs and SSRUs)
 ASDs=load_ASDs()
 SSRUs=load_SSRUs()
 
-MyData=assign_areas(MyData,LocNames=c("Lon","Lat"),Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
+MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 
 View(MyData)
 table(MyData$MyASDs) #count of locations per ASD
