@@ -119,9 +119,6 @@ ASDs=load_ASDs()
 S486=ASDs[ASDs$GAR_Short_Label=='486',]
 #Crop bathymetry to match the extent of S486
 B486=raster::crop(SmallBathy,S486)
-#Optional: mask the bathymetry outside of S486
-#Try running this code with and without 'mask' to see the difference
-B486=raster::mask(B486,S486)
 #Optional: get the maximum depth in that area to constrain the color scale
 minD=raster::minValue(B486)
 #Set the figure margins as c(bottom, left, top, right)
