@@ -8,6 +8,7 @@ load_MPAs()
 }
 \description{
 Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 See examples for offline use.
 }
 \examples{

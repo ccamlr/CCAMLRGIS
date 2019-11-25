@@ -2,6 +2,7 @@
 #' Load CCAMLR statistical Areas, Subareas and Divisions
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -32,6 +33,7 @@ load_ASDs=function(){
 #' load CCAMLR Small Scale Research Units
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -62,6 +64,7 @@ load_SSRUs=function(){
 #' load the full CCAMLR Coastline
 #' 
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use. Note that this coastline expands further north than \link{Coast}.
 #'
 #' @seealso 
@@ -92,6 +95,7 @@ load_Coastline=function(){
 #' Load CCAMLR Research Blocks
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -123,6 +127,7 @@ load_RBs=function(){
 #' Load CCAMLR Small Scale Management Units
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -153,6 +158,7 @@ load_SSMUs=function(){
 #' Load CCAMLR Management Areas
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -183,6 +189,7 @@ load_MAs=function(){
 #' Load CCAMLR Reference Areas
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -214,6 +221,7 @@ load_RefAreas=function(){
 #' load CCAMLR Marine Protected Areas
 #'
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -245,6 +253,7 @@ load_MPAs=function(){
 #' Load Exclusive Economic Zones
 #' 
 #' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
