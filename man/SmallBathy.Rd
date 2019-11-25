@@ -12,7 +12,7 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
 Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2019} dataset.
 Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
 and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
-\strong{Not to be used for accurate bathymetry analyses}.
+\strong{To be only used for large scale illustrative purposes}.
 }
 \seealso{
 \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},

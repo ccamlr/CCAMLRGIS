@@ -13,7 +13,7 @@ plot(Coast,col='grey')
 }
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
-within the CCAMLR boundaries (contour of ASDs + EEZs).
+within the CCAMLR boundaries.
 }
 \seealso{
 \code{\link{Clip2Coast}}.

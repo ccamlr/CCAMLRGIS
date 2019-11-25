@@ -1,8 +1,8 @@
 #' Get depths of locations from bathymetry raster
 #'
-#' Given a bathymetry raster and a an input dataframe of latitudes/longitudes,
-#' computes the depths at these locations. Optionally can also compute the horizontal 
-#' distance of locations to chosen isobaths.
+#' Given a bathymetry raster and an input dataframe of point locations (given in decimal degrees),
+#' computes the depths at these locations using bilinear interpolation (using \code{\link[raster]{extract}}).
+#' Optionally can also compute the horizontal distance of locations to chosen isobaths.
 #' 
 #' @param Input dataframe with, at least, Latitudes and Longitudes.
 #' \strong{The columns in the \code{Input} must be in the following order:
@@ -11,7 +11,8 @@
 #' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
 #' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
 #' resolution than \code{\link{SmallBathy}}.
-#' @param d distance in meters, used to group locations and speed up computations. Lower values
+#' @param d distance in meters, used to group locations by distance and speed up computations (by cutting
+#' the bathymetry raster into small pieces matching the extent of grouped locations). Lower values
 #' make computations faster but at the risk of not finding distances to isobaths (when desired).
 #' @param Isobaths Depths to which the horizontal distances to locations are computed, if required.
 #' @param IsoLocs If \code{TRUE}, the locations on the \code{Iosbaths} that are closest to the
@@ -23,7 +24,7 @@
 #' closest point location on \code{'Isobaths'}. All units are in meters.
 #' 
 #' @seealso 
-#' \code{\link{SmallBathy}}, \code{\link{create_Points}}, \code{\link{create_Stations}}.
+#' \code{\link{SmallBathy}}, \code{\link{create_Points}}, \code{\link{create_Stations}}, \code{\link[raster]{extract}}.
 #' 
 #' @examples
 #' 

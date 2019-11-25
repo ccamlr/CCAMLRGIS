@@ -12,7 +12,7 @@ NULL
 #' Coast
 #'
 #' Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
-#' within the CCAMLR boundaries (contour of ASDs + EEZs).
+#' within the CCAMLR boundaries.
 #'
 #' @docType data
 #' @format SpatialPolygons
@@ -113,7 +113,7 @@ NULL
 #' Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2019} dataset.
 #' Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
 #' and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
-#' \strong{Not to be used for accurate bathymetry analyses}.
+#' \strong{To be only used for large scale illustrative purposes}.
 #'
 #' @docType data
 #' @format raster
