@@ -218,6 +218,25 @@ plot(Coast,col='grey',add=T,lwd=0.5)
 box()
 ```
 
+Adding a buffer with the argument SeparateBuf set to FALSE results in a single polygon which may be viewed as a footprint:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=2}
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0.01,0.01,0.01,0.01))
+
+#Buffer merged lines
+MyLines=create_Lines(LineData,Buffer=10,SeparateBuf=F)
+#The resulting polygon has an area of:
+MyLines$Buffered_AreaKm2
+
+plot(MyLines,col='green',lwd=1)
+box()
+
+```
+
+
+
 #### Create polygons:
 For details, type:
 ```{r eval=F}
@@ -551,7 +570,7 @@ head(FishDepth)
 
 ### 4.3. assign_areas
 
-Given a set of polygons and a set of Latitudes/Longitudes, this function finds in which polygon those locations fall. Finds, for example, in which ASD the given fishing locations occurred.
+Given a set of polygons and a set of point locations (given in decimal degrees), finds in which polygon those locations fall. Finds, for example, in which ASD the given fishing locations occurred.
 
 For details, type:
 ```{r eval=F}
@@ -560,8 +579,8 @@ For details, type:
 
 ```{r eval=T,message=F}
 #Generate a dataframe with random locations
-MyData=data.frame(Lon=runif(100,min=20,max=40),
-                  Lat=runif(100,min=-65,max=-50))
+MyData=data.frame(Lat=runif(100,min=-65,max=-50),
+                  Lon=runif(100,min=20,max=40))
 #The input data looks like this:
 head(MyData)
 
@@ -570,8 +589,7 @@ ASDs=load_ASDs()
 SSRUs=load_SSRUs()
 
 #Assign ASDs and SSRUs to these locations 
-MyData=assign_areas(MyData,LocNames=c("Lon","Lat"),
-                    Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
+MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 #The output data looks like this:
 head(MyData)
 
