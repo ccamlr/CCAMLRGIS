@@ -15,7 +15,11 @@ from user data such as polygons and grids.
 You can install CCAMLRGIS from github with:
 
 ``` r
-# install.packages("devtools")
+#First install devtools:
+install.packages("devtools")
+#rlang is also needed:
+install.packages("rlang")
+#Then install the package:
 devtools::install_github("ccamlr/CCAMLRGIS",build_vignettes=TRUE)
 ```
 
