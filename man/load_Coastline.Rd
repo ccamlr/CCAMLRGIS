@@ -2,20 +2,31 @@
 % Please edit documentation in R/load.R
 \name{load_Coastline}
 \alias{load_Coastline}
-\title{load CCAMLR Coastline}
+\title{load the full CCAMLR Coastline}
 \usage{
-load_Coastline(format)
-}
-\arguments{
-\item{format}{"RDATA" will use the SpatialPolygonsDataFrame last saved with the package}
+load_Coastline()
 }
 \description{
-Load CCAMLR Coastline based on SCAR Coastline data
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+See examples for offline use. Note that this coastline expands further north than \link{Coast}.
 }
 \examples{
  
+#When online:
+Coastline=load_Coastline()
+plot(Coastline)
 
-# if offline 
-Coast <- load_Coastline("RDATA")
+#If going offline in the future: load and save as RData when online - then reload RData when offline:
+Coastline=load_Coastline()
+EEZs=load_EEZs()
+save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
+rm(Coastline,EEZs)
+load("CCAMLRLayers.RData")
+
 }
-\keyword{Coastline}
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+\code{\link{load_SSMUs}}, \code{\link{load_MAs}},
+\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+}

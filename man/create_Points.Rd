@@ -2,46 +2,78 @@
 % Please edit documentation in R/create.R
 \name{create_Points}
 \alias{create_Points}
-\title{Create Points that are compatible with CCAMLR online GIS}
+\title{Create Points}
 \usage{
-create_Points(Input, OutputFormat = "ROBJECT", OutputName = NULL,
-  Buffer = 0, Clip = FALSE)
+create_Points(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  Buffer = 0,
+  Clip = FALSE,
+  SeparateBuf = T
+)
 }
 \arguments{
-\item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv".  The columns of the input should be in the following order: Name, Latitude,Longitude}
+\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
+If a .csv file is used as input, this file must be in your working directory and its name given in quotes
+e.g. "DataFile.csv".
 
-\item{OutputFormat}{can be an R object or ESRI Shapefile. R object is specified as "ROBJECT" and returns a SpatialPointsDataFrame to your R work enviornment (if this parameter is not specified this is the default). The ESRI Shapefile output is specified as "SHAPEFILE" will write an ESRI Shapefile to your work directory or set file path.}
+\strong{The columns in the \code{Input} must be in the following order:
 
-\item{OutputName}{if "SHAPEFILE" format is specified then supply the name of the output shapefile in quotes e.g."MyShape", the default is NULL and assumes an "ROBJECT" format}
+Point name, Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
 
-\item{Buffer}{is the value in nautical miles to apply to the line. The default value is 0, assuming no Buffer}
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a spatial object is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
 
-\item{Clip}{is TRUE will clip a polygon that intersect with the coastline to remove the land and keep only the ocean area, the default is set to FLASE which assumes no clipping is required}
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyPoints") must be provided.}
+
+\item{Buffer}{Radius in nautical miles by which to expand the points. Can be specified for
+each point (as a numeric vector).}
+
+\item{Clip}{if set to TRUE, polygon parts (from buffered points) that fall on land are removed (see \link{Clip2Coast}).}
 }
 \value{
-Returns points with attributed "Name", "Lat" and "Long". If a buffer is applied then an additional attribute of "AreaKm2" is also returned. This planimetric area value is calculated using the gArea function from the sp package
+Spatial object in your environment or ESRI shapefile in your working directory.
+Data within the resulting object contains the data provided in the \code{Input} plus
+additional "x" and "y" columns which corresponds to the projected points locations 
+and may be used to label points (see examples).
+
+To see the data contained in your spatial object, type: \code{View(MyPoints@data)}.
 }
 \description{
-Create Points that are compatible with CCAMLR online GIS
+Create Points to display point locations. Buffering points may be used to produce bubble charts.
 }
 \examples{
-## specify the name of the points
+#Example 1: Simple points with labels
 
-Name <- c("Point_1","Point_2","Point_3")
+MyPoints=create_Points(PointData)
+plot(MyPoints)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
 
-## specify the Latitude coordinates in decimal degrees
+#Example 2: Simple points with labels, highlighting one group of points with the same name
 
-Lat<- c(-70.2,-70.1,-69.9)
+MyPoints=create_Points(PointData)
+plot(MyPoints)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
+plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
 
-## specify the Longitude coordinates in decimal degrees
+#Example 3: Buffered points with radius proportional to catch
 
-Lon <- c(-160,-161,-159)
+MyPoints=create_Points(PointData,Buffer=0.5*PointData$Catch)
+plot(MyPoints,col='green')
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=T)
 
-## bind information together into a dataframe 
+#Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 
-Coords<- data.frame(Name=Name,Lat=Lat,Lon=Lon)
+MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=T)
+plot(MyPoints,col='cyan')
+plot(Coast,add=T,col='grey')
 
-## create points 
-
-New_Points <- create_Points(Coords)
+}
+\seealso{
+\code{\link{create_Lines}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 }

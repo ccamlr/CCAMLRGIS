@@ -1,25 +1,26 @@
 Package: CCAMLRGIS
-Title: bridging R and the CCAMLR online GIS
-Version: 2.2.3.9000
-Date: 2017-09-15
-Authors@R: c(person("Stephane","Thanassekos",role = c("aut")), person("Lucy", "Robinson", email = "lucy.robinson@ccamlr.org",role = c("aut", "cre")),person("Michael D.","Sumner", role = "ctb", email = "mdsumner@gmail.com"))
-Description: An R package for loading and creating spatial data that is compatible with the CCAMLR online GIS.
-Depends: R (>= 3.4.0)
+Title: Antarctic spatial data manipulation
+Version: 3.0.0
+Date: 2019-11-18
+Authors@R:
+    c(person("Stephane","Thanassekos",role = c("aut", "cre"), email = "stephane.thanassekos@ccamlr.org"),
+    person("Keith", "Reid", role = "aut"),
+    person("Lucy", "Robinson", role = "aut"),
+    person("Michael D.","Sumner", role = "ctb"))
+Description: A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.
+Depends: R (>= 3.6.1), sp
 License: GPL-3
+URL: https://github.com/ccamlr/CCAMLRGIS
 Encoding: UTF-8
 LazyData: true
 Imports: 
     methods,
-    maptools,
+    sp,
     rgdal,
     rgeos,
     raster,
-    sp,
-    graticule,
-    classInt,
-    RColorBrewer
-RoxygenNote: 6.0.1
-Suggests: testthat,
-    knitr,
-    rmarkdown
+    geosphere,
+    dplyr
+RoxygenNote: 7.0.0
+Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

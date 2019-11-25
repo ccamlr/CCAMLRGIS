@@ -4,23 +4,96 @@
 \alias{create_PolyGrids}
 \title{Create a Polygon Grid}
 \usage{
-create_PolyGrids(Input, OutputFormat = "ROBJECT", OutputName = NULL, dlon,
-  dlat)
+create_PolyGrids(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  dlon = NA,
+  dlat = NA,
+  Area = NA,
+  cuts = 100,
+  cols = c("green", "yellow", "red")
+)
 }
 \arguments{
-\item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv".  The columns of the input should be in the following order: Latitude,Longitude and Value}
+\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
+If a .csv file is used as input, this file must be in your working directory and its name given in quotes
+e.g. "DataFile.csv".
 
-\item{OutputFormat}{can be an R object or ESRI Shapefile. R object is specified as "ROBJECT" and returns a SpatialPolygonDataFrame to your R work enviornment (if this parameter is not specified this is the default). The ESRI Shapefile output is specified as "SHAPEFILE" will write an ESRI Shapefile to your work directory or set file path.}
+\strong{The columns in the \code{Input} must be in the following order:
 
-\item{OutputName}{if "SHAPEFILE" format is specified then supply the name of the output shapefile in quotes e.g."MyShape", the default is NULL and assumes an "ROBJECT" format}
+Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}}
 
-\item{dlon}{width of the grid cells in decimal degrees of longitude e.g. dlon=1}
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
 
-\item{dlat}{height of the grid cells in decimal degrees of latitude e.g.: dlat=0.5}
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyGrid") must be provided.}
+
+\item{dlon}{width of the grid cells in decimal degrees of longitude.}
+
+\item{dlat}{height of the grid cells in decimal degrees of latitude.}
+
+\item{Area}{area, in square kilometers, of the grid cells.}
+
+\item{cuts}{Number of desired color classes.}
+
+\item{cols}{Desired colors. If more that one color is provided, a linear color gradient is generated.}
 }
 \value{
-Returns polygons in R or output to ESRI shapefile format with attributes that summarise the points included in each polygon. These summary attributes include a count ("Count"), maximum ("Max"), minimum ("Min)", mean ("Mean), standard deviation ("StdDev"), median ("Median") and sum ("Sum").
+Spatial object in your environment or ESRI shapefile in your working directory.
+Data within the resulting object contains the data provided in the \code{Input} after aggregation
+within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
+median of values in each cell is returned.
+
+To see the data contained in your spatial object, type: \code{View(MyGrid@data)}.
+
+In addition, colors are generated for each aggregated values according to the chosen \code{cuts} (numerical classes)
+and \code{cols} (colors).
+To generate a custom color scale, refer to \code{\link{add_col}} and \code{\link{add_Cscale}}.
 }
 \description{
-Create a Polygon Grid that can display the amount of catch taken from specifed grid cell sizes
+Create a polygon grid to spatially aggregate data in cells of chosen size.
+Cell size may be specified in degrees or as a desired area in square kilometers
+(in which case cells are of equal area).
+}
+\examples{
+#Example 1: Simple grid, using automatic colors
+
+MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
+View(MyGrid@data)
+plot(MyGrid,col=MyGrid$Col_Catch_sum)
+
+#Example 2: Equal area grid, using automatic colors
+
+MyGrid=create_PolyGrids(GridData,Area=10000)
+plot(MyGrid,col=MyGrid$Col_Catch_sum)
+
+#Example 3: Equal area grid, using custom cuts and colors
+
+MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+plot(MyGrid,col=MyGrid$Col_Catch_sum)
+
+#Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
+
+#Step 1: Generate your grid
+MyGrid=create_PolyGrids(GridData,Area=10000)
+
+#Step 2: Inspect your gridded data (e.g. sum of Catch) to determine whether irregular cuts are required
+hist(MyGrid$Catch_sum,100) #In this case (heterogeneously distributed data) irregular cuts would be preferable
+
+#Step 3: Generate colors according to the desired classes (cuts)
+Gridcol=add_col(MyGrid$Catch_sum,cuts=c(0,50,100,500,2000,3500),cols=c('yellow','purple'))
+
+#Step 4: Plot result and add color scale
+par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
+plot(MyGrid,col=Gridcol$varcol) #Use the colors generated by add_col
+add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=24) #Add color scale using cuts and cols generated by add_col
+
+}
+\seealso{
+\code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_col}}, \code{\link{add_Cscale}}.
 }

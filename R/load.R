@@ -1,285 +1,283 @@
 
-#' Load CCAMLR Statistical Areas and Divisions
+#' Load CCAMLR statistical Areas, Subareas and Divisions
 #'
-#' Load CCAMLR Statistical Areas and Divisions (ASDs)
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
 #'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @keywords Statistical Areas and Divisions
-#' @import rgeos rgdal raster
-#' @export
-#' @examples  
-#' # if online
-#' \dontrun{
-#'   ASDs <- load_ASDs("GEOJSON")
-#' }
-#' # if offline 
-#' ASDs <- load_ASDs("RDATA")
-load_ASDs <- function(format){
-  
-  if(format=="GEOJSON"){
-
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
-    ASD_data<- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-    return(ASD_data)
-  }
-  if(format=="RDATA"){
-    
-    return(ASD_data)
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
-  
-}
-
-
-#' load CCAMLR SSRUs
-#'
-#' Load CCAMLR Small Scale Research Units (SSRUs)
-#'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @keywords SSRU Small Scale Research Units
-#' @import rgeos rgdal raster 
-#' @export
-#' @examples  
-#' # if online
-#' \dontrun{
-#' SSRUs <- load_SSRUs("GEOJSON")
-#' }
-#' # if offline 
-#' SSRUs <- load_SSRUs("RDATA")
-load_SSRUs <-function(format){
-  
-  if(format=="GEOJSON"){
-
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
-    SSRU_data<- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-
-    return(SSRU_data)
-  }
-  if(format=="RDATA"){
-    
-    return(SSRU_data)
-    
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
-}
-
-
-#' load CCAMLR Coastline
-#'
-#' Load CCAMLR Coastline based on SCAR Coastline data 
-#'
-#' @param format "RDATA" will use the SpatialPolygonsDataFrame last saved with the package
-#' @keywords Coastline 
-#' @import rgeos rgdal raster
-#' @export
-#' @examples  
+#' @seealso 
+#' \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
-#' # if offline 
-#' Coast <- load_Coastline("RDATA")
+#' @export
+#' @examples  
+#' #When online:
+#' ASDs=load_ASDs()
+#' plot(ASDs)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' ASDs=load_ASDs()
+#' EEZs=load_EEZs()
+#' save(list=c('ASDs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(ASDs,EEZs)
+#' load("CCAMLRLayers.RData")
 
-load_Coastline <-function(format){
-  
-  if(format=="GEOJSON"){
-    
-    # cat("data currently not available on the CCAMLR online GIS")
-    ccamlrgisurl <- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
-    Coastline_data <- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-    
-    return(Coastline_data)
-  }
-  if(format=="RDATA"){
-    
-    return(CCAMLRGIS::Coastline_data)
-    
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
+load_ASDs=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
+  ASD_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(ASD_data)
 }
 
+#' load CCAMLR Small Scale Research Units
+#'
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
+#'
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
+#' @export
+#' @examples  
+#' #When online:
+#' SSRUs=load_SSRUs()
+#' plot(SSRUs)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' SSRUs=load_SSRUs()
+#' EEZs=load_EEZs()
+#' save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(SSRUs,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
+load_SSRUs=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
+  SSRU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(SSRU_data)
+}
 
-
+#' load the full CCAMLR Coastline
+#' 
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use. Note that this coastline expands further north than \link{Coast}.
+#'
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
+#' @export
+#' @examples  
+#' #When online:
+#' Coastline=load_Coastline()
+#' plot(Coastline)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' Coastline=load_Coastline()
+#' EEZs=load_EEZs()
+#' save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(Coastline,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
+load_Coastline=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
+  Coastline_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(Coastline_data)
+}
 
 #' Load CCAMLR Research Blocks
 #'
-#' Load CCAMLR Research Blocks (RBs)
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
 #'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @keywords Research Blocks
-#' @import rgeos rgdal raster
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
 #' @export
 #' @examples  
-#' # if online
-#' \dontrun{
-#' RBs <- load_RBs("GEOJSON")
-#' }
+#' #When online:
+#' RBs=load_RBs()
+#' plot(RBs)
 #' 
-#' # if offline 
-#' RBs <- load_RBs("RDATA")
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' RBs=load_RBs()
+#' EEZs=load_EEZs()
+#' save(list=c('RBs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(RBs,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
 
-load_RBs <-function(format){
-  
-  if(format=="GEOJSON"){
-
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
-    RB_data<- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-
-    return(RB_data)
-  }
-  if(format=="RDATA"){
-    
-    return(RB_data)
-    
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
-  
+load_RBs=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
+  RB_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(RB_data)
 }
 
 #' Load CCAMLR Small Scale Management Units
 #'
-#' Load CCAMLR Small Scale Management Units (SSMUs)
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
 #'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @keywords Small Scale Management Units (SSMUs)
-#' @import rgeos rgdal raster 
-#' @export
-#' @examples  
-#' # if online
-#' \dontrun{
-#' SSMUs <- load_SSMUs("GEOJSON")
-#' }
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
-#' # if offline 
-#' SSMUs <- load_SSMUs("RDATA")
-load_SSMUs <-function(format){
-  
-  if(format=="GEOJSON"){
-
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
-    SSMU_data <- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose=FALSE)
-     return(SSMU_data)
-  }
-  if(format=="RDATA"){
-    return(CCAMLRGIS::SSMU_data)
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
-}
-
-
-#' Load Other Fishery Management Areas
-
-#' Load Other Fishery Management Areas
-#'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @import rgeos rgdal raster
 #' @export
 #' @examples  
-#' # if online
-#' \dontrun{
-#' MAs <- load_MAs("GEOJSON")
-#' }
-#' # if offline 
-#' MAs <- load_MAs("RDATA")
-load_MAs <-function(format){
-  
-  if(format=="GEOJSON"){
-
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-    MA_data<- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-    return(MA_data)
-  }
-  if(format=="RDATA"){
-    
-    return(MA_data)
-    
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
+#' #When online:
+#' SSMUs=load_SSMUs()
+#' plot(SSMUs)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' SSMUs=load_SSMUs()
+#' EEZs=load_EEZs()
+#' save(list=c('SSMUs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(SSMUs,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
+load_SSMUs=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
+  SSMU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose=FALSE)
+  return(SSMU_data)
 }
 
+#' Load CCAMLR Management Areas
+#'
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
+#'
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
+#' @export
+#' @examples  
+#' #When online:
+#' MAs=load_MAs()
+#' plot(MAs)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' MAs=load_MAs()
+#' EEZs=load_EEZs()
+#' save(list=c('MAs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(MAs,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
+load_MAs=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
+  MA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(MA_data)
+}
 
 #' Load CCAMLR Reference Areas
 #'
-#' Load CCAMLR Reference Areas (RefAreas)
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
 #'
-#' @param format  "RDATA" will use the SpatialPolygonsDataFrame last saved with the package
-#' @keywords Reference areas
-#' @import rgeos rgdal raster
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
 #' @export
 #' @examples  
-#' RefAreas <- load_RefAreas("RDATA")
+#' #When online:
+#' RefAreas=load_RefAreas()
+#' plot(RefAreas)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' RefAreas=load_RefAreas()
+#' EEZs=load_EEZs()
+#' save(list=c('RefAreas','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(RefAreas,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
 
-load_RefAreas <-function(format){
-  
-  if(format=="GEOJSON"){
-    
-    cat("data currently not available on the CCAMLR online GIS")
-  }
-  if(format=="RDATA"){
-    
-    return(CCAMLRGIS::RefAreas)
-    
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
-  
+load_RefAreas=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
+  RA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(RA_data)
 }
 
-
-#' load CCAMLR MPAs
+#' load CCAMLR Marine Protected Areas
 #'
-#' Load CCAMLR Marine Protected Areas (MPAs)
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
 #'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @keywords Marine Protected Areas
-#' @import rgeos rgdal raster
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_EEZs}}.
+#' 
 #' @export
+#' @examples  
+#' #When online:
+#' MPAs=load_MPAs()
+#' plot(MPAs)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' MPAs=load_MPAs()
+#' EEZs=load_EEZs()
+#' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(MPAs,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
 
-load_MPAs <-function(format){
-  
-  if(format=="GEOJSON"){
-    
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
-    MPA_data<- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-    return(MPA_data)
-  }
-  if(format=="RDATA"){
-    
-    return(MPA_data)
-    
-  }
-  if (!format%in%c("RDATA","GEOJSON")){
-    warning("only RDATA or GEOJSON format is available")
-  }
+load_MPAs=function(){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
+  MPA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(MPA_data)
 }
-
 
 #' Load Exclusive Economic Zones
+#' 
+#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' See examples for offline use.
 #'
-#' Load Exclusive Economic Zones (EEZs) that fall within the Convention Area
-#'
-#' @param format "GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package
-#' @keywords Exclusive Economic Zones
-#' @import rgeos rgdal raster
+#' @seealso 
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}.
+#' 
 #' @export
+#' @examples  
+#' #When online:
+#' EEZs=load_EEZs()
+#' plot(EEZs)
+#' 
+#' #If going offline in the future: load and save as RData when online - then reload RData when offline:
+#' MPAs=load_MPAs()
+#' EEZs=load_EEZs()
+#' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+#' rm(MPAs,EEZs)
+#' load("CCAMLRLayers.RData")
+#' 
 
-load_EEZs <-function(format){
-  if(format=="GEOJSON"){
-    ccamlrgisurl<- "https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
-    EEZ_data<- readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
-    return(EEZ_data)
-  }
-  if(format=="RDATA"){
-    return(EEZ_data)
-  }  
+load_EEZs=function(format){
+  require(rgdal)
+  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
+  EEZ_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  return(EEZ_data)
 }

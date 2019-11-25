@@ -1,13 +1,3 @@
-#' Densify line or polygon data when projecting 
-#'
-#' A geoprocessing function that densifies a line or polygon data when projecting. This function is called in create_Polys
-#'
-#' @param Lon Longitude coordinates (in Decimal Degrees)
-#' @param Lat Latitude coordinates (in Decimal Degrees)
-#' @keywords Densify
-#' @import rgeos rgdal raster sp
-#' @export
-
 DensifyData=function(Lon,Lat){
   dlon=0.1
   GridLon=seq(dlon,360,by=dlon)

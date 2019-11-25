@@ -6,12 +6,27 @@
 \usage{
 load_EEZs(format)
 }
-\arguments{
-\item{format}{"GEOJSON" will extract this geographical reference data displayed on the CCAMLR GIS website and "RDATA" will use the Spatial Polygon Data Frame last saved with the package}
-}
 \description{
-Load Exclusive Economic Zones (EEZs) that fall within the Convention Area
+Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+See examples for offline use.
 }
-\keyword{Economic}
-\keyword{Exclusive}
-\keyword{Zones}
+\examples{
+ 
+#When online:
+EEZs=load_EEZs()
+plot(EEZs)
+
+#If going offline in the future: load and save as RData when online - then reload RData when offline:
+MPAs=load_MPAs()
+EEZs=load_EEZs()
+save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+rm(MPAs,EEZs)
+load("CCAMLRLayers.RData")
+
+}
+\seealso{
+\code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+\code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}.
+}

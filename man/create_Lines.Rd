@@ -4,46 +4,75 @@
 \alias{create_Lines}
 \title{Create Lines}
 \usage{
-create_Lines(Input, OutputFormat = "ROBJECT", OutputName = NULL,
-  Buffer = 0, Densify = 1, Clip = FALSE)
+create_Lines(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  Buffer = 0,
+  Densify = FALSE,
+  Clip = FALSE,
+  SeparateBuf = T
+)
 }
 \arguments{
-\item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv".  The columns of the input should be in the following order: Name, Latitude,Longitude}
+\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
+If a .csv file is used as input, this file must be in your working directory and its name given in quotes
+e.g. "DataFile.csv".
 
-\item{OutputFormat}{can be an R object or ESRI Shapefile. R object is specified as "ROBJECT" and returns a SpatialLinesDataFrame to your R work enviornment (if this parameter is not specified this is the default). The ESRI Shapefile output is specified as "SHAPEFILE" will write an ESRI Shapefile to your work directory or set file path.}
+\strong{The columns in the \code{Input} must be in the following order:
 
-\item{OutputName}{if "SHAPEFILE" format is specified then supply the name of the output shapefile in quotes e.g."MyShape", the default is NULL and assumes an "ROBJECT" format}
+Line name, Latitude, Longitude.}}
 
-\item{Buffer}{is the value in nautical miles to apply to the line. The default value is 0, assuming no Buffer}
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a spatial object is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
 
-\item{Densify}{is set to 1 as a default, which will add additional points between points of equal latitude when data are projected. If set to 0 then no additional points will be added}
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyLines") must be provided.}
 
-\item{Clip}{is TRUE will clip a line that intersect with the coastline to remove the land and keep only the ocean area, the default is set to FLASE which assumes no clipping is required}
+\item{Buffer}{Distance in nautical miles by which to expand the lines. Can be specified for
+each line (as a numeric vector).}
+
+\item{Densify}{If set to TRUE, additional points between points of equal latitude are added
+prior to projection (see examples).}
+
+\item{Clip}{if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).}
+
+\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
+all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
-Returns line(s) in R or output to ESRI shapefile format with Attributes "name" and "LengthKm" and "LengthNm. LengthKm is calculated using the LineLength function in the sp package based on the geometry created in the function. If a buffer is applied then an additional attribute of "AreaKm2" is also returned. This planimetric area value is calculated using the gArea function from the sp package
+Spatial object in your environment or ESRI shapefile in your working directory.
+Data within the resulting object contains the data provided in the \code{Input} plus
+additional "LengthKm" and "LengthNm" columns which corresponds to the lines lengths,
+in kilometers and nautical miles respectively.
+
+To see the data contained in your spatial object, type: \code{View(MyLines@data)}.
 }
 \description{
-Create Lines that are compatible with CCAMLR online GIS
+Create Lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
-## specify the name of the line
+#Example 1: Simple and non-densified lines
 
-Name <- rep("Set_1",2)
+MyLines=create_Lines(LineData)
+plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
-## specify the Longitude coordinates in decimal degrees
+#Example 2: Simple and densified lines (note the curvature of the purple line)
 
-Lon <- c(-120,-122)
+MyLines=create_Lines(LineData,Densify=T)
+plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
-## specify the Latitude coordinates in decimal degrees
+#Example 3: Densified, buffered and clipped lines
 
-Lat<- c(-65,-65)
+MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
 
-## bind information together into a dataframe 
+plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
+plot(Coast,col='grey',add=T)
 
-Coords<- data.frame(Name=Name,Lat=Lat,Lon=Lon)
-
-## create lines 
-
-New_Lines <- create_Lines(Coords)
+}
+\seealso{
+\code{\link{create_Points}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 }

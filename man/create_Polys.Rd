@@ -4,46 +4,81 @@
 \alias{create_Polys}
 \title{Create Polygons}
 \usage{
-create_Polys(Input, OutputFormat = "ROBJECT", OutputName = NULL,
-  Buffer = 0, Densify = 1, Clip = FALSE)
+create_Polys(
+  Input,
+  OutputFormat = "ROBJECT",
+  OutputName = NULL,
+  Buffer = 0,
+  Densify = TRUE,
+  Clip = FALSE,
+  SeparateBuf = T
+)
 }
 \arguments{
-\item{Input}{the name of the input data as a .csv file or an R dataframe. If .csv input then ensure this file is in your set work directory in quotes e.g. "DataFile.csv". The columns in the input should be in the following order: Poly Name, Lats and Lons}
+\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
+If a .csv file is used as input, this file must be in your working directory and its name given in quotes
+e.g. "DataFile.csv".
 
-\item{OutputFormat}{can be an R object or ESRI Shapefile. R object is specified as "ROBJECT" and returns a SpatialPolygonDataFrame to your R work enviornment (if this parameter is not specified this is the default). The ESRI Shapefile output is specified as "SHAPEFILE" will write an ESRI Shapefile to your work directory or set file path.}
+\strong{The columns in the \code{Input} must be in the following order:
 
-\item{OutputName}{if "SHAPEFILE" format is specified then supply the name of the output shapefile in quotes e.g."MyShape", the default is NULL and assumes an "ROBJECT" format}
+Polygon name, Latitude, Longitude.
 
-\item{Buffer}{is the value in nautical miles to apply to the polygon verticies. The default value is 0, assuming no Buffer}
+Latitudes and Longitudes must be given clockwise.}}
 
-\item{Densify}{is set to 1 as a default, which will add additional points between points of equal latitude when data are projected. If set to 0 then no additional points will be added}
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
 
-\item{Clip}{TRUE will clip a polygon that intersect with the coastline to remove the land and keep only the ocean area, the default is set to FLASE which assumes no clipping is required}
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyPolygons") must be provided.}
+
+\item{Buffer}{Distance in nautical miles by which to expand the polygons. Can be specified for
+each polygon (as a numeric vector).}
+
+\item{Densify}{If set to TRUE, additional points between points of equal latitude are added
+prior to projection (see examples).}
+
+\item{Clip}{if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).}
+
+\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
+all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
-Returns polygon(s) in R or output to ESRI shapefile format with Attributes "name" and "AreaKm2". AreaKm2 is calculated using the gArea function from the sp package based on the geometry created in the function
+Spatial object in your environment or ESRI shapefile in your working directory.
+Data within the resulting object contains the data provided in the \code{Input} plus
+and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
+Also, columns "Labx" and "Laby" may be used to add labels to polygons.
+
+To see the data contained in your spatial object, type: \code{View(MyPolygons@data)}.
 }
 \description{
-Create Polygons such as proposed Research Blocks or Marine Protected Areas
+Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 }
 \examples{
-## specify the name of the Research block
+#Example 1: Simple and non-densified polygons
 
-Name <-"5841_6"
+MyPolys=create_Polys(PolyData,Densify=F)
+plot(MyPolys,col='blue')
+text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
-## specify the Longitude coordinates in decimal degrees
+#Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 
-Lons <- c(130, 130, 134, 134)
+MyPolys=create_Polys(PolyData)
+plot(MyPolys,col='red')
+text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
-## specify the Latitude coordinates in decimal degrees
+#Example 3: Buffered and clipped polygons
 
-Lats <- c(-64.0, -65.5, -65.5,-64.0)
+MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
+MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
+plot(MyPolysBefore,col='green')
+plot(Coast,add=T)
+plot(MyPolysAfter,col='red',add=T)
+text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 
-## bind information together into a dataframe 
-
-Coords <- data.frame(Name=rep(Name,length(Lons)),Lats=Lats,Lons=Lons)
-
-## create polygon of proposed Research area
-
-New_RBs <-create_Polys(Coords)
+}
+\seealso{
+\code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_PolyGrids}},
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
 }
