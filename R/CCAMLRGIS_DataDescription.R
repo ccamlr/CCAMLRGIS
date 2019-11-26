@@ -16,7 +16,7 @@ NULL
 #'
 #' @docType data
 #' @format SpatialPolygons
-#' @usage plot(Coast,col='grey')
+#' @examples plot(Coast,col='grey')
 #' @source \url{https://gis.ccamlr.org/}
 #' @seealso \code{\link{Clip2Coast}}.
 #' @name Coast
@@ -28,7 +28,7 @@ NULL
 #'
 #' @docType data
 #' @format Character vector
-#' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
+#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
@@ -39,7 +39,7 @@ NULL
 #'
 #' @docType data
 #' @format Numeric vector
-#' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
+#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
 NULL
@@ -50,8 +50,8 @@ NULL
 #'
 #' @docType data
 #' @format DataFrame
-#' @usage 
-#' View(GridData)
+#' @examples 
+#' #View(GridData)
 #' 
 #' MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
@@ -65,8 +65,8 @@ NULL
 #'
 #' @docType data
 #' @format DataFrame
-#' @usage 
-#' View(LineData)
+#' @examples  
+#' #View(LineData)
 #' 
 #' MyLines=create_Lines(LineData)
 #' plot(MyLines,lwd=2)
@@ -80,13 +80,13 @@ NULL
 #'
 #' @docType data
 #' @format DataFrame
-#' @usage 
-#' View(PointData)
+#' @examples 
+#' #View(PointData)
 #' 
 #' MyPoints=create_Points(PointData)
 #' plot(MyPoints)
-#' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
-#' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
+#' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
+#' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
 #' @seealso \code{\link{create_Points}}.  
 #' @name PointData
 NULL
@@ -97,13 +97,13 @@ NULL
 #'
 #' @docType data
 #' @format DataFrame
-#' @usage 
-#' View(PolyData)
+#' @examples 
+#' #View(PolyData)
 #' 
-#' MyPolys=create_Polys(PolyData,Densify=T)
-#' plot(MyPolys,col='green',add=T)
+#' MyPolys=create_Polys(PolyData,Densify=TRUE)
+#' plot(MyPolys,col='green',add=TRUE)
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
-#' plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=T)
+#' plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=TRUE)
 #' @seealso \code{\link{create_Polys}}.  
 #' @name PolyData
 NULL
@@ -117,7 +117,7 @@ NULL
 #'
 #' @docType data
 #' @format raster
-#' @usage plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=F,box=F)
+#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
 #' \code{\link{get_depths}}, \code{\link{create_Stations}}.
 #' @name SmallBathy
@@ -130,8 +130,8 @@ NULL
 #' 
 #' @docType data
 #' @format dataframe
-#' @usage 
-#' View(Labels)
+#' @examples 
+#' #View(Labels)
 #' 
 #' ASDs=load_ASDs()
 #' plot(ASDs)

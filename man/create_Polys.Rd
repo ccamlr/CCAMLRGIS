@@ -11,7 +11,7 @@ create_Polys(
   Buffer = 0,
   Densify = TRUE,
   Clip = FALSE,
-  SeparateBuf = T
+  SeparateBuf = TRUE
 )
 }
 \arguments{
@@ -58,7 +58,7 @@ Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 \examples{
 #Example 1: Simple and non-densified polygons
 
-MyPolys=create_Polys(PolyData,Densify=F)
+MyPolys=create_Polys(PolyData,Densify=FALSE)
 plot(MyPolys,col='blue')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
@@ -71,11 +71,15 @@ text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #Example 3: Buffered and clipped polygons
 
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
-MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
+MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green')
-plot(Coast,add=T)
-plot(MyPolysAfter,col='red',add=T)
+plot(Coast,add=TRUE)
+plot(MyPolysAfter,col='red',add=TRUE)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
+
+#Example 4: Buffered and grouped polygons
+MyPolys=create_Polys(PolyData,Buffer=80,SeparateBuf=FALSE)
+plot(MyPolys,border='blue',lwd=3)
 
 }
 \seealso{

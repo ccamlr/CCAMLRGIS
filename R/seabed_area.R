@@ -21,21 +21,18 @@
 #' RBs=load_RBs() 
 #' RBs@@data[,1]=RBs$GAR_Short_Label #Take the 'GAR_Short_Label' as polygon names
 #' FishDepth=seabed_area(SmallBathy,RBs)
-#' View(FishDepth)
+#' #View(FishDepth)
 #' 
 #' #Example 2: Compute various strata areas within user-generated polygons
 #' 
-#' MyPolys=create_Polys(PolyData,Densify=T)
+#' MyPolys=create_Polys(PolyData,Densify=TRUE)
 #' FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
-#' View(FishDepth)
+#' #View(FishDepth)
 #' 
 #' @export
 
 seabed_area=function (Bathy, Polys, depth_classes=c(-600,-1800)){
-  require(sp)
-  require(raster)
-  require(rgeos)
-  
+
   if (proj4string(Bathy) != proj4string(Polys)){ 
     stop("Projection of bathymetry does not match that of Polygons")}
   
@@ -47,7 +44,7 @@ seabed_area=function (Bathy, Polys, depth_classes=c(-600,-1800)){
   OUT$Polys=Polys$name
   for(pol in OUT$Polys){
     poly=Polys[Polys$name==pol,]
-    CrB=crop(Bathy, extend(extent(poly),2) )
+    CrB=raster::crop(Bathy, extend(extent(poly),2) )
     for(i in seq(1,(length(depth_classes)-1))){
       dtop=depth_classes[i]
       dbot=depth_classes[i+1]

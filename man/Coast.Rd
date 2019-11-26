@@ -8,12 +8,12 @@
 \source{
 \url{https://gis.ccamlr.org/}
 }
-\usage{
-plot(Coast,col='grey')
-}
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 within the CCAMLR boundaries.
+}
+\examples{
+plot(Coast,col='grey')
 }
 \seealso{
 \code{\link{Clip2Coast}}.

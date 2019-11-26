@@ -4,7 +4,7 @@
 \alias{load_EEZs}
 \title{Load Exclusive Economic Zones}
 \usage{
-load_EEZs(format)
+load_EEZs()
 }
 \description{
 Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
@@ -17,7 +17,8 @@ See examples for offline use.
 EEZs=load_EEZs()
 plot(EEZs)
 
-#If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online,
+# then reload RData when offline:
 MPAs=load_MPAs()
 EEZs=load_EEZs()
 save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")

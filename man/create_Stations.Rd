@@ -12,7 +12,7 @@ create_Stations(
   Nauto = NA,
   dist = NA,
   Buf = 1000,
-  ShowProgress = F
+  ShowProgress = FALSE
 )
 }
 \arguments{
@@ -35,9 +35,6 @@ stations will be at least 2 nautical miles apart.}
 \item{Buf}{distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.}
 
 \item{ShowProgress}{if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).}
-
-\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
-all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment. Data within the resulting object contains the strata and stations
@@ -53,51 +50,52 @@ A distance constraint between stations may also be used if desired.
 
 #First, create a polygon within which stations will be created
 
-MyPolys=create_Polys(PolyData,Densify=T)
+MyPolys=create_Polys(PolyData,Densify=TRUE)
 plot(MyPolys)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 #Subsample MyPolys to only keep the polygon with ID 'one'
 MyPoly=MyPolys[MyPolys$ID=='one',]
-plot(MyPoly,col='green',add=T)
+plot(MyPoly,col='green',add=TRUE)
 
 #Second (optional), crop your bathymetry raster to match the extent of your polygon
 
-BathyCroped=crop(SmallBathy,MyPoly)
+BathyCroped=raster::crop(SmallBathy,MyPoly)
 
 
 #Example 1: Set numbers of stations, no distance constraint
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),ShowProgress=T)
-par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
-plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
+par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
+plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-plot(MyPoly,add=T,border='red',lwd=2)
-contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
-plot(MyStations,add=T,col='orange')
+plot(MyPoly,add=TRUE,border='red',lwd=2)
+raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
+plot(MyStations,add=TRUE,col='orange')
 
 #Example 2: Set numbers of stations, with distance constraint
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10,ShowProgress=T)
-par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
-plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+MyStations=create_Stations(MyPoly,BathyCroped,
+                           Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
+par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
+plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-plot(MyPoly,add=T,border='red',lwd=2)
-contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
-plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)
-plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=T)
-plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T)
+plot(MyPoly,add=TRUE,border='red',lwd=2)
+raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
+plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
+plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
+plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
 
 #Example 3: Automatic numbers of stations, with distance constraint
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10,ShowProgress=T)
-par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right), here giving some room for the color scale
-plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
+par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
+plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-plot(MyPoly,add=T,border='red',lwd=2)
-contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=T)
-plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=T)
-plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=T)
-plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=T)
+plot(MyPoly,add=TRUE,border='red',lwd=2)
+raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
+plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
+plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
+plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
 
 }
 \seealso{

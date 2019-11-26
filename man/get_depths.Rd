@@ -9,8 +9,8 @@ get_depths(
   Bathy,
   d = 10000,
   Isobaths = NA,
-  IsoLocs = F,
-  ShowProgress = F
+  IsoLocs = FALSE,
+  ShowProgress = FALSE
 )
 }
 \arguments{
@@ -54,14 +54,14 @@ Catch=PointData$Catch)
 
 #Example 1: get depths of locations
 MyDataD=get_depths(MyData,SmallBathy)
-View(MyDataD)
+#View(MyDataD)
 plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue') #Plot of catch vs depth
 
 #Example 2: get depths of locations and distance to isobath -3000m
 
-MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=T,d=200000,ShowProgress=T)
+MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
 plot(MyDataD$x,MyDataD$y,pch=21,bg='green')
-contour(SmallBathy,levels=-3000,add=T,col='blue',maxpixels=10000000)
+contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
 segments(x0=MyDataD$x,
          y0=MyDataD$y,
          x1=MyDataD$X_3000,

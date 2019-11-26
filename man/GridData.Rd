@@ -5,14 +5,14 @@
 \alias{GridData}
 \title{Example dataset for create_PolyGrids}
 \format{DataFrame}
-\usage{
-View(GridData)
+\description{
+To be used in conjunction with \link{create_PolyGrids}.
+}
+\examples{
+#View(GridData)
 
 MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
-}
-\description{
-To be used in conjunction with \link{create_PolyGrids}.
 }
 \seealso{
 \code{\link{create_PolyGrids}}.

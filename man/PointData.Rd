@@ -5,16 +5,16 @@
 \alias{PointData}
 \title{Example dataset for create_Points}
 \format{DataFrame}
-\usage{
-View(PointData)
+\description{
+To be used in conjunction with \link{create_Points}.
+}
+\examples{
+#View(PointData)
 
 MyPoints=create_Points(PointData)
 plot(MyPoints)
-text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
-plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
-}
-\description{
-To be used in conjunction with \link{create_Points}.
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
+plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
 }
 \seealso{
 \code{\link{create_Points}}.

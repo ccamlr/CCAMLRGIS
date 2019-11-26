@@ -17,7 +17,8 @@ See examples for offline use. Note that this coastline expands further north tha
 Coastline=load_Coastline()
 plot(Coastline)
 
-#If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online,
+# then reload RData when offline:
 Coastline=load_Coastline()
 EEZs=load_EEZs()
 save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")

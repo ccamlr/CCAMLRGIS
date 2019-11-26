@@ -29,8 +29,8 @@
 #' #add MPAs and EEZs and their labels in large, green and vertical text
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
-#' plot(MPAs,add=T,border='green')
-#' plot(EEZs,add=T,border='green')
+#' plot(MPAs,add=TRUE,border='green')
+#' plot(EEZs,add=TRUE,border='green')
 #' add_labels(c('EEZs','MPAs'),fontsize=2,col='green',angle=90)
 #' 
 #' @export

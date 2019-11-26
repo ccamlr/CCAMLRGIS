@@ -37,17 +37,17 @@ Add a Latitude/Longitude reference grid to maps.
 #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 
 par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
-plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
 
 #Example 2: Local grid around created polygons
 
-MyPolys=create_Polys(PolyData,Densify=T)
-BathyC=crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
+MyPolys=create_Polys(PolyData,Densify=TRUE)
+BathyC=raster::crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
 par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
-plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_RefGrid(bb=bbox(BathyC),ResLat=2,ResLon=6)
-plot(MyPolys,add=T,col='orange',border='brown',lwd=2)
+plot(MyPolys,add=TRUE,col='orange',border='brown',lwd=2)
 
 }
 \seealso{

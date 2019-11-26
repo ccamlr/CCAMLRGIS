@@ -10,7 +10,7 @@ create_Points(
   OutputName = NULL,
   Buffer = 0,
   Clip = FALSE,
-  SeparateBuf = T
+  SeparateBuf = TRUE
 )
 }
 \arguments{
@@ -34,6 +34,9 @@ shapefile in quotes (e.g. "MyPoints") must be provided.}
 each point (as a numeric vector).}
 
 \item{Clip}{if set to TRUE, polygon parts (from buffered points) that fall on land are removed (see \link{Clip2Coast}).}
+
+\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
+all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
@@ -51,26 +54,26 @@ Create Points to display point locations. Buffering points may be used to produc
 
 MyPoints=create_Points(PointData)
 plot(MyPoints)
-text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 
 #Example 2: Simple points with labels, highlighting one group of points with the same name
 
 MyPoints=create_Points(PointData)
 plot(MyPoints)
-text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=T)
-plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=T)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
+plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
 
 #Example 3: Buffered points with radius proportional to catch
 
 MyPoints=create_Points(PointData,Buffer=0.5*PointData$Catch)
 plot(MyPoints,col='green')
-text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=T)
+text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 
 #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 
-MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=T)
+MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 plot(MyPoints,col='cyan')
-plot(Coast,add=T,col='grey')
+plot(Coast,add=TRUE,col='grey')
 
 }
 \seealso{

@@ -35,14 +35,14 @@
 #' 
 #' #Example 1: get depths of locations
 #' MyDataD=get_depths(MyData,SmallBathy)
-#' View(MyDataD)
+#' #View(MyDataD)
 #' plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue') #Plot of catch vs depth
 #' 
 #' #Example 2: get depths of locations and distance to isobath -3000m
 #' 
-#' MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=T,d=200000,ShowProgress=T)
+#' MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
 #' plot(MyDataD$x,MyDataD$y,pch=21,bg='green')
-#' contour(SmallBathy,levels=-3000,add=T,col='blue',maxpixels=10000000)
+#' contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
 #' segments(x0=MyDataD$x,
 #'          y0=MyDataD$y,
 #'          x1=MyDataD$X_3000,
@@ -50,13 +50,9 @@
 #'
 #' @export
 
-get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
-  require(rgdal)
-  require(rgeos)
-  require(raster)
-  require(sp)
+get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=FALSE){
 
-  if(ShowProgress==T){cat('Bathymetry computation started',sep='\n')}
+  if(ShowProgress==TRUE){cat('Bathymetry computation started',sep='\n')}
     
   #Project Lat/Lon
   xy=project(cbind(Input[,2],Input[,1]), CCAMLRp)
@@ -73,32 +69,32 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
   out$gr=gr
   
   #Prepare matrix of Distance to isobaths
-  if(is.na(sum(Isobaths))==F & IsoLocs==F){
+  if(is.na(sum(Isobaths))==FALSE & IsoLocs==FALSE){
   IsoD=matrix(nrow=dim(out)[1],ncol=length(Isobaths))
   colnames(IsoD)=Isobaths
   options(max.contour.segments=1000000000)
   }
-  if(is.na(sum(Isobaths))==F & IsoLocs==T){
+  if(is.na(sum(Isobaths))==FALSE & IsoLocs==TRUE){
     IsoD=matrix(nrow=dim(out)[1],ncol=3*length(Isobaths))
     colnames(IsoD)=paste0(c('','x','y'),rep(Isobaths,each=3))
     options(max.contour.segments=1000000000)
   }
   #Loop over groups to get bathy data
   out$z=NA
-  if(ShowProgress==T){pb=txtProgressBar(min=0,max=length(unique(out$gr)),style=3,char=" )>(((*> ")}
+  if(ShowProgress==TRUE){pb=txtProgressBar(min=0,max=length(unique(out$gr)),style=3,char=" )>(((*> ")}
   for(g in sort(unique(out$gr))){
     #Get point locations
     indx=which(out$gr==g)
     Px=out$X[indx]
     Py=out$Y[indx]
     #Crop bathymetry
-    Bi=crop(Bathy,extent(min(Px)-d,
+    Bi=raster::crop(Bathy,extent(min(Px)-d,
                          max(Px)+d,
                          min(Py)-d,
                          max(Py)+d))
     out$z[indx]=extract(Bi,cbind(Px,Py),method='bilinear')
     #Get distances to Isobaths (only)
-    if(is.na(sum(Isobaths))==F & IsoLocs==F){
+    if(is.na(sum(Isobaths))==FALSE & IsoLocs==FALSE){
       Isobathsok=Isobaths[Isobaths>minValue(Bi) & Isobaths<maxValue(Bi)]
       if(length(Isobathsok)>0){
       Isos=rasterToContour(Bi,levels=Isobathsok,maxpixels = 10000000)
@@ -112,8 +108,8 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
         int=gInterpolate(Iso, d=seq(0,L,by=Lint))
         IsoP=coordinates(int)
         #Compute distances to coastline
-        Ds=pointDistance(cbind(Px,Py), IsoP,lonlat=F)
-        if(is.null(dim(Ds))==T){
+        Ds=pointDistance(cbind(Px,Py), IsoP,lonlat=FALSE)
+        if(is.null(dim(Ds))==TRUE){
           IsoD[indx,match(Iso$level,colnames(IsoD))]=min(Ds)
           }else{
         IsoD[indx,match(Iso$level,colnames(IsoD))]=apply(Ds,1,min)
@@ -121,7 +117,7 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
       }}
     }
     #Get distances to Isobaths (and locations on isobath)
-    if(is.na(sum(Isobaths))==F & IsoLocs==T){
+    if(is.na(sum(Isobaths))==FALSE & IsoLocs==TRUE){
       Isobathsok=Isobaths[Isobaths>minValue(Bi) & Isobaths<maxValue(Bi)]
       if(length(Isobathsok)>0){
         Isos=rasterToContour(Bi,levels=Isobathsok,maxpixels = 10000000)
@@ -135,9 +131,9 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
         int=gInterpolate(Iso, d=seq(0,L,by=Lint))
         IsoP=coordinates(int)
         #Compute distances to coastline
-        Ds=pointDistance(cbind(Px,Py), IsoP,lonlat=F)
-        if(is.null(dim(Ds))==T){
-          indi=which(Ds==min(Ds,na.rm=T))[1]
+        Ds=pointDistance(cbind(Px,Py), IsoP,lonlat=FALSE)
+        if(is.null(dim(Ds))==TRUE){
+          indi=which(Ds==min(Ds,na.rm=TRUE))[1]
           IsoD[indx,match(paste0('x',Iso$level),colnames(IsoD))]=IsoP[indi,1]
           IsoD[indx,match(paste0('y',Iso$level),colnames(IsoD))]=IsoP[indi,2]
           IsoD[indx,match(Iso$level,colnames(IsoD))]=min(Ds)
@@ -149,17 +145,17 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
         }
       }}
     }
-    if(ShowProgress==T){setTxtProgressBar(pb, g)}
+    if(ShowProgress==TRUE){setTxtProgressBar(pb, g)}
   }
   out=out[,c("X","Y","z")]
   colnames(out)=c('x','y','d')
   #Merge depths and distances to isobaths
-  if(is.na(sum(Isobaths))==F & IsoLocs==F){
+  if(is.na(sum(Isobaths))==FALSE & IsoLocs==FALSE){
     IsoD=as.data.frame(IsoD)
     colnames(IsoD)=paste0('D_',abs(as.numeric(colnames(IsoD))))
     out=cbind(out,IsoD)
   }
-  if(is.na(sum(Isobaths))==F & IsoLocs==T){
+  if(is.na(sum(Isobaths))==FALSE & IsoLocs==TRUE){
     IsoD=as.data.frame(IsoD)
     Xnames=grep('x',colnames(IsoD))
     Ynames=grep('y',colnames(IsoD))
@@ -173,7 +169,7 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=F,ShowProgress=F){
   }
   #Merge with Inputs
   out=cbind(Input,out)
-  if(ShowProgress==T){
+  if(ShowProgress==TRUE){
     cat('\n')
     cat('Bathymetry computation ended',sep='\n')
     close(pb)

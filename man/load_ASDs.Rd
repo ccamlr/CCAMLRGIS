@@ -17,7 +17,8 @@ See examples for offline use.
 ASDs=load_ASDs()
 plot(ASDs)
 
-#If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online,
+# then reload RData when offline:
 ASDs=load_ASDs()
 EEZs=load_EEZs()
 save(list=c('ASDs','EEZs'), file = "CCAMLRLayers.RData")

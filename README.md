@@ -12,19 +12,21 @@ from user data such as polygons and grids.
 
 ## Installation
 
-You can install CCAMLRGIS from github with:
+You can install the CCAMLRGIS R package from CRAN with:
 
 ``` r
-#First install devtools:
+install.packages("CCAMLRGIS")
+```
+
+You can install the CCAMLRGIS R package from github with:
+
+``` r
+#You'll need Rtools:
+https://cran.r-project.org/bin/windows/Rtools/
+#In R, first install devtools:
 install.packages("devtools")
 #rlang is also needed:
 install.packages("rlang")
 #Then install the package:
 devtools::install_github("ccamlr/CCAMLRGIS",build_vignettes=TRUE)
-```
-
-Or from CRAN with:
-
-``` r
-install.packages("CCAMLRGIS")
 ```

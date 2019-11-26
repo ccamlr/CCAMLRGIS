@@ -17,7 +17,8 @@ See examples for offline use.
 RefAreas=load_RefAreas()
 plot(RefAreas)
 
-#If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online,
+# then reload RData when offline:
 RefAreas=load_RefAreas()
 EEZs=load_EEZs()
 save(list=c('RefAreas','EEZs'), file = "CCAMLRLayers.RData")

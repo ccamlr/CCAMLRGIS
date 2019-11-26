@@ -5,16 +5,16 @@
 \alias{PolyData}
 \title{Example dataset for create_Polys}
 \format{DataFrame}
-\usage{
-View(PolyData)
-
-MyPolys=create_Polys(PolyData,Densify=T)
-plot(MyPolys,col='green',add=T)
-text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
-plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=T)
-}
 \description{
 To be used in conjunction with \link{create_Polys}.
+}
+\examples{
+#View(PolyData)
+
+MyPolys=create_Polys(PolyData,Densify=TRUE)
+plot(MyPolys,col='green',add=TRUE)
+text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
+plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=TRUE)
 }
 \seealso{
 \code{\link{create_Polys}}.

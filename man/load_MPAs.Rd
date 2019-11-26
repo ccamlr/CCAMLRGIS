@@ -17,7 +17,8 @@ See examples for offline use.
 MPAs=load_MPAs()
 plot(MPAs)
 
-#If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online,
+# then reload RData when offline:
 MPAs=load_MPAs()
 EEZs=load_EEZs()
 save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")

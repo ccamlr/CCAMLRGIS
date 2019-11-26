@@ -30,13 +30,13 @@ Calculate planimetric seabed area within polygons and depth strata in square kil
 RBs=load_RBs() 
 RBs@data[,1]=RBs$GAR_Short_Label #Take the 'GAR_Short_Label' as polygon names
 FishDepth=seabed_area(SmallBathy,RBs)
-View(FishDepth)
+#View(FishDepth)
 
 #Example 2: Compute various strata areas within user-generated polygons
 
-MyPolys=create_Polys(PolyData,Densify=T)
+MyPolys=create_Polys(PolyData,Densify=TRUE)
 FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
-View(FishDepth)
+#View(FishDepth)
 
 }
 \seealso{

@@ -63,7 +63,7 @@ SSRUs=load_SSRUs()
 
 MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 
-View(MyData)
+#View(MyData)
 table(MyData$MyASDs) #count of locations per ASD
 table(MyData$MySSRUs) #count of locations per SSRU
 
