@@ -3,7 +3,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts',
 #' 
 #' A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.
 #'
-#' The CCAMLRGIS package provides two broad categories of functions: load functions and create functions.
+#' This package provides two broad categories of functions: load functions and create functions.
 #' 
 #' @section Load functions:
 #' Load functions are used to import CCAMLR geo-referenced layers and include:

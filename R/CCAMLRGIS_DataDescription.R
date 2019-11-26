@@ -1,11 +1,11 @@
 #' CCAMLRGIS Projection
 #'
 #' The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
-#'
+#' Source: \url{https://gis.ccamlr.org/}
+#' 
 #' @docType data
 #' @format Character string
 #' @return "+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
-#' @source \url{https://gis.ccamlr.org/}
 #' @name CCAMLRp
 NULL
 
@@ -13,11 +13,11 @@ NULL
 #'
 #' Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 #' within the CCAMLR boundaries.
+#' Source: \url{https://gis.ccamlr.org/}
 #'
 #' @docType data
 #' @format SpatialPolygons
 #' @examples plot(Coast,col='grey')
-#' @source \url{https://gis.ccamlr.org/}
 #' @seealso \code{\link{Clip2Coast}}.
 #' @name Coast
 NULL
