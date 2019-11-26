@@ -17,7 +17,8 @@ See examples for offline use.
 SSRUs=load_SSRUs()
 plot(SSRUs)
 
-#If going offline in the future: load and save as RData when online - then reload RData when offline:
+#If going offline in the future: load and save as RData when online,
+# then reload RData when offline:
 SSRUs=load_SSRUs()
 EEZs=load_EEZs()
 save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")

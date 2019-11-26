@@ -1,11 +1,6 @@
 cGrid=function(Input,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red')){
-require(sp)
-require(rgdal)
-require(geosphere)
-require(rgeos)
-require(dplyr)
-      
-if(is.na(sum(c(dlon,dlat,Area)))==F){
+
+if(is.na(sum(c(dlon,dlat,Area)))==FALSE){
   stop('Values should not be specified for dlon/dlat and Area.')
 }  
 if(all(is.na(c(dlon,dlat,Area)))){
@@ -15,7 +10,7 @@ if(all(is.na(c(dlon,dlat,Area)))){
   data=Input
   colnames(data)[1:2]=c("lat","lon")
   
-if(is.na(Area)==T){
+if(is.na(Area)==TRUE){
   #Prepare Lat/Lon grid
   data$lon=(ceiling((data$lon+dlon)/dlon)*dlon-dlon)-dlon/2
   data$lat=(ceiling((data$lat+dlat)/dlat)*dlat-dlat)-dlat/2
@@ -44,13 +39,13 @@ if(is.na(Area)==T){
       lons=c(lons,rev(lons))
     }
     
-    Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=F)),as.character(i))
+    Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(i))
   }
   Group=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +ellps=WGS84"))
   #project
   Group=spTransform(Group,CRS(CCAMLRp))
   #Get area
-  tmp=gArea(Group, byid=T)
+  tmp=gArea(Group, byid=TRUE)
   tmp=data.frame(ID=names(tmp),AreaKm2=tmp*1e-6)
   Group=SpatialPolygonsDataFrame(Group,tmp)
   
@@ -128,7 +123,7 @@ if(is.na(Area)==T){
   
   Group = SpatialPolygons(Group)
   proj4string(Group) = CRS(CCAMLRp)
-  tmp=gArea(Group, byid=T)
+  tmp=gArea(Group, byid=TRUE)
   tmp=data.frame(ID=names(tmp),AreaKm2=tmp*1e-6)
   Group=SpatialPolygonsDataFrame(Group,tmp)
   rm(tmp)
@@ -137,7 +132,7 @@ if(is.na(Area)==T){
 
   #Add cell labels centers
   #Get labels locations
-  labs=coordinates(gCentroid(Group,byid=T))
+  labs=coordinates(gCentroid(Group,byid=TRUE))
   Group$Labx=labs[match(Group$ID,row.names(labs)),'x']
   Group$Laby=labs[match(Group$ID,row.names(labs)),'y']
   
@@ -148,12 +143,12 @@ if(is.na(Area)==T){
   Group=Group[Group$ID%in%unique(data$ID),]
   #Summarise data
   data=as.data.frame(data[,-c(1,2)])
-  nums = which(unlist(lapply(data, is.numeric))==T)
+  nums = which(unlist(lapply(data, is.numeric))==TRUE)
   if(length(nums)>0){
     data=data[,c(which(colnames(data)=='ID'),nums)]
     Sdata=data%>%
       group_by(ID)%>%
-      summarise_all(list(min=~min(.,na.rm=T),
+      summarise_all(list(min=~min(.,na.rm=TRUE),
                          max=~max(.,na.rm=TRUE),
                          mean=~mean(.,na.rm=TRUE),
                          sum=~sum(.,na.rm=TRUE),

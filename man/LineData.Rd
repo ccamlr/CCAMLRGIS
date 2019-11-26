@@ -5,14 +5,15 @@
 \alias{LineData}
 \title{Example dataset for create_Lines}
 \format{DataFrame}
-\usage{
-View(LineData)
+\description{
+To be used in conjunction with \link{create_Lines}.
+}
+\examples{
+ 
+#View(LineData)
 
 MyLines=create_Lines(LineData)
 plot(MyLines,lwd=2)
-}
-\description{
-To be used in conjunction with \link{create_Lines}.
 }
 \seealso{
 \code{\link{create_Lines}}.

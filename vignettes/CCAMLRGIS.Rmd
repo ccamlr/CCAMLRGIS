@@ -194,6 +194,26 @@ For details, type:
 ?create_Lines
 ```
 
+```{r eval=F}
+#If your data contains line end locations in separate columns, you may reformat it as follows:
+
+#Example data:
+MyData=data.frame(
+  Line=c(1,2),
+  Lat_Start=c(-60,-65),
+  Lon_Start=c(-10,5),
+  Lat_End=c(-61,-66),
+  Lon_End=c(-2,2)
+)
+
+#Reformat to us as input in create_Lines as:
+Input=data.frame(
+  Line=c(MyData$Line,MyData$Line),
+  Lat=c(MyData$Lat_Start,MyData$Lat_End),
+  Lon=c(MyData$Lon_Start,MyData$Lon_End)
+)
+```
+
 ```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=1}
 
 #Prepare layout for 3 sub-plots
@@ -558,7 +578,7 @@ For details, type:
 ?seabed_area
 ```
 
-```{r eval=T,message=F}
+```{r message=F,eval=T}
 #create some polygons
 MyPolys=create_Polys(PolyData,Densify=T)
 #compute the seabed areas
@@ -577,7 +597,7 @@ For details, type:
 ?assign_areas
 ```
 
-```{r eval=T,message=F}
+```{r message=F,eval=T}
 #Generate a dataframe with random locations
 MyData=data.frame(Lat=runif(100,min=-65,max=-50),
                   Lon=runif(100,min=20,max=40))

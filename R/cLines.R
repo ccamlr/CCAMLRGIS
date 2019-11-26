@@ -1,6 +1,4 @@
-cLines=function(Input,Densify=F){
-  require(sp)
-  require(dplyr)
+cLines=function(Input,Densify=FALSE){
   #Build Line list
   Ll=list()
   Input[,1]=as.character(Input[,1])
@@ -13,14 +11,14 @@ cLines=function(Input,Densify=F){
     diflons=abs(diff(lons))
     if(length(diflons)>1){diflons=min(abs(diflons[diflons!=0]))}
     if(length(diflons)==0){diflons=0}
-    if(diflons>0.1 & Densify==T){
+    if(diflons>0.1 & Densify==TRUE){
       tmp=DensifyData(lons,lats)
       lons=tmp[,1]
       lats=tmp[,2]
     }
     Ll[[i]]=Lines(list(Line(cbind(lons,lats))),as.character(ids[i]))
     Llengths=rbind(Llengths,cbind(id=as.character(ids[i]),
-                                  L=LinesLength(Ll[[i]],longlat=T)))
+                                  L=LinesLength(Ll[[i]],longlat=TRUE)))
   }
   Locs=SpatialLines(Ll, proj4string=CRS("+proj=longlat +ellps=WGS84"))
   #Format lengths
@@ -32,12 +30,12 @@ cLines=function(Input,Densify=F){
   #Summarise data
   Input=as.data.frame(Input[,-c(2,3)])
   colnames(Input)[1]='ID'
-  nums = which(unlist(lapply(Input, is.numeric))==T)
+  nums = which(unlist(lapply(Input, is.numeric))==TRUE)
   if(length(nums)>0){
   Input=Input[,c(1,nums)]
   Sdata=Input%>%
     group_by(ID)%>%
-    summarise_all(list(min=~min(.,na.rm=T),
+    summarise_all(list(min=~min(.,na.rm=TRUE),
                        max=~max(.,na.rm=TRUE),
                        mean=~mean(.,na.rm=TRUE),
                        sum=~sum(.,na.rm=TRUE),

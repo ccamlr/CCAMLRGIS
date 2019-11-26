@@ -4,7 +4,7 @@
 ^README-.*\.png$
 ^\.travis\.yml$
 ^appveyor\.yml$
-^NEWS\.md$
 ^docs$
 ^doc$
 ^Meta$
+^cran-comments\.md$

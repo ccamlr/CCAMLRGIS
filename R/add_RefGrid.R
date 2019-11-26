@@ -17,24 +17,21 @@
 #' #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 #' 
 #' par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
-#' plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+#' plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
 #' 
 #' #Example 2: Local grid around created polygons
 #' 
-#' MyPolys=create_Polys(PolyData,Densify=T)
-#' BathyC=crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
+#' MyPolys=create_Polys(PolyData,Densify=TRUE)
+#' BathyC=raster::crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
 #' par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
-#' plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=F,axes=F,box=F)
+#' plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_RefGrid(bb=bbox(BathyC),ResLat=2,ResLon=6)
-#' plot(MyPolys,add=T,col='orange',border='brown',lwd=2)
+#' plot(MyPolys,add=TRUE,col='orange',border='brown',lwd=2)
 #' 
 #' @export
 
 add_RefGrid=function(bb,ResLat=1,ResLon=2,LabLon=NA,lwd=1,fontsize=1,offset=NA){
-require(rgdal)
-require(raster)
-require(rgeos)
 
 #Get bbox manually from raster
 xmin=bb[1,1]
@@ -45,7 +42,7 @@ Locs=cbind(c(xmin,xmin,xmax,xmax,xmin),
            c(ymin,ymax,ymax,ymin,ymin))
 
 #Get offset
-if(is.na(sum(offset))==T){
+if(is.na(sum(offset))==TRUE){
   #auto offset
   xd=xmax-xmin
   offsetx=0.01*xd
@@ -65,7 +62,7 @@ LocsP=SpatialLines(list(Lines(list(Line(Locs)),'name')), proj4string=CRS(CCAMLRp
 
 #Get labels
 #Circumpolar
-if(is.na(LabLon)==F){
+if(is.na(LabLon)==FALSE){
   grP=gIntersection(gr[1],gr[2])
   Cs=coordinates(grP)
   Cs=data.frame(Lat=Cs[,2],Lon=Cs[,1])
@@ -92,8 +89,8 @@ if(is.na(LabLon)==F){
   grlat=spTransform(gr[1],CRS(CCAMLRp))
   grlon=spTransform(gr[2],CRS(CCAMLRp))
   
-  grlat=crop(grlat,LocsP)
-  grlon=crop(grlon,LocsP)
+  grlat=raster::crop(grlat,LocsP)
+  grlon=raster::crop(grlon,LocsP)
   
   gr=rbind(grlat,grlon)
   
@@ -120,10 +117,10 @@ if(is.na(LabLon)==F){
   if((dim(LabslatH)[1]+dim(LabslonV)[1])>(dim(LabslatV)[1]+dim(LabslonH)[1])){
     #go with LabslatH and LabslonV
     #Get Lat/Lon
-    tmp=project(cbind(LabslatH$x,LabslatH$y),proj=CCAMLRp,inv=T)
+    tmp=project(cbind(LabslatH$x,LabslatH$y),proj=CCAMLRp,inv=TRUE)
     LabslatH$Lat=tmp[,2]
     LabslatH$Lon=tmp[,1]
-    tmp=project(cbind(LabslonV$x,LabslonV$y),proj=CCAMLRp,inv=T)
+    tmp=project(cbind(LabslonV$x,LabslonV$y),proj=CCAMLRp,inv=TRUE)
     LabslonV$Lat=tmp[,2]
     LabslonV$Lon=tmp[,1]
     #Add offset
@@ -140,10 +137,10 @@ if(is.na(LabLon)==F){
   }else{
     #go with LabslatV and LabslonH
     #Get Lat/Lon
-    tmp=project(cbind(LabslatV$x,LabslatV$y),proj=CCAMLRp,inv=T)
+    tmp=project(cbind(LabslatV$x,LabslatV$y),proj=CCAMLRp,inv=TRUE)
     LabslatV$Lat=tmp[,2]
     LabslatV$Lon=tmp[,1]
-    tmp=project(cbind(LabslonH$x,LabslonH$y),proj=CCAMLRp,inv=T)
+    tmp=project(cbind(LabslonH$x,LabslonH$y),proj=CCAMLRp,inv=TRUE)
     LabslonH$Lat=tmp[,2]
     LabslonH$Lon=tmp[,1]
     #Add offset
@@ -168,31 +165,31 @@ if(is.na(LabLon)==F){
 LatLabs$Lat=paste0(abs(LatLabs$Lat),'S')
 tmp=LonLabs$Lon
 indx=which(tmp%in%c(0,-180,180))
-indxW=which(LonLabs$Lon<0 & (LonLabs$Lon%in%c(0,-180,180)==F))
-indxE=which(LonLabs$Lon>0 & (LonLabs$Lon%in%c(0,-180,180)==F))
+indxW=which(LonLabs$Lon<0 & (LonLabs$Lon%in%c(0,-180,180)==FALSE))
+indxE=which(LonLabs$Lon>0 & (LonLabs$Lon%in%c(0,-180,180)==FALSE))
 LonLabs$Lon[indxW]=paste0(abs(LonLabs$Lon[indxW]),'W')
 LonLabs$Lon[indxE]=paste0(LonLabs$Lon[indxE],'E')
 LonLabs$Lon[LonLabs$Lon%in%c('180','-180')]='180'
 
-par(xpd=T)
-plot(gr,lty=3,add=T,lwd=lwd)
+par(xpd=TRUE)
+plot(gr,lty=3,add=TRUE,lwd=lwd)
 if(0.5%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==0.5],LatLabs$y[LatLabs$xadj==0.5],LatLabs$Lat[LatLabs$xadj==0.5],
-       cex=fontsize,adj=c(0.5,0.5),xpd=T)}
+       cex=fontsize,adj=c(0.5,0.5),xpd=TRUE)}
 if(1%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==1],LatLabs$y[LatLabs$xadj==1],LatLabs$Lat[LatLabs$xadj==1],
-       cex=fontsize,adj=c(1,0.5),xpd=T)}
+       cex=fontsize,adj=c(1,0.5),xpd=TRUE)}
 if(0%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==0],LatLabs$y[LatLabs$xadj==0],LatLabs$Lat[LatLabs$xadj==0],
-       cex=fontsize,adj=c(0,0.5),xpd=T)}
+       cex=fontsize,adj=c(0,0.5),xpd=TRUE)}
 
 if(0.5%in%LonLabs$xadj){
   text(LonLabs$x[LonLabs$xadj==0.5],LonLabs$y[LonLabs$xadj==0.5],LonLabs$Lon[LonLabs$xadj==0.5],
-       cex=fontsize,adj=c(0.5,0.5),xpd=T)}
+       cex=fontsize,adj=c(0.5,0.5),xpd=TRUE)}
 if(0%in%LonLabs$xadj){
   text(LonLabs$x[LonLabs$xadj==0],LonLabs$y[LonLabs$xadj==0],LonLabs$Lon[LonLabs$xadj==0],
-       cex=fontsize,adj=c(0,0.5),xpd=T)}
+       cex=fontsize,adj=c(0,0.5),xpd=TRUE)}
 if(1%in%LonLabs$xadj){
   text(LonLabs$x[LonLabs$xadj==1],LonLabs$y[LonLabs$xadj==1],LonLabs$Lon[LonLabs$xadj==1],
-       cex=fontsize,adj=c(1,0.5),xpd=T)}
+       cex=fontsize,adj=c(1,0.5),xpd=TRUE)}
 }

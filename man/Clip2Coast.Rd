@@ -20,20 +20,20 @@ buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}).
 \examples{
 #Example 1: Use Clip2Coast on a pre-generated polygon
 
-MyPolys=create_Polys(PolyData,Densify=T,Buffer=c(10,-15,120))
+MyPolys=create_Polys(PolyData,Densify=TRUE,Buffer=c(10,-15,120))
 plot(MyPolys,col='red')
-plot(Coast,col='grey',add=T)
+plot(Coast,col='grey',add=TRUE)
 MyPolysClipped=Clip2Coast(MyPolys)
-plot(MyPolysClipped,col='blue',add=T)
-View(MyPolysClipped)
+plot(MyPolysClipped,col='blue',add=TRUE)
+#View(MyPolysClipped)
 
-#Example 2: Use Clip2Coast while creating a polygon, with Clip=T in create_Polys().
+#Example 2: Use Clip2Coast while creating a polygon, with Clip=TRUE in create_Polys().
 
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
-MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
+MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green')
-plot(Coast,add=T)
-plot(MyPolysAfter,col='red',add=T)
+plot(Coast,add=TRUE)
+plot(MyPolysAfter,col='red',add=TRUE)
 
 }
 \seealso{

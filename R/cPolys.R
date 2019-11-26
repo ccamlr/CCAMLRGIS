@@ -1,7 +1,4 @@
-cPolys=function(Input,Densify=F){
-  require(sp)
-  require(dplyr)
-  require(rgeos)
+cPolys=function(Input,Densify=FALSE){
   #Build Poly list
   Pl=list()
   Input[,1]=as.character(Input[,1])
@@ -14,23 +11,23 @@ cPolys=function(Input,Densify=F){
     diflons=abs(diff(lons))
     if(length(diflons)>1){diflons=min(abs(diflons[diflons!=0]))}
     if(length(diflons)==0){diflons=0}
-    if(diflons>0.1 & Densify==T){
+    if(diflons>0.1 & Densify==TRUE){
       tmp=DensifyData(lons,lats)
       lons=tmp[,1]
       lats=tmp[,2]
     }
-    Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=F)),as.character(ids[i]))
+    Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(ids[i]))
   }
   Locs=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +ellps=WGS84"))
   #Summarise data
   Input=as.data.frame(Input[,-c(2,3)])
   colnames(Input)[1]='ID'
-  nums = which(unlist(lapply(Input, is.numeric))==T)
+  nums = which(unlist(lapply(Input, is.numeric))==TRUE)
   if(length(nums)>0){
   Input=Input[,c(1,nums)]
   Sdata=Input%>%
     group_by(ID)%>%
-    summarise_all(list(min=~min(.,na.rm=T),
+    summarise_all(list(min=~min(.,na.rm=TRUE),
                        max=~max(.,na.rm=TRUE),
                        mean=~mean(.,na.rm=TRUE),
                        sum=~sum(.,na.rm=TRUE),
@@ -44,10 +41,10 @@ cPolys=function(Input,Densify=F){
   #Project
   Locs=spTransform(Locs,CRS(CCAMLRp))
   #Get areas
-  Ar=round(gArea(Locs,byid=T)/1000000,1)
+  Ar=round(gArea(Locs,byid=TRUE)/1000000,1)
   Locs$AreaKm2=as.numeric(Ar)[match(Locs$ID,names(Ar))]
   #Get labels locations
-  labs=coordinates(gCentroid(Locs,byid=T))
+  labs=coordinates(gCentroid(Locs,byid=TRUE))
   Locs$Labx=labs[match(Locs$ID,row.names(labs)),'x']
   Locs$Laby=labs[match(Locs$ID,row.names(labs)),'y']
   return(Locs)

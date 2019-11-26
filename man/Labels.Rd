@@ -5,16 +5,17 @@
 \alias{Labels}
 \title{Polygon labels}
 \format{dataframe}
-\usage{
-View(Labels)
+\description{
+Labels for the layers obtained via 'load_' functions. Positions correspond to the centroids
+of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
+}
+\examples{
+#View(Labels)
 
 ASDs=load_ASDs()
 plot(ASDs)
 add_labels('ASDs',fontsize=1,fonttype=2)
-}
-\description{
-Labels for the layers obtained via 'load_' functions. Positions correspond to the centroids
-of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
+
 }
 \seealso{
 \code{\link{add_labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},

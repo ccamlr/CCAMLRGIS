@@ -11,7 +11,7 @@ create_Lines(
   Buffer = 0,
   Densify = FALSE,
   Clip = FALSE,
-  SeparateBuf = T
+  SeparateBuf = TRUE
 )
 }
 \arguments{
@@ -54,6 +54,29 @@ To see the data contained in your spatial object, type: \code{View(MyLines@data)
 Create Lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
+
+#If your data contains line end locations in separate columns, you may reformat it as follows:
+
+#Example data:
+MyData=data.frame(
+  Line=c(1,2),
+  Lat_Start=c(-60,-65),
+  Lon_Start=c(-10,5),
+  Lat_End=c(-61,-66),
+  Lon_End=c(-2,2)
+)
+
+#Reformat to us as input as:
+Input=data.frame(
+  Line=c(MyData$Line,MyData$Line),
+  Lat=c(MyData$Lat_Start,MyData$Lat_End),
+  Lon=c(MyData$Lon_Start,MyData$Lon_End)
+)
+
+#Create lines and plot them
+plot(create_Lines(Input))
+
+
 #Example 1: Simple and non-densified lines
 
 MyLines=create_Lines(LineData)
@@ -61,15 +84,19 @@ plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
 #Example 2: Simple and densified lines (note the curvature of the purple line)
 
-MyLines=create_Lines(LineData,Densify=T)
+MyLines=create_Lines(LineData,Densify=TRUE)
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
 #Example 3: Densified, buffered and clipped lines
 
-MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
+MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
-plot(Coast,col='grey',add=T)
+plot(Coast,col='grey',add=TRUE)
+
+#Example 4: Buffered and grouped lines
+MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
+plot(MyLines,lwd=2,border='blue')
 
 }
 \seealso{

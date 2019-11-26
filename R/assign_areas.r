@@ -50,19 +50,17 @@
 #' 
 #' MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 #' 
-#' View(MyData)
+#' #View(MyData)
 #' table(MyData$MyASDs) #count of locations per ASD
 #' table(MyData$MySSRUs) #count of locations per SSRU
 #' 
 #' @export
 
 assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL){
-  require(sp)
-  require(rgeos)
   #Ensure Input is a data.frame
   Input=as.data.frame(Input)
   #Set NamesOut if not provided
-  if(is.null(NamesOut)==T){NamesOut=Polys}
+  if(is.null(NamesOut)==TRUE){NamesOut=Polys}
   #Repeat Buffer if needed
   if(length(Buffer)==1 & length(Polys)>1){Buffer=rep(Buffer,length(Polys))}
   #Repeat AreaNameFormat if needed
@@ -70,7 +68,7 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Get locations
   Locs=Input[,c(2,1)]
   #Count missing locations to warn user
-  Missing=which(is.na(Locs[,1])==T | is.na(Locs[,2])==T)
+  Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
   if(length(Missing)>0){
   cat(paste0('WARNING from Assign_Areas function: ',length(Missing),' records are missing location and will not be assigned to any area\n'))}
   #Create a code to match back to the dataframe at the end
@@ -78,7 +76,7 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Get uniques
   Locu=unique(Locs)
   #Remove missing locations
-  Locu=Locu[is.na(Locu[,1])==F & is.na(Locu[,2])==F,]
+  Locu=Locu[is.na(Locu[,1])==FALSE & is.na(Locu[,2])==FALSE,]
   #Turn uniques into Spatial data
   SPls=SpatialPoints(cbind(Locu[,1],Locu[,2]),proj4string = CRS("+proj=longlat +datum=WGS84"))
   #Project to match Polys projection
@@ -91,7 +89,7 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
     tmpArea=get(Polys[i])
     #Add buffer to Area if desired
     if(Buffer[i]>0){
-        tmpArea=gBuffer(tmpArea,width=Buffer[i]*1852,byid=T)
+        tmpArea=gBuffer(tmpArea,width=Buffer[i]*1852,byid=TRUE)
     }
     #Match points to polygons
     match=over(SPls,tmpArea)
