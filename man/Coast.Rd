@@ -5,12 +5,10 @@
 \alias{Coast}
 \title{Coast}
 \format{SpatialPolygons}
-\source{
-\url{https://gis.ccamlr.org/}
-}
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 within the CCAMLR boundaries.
+Source: \url{https://gis.ccamlr.org/}
 }
 \examples{
 plot(Coast,col='grey')

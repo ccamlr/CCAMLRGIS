@@ -5,7 +5,7 @@
 \alias{CCAMLRGIS}
 \title{A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.}
 \description{
-The CCAMLRGIS package provides two broad categories of functions: load functions and create functions.
+This package provides two broad categories of functions: load functions and create functions.
 }
 \section{Load functions}{
 
@@ -43,8 +43,8 @@ To learn more about CCAMLRGIS, start with the vignette:
 
 \seealso{
 The CCAMLRGIS package relies on several other package which users may want to familiarize themselves with,
-namely \href{https://cran.r-project.org/web/packages/sp/sp.pdf}{sp},
-\href{https://cran.r-project.org/web/packages/raster/raster.pdf}{raster},
-\href{https://cran.r-project.org/web/packages/rgeos/rgeos.pdf}{rgeos} and
-\href{https://cran.r-project.org/web/packages/rgdal/rgdal.pdf}{rgdal}.
+namely \href{https://CRAN.R-project.org/package=sp}{sp},
+\href{https://CRAN.R-project.org/package=raster}{raster},
+\href{https://CRAN.R-project.org/package=rgeos}{rgeos} and
+\href{https://CRAN.R-project.org/package=rgdal}{rgdal}.
 }
