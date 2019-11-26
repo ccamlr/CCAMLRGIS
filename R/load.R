@@ -1,7 +1,7 @@
 #' Load CCAMLR statistical Areas, Subareas and Divisions
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -24,16 +24,16 @@
 #' load("CCAMLRLayers.RData")
 
 load_ASDs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
   ASD_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(ASD_data)
 }
 
 #' load CCAMLR Small Scale Research Units
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -56,16 +56,16 @@ load_ASDs=function(){
 #' load("CCAMLRLayers.RData")
 #' 
 load_SSRUs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
   SSRU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(SSRU_data)
 }
 
 #' load the full CCAMLR Coastline
 #' 
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use. Note that this coastline expands further north than \link{Coast}.
 #'
 #' @seealso 
@@ -88,16 +88,16 @@ load_SSRUs=function(){
 #' load("CCAMLRLayers.RData")
 #' 
 load_Coastline=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
   Coastline_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(Coastline_data)
 }
 
 #' Load CCAMLR Research Blocks
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -121,16 +121,16 @@ load_Coastline=function(){
 #' 
 
 load_RBs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
   RB_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(RB_data)
 }
 
 #' Load CCAMLR Small Scale Management Units
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -153,16 +153,16 @@ load_RBs=function(){
 #' load("CCAMLRLayers.RData")
 #' 
 load_SSMUs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
   SSMU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose=FALSE)
   return(SSMU_data)
 }
 
 #' Load CCAMLR Management Areas
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -185,16 +185,16 @@ load_SSMUs=function(){
 #' load("CCAMLRLayers.RData")
 #' 
 load_MAs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
   MA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(MA_data)
 }
 
 #' Load CCAMLR Reference Areas
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -218,16 +218,16 @@ load_MAs=function(){
 #' 
 
 load_RefAreas=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
   RA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(RA_data)
 }
 
 #' load CCAMLR Marine Protected Areas
 #'
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -251,16 +251,16 @@ load_RefAreas=function(){
 #' 
 
 load_MPAs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
   MPA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(MPA_data)
 }
 
 #' Load Exclusive Economic Zones
 #' 
-#' Download the up-to-date spatial layer from the \href{https://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{https://gis.ccamlr.org/}{online CCAMLRGIS}.
+#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
 #' See examples for offline use.
 #'
 #' @seealso 
@@ -284,8 +284,8 @@ load_MPAs=function(){
 #' 
 
 load_EEZs=function(){
-
-  ccamlrgisurl="https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
+  #NB: use http not https
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
   EEZ_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
   return(EEZ_data)
 }
