@@ -6,7 +6,7 @@
 \title{Small bathymetry dataset}
 \format{raster}
 \description{
-Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2019} dataset.
+Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
 and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 \strong{To be only used for large scale illustrative purposes}.
