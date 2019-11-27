@@ -8,7 +8,7 @@
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 within the CCAMLR boundaries.
-Source: \url{https://gis.ccamlr.org/}
+Source: \url{http://gis.ccamlr.org/}
 }
 \examples{
 plot(Coast,col='grey')
