@@ -1,7 +1,7 @@
 #' CCAMLRGIS Projection
 #'
-#' The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
-#' Source: \url{https://gis.ccamlr.org/}
+#' The CCAMLRGIS package uses the \href{http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
+#' Source: \url{http://gis.ccamlr.org/}
 #' 
 #' @docType data
 #' @format Character string
@@ -13,7 +13,7 @@ NULL
 #'
 #' Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 #' within the CCAMLR boundaries.
-#' Source: \url{https://gis.ccamlr.org/}
+#' Source: \url{http://gis.ccamlr.org/}
 #'
 #' @docType data
 #' @format SpatialPolygons
@@ -110,7 +110,7 @@ NULL
 
 #' Small bathymetry dataset
 #'
-#' Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2019} dataset.
+#' Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 #' Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
 #' and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 #' \strong{To be only used for large scale illustrative purposes}.
