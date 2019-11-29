@@ -46,6 +46,8 @@ computes the depths at these locations using bilinear interpolation (using \code
 Optionally can also compute the horizontal distance of locations to chosen isobaths.
 }
 \examples{
+\dontrun{
+
 
 #Generate a dataframe
 MyData=data.frame(Lat=PointData$Lat,
@@ -66,6 +68,9 @@ segments(x0=MyDataD$x,
          y0=MyDataD$y,
          x1=MyDataD$X_3000,
          y1=MyDataD$Y_3000,col='red')
+
+
+}
 
 }
 \seealso{

@@ -50,6 +50,9 @@ To see the data contained in your spatial object, type: \code{View(MyPoints@data
 Create Points to display point locations. Buffering points may be used to produce bubble charts.
 }
 \examples{
+\dontrun{
+
+
 #Example 1: Simple points with labels
 
 MyPoints=create_Points(PointData)
@@ -74,6 +77,9 @@ text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 plot(MyPoints,col='cyan')
 plot(Coast,add=TRUE,col='grey')
+
+
+}
 
 }
 \seealso{
