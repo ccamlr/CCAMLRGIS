@@ -24,6 +24,8 @@ Note that polygon names are taken from the first column in the data of the input
 Calculate planimetric seabed area within polygons and depth strata in square kilometers.
 }
 \examples{
+\dontrun{
+
 
 #Example 1: Compute fishable area in Research Blocks using the SmallBathy (not recommended)
 
@@ -37,6 +39,9 @@ FishDepth=seabed_area(SmallBathy,RBs)
 MyPolys=create_Polys(PolyData,Densify=TRUE)
 FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #View(FishDepth)
+
+
+}
 
 }
 \seealso{

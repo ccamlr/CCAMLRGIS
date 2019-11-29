@@ -54,6 +54,8 @@ To see the data contained in your spatial object, type: \code{View(MyLines@data)
 Create Lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
+\dontrun{
+
 
 #If your data contains line end locations in separate columns, you may reformat it as follows:
 
@@ -97,6 +99,8 @@ plot(Coast,col='grey',add=TRUE)
 #Example 4: Buffered and grouped lines
 MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
 plot(MyLines,lwd=2,border='blue')
+
+}
 
 }
 \seealso{

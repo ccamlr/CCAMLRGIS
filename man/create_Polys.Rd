@@ -56,6 +56,9 @@ To see the data contained in your spatial object, type: \code{View(MyPolygons@da
 Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 }
 \examples{
+\dontrun{
+
+
 #Example 1: Simple and non-densified polygons
 
 MyPolys=create_Polys(PolyData,Densify=FALSE)
@@ -80,6 +83,9 @@ text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 #Example 4: Buffered and grouped polygons
 MyPolys=create_Polys(PolyData,Buffer=80,SeparateBuf=FALSE)
 plot(MyPolys,border='blue',lwd=3)
+
+
+}
 
 }
 \seealso{
