@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # CCAMLRGIS R package
 
-The CCAMLRGIS package was developed to simplify the production of maps in the CCAMLR Convention Area. It provides two categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online CCAMLR GIS (https://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
+The CCAMLRGIS package was developed to simplify the production of maps in the CCAMLR Convention Area. It provides two categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online CCAMLR GIS (http://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
 
 ## Installation
 
@@ -28,7 +28,7 @@ You can install the CCAMLRGIS R package from github with:
 
 ```{r , eval = FALSE}
 #You'll need Rtools:
-https://cran.r-project.org/bin/windows/Rtools/
+http://cran.r-project.org/bin/windows/Rtools/
 #In R, first install devtools:
 install.packages("devtools")
 #rlang is also needed:
