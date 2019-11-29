@@ -13,6 +13,8 @@ See examples for offline use.
 }
 \examples{
  
+\dontrun{
+
 #When online:
 ASDs=load_ASDs()
 plot(ASDs)
@@ -24,6 +26,8 @@ EEZs=load_EEZs()
 save(list=c('ASDs','EEZs'), file = "CCAMLRLayers.RData")
 rm(ASDs,EEZs)
 load("CCAMLRLayers.RData")
+
+}
 }
 \seealso{
 \code{\link{load_SSRUs}}, \code{\link{load_RBs}},

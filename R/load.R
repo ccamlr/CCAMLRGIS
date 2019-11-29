@@ -11,6 +11,8 @@
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' ASDs=load_ASDs()
 #' plot(ASDs)
@@ -22,6 +24,8 @@
 #' save(list=c('ASDs','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(ASDs,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 
 load_ASDs=function(){
   #NB: use http not https
@@ -43,6 +47,8 @@ load_ASDs=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' SSRUs=load_SSRUs()
 #' plot(SSRUs)
@@ -54,6 +60,8 @@ load_ASDs=function(){
 #' save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(SSRUs,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 load_SSRUs=function(){
   #NB: use http not https
@@ -75,6 +83,8 @@ load_SSRUs=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' Coastline=load_Coastline()
 #' plot(Coastline)
@@ -86,6 +96,8 @@ load_SSRUs=function(){
 #' save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(Coastline,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 load_Coastline=function(){
   #NB: use http not https
@@ -107,6 +119,8 @@ load_Coastline=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' RBs=load_RBs()
 #' plot(RBs)
@@ -119,7 +133,8 @@ load_Coastline=function(){
 #' rm(RBs,EEZs)
 #' load("CCAMLRLayers.RData")
 #' 
-
+#' }
+#' 
 load_RBs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
@@ -140,6 +155,8 @@ load_RBs=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' SSMUs=load_SSMUs()
 #' plot(SSMUs)
@@ -151,6 +168,8 @@ load_RBs=function(){
 #' save(list=c('SSMUs','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(SSMUs,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 load_SSMUs=function(){
   #NB: use http not https
@@ -172,6 +191,8 @@ load_SSMUs=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' MAs=load_MAs()
 #' plot(MAs)
@@ -183,6 +204,8 @@ load_SSMUs=function(){
 #' save(list=c('MAs','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(MAs,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 load_MAs=function(){
   #NB: use http not https
@@ -204,6 +227,8 @@ load_MAs=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' RefAreas=load_RefAreas()
 #' plot(RefAreas)
@@ -215,6 +240,8 @@ load_MAs=function(){
 #' save(list=c('RefAreas','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(RefAreas,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 
 load_RefAreas=function(){
@@ -237,6 +264,8 @@ load_RefAreas=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' MPAs=load_MPAs()
 #' plot(MPAs)
@@ -248,6 +277,8 @@ load_RefAreas=function(){
 #' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(MPAs,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 
 load_MPAs=function(){
@@ -270,6 +301,8 @@ load_MPAs=function(){
 #' 
 #' @export
 #' @examples  
+#' \dontrun{
+#' 
 #' #When online:
 #' EEZs=load_EEZs()
 #' plot(EEZs)
@@ -281,6 +314,8 @@ load_MPAs=function(){
 #' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
 #' rm(MPAs,EEZs)
 #' load("CCAMLRLayers.RData")
+#' 
+#' }
 #' 
 
 load_EEZs=function(){

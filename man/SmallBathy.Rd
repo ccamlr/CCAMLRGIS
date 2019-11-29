@@ -8,8 +8,9 @@
 \description{
 Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
-and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
-\strong{To be only used for large scale illustrative purposes}.
+and a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+\strong{To be only used for large scale illustrative purposes}. Please refer to the package's vignette
+(\code{browseVignettes("CCAMLRGIS")}; see Section 1) to produce a higher resolution raster, suitable for analyses.
 }
 \examples{
 plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)

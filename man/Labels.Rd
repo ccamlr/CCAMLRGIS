@@ -10,11 +10,16 @@ Labels for the layers obtained via 'load_' functions. Positions correspond to th
 of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
 }
 \examples{
+\dontrun{
+
+
 #View(Labels)
 
 ASDs=load_ASDs()
 plot(ASDs)
 add_labels('ASDs',fontsize=1,fonttype=2)
+
+}
 
 }
 \seealso{

@@ -13,6 +13,8 @@ See examples for offline use. Note that this coastline expands further north tha
 }
 \examples{
  
+\dontrun{
+
 #When online:
 Coastline=load_Coastline()
 plot(Coastline)
@@ -24,6 +26,8 @@ EEZs=load_EEZs()
 save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
 rm(Coastline,EEZs)
 load("CCAMLRLayers.RData")
+
+}
 
 }
 \seealso{

@@ -13,6 +13,8 @@ See examples for offline use.
 }
 \examples{
  
+\dontrun{
+
 #When online:
 SSRUs=load_SSRUs()
 plot(SSRUs)
@@ -24,6 +26,8 @@ EEZs=load_EEZs()
 save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")
 rm(SSRUs,EEZs)
 load("CCAMLRLayers.RData")
+
+}
 
 }
 \seealso{

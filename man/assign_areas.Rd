@@ -52,6 +52,8 @@ finds in which polygon those locations fall.
 Finds, for example, in which ASD the given fishing locations occurred.
 }
 \examples{
+\dontrun{
+
 
 #Generate a dataframe
 MyData=data.frame(Lat=runif(100,min=-65,max=-50),
@@ -66,6 +68,8 @@ MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'
 #View(MyData)
 table(MyData$MyASDs) #count of locations per ASD
 table(MyData$MySSRUs) #count of locations per SSRU
+
+}
 
 }
 \seealso{

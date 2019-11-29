@@ -86,7 +86,56 @@ text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 
 ## 1. Basemaps
 
-Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements.
+Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements. In a first instance, the code used to produce the bathymetry raster included in the package ('SmallBathy') is shown, and may be used to produce a raster at a higher resolution:
+
+```{r eval=F}
+
+#Step 1: Download the global GEBCO_2019 Grid in netCDF format (11 Gbytes, 12 Gbytes uncompressed), from:
+#https://www.gebco.net/data_and_products/gridded_bathymetry_data/
+
+#Step 2: load the 'raster' and 'rgeos' libraries
+library(raster)
+library(rgeos)
+
+#Step 3: Read the data
+G=raster(" Path to the folder containing the GEBCO data /GEBCO_2019.nc")
+
+#Step 4: Crop the data to below 40 degrees South
+G=crop(G,extent(-180,180,-90,-40))
+
+#Step 5: Project the data using the CCAMLR projection
+Gp=projectRaster(G, crs=proj4string(CCAMLRp))
+
+#Step 6: Mask the data using a buffered contour of the Convention area
+#load ASDs, buffer them and extract the outer polygon (first polygon within the list of polygons)
+ASDs=load_ASDs()
+#Build 500km contour
+Contour=gBuffer(ASDs,width=500000,quadsegs = 25)
+#Extract outer boundary (first polygon)
+pol=Contour@polygons[[1]]@Polygons[1]
+pol=Polygons(pol,ID='1')
+pol=SpatialPolygons(list(pol),proj4string = CRS(CCAMLRp))
+#Apply mask
+Gpm=mask(Gp, pol)
+
+#Step 7: Clamp the raster to exclude values higher than 500m
+Gpmc=clamp(Gpm, upper=500,useValues=F)
+
+#At this point, you may export the data and use it in its native resolution
+#Export:
+writeRaster(Gpmc,"GEBCOpmc.tif")
+#to re-Import:
+Gpmc=raster(' Path to the folder containing the GEBCO data /GEBCOpmc.tif')
+
+#Or, resample it (e.g., at a 500m resolution, using the nearest neighbor method):
+newR=raster(crs=crs(Gpmc), ext=extent(Gpmc), resolution=500)
+Gr=resample(Gpmc,newR,method="ngb")
+#Export:
+writeRaster(Gr,"GEBCOpmcr500NN.tif")
+#to re-Import:
+Gpmcr500N=raster(' Path to the folder containing the data /GEBCOpmc.tif')
+
+```
 
 #### Circumpolar map:
 

@@ -39,6 +39,8 @@
 #' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @examples
+#' \dontrun{
+#' 
 #'
 #' #Generate a dataframe
 #' MyData=data.frame(Lat=runif(100,min=-65,max=-50),
@@ -53,6 +55,8 @@
 #' #View(MyData)
 #' table(MyData$MyASDs) #count of locations per ASD
 #' table(MyData$MySSRUs) #count of locations per SSRU
+#' 
+#' }
 #' 
 #' @export
 

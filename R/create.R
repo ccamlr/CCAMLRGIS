@@ -386,6 +386,8 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' \code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{add_RefGrid}}.
 #' 
 #' @examples
+#' \dontrun{
+#' 
 #'
 #' #First, create a polygon within which stations will be created
 #' 
@@ -435,6 +437,9 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
 #' plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
 #' plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
+#' 
+#' 
+#' }
 #' 
 #' @export
 
