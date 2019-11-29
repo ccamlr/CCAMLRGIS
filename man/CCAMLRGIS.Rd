@@ -3,7 +3,7 @@
 \docType{package}
 \name{CCAMLRGIS}
 \alias{CCAMLRGIS}
-\title{A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.}
+\title{Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.}
 \description{
 This package provides two broad categories of functions: load functions and create functions.
 }

@@ -27,6 +27,8 @@
 #' \code{\link{SmallBathy}}, \code{\link{create_Points}}, \code{\link{create_Stations}}, \code{\link[raster]{extract}}.
 #' 
 #' @examples
+#' \dontrun{
+#' 
 #' 
 #' #Generate a dataframe
 #' MyData=data.frame(Lat=PointData$Lat,
@@ -47,6 +49,9 @@
 #'          y0=MyDataD$y,
 #'          x1=MyDataD$X_3000,
 #'          y1=MyDataD$Y_3000,col='red')
+#'
+#'
+#'}
 #'
 #' @export
 

@@ -19,6 +19,8 @@
 #' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link[rgeos]{polygonsLabel}}.
 #'  
 #' @examples
+#' \dontrun{
+#' 
 #' 
 #' #label ASDs in bold and red
 #' 
@@ -32,6 +34,9 @@
 #' plot(MPAs,add=TRUE,border='green')
 #' plot(EEZs,add=TRUE,border='green')
 #' add_labels(c('EEZs','MPAs'),fontsize=2,col='green',angle=90)
+#' 
+#' 
+#' }
 #' 
 #' @export
 

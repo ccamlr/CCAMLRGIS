@@ -15,6 +15,8 @@
 #' \code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
 #' 
 #' @examples
+#' \dontrun{
+#' 
 #'
 #' #Example 1: Compute fishable area in Research Blocks using the SmallBathy (not recommended)
 #' 
@@ -28,6 +30,9 @@
 #' MyPolys=create_Polys(PolyData,Densify=TRUE)
 #' FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #' #View(FishDepth)
+#' 
+#' 
+#' }
 #' 
 #' @export
 

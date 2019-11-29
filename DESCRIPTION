@@ -8,9 +8,9 @@ Authors@R:
     person("Keith", "Reid", role = "aut"),
     person("Lucy", "Robinson", role = "aut"),
     person("Michael D.","Sumner", role = "ctb"))
-Description: A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.
+Description: Loads and creates spatial data, including layers and tools that are relevant to the activities of the Commission for the Conservation of Antarctic Marine Living Resources.
 Depends: R (>= 3.6), sp, dplyr, raster
-License: GPL-3 + file LICENSE
+License: GPL-3
 URL: https://github.com/ccamlr/CCAMLRGIS
 Encoding: UTF-8
 LazyData: true

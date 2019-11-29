@@ -1,7 +1,7 @@
 utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts',
 'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID'))
 #' 
-#' A package to load and create spatial data, including layers and tools that are relevant to CCAMLR activities.
+#' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
 #'
 #' This package provides two broad categories of functions: load functions and create functions.
 #' 

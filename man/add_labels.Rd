@@ -28,6 +28,8 @@ of polygon parts. Internally used in conjunction with \code{\link{Labels}}.
 To manually generate your own labels, see \code{\link[rgeos]{polygonsLabel}}.
 }
 \examples{
+\dontrun{
+
 
 #label ASDs in bold and red
 
@@ -41,6 +43,9 @@ EEZs=load_EEZs()
 plot(MPAs,add=TRUE,border='green')
 plot(EEZs,add=TRUE,border='green')
 add_labels(c('EEZs','MPAs'),fontsize=2,col='green',angle=90)
+
+
+}
 
 }
 \seealso{

@@ -112,8 +112,9 @@ NULL
 #'
 #' Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 #' Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
-#' and a 2500m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
-#' \strong{To be only used for large scale illustrative purposes}.
+#' and a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+#' \strong{To be only used for large scale illustrative purposes}. Please refer to the package's vignette
+#' (\code{browseVignettes("CCAMLRGIS")}; see Section 1) to produce a higher resolution raster, suitable for analyses.
 #'
 #' @docType data
 #' @format raster
@@ -131,11 +132,16 @@ NULL
 #' @docType data
 #' @format dataframe
 #' @examples 
+#' \dontrun{
+#' 
+#' 
 #' #View(Labels)
 #' 
 #' ASDs=load_ASDs()
 #' plot(ASDs)
 #' add_labels('ASDs',fontsize=1,fonttype=2)
+#' 
+#' }
 #' 
 #' @seealso \code{\link{add_labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
