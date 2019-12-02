@@ -139,7 +139,7 @@ NULL
 #' 
 #' ASDs=load_ASDs()
 #' plot(ASDs)
-#' add_labels('ASDs',fontsize=1,fonttype=2)
+#' add_labels(mode='auto',layer='ASDs',fontsize=1,fonttype=2)
 #' 
 #' }
 #' 

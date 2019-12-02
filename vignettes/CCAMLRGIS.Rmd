@@ -155,7 +155,7 @@ add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon=0,fontsize=0.4,lwd=0.
 plot(ASDs,add=T,lwd=0.5,border='red')
 plot(EEZs,add=T,lwd=0.5,border='red')
 #Add ASD labels
-add_labels('ASDs',fontsize=0.3,col='red')
+add_labels(mode='auto',layer='ASDs',fontsize=0.3,col='red')
 ```
 
 
@@ -536,7 +536,7 @@ par(mai=c(0,0,0,0))
 plot(ASDs,col='green',border='blue')
 plot(EEZs,col='orange',border='purple',add=T)
 plot(Coastline,col='grey',add=T)
-add_labels('ASDs',fontsize=0.5,col='red')
+add_labels(mode='auto',layer='ASDs',fontsize=0.5,col='red')
 
 ```
 
