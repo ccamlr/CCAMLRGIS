@@ -26,7 +26,7 @@
 #' @param Clip if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).
 #' 
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
-#' Data within the resulting object contains the data provided in the \code{Input} plus
+#' Data within the resulting spatial object contains the data provided in the \code{Input} plus
 #' and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
 #' Also, columns "Labx" and "Laby" may be used to add labels to polygons.
 #' 
@@ -115,7 +115,7 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' @param cuts Number of desired color classes.
 #' @param cols Desired colors. If more that one color is provided, a linear color gradient is generated.
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
-#' Data within the resulting object contains the data provided in the \code{Input} after aggregation
+#' Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 #' within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
 #' median of values in each cell is returned.
 #' 
@@ -194,7 +194,10 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' 
 #' \strong{The columns in the \code{Input} must be in the following order:
 #' 
-#' Line name, Latitude, Longitude.}
+#' Line name, Latitude, Longitude.
+#' 
+#' If a given line is made of more than two points, the locations of points
+#' must be given in order, from one end of the line to the other.}
 #' 
 #' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 #' "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -211,7 +214,7 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' all spatial objects are merged, resulting in a single spatial object.
 #' 
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
-#' Data within the resulting object contains the data provided in the \code{Input} plus
+#' Data within the resulting spatial object contains the data provided in the \code{Input} plus
 #' additional "LengthKm" and "LengthNm" columns which corresponds to the lines lengths,
 #' in kilometers and nautical miles respectively.
 #' 
@@ -302,7 +305,7 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' \strong{The columns in the \code{Input} must be in the following order:
 #' 
-#' Point name, Latitude, Longitude, Variable 1, Variable 2, ... Variable x}
+#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x}
 #' 
 #' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 #' "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -317,7 +320,7 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' all spatial objects are merged, resulting in a single spatial object.
 #' 
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
-#' Data within the resulting object contains the data provided in the \code{Input} plus
+#' Data within the resulting spatial object contains the data provided in the \code{Input} plus
 #' additional "x" and "y" columns which corresponds to the projected points locations 
 #' and may be used to label points (see examples).
 #' 

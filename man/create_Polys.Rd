@@ -46,7 +46,7 @@ all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting object contains the data provided in the \code{Input} plus
+Data within the resulting spatial object contains the data provided in the \code{Input} plus
 and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
 Also, columns "Labx" and "Laby" may be used to add labels to polygons.
 

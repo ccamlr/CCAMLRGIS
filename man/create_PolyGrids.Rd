@@ -44,7 +44,7 @@ shapefile in quotes (e.g. "MyGrid") must be provided.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting object contains the data provided in the \code{Input} after aggregation
+Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
 median of values in each cell is returned.
 

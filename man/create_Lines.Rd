@@ -21,7 +21,10 @@ e.g. "DataFile.csv".
 
 \strong{The columns in the \code{Input} must be in the following order:
 
-Line name, Latitude, Longitude.}}
+Line name, Latitude, Longitude.
+
+If a given line is made of more than two points, the locations of points
+must be given in order, from one end of the line to the other.}}
 
 \item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -44,7 +47,7 @@ all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting object contains the data provided in the \code{Input} plus
+Data within the resulting spatial object contains the data provided in the \code{Input} plus
 additional "LengthKm" and "LengthNm" columns which corresponds to the lines lengths,
 in kilometers and nautical miles respectively.
 
