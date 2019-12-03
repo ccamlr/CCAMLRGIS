@@ -3,9 +3,9 @@
 
 # CCAMLRGIS R package
 
-This package was developed to simplify the production of maps
-in the CCAMLR Convention Area. It provides two categories of functions:
-load functions and create functions. Load functions are used to import
+This package was developed to simplify the production of maps in the
+CCAMLR Convention Area. It provides two categories of functions: load
+functions and create functions. Load functions are used to import
 spatial layers from the online CCAMLR GIS (<http://gis.ccamlr.org/>)
 such as the ASD boundaries. Create functions are used to create layers
 from user data such as polygons and grids.

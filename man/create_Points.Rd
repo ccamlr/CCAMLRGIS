@@ -76,7 +76,7 @@ text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 
 MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 plot(MyPoints,col='cyan')
-plot(Coast,add=TRUE,col='grey')
+plot(Coast[Coast$ID=='All',],add=TRUE,col='grey')
 
 
 }

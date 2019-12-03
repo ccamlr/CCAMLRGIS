@@ -76,7 +76,7 @@ text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green')
-plot(Coast,add=TRUE)
+plot(Coast[Coast$ID=='All',],add=TRUE)
 plot(MyPolysAfter,col='red',add=TRUE)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 

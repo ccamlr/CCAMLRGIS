@@ -97,7 +97,7 @@ plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
-plot(Coast,col='grey',add=TRUE)
+plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 
 #Example 4: Buffered and grouped lines
 MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
