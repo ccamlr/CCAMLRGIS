@@ -57,7 +57,7 @@
 #' MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 #' MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 #' plot(MyPolysBefore,col='green')
-#' plot(Coast,add=TRUE)
+#' plot(Coast[Coast$ID=='All',],add=TRUE)
 #' plot(MyPolysAfter,col='red',add=TRUE)
 #' text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 #' 
@@ -265,7 +265,7 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 #' 
 #' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
-#' plot(Coast,col='grey',add=TRUE)
+#' plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 #' 
 #' #Example 4: Buffered and grouped lines
 #' MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
@@ -357,7 +357,7 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 #' plot(MyPoints,col='cyan')
-#' plot(Coast,add=TRUE,col='grey')
+#' plot(Coast[Coast$ID=='All',],add=TRUE,col='grey')
 #' 
 #' 
 #' }

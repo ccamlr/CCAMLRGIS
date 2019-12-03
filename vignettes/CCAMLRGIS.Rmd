@@ -64,10 +64,10 @@ All spatial manipulations are made using the South Pole Lambert Azimuthal Equal 
 
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0.55,0.7,0.2,0.45))
-#plot Coastline
-plot(Coast,col='grey',lwd=0.1)
+#plot entire Coastline
+plot(Coast[Coast$ID=='All',],col='grey',lwd=0.1)
 #Add reference grid
-add_RefGrid(bb=bbox(Coast),ResLat=10,ResLon=20,LabLon=-40,fontsize=0.4,lwd=0.5)
+add_RefGrid(bb=bbox(Coast[Coast$ID=='All',]),ResLat=10,ResLon=20,LabLon=-40,fontsize=0.4,lwd=0.5)
 #add axes and labels
 axis(1,pos=0,at=seq(-4000000,4000000,by=1000000),tcl=-0.15,labels=F,lwd=0.8,lwd.ticks=0.8,col='blue')
 axis(2,pos=0,at=seq(-4000000,4000000,by=1000000),tcl=-0.15,labels=F,lwd=0.8,lwd.ticks=0.8,col='blue')
@@ -155,6 +155,8 @@ add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon=0,fontsize=0.4,lwd=0.
 #Add ASD and EEZ boundaries
 plot(ASDs,add=T,lwd=0.5,border='red')
 plot(EEZs,add=T,lwd=0.5,border='red')
+#Add coastline (for all ASDs)
+plot(Coast[Coast$ID=='All',],col='grey',lwd=0.01,add=T)
 #Add ASD labels
 add_labels(mode='auto',layer='ASDs',fontsize=0.3,col='red')
 ```
@@ -181,6 +183,8 @@ add_Cscale(height=65,fontsize=0.4,offset=600,width=23,lwd=0.5,minVal=minD,maxVal
 add_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.4,lwd=0.5,offset = 100000)
 #Add Subarea 48.6 boundaries
 plot(S486,add=T,lwd=0.5,border='red')
+#Add coastline (for Subarea 48.6 only)
+plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Add a -2000m contour
 raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
 #Add single label at the centre of the polygon
@@ -234,7 +238,7 @@ box()
 #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=T)
 plot(MyPoints,col='cyan',main='Example 4',cex.main=0.5,cex=0.5,lwd=0.5)
-plot(Coast,add=T,col='grey',lwd=0.5)
+plot(Coast[Coast$ID=='All',],add=T,col='grey',lwd=0.5)
 box()
 ```
 
@@ -284,7 +288,7 @@ box()
 #Example 3: Densified, buffered and clipped lines
 MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
 plot(MyLines,col=rainbow(length(MyLines)),main='Example 3',cex.main=0.5,lwd=1)
-plot(Coast,col='grey',add=T,lwd=0.5)
+plot(Coast[Coast$ID=='All',],col='grey',add=T,lwd=0.5)
 box()
 ```
 
@@ -336,7 +340,7 @@ box()
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=T)
 plot(MyPolysBefore,col='green',main='Example 3',cex.main=0.5,lwd=0.5)
-plot(Coast,add=T,lwd=0.5)
+plot(Coast[Coast$ID=='All',],add=T,lwd=0.5)
 plot(MyPolysAfter,col='orange',add=T,lwd=0.5)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white',cex=0.5)
 box()

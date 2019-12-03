@@ -4,14 +4,18 @@
 \name{Coast}
 \alias{Coast}
 \title{Coast}
-\format{SpatialPolygons}
+\format{SpatialPolygonsDataFrame}
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
-within the CCAMLR boundaries.
-Source: \url{http://gis.ccamlr.org/}
+within the CCAMLR boundaries. This spatial object may be subsetted to plot the coastline for selected
+ASDs or EEZs. Source: \url{http://gis.ccamlr.org/}
 }
 \examples{
-plot(Coast,col='grey')
+#Complete coastline:
+plot(Coast[Coast$ID=='All',],col='grey')
+
+#ASD 48.1 coastline:
+plot(Coast[Coast$ID=='48.1',],col='grey')
 }
 \seealso{
 \code{\link{Clip2Coast}}.
