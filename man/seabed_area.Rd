@@ -24,7 +24,7 @@ Note that polygon names are taken from the first column in the data of the input
 Calculate planimetric seabed area within polygons and depth strata in square kilometers.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #Example 1: Compute fishable area in Research Blocks using the SmallBathy (not recommended)

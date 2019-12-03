@@ -21,7 +21,10 @@ e.g. "DataFile.csv".
 
 \strong{The columns in the \code{Input} must be in the following order:
 
-Line name, Latitude, Longitude.}}
+Line name, Latitude, Longitude.
+
+If a given line is made of more than two points, the locations of points
+must be given in order, from one end of the line to the other.}}
 
 \item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -44,7 +47,7 @@ all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting object contains the data provided in the \code{Input} plus
+Data within the resulting spatial object contains the data provided in the \code{Input} plus
 additional "LengthKm" and "LengthNm" columns which corresponds to the lines lengths,
 in kilometers and nautical miles respectively.
 
@@ -54,7 +57,7 @@ To see the data contained in your spatial object, type: \code{View(MyLines@data)
 Create Lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #If your data contains line end locations in separate columns, you may reformat it as follows:
@@ -94,7 +97,7 @@ plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
-plot(Coast,col='grey',add=TRUE)
+plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 
 #Example 4: Buffered and grouped lines
 MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)

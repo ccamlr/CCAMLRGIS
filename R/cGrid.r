@@ -86,10 +86,10 @@ if(is.na(Area)==TRUE){
       LatSBase=LatS
       LatS=LatS-Res[1]
       if(LatS<(-90)){
-        cat('____________________________________________________________________________','\n')
-        cat('Southern-most grid cells should not extend below -90deg to maintain equal-area','\n')
-        cat('Reduce desired area of cells to avoid this issue','\n')
-        cat('____________________________________________________________________________','\n')
+        message('______________________________________________________________________________','\n')
+        message('Southern-most grid cells should not extend below -90deg to maintain equal-area','\n')
+        message('Reduce desired area of cells to avoid this issue','\n')
+        message('______________________________________________________________________________','\n')
         LatS=-90
         break}
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)

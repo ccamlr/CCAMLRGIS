@@ -13,7 +13,7 @@ See examples for offline use. Note that this coastline expands further north tha
 }
 \examples{
  
-\dontrun{
+\donttest{
 
 #When online:
 Coastline=load_Coastline()
@@ -23,9 +23,9 @@ plot(Coastline)
 # then reload RData when offline:
 Coastline=load_Coastline()
 EEZs=load_EEZs()
-save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
+save(list=c('Coastline','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 rm(Coastline,EEZs)
-load("CCAMLRLayers.RData")
+load("MyFolder/CCAMLRLayers.RData")
 
 }
 

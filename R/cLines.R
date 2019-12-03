@@ -25,8 +25,8 @@ cLines=function(Input,Densify=FALSE){
   Llengths=as.data.frame(Llengths)
   Llengths$id=as.character(Llengths$id)
   Llengths$L=as.numeric(as.character(Llengths$L))
-  Llengths$LengthKm=round(Llengths$L/1000,4)
-  Llengths$LengthNm=round(Llengths$L/1852,4)
+  Llengths$LengthKm=round(Llengths$L,4)
+  Llengths$LengthNm=round(Llengths$L/1.852,4)
   #Summarise data
   Input=as.data.frame(Input[,-c(2,3)])
   colnames(Input)[1]='ID'

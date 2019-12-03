@@ -46,7 +46,7 @@ all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting object contains the data provided in the \code{Input} plus
+Data within the resulting spatial object contains the data provided in the \code{Input} plus
 and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
 Also, columns "Labx" and "Laby" may be used to add labels to polygons.
 
@@ -56,7 +56,7 @@ To see the data contained in your spatial object, type: \code{View(MyPolygons@da
 Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #Example 1: Simple and non-densified polygons
@@ -76,7 +76,7 @@ text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green')
-plot(Coast,add=TRUE)
+plot(Coast[Coast$ID=='All',],add=TRUE)
 plot(MyPolysAfter,col='red',add=TRUE)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 

@@ -20,7 +20,7 @@ e.g. "DataFile.csv".
 
 \strong{The columns in the \code{Input} must be in the following order:
 
-Point name, Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
+Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
 
 \item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -40,7 +40,7 @@ all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting object contains the data provided in the \code{Input} plus
+Data within the resulting spatial object contains the data provided in the \code{Input} plus
 additional "x" and "y" columns which corresponds to the projected points locations 
 and may be used to label points (see examples).
 
@@ -50,7 +50,7 @@ To see the data contained in your spatial object, type: \code{View(MyPoints@data
 Create Points to display point locations. Buffering points may be used to produce bubble charts.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #Example 1: Simple points with labels
@@ -76,7 +76,7 @@ text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 
 MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 plot(MyPoints,col='cyan')
-plot(Coast,add=TRUE,col='grey')
+plot(Coast[Coast$ID=='All',],add=TRUE,col='grey')
 
 
 }

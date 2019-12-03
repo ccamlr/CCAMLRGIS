@@ -39,7 +39,7 @@
 #' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' 
 #'
 #' #Generate a dataframe
@@ -74,7 +74,8 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
   if(length(Missing)>0){
-  cat(paste0('WARNING from Assign_Areas function: ',length(Missing),' records are missing location and will not be assigned to any area\n'))}
+  warning(paste0('WARNING from Assign_Areas function: ',length(Missing),' records are missing location and will not be assigned to any area\n'))
+    }
   #Create a code to match back to the dataframe at the end
   Locs$Code=paste0(Locs[,1],'|',Locs[,2])
   #Get uniques

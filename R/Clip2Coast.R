@@ -11,7 +11,7 @@
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=TRUE,Buffer=c(10,-15,120))
 #' plot(MyPolys,col='red')
-#' plot(Coast,col='grey',add=TRUE)
+#' plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 #' MyPolysClipped=Clip2Coast(MyPolys)
 #' plot(MyPolysClipped,col='blue',add=TRUE)
 #' #View(MyPolysClipped)
@@ -21,7 +21,7 @@
 #' MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 #' MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 #' plot(MyPolysBefore,col='green')
-#' plot(Coast,add=TRUE)
+#' plot(Coast[Coast$ID=='All',],add=TRUE)
 #' plot(MyPolysAfter,col='red',add=TRUE)
 #' 
 #' @seealso 
@@ -32,7 +32,7 @@
 #' @export
 
 Clip2Coast=function(Input){
-  tmp=gDifference(Input,Coast,byid=TRUE,checkValidity=2,id=as.character(Input$ID))
+  tmp=gDifference(Input,Coast[Coast$ID=='All',],byid=TRUE,checkValidity=2,id=as.character(Input$ID))
   #Get areas
   Ar=round(gArea(tmp,byid=TRUE)/1000000,1)
   if("Buffered_AreaKm2"%in%colnames(Input@data)){

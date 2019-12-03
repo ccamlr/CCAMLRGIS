@@ -47,7 +47,7 @@ Create random point locations inside a polygon and within bathymetry strata cons
 A distance constraint between stations may also be used if desired.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #First, create a polygon within which stations will be created
@@ -67,18 +67,19 @@ BathyCroped=raster::crop(SmallBathy,MyPoly)
 #Example 1: Set numbers of stations, no distance constraint
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
-par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
+Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
 plot(MyPoly,add=TRUE,border='red',lwd=2)
 raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
 plot(MyStations,add=TRUE,col='orange')
+par(Mypar)
 
 #Example 2: Set numbers of stations, with distance constraint
  
 MyStations=create_Stations(MyPoly,BathyCroped,
                          Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
-par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
+Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
 plot(MyPoly,add=TRUE,border='red',lwd=2)
@@ -86,11 +87,12 @@ raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
 plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
 plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
 plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
+par(Mypar)
 
 #Example 3: Automatic numbers of stations, with distance constraint
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
-par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
+Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
 plot(MyPoly,add=TRUE,border='red',lwd=2)
@@ -98,7 +100,7 @@ raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
 plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
 plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
 plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
-
+par(Mypar)
 
 }
 

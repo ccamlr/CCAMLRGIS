@@ -46,7 +46,7 @@ computes the depths at these locations using bilinear interpolation (using \code
 Optionally can also compute the horizontal distance of locations to chosen isobaths.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #Generate a dataframe

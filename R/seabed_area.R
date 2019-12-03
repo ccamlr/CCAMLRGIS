@@ -15,7 +15,7 @@
 #' \code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' 
 #'
 #' #Example 1: Compute fishable area in Research Blocks using the SmallBathy (not recommended)

@@ -27,7 +27,7 @@
 #' \code{\link{SmallBathy}}, \code{\link{create_Points}}, \code{\link{create_Stations}}, \code{\link[raster]{extract}}.
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' 
 #' 
 #' #Generate a dataframe
@@ -57,7 +57,7 @@
 
 get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=FALSE){
 
-  if(ShowProgress==TRUE){cat('Bathymetry computation started',sep='\n')}
+  if(ShowProgress==TRUE){message('Bathymetry computation started',sep='\n')}
     
   #Project Lat/Lon
   xy=project(cbind(Input[,2],Input[,1]), CCAMLRp)
@@ -77,12 +77,14 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=F
   if(is.na(sum(Isobaths))==FALSE & IsoLocs==FALSE){
   IsoD=matrix(nrow=dim(out)[1],ncol=length(Isobaths))
   colnames(IsoD)=Isobaths
-  options(max.contour.segments=1000000000)
+  MyOpt=options(max.contour.segments=1000000000)
+  on.exit(options(MyOpt))          
   }
   if(is.na(sum(Isobaths))==FALSE & IsoLocs==TRUE){
     IsoD=matrix(nrow=dim(out)[1],ncol=3*length(Isobaths))
     colnames(IsoD)=paste0(c('','x','y'),rep(Isobaths,each=3))
-    options(max.contour.segments=1000000000)
+    MyOpt=options(max.contour.segments=1000000000)
+    on.exit(options(MyOpt)) 
   }
   #Loop over groups to get bathy data
   out$z=NA
@@ -175,8 +177,8 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=F
   #Merge with Inputs
   out=cbind(Input,out)
   if(ShowProgress==TRUE){
-    cat('\n')
-    cat('Bathymetry computation ended',sep='\n')
+    message('\n')
+    message('Bathymetry computation ended',sep='\n')
     close(pb)
   }
 

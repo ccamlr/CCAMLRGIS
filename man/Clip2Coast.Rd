@@ -22,7 +22,7 @@ buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}).
 
 MyPolys=create_Polys(PolyData,Densify=TRUE,Buffer=c(10,-15,120))
 plot(MyPolys,col='red')
-plot(Coast,col='grey',add=TRUE)
+plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 MyPolysClipped=Clip2Coast(MyPolys)
 plot(MyPolysClipped,col='blue',add=TRUE)
 #View(MyPolysClipped)
@@ -32,7 +32,7 @@ plot(MyPolysClipped,col='blue',add=TRUE)
 MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green')
-plot(Coast,add=TRUE)
+plot(Coast[Coast$ID=='All',],add=TRUE)
 plot(MyPolysAfter,col='red',add=TRUE)
 
 }
