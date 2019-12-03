@@ -35,9 +35,10 @@ ___
 + 4.1. get_depths
 + 4.2. seabed_area
 + 4.3. assign_areas
-5. Adding colors and legends
+5. Adding colors, legends and labels
 + 5.1. Adding colors
 + 5.2. Adding legends
++ 5.3. Adding labels
 
 ___
 
@@ -594,8 +595,8 @@ head(MyDataD)
 par(mfrow=c(2,1))
 par(mai=c(0.2,0.2,0.01,0.01)) #set plot margins as c(bottom, left, top, right)
 #Plot Catch vs Depth
-XL=c(-4500,-2000) #Set plot x-axis limits
-YL=c(10,90)       #Set plot y-axis limits
+XL=c(-5000,0) #Set plot x-axis limits
+YL=c(10,80)       #Set plot y-axis limits
 plot(MyDataD$d,MyDataD$Catch,xlab='',ylab='',pch=21,bg='red',axes=F,xpd=T,xlim=XL,ylim=YL)
 axis(1,pos=YL[1],tcl=-0.15,lwd=0.8,lwd.ticks=0.8,at=seq(XL[1],XL[2],by=500),cex.axis=0.5,labels=F)
 axis(2,pos=XL[1],tcl=-0.15,lwd=0.8,lwd.ticks=0.8,at=seq(YL[1],YL[2],by=10),cex.axis=0.5,labels=F)
@@ -789,4 +790,52 @@ Loc=add_Cscale(pos='2/2',height=40,mode='Legend')
 legend(Loc,legend=c('one','two','three','four'),
        title='Vessel',pch=Psymbols,pt.bg=Pcolors,xpd=T,
        box.lwd=0.5,cex=0.5,pt.cex=1,y.intersp=1.5)
+```
+
+### 5.3. Adding labels
+
+To add labels, use the add_labels() function:
+
+```{r eval=F}
+?add_labels
+```
+
+Three modes are available within the add_labels function:
+* In 'auto' mode, labels are placed at the centres of polygon parts of spatial objects loaded via the load_ functions. 
+* In 'manual' mode, users may click on their plot to position labels. An editable label table is generated to allow fine-tuning of labels appearance, and may be saved for external use. To edit the label table, double-click inside one of its cells, edit the value, then close the table.
+* In 'input' mode, a label table that was generated in 'manual' mode is re-used.
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+#Example 1: 'auto' mode
+#label ASDs in bold and red
+ASDs=load_ASDs()
+#set plot margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0)) 
+plot(ASDs)
+add_labels(mode='auto',layer='ASDs',fontsize=0.5,fonttype=2,col='red')
+#add MPAs and EEZs and their labels in large, green and vertical text
+MPAs=load_MPAs()
+EEZs=load_EEZs()
+plot(MPAs,add=TRUE,border='green')
+plot(EEZs,add=TRUE,border='green')
+add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
+```
+
+```{r eval=F}
+#Example 2: 'auto' and 'input' modes
+#This example is not executed here because it needs user interaction.
+#Please copy and paste it to see how it works.
+
+#Prepare a basemap
+plot(SmallBathy)
+ASDs=load_ASDs()
+plot(ASDs,add=T)
+
+#Build your labels
+MyLabels=add_labels(mode='manual') 
+
+#Re-use the label table generated (if desired)
+plot(SmallBathy)
+plot(ASDs,add=T)
+add_labels(mode='input',LabelTable=MyLabels)
 ```
