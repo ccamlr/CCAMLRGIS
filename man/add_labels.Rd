@@ -46,7 +46,7 @@ double-click inside one of its cells, edit the value, then close the table.
 In \code{'input'} mode, a label table that was generated in \code{'manual'} mode is re-used.
 }
 \examples{
-\dontrun{
+\donttest{
 
 #Example 1: 'auto' mode
 #label ASDs in bold and red

@@ -57,7 +57,7 @@ To see the data contained in your spatial object, type: \code{View(MyLines@data)
 Create Lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #If your data contains line end locations in separate columns, you may reformat it as follows:

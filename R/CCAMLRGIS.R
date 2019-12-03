@@ -48,10 +48,10 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts',
 #' @import raster
 #' @import geosphere
 #' @importFrom dplyr distinct group_by summarise_all
-#' @importFrom grDevices colorRampPalette
+#' @importFrom grDevices colorRampPalette recordPlot replayPlot
 #' @importFrom graphics par rect segments
 #' @importFrom methods slot
-#' @importFrom utils read.csv setTxtProgressBar txtProgressBar
+#' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit
 #' @importFrom magrittr %>%
 #' @name CCAMLRGIS
 NULL

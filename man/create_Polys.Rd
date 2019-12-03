@@ -56,7 +56,7 @@ To see the data contained in your spatial object, type: \code{View(MyPolygons@da
 Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #Example 1: Simple and non-densified polygons

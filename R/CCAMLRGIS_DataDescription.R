@@ -137,7 +137,7 @@ NULL
 #' @docType data
 #' @format dataframe
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' 
 #' 
 #' #View(Labels)

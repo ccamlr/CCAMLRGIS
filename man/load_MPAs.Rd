@@ -13,7 +13,7 @@ See examples for offline use.
 }
 \examples{
  
-\dontrun{
+\donttest{
 
 #When online:
 MPAs=load_MPAs()
@@ -23,9 +23,9 @@ plot(MPAs)
 # then reload RData when offline:
 MPAs=load_MPAs()
 EEZs=load_EEZs()
-save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+save(list=c('MPAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 rm(MPAs,EEZs)
-load("CCAMLRLayers.RData")
+load("MyFolder/CCAMLRLayers.RData")
 
 }
 

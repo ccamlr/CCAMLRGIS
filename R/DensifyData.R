@@ -7,7 +7,7 @@ DensifyData=function(Lon,Lat){
   for (di in (1:(length(Lon)-1))){
     if ((Lat[di+1]==Lat[di]) & (Lon[di+1]!=Lon[di])){
       alpha=((Lon[di+1]-Lon[di])+180)%%360-180
-      if (abs(alpha)==180){cat("WARNING: a line of isolatitude is exactly 180 degrees wide in longitude","\n","Please add an intermediate point in the line","\n")}
+      if (abs(alpha)==180){warning("A line of isolatitude is exactly 180 degrees wide in longitude","\n","Please add an intermediate point in the line","\n")}
       if (alpha>0){if (length(which(GridLon>Lon[di] & GridLon<Lon[di+1]))>0){GridLoc=GridLon[(which(GridLon>Lon[di] & GridLon<Lon[di+1]))]}
         else{GridLoc=c(GridLon[which(GridLon>Lon[di])],GridLon[which(GridLon<Lon[di+1])])}
       }

@@ -16,7 +16,8 @@
 #'
 #' #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 #' 
-#' par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
+#' Mypar=par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
+#' par(Mypar)
 #' plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
 #' 
@@ -24,7 +25,8 @@
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=TRUE)
 #' BathyC=raster::crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
-#' par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
+#' Mypar=par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
+#' par(Mypar)
 #' plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_RefGrid(bb=bbox(BathyC),ResLat=2,ResLon=6)
 #' plot(MyPolys,add=TRUE,col='orange',border='brown',lwd=2)
@@ -171,8 +173,9 @@ LonLabs$Lon[indxW]=paste0(abs(LonLabs$Lon[indxW]),'W')
 LonLabs$Lon[indxE]=paste0(LonLabs$Lon[indxE],'E')
 LonLabs$Lon[LonLabs$Lon%in%c('180','-180')]='180'
 
-par(xpd=TRUE)
+Mypar=par(xpd=TRUE)
 plot(gr,lty=3,add=TRUE,lwd=lwd)
+par(Mypar)
 if(0.5%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==0.5],LatLabs$y[LatLabs$xadj==0.5],LatLabs$Lat[LatLabs$xadj==0.5],
        cex=fontsize,adj=c(0.5,0.5),xpd=TRUE)}

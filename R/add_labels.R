@@ -28,7 +28,7 @@
 #' \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
 #'  
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' 
 #' #Example 1: 'auto' mode
 #' #label ASDs in bold and red
@@ -84,8 +84,8 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
     values(Gr)=NA
     #First label
     replayPlot(P)
-    cat('Click on your figure to add a label\n')
-    cat('Then edit the label table and close it\n')
+    message('Click on your figure to add a label\n')
+    message('Then edit the label table and close it\n')
     a=click(Gr,xy=T,n=1,show=F)
     Lab=rbind(Lab,
               data.frame(
@@ -117,8 +117,8 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
     x=readline('Add a new label (y/n)?')
     if(x=='y'){
       while(x!='n'){
-        cat('Click on your figure to add a label\n')
-        cat('Then edit the label table and close it\n')
+        message('Click on your figure to add a label\n')
+        message('Then edit the label table and close it\n')
         a=click(Gr,xy=T,n=1,show=F)
         Lab=rbind(Lab,
                   data.frame(

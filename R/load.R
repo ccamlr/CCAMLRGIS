@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' ASDs=load_ASDs()
@@ -21,9 +21,9 @@
 #' # then reload RData when offline:
 #' ASDs=load_ASDs()
 #' EEZs=load_EEZs()
-#' save(list=c('ASDs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('ASDs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(ASDs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 
@@ -47,7 +47,7 @@ load_ASDs=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' SSRUs=load_SSRUs()
@@ -57,9 +57,9 @@ load_ASDs=function(){
 #' # then reload RData when offline:
 #' SSRUs=load_SSRUs()
 #' EEZs=load_EEZs()
-#' save(list=c('SSRUs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('SSRUs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(SSRUs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -83,7 +83,7 @@ load_SSRUs=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' Coastline=load_Coastline()
@@ -93,9 +93,9 @@ load_SSRUs=function(){
 #' # then reload RData when offline:
 #' Coastline=load_Coastline()
 #' EEZs=load_EEZs()
-#' save(list=c('Coastline','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('Coastline','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(Coastline,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -119,7 +119,7 @@ load_Coastline=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' RBs=load_RBs()
@@ -129,9 +129,9 @@ load_Coastline=function(){
 #' # then reload RData when offline:
 #' RBs=load_RBs()
 #' EEZs=load_EEZs()
-#' save(list=c('RBs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('RBs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(RBs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -155,7 +155,7 @@ load_RBs=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' SSMUs=load_SSMUs()
@@ -165,9 +165,9 @@ load_RBs=function(){
 #' # then reload RData when offline:
 #' SSMUs=load_SSMUs()
 #' EEZs=load_EEZs()
-#' save(list=c('SSMUs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('SSMUs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(SSMUs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -191,7 +191,7 @@ load_SSMUs=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' MAs=load_MAs()
@@ -201,9 +201,9 @@ load_SSMUs=function(){
 #' # then reload RData when offline:
 #' MAs=load_MAs()
 #' EEZs=load_EEZs()
-#' save(list=c('MAs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('MAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(MAs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -227,7 +227,7 @@ load_MAs=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' RefAreas=load_RefAreas()
@@ -237,9 +237,9 @@ load_MAs=function(){
 #' # then reload RData when offline:
 #' RefAreas=load_RefAreas()
 #' EEZs=load_EEZs()
-#' save(list=c('RefAreas','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('RefAreas','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(RefAreas,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -264,7 +264,7 @@ load_RefAreas=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' MPAs=load_MPAs()
@@ -274,9 +274,9 @@ load_RefAreas=function(){
 #' # then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
-#' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('MPAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(MPAs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 
@@ -301,7 +301,7 @@ load_MPAs=function(){
 #' 
 #' @export
 #' @examples  
-#' \dontrun{
+#' \donttest{
 #' 
 #' #When online:
 #' EEZs=load_EEZs()
@@ -311,9 +311,9 @@ load_MPAs=function(){
 #' # then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
-#' save(list=c('MPAs','EEZs'), file = "CCAMLRLayers.RData")
+#' save(list=c('MPAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
 #' rm(MPAs,EEZs)
-#' load("CCAMLRLayers.RData")
+#' load("MyFolder/CCAMLRLayers.RData")
 #' 
 #' }
 #' 

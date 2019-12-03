@@ -10,7 +10,7 @@ Labels for the layers obtained via 'load_' functions. Positions correspond to th
 of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #View(Labels)

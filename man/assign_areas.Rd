@@ -52,7 +52,7 @@ finds in which polygon those locations fall.
 Finds, for example, in which ASD the given fishing locations occurred.
 }
 \examples{
-\dontrun{
+\donttest{
 
 
 #Generate a dataframe
