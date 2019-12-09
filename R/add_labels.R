@@ -46,13 +46,13 @@
 #' #Example 2: 'manual' mode (you will have to do it yourself)
 #' plot(SmallBathy)
 #' ASDs=load_ASDs()
-#' plot(ASDs,add=T)
+#' plot(ASDs,add=TRUE)
 #' MyLabels=add_labels(mode='manual')
 #' 
 #' 
 #' #Example 3: Re-use the label table generated in Example 2
 #' plot(SmallBathy)
-#' plot(ASDs,add=T)
+#' plot(ASDs,add=TRUE)
 #' add_labels(mode='input',LabelTable=MyLabels)
 #' 
 #' 
@@ -86,7 +86,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
     replayPlot(P)
     message('Click on your figure to add a label\n')
     message('Then edit the label table and close it\n')
-    a=click(Gr,xy=T,n=1,show=F)
+    a=click(Gr,xy=TRUE,n=1,show=FALSE)
     Lab=rbind(Lab,
               data.frame(
                 x=a$x,
@@ -96,7 +96,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
                 fonttype=1,
                 angle=0,
                 col='black',
-                stringsAsFactors=F
+                stringsAsFactors=FALSE
               )
     )
     for(ang in unique(Lab$angle)){
@@ -114,12 +114,14 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
            col=Lab$col[Lab$angle==ang])
     }
     #Next labels
-    x=readline('Add a new label (y/n)?')
-    if(x=='y'){
-      while(x!='n'){
+    xx=menu(c('Add a new label','Edit the label table'),title = 'What would you like to do?')
+    
+    while(xx!=3){
+ 
+            if(xx==1){
         message('Click on your figure to add a label\n')
         message('Then edit the label table and close it\n')
-        a=click(Gr,xy=T,n=1,show=F)
+        a=click(Gr,xy=TRUE,n=1,show=FALSE)
         Lab=rbind(Lab,
                   data.frame(
                     x=a$x,
@@ -129,7 +131,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
                     fonttype=1,
                     angle=0,
                     col='black',
-                    stringsAsFactors=F
+                    stringsAsFactors=FALSE
                   )
         )
         for(ang in unique(Lab$angle)){
@@ -146,13 +148,11 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
                font=Lab$fonttype[Lab$angle==ang],srt=ang,
                col=Lab$col[Lab$angle==ang])
         }
-        x=readline('Add a new label (y/n)?')
-      }
+      
     }
     
-    x=readline('Would you like to edit your label table (y/n)?')
-    if(x=='y'){
-      while(x!='n'){
+      if(xx==2){
+        message('Edit the label table and close it\n')
         Lab=suppressWarnings(edit(Lab))
         replayPlot(P)
         for(ang in unique(Lab$angle)){
@@ -161,9 +161,11 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
                font=Lab$fonttype[Lab$angle==ang],srt=ang,
                col=Lab$col[Lab$angle==ang])
         }
-        x=readline('Would you like to edit your label table (y/n)?')
       }
-    }
+      xx=menu(c('Add a new label','Edit the label table','Exit'),title = 'What would you like to do?')
+      
+      
+    }  
     return(Lab)
   }
   if(mode=='input'){
