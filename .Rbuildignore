@@ -9,5 +9,5 @@
 ^Meta$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
-^CCAMLRLayers.RData
-^README.html
+^CCAMLRLayers.RData$
+^README.html$
