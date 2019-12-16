@@ -23,9 +23,9 @@ plot(RefAreas)
 # then reload RData when offline:
 RefAreas=load_RefAreas()
 EEZs=load_EEZs()
-save(list=c('RefAreas','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+save(list=c('RefAreas','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 rm(RefAreas,EEZs)
-load("MyFolder/CCAMLRLayers.RData")
+load(file.path(tempdir(), "CCAMLRLayers.RData"))
 
 }
 

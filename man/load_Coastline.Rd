@@ -23,9 +23,9 @@ plot(Coastline)
 # then reload RData when offline:
 Coastline=load_Coastline()
 EEZs=load_EEZs()
-save(list=c('Coastline','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+save(list=c('Coastline','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 rm(Coastline,EEZs)
-load("MyFolder/CCAMLRLayers.RData")
+load(file.path(tempdir(), "CCAMLRLayers.RData"))
 
 }
 
