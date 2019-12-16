@@ -23,9 +23,9 @@ plot(SSMUs)
 # then reload RData when offline:
 SSMUs=load_SSMUs()
 EEZs=load_EEZs()
-save(list=c('SSMUs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+save(list=c('SSMUs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 rm(SSMUs,EEZs)
-load("MyFolder/CCAMLRLayers.RData")
+load(file.path(tempdir(), "CCAMLRLayers.RData"))
 
 }
 

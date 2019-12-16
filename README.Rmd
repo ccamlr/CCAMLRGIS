@@ -598,12 +598,12 @@ MAs=load_MAs()
 RefAreas=load_RefAreas()
 MPAs=load_MPAs()
 
-#Save as .RData file
+#Save as .RData file (here in the temp directory)
 save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','RefAreas','MPAs'),
-     file = "C:/MyFolder/CCAMLRLayers.RData", compress='xz')
+     file = file.path(tempdir(), "CCAMLRLayers.RData"), compress='xz')
 
 #Later, when offline load layers:
-load("C:/MyFolder/CCAMLRLayers.RData")
+load(file.path(tempdir(), "CCAMLRLayers.RData"))
 ```
 
 ## 4. Other functions

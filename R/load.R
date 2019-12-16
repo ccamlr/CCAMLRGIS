@@ -21,9 +21,9 @@
 #' # then reload RData when offline:
 #' ASDs=load_ASDs()
 #' EEZs=load_EEZs()
-#' save(list=c('ASDs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('ASDs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(ASDs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 
@@ -57,9 +57,9 @@ load_ASDs=function(){
 #' # then reload RData when offline:
 #' SSRUs=load_SSRUs()
 #' EEZs=load_EEZs()
-#' save(list=c('SSRUs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('SSRUs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(SSRUs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -93,9 +93,9 @@ load_SSRUs=function(){
 #' # then reload RData when offline:
 #' Coastline=load_Coastline()
 #' EEZs=load_EEZs()
-#' save(list=c('Coastline','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('Coastline','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(Coastline,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -129,9 +129,9 @@ load_Coastline=function(){
 #' # then reload RData when offline:
 #' RBs=load_RBs()
 #' EEZs=load_EEZs()
-#' save(list=c('RBs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('RBs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(RBs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -165,9 +165,9 @@ load_RBs=function(){
 #' # then reload RData when offline:
 #' SSMUs=load_SSMUs()
 #' EEZs=load_EEZs()
-#' save(list=c('SSMUs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('SSMUs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(SSMUs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -201,9 +201,9 @@ load_SSMUs=function(){
 #' # then reload RData when offline:
 #' MAs=load_MAs()
 #' EEZs=load_EEZs()
-#' save(list=c('MAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('MAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(MAs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -237,9 +237,9 @@ load_MAs=function(){
 #' # then reload RData when offline:
 #' RefAreas=load_RefAreas()
 #' EEZs=load_EEZs()
-#' save(list=c('RefAreas','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('RefAreas','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(RefAreas,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -274,9 +274,9 @@ load_RefAreas=function(){
 #' # then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
-#' save(list=c('MPAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('MPAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(MPAs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 
@@ -311,9 +311,9 @@ load_MPAs=function(){
 #' # then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
-#' save(list=c('MPAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+#' save(list=c('MPAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(MPAs,EEZs)
-#' load("MyFolder/CCAMLRLayers.RData")
+#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
 #' 
 #' }
 #' 

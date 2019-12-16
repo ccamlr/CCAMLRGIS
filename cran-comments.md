@@ -14,4 +14,6 @@
 * cat() was replaced by either warning() or message() when needed
 * replaced dontrun{} by donttest{} (necessary because some example are slow, because they use a call to load a GEOJSON file from an online source - and this seems slow during checks())
 * modified par() calls as requested
-* directed save() calls to a fake directory
+* directed save() calls to temp directory
+* added more details in description file
+

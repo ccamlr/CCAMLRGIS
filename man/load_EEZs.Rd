@@ -23,9 +23,9 @@ plot(EEZs)
 # then reload RData when offline:
 MPAs=load_MPAs()
 EEZs=load_EEZs()
-save(list=c('MPAs','EEZs'), file = "MyFolder/CCAMLRLayers.RData")
+save(list=c('MPAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 rm(MPAs,EEZs)
-load("MyFolder/CCAMLRLayers.RData")
+load(file.path(tempdir(), "CCAMLRLayers.RData"))
 
 }
 
