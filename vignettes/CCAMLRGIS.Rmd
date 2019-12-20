@@ -141,10 +141,16 @@ Gpmcr500N=raster(' Path to the folder containing the data /GEBCOpmc.tif')
 
 #### Circumpolar map:
 
-```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
+```{r, echo=TRUE, cache=TRUE}
 #Load ASDs and EEZs
 ASDs=load_ASDs()
+proj4string(ASDs)
 EEZs=load_EEZs()
+proj4string(EEZs)
+```
+
+
+```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
@@ -652,7 +658,7 @@ For details, type:
 ```{r message=FALSE,eval=TRUE}
 #Generate a dataframe with random locations
 MyData=data.frame(Lat=runif(100,min=-65,max=-50),
-                  Lon=runif(100,min=20,max=40))
+                    Lon=runif(100,min=20,max=40))
 #The input data looks like this:
 head(MyData)
 
