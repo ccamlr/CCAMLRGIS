@@ -30,7 +30,8 @@
 load_ASDs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
-  ASD_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  ASD_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(ASD_data)
 }
 
@@ -66,7 +67,8 @@ load_ASDs=function(){
 load_SSRUs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
-  SSRU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  SSRU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(SSRU_data)
 }
 
@@ -102,7 +104,8 @@ load_SSRUs=function(){
 load_Coastline=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
-  Coastline_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  Coastline_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(Coastline_data)
 }
 
@@ -138,7 +141,8 @@ load_Coastline=function(){
 load_RBs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
-  RB_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  RB_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(RB_data)
 }
 
@@ -174,7 +178,8 @@ load_RBs=function(){
 load_SSMUs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
-  SSMU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose=FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  SSMU_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose=FALSE)
   return(SSMU_data)
 }
 
@@ -210,7 +215,8 @@ load_SSMUs=function(){
 load_MAs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-  MA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  MA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(MA_data)
 }
 
@@ -247,7 +253,8 @@ load_MAs=function(){
 load_RefAreas=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-  RA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  RA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(RA_data)
 }
 
@@ -284,7 +291,8 @@ load_RefAreas=function(){
 load_MPAs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
-  MPA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  MPA_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(MPA_data)
 }
 
@@ -321,6 +329,7 @@ load_MPAs=function(){
 load_EEZs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
-  EEZ_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE)
+  p4s="+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  EEZ_data=readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=p4s,verbose = FALSE)
   return(EEZ_data)
 }

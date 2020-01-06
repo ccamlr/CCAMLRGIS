@@ -9,6 +9,7 @@
 
 ## Notes about CRAN edits
 
+* Added p4s argument in load functions to force the Lambert azimuthal equal-area projection when loading via GEOJSON.
 * replaced T by TRUE and F by FALSE
 * on.exit() was used in the get_depths function (option call is needed to produce acurate contours)
 * cat() was replaced by either warning() or message() when needed

@@ -206,7 +206,13 @@ Gpmcr500N=raster(' Path to the folder containing the data /GEBCOpmc.tif')
 ``` r
 #Load ASDs and EEZs
 ASDs=load_ASDs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 EEZs=load_EEZs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
@@ -235,6 +241,9 @@ par(Mypar)
 ``` r
 #Load ASDs
 ASDs=load_ASDs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 #Subsample ASDs to only keep Subarea 48.6
 S486=ASDs[ASDs$GAR_Short_Label=='486',]
 #Crop bathymetry to match the extent of S486
@@ -255,8 +264,8 @@ add_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.75,lwd=0.75,offset = 100
 plot(S486,add=T,lwd=1,border='red')
 #Add a -2000m contour
 raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
-#Add single label at the centre of the polygon
-l=rgeos::polygonsLabel(S486,labels='48.6',col='red',cex=1.5)
+#Add single label at the centre of the polygon (see ?Labels)
+text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red',cex=1.5)
 ```
 
 <img src="README-unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" />
@@ -672,8 +681,17 @@ For details, type:
 
 #Load ASDs, EEZs, and Coastline
 ASDs=load_ASDs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 EEZs=load_EEZs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 Coastline=load_Coastline()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0,0,0))
@@ -1021,13 +1039,22 @@ Three modes are available within the add\_labels function:
 #Example 1: 'auto' mode
 #label ASDs in bold and red
 ASDs=load_ASDs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 #set plot margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0,0,0))
 plot(ASDs)
 add_labels(mode='auto',layer='ASDs',fontsize=0.75,fonttype=2,col='red')
 #add MPAs and EEZs and their labels in large, green and vertical text
 MPAs=load_MPAs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 EEZs=load_EEZs()
+#> Warning in readOGR(dsn = ccamlrgisurl, layer = "OGRGeoJSON", p4s = p4s, : p4s= argument given as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0
+#>  and read as: +proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#>  read string overridden by given p4s= argument value
 plot(MPAs,add=TRUE,border='green')
 plot(EEZs,add=TRUE,border='green')
 add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)

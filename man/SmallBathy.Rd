@@ -5,6 +5,9 @@
 \alias{SmallBathy}
 \title{Small bathymetry dataset}
 \format{raster}
+\usage{
+data(SmallBathy)
+}
 \description{
 Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
