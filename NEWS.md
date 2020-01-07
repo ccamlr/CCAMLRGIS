@@ -1,3 +1,7 @@
+# CCAMLRGIS 3.0.1
+
+Added p4s argument in load functions to force the Lambert azimuthal equal-area projection when loading via GEOJSON. 
+
 # CCAMLRGIS 3.0.0
 
 Recoded the entire package

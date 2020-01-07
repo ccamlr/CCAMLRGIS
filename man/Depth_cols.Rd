@@ -5,6 +5,9 @@
 \alias{Depth_cols}
 \title{Bathymetry colors}
 \format{Character vector}
+\usage{
+data(Depth_cols)
+}
 \description{
 Set of standard colors to plot bathymetry, to be used in conjunction with \link{Depth_cuts}.
 }

@@ -4,6 +4,7 @@
 #' Source: \url{http://gis.ccamlr.org/}
 #' 
 #' @docType data
+#' @usage data(CCAMLRp)
 #' @format Character string
 #' @return "+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 #' @name CCAMLRp
@@ -16,6 +17,7 @@ NULL
 #' ASDs or EEZs. Source: \url{http://gis.ccamlr.org/}
 #'
 #' @docType data
+#' @usage data(Coast)
 #' @format SpatialPolygonsDataFrame
 #' @examples 
 #' #Complete coastline:
@@ -32,6 +34,7 @@ NULL
 #' Set of standard colors to plot bathymetry, to be used in conjunction with \link{Depth_cuts}.
 #'
 #' @docType data
+#' @usage data(Depth_cols)
 #' @format Character vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
@@ -43,6 +46,7 @@ NULL
 #' Set of depth classes to plot bathymetry, to be used in conjunction with \link{Depth_cols}.
 #'
 #' @docType data
+#' @usage data(Depth_cuts)
 #' @format Numeric vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
@@ -54,6 +58,7 @@ NULL
 #' To be used in conjunction with \link{create_PolyGrids}.
 #'
 #' @docType data
+#' @usage data(GridData)
 #' @format DataFrame
 #' @examples 
 #' #View(GridData)
@@ -69,6 +74,7 @@ NULL
 #' To be used in conjunction with \link{create_Lines}.
 #'
 #' @docType data
+#' @usage data(LineData)
 #' @format DataFrame
 #' @examples  
 #' #View(LineData)
@@ -84,6 +90,7 @@ NULL
 #' To be used in conjunction with \link{create_Points}.
 #'
 #' @docType data
+#' @usage data(PointData)
 #' @format DataFrame
 #' @examples 
 #' #View(PointData)
@@ -101,6 +108,7 @@ NULL
 #' To be used in conjunction with \link{create_Polys}.
 #'
 #' @docType data
+#' @usage data(PolyData)
 #' @format DataFrame
 #' @examples 
 #' #View(PolyData)
@@ -122,6 +130,7 @@ NULL
 #' (\code{browseVignettes("CCAMLRGIS")}; see Section 1) to produce a higher resolution raster, suitable for analyses.
 #'
 #' @docType data
+#' @usage data(SmallBathy)
 #' @format raster
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
@@ -132,9 +141,10 @@ NULL
 #' Polygon labels
 #'
 #' Labels for the layers obtained via 'load_' functions. Positions correspond to the centroids
-#' of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
+#' of polygon parts. Can be used in conjunction with \code{\link{add_labels}}.
 #' 
 #' @docType data
+#' @usage data(Labels)
 #' @format dataframe
 #' @examples 
 #' \donttest{

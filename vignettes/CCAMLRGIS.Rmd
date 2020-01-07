@@ -189,8 +189,8 @@ add_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.4,lwd=0.5,offset = 10000
 plot(S486,add=TRUE,lwd=0.5,border='red')
 #Add a -2000m contour
 raster::contour(B486,levels=-2000,add=TRUE,lwd=0.5,labcex=0.3)
-#Add single label at the centre of the polygon
-l=rgeos::polygonsLabel(S486,labels='48.6',col='red')
+#Add single label at the centre of the polygon (see ?Labels)
+text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red')
 par(Mypar)
 ```
 

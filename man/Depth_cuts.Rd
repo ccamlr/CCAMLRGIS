@@ -5,6 +5,9 @@
 \alias{Depth_cuts}
 \title{Bathymetry depth classes}
 \format{Numeric vector}
+\usage{
+data(Depth_cuts)
+}
 \description{
 Set of depth classes to plot bathymetry, to be used in conjunction with \link{Depth_cols}.
 }
