@@ -4,7 +4,9 @@
 \name{PointData}
 \alias{PointData}
 \title{Example dataset for create_Points}
-\format{DataFrame}
+\format{
+DataFrame
+}
 \usage{
 data(PointData)
 }

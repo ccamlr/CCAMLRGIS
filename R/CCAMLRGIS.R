@@ -1,4 +1,4 @@
-utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts',
+utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols2','Depth_cuts2',
 'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID'))
 #' 
 #' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.

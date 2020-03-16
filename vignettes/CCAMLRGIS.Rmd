@@ -36,9 +36,10 @@ ___
 + 4.2. seabed_area
 + 4.3. assign_areas
 5. Adding colors, legends and labels
-+ 5.1. Adding colors
-+ 5.2. Adding legends
-+ 5.3. Adding labels
++ 5.1. Bathymetry colors
++ 5.2. Adding colors to data
++ 5.3. Adding legends
++ 5.4. Adding labels
 
 ___
 
@@ -675,7 +676,38 @@ table(MyData$MySSRUs)
 
 ## 5. Adding colors, legends and labels
 
-### 5.1. Adding colors
+### 5.1. Bathymetry colors
+
+Coloring bathymetry requires a vector of depth classes and a vector of colors. Colors are applied between depth classes (so there is one less color than there are depth classes).
+Two sets of bathymetry colors are included in the package. One simply colors the bathyrmetry in shades of blue (Depth_cols and Depth_cuts), the other adds shades of green to highlight the Fishable Depth (600-1800m; Depth_cols2 and Depth_cuts2).
+
+#### Simple set of colors:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+#Set the figure margins as c(bottom, left, top, right)
+Mypar<-par(mai=c(0,0.4,0,0))
+#Plot the bathymetry
+plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
+#Add color scale
+add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.4,height=65,offset=600,width=25)
+par(Mypar)
+```
+
+#### Highlighting the Fishable Depth range:
+
+```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+#Set the figure margins as c(bottom, left, top, right)
+Mypar<-par(mai=c(0,0.4,0,0))
+#Plot the bathymetry
+plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE)
+#Add color scale
+add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.4,height=65,offset=600,width=25)
+par(Mypar)
+```
+
+
+
+### 5.2. Adding colors to data
 
 Adding colors to plots revolves around two functions:
 
@@ -749,7 +781,7 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=26
 par(Mypar)
 ```
 
-### 5.2. Adding legends
+### 5.3. Adding legends
 
 To add a legend, use the base legend() function:
 
@@ -794,7 +826,7 @@ legend(Loc,legend=c('one','two','three','four'),
 par(Mypar)
 ```
 
-### 5.3. Adding labels
+### 5.4. Adding labels
 
 To add labels, use the add_labels() function:
 

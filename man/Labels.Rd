@@ -4,7 +4,9 @@
 \name{Labels}
 \alias{Labels}
 \title{Polygon labels}
-\format{dataframe}
+\format{
+dataframe
+}
 \usage{
 data(Labels)
 }

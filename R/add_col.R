@@ -61,6 +61,7 @@ add_col=function(var,cuts=100,cols=c('green','yellow','red')){
     cutsTo=cuts
   } 
   colsTo=pal(length(cutsTo)-1)
-  varcol=colsTo[cut(var,cutsTo,include.lowest=TRUE,right=FALSE)]
+  if(length(unique(quantile(var,na.rm=T)))==1){varcol=rep(colsTo[1],length(var))}else{
+    varcol=colsTo[cut(var,cutsTo,include.lowest=TRUE,right=FALSE)]}
   return(list('cuts'=cutsTo,'cols'=colsTo,'varcol'=varcol))
 }

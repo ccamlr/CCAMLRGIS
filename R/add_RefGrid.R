@@ -50,14 +50,18 @@ if(is.na(sum(offset))==TRUE){
   offsetx=0.01*xd
   yd=ymax-ymin
   offsety=0.02*yd
+  if(is.na(LabLon)==FALSE){offsetx=0}
 }else{
   if(length(offset)==1){offsetx=offset;offsety=offset}else{offsetx=offset[1];offsety=offset[2]}
 }
 
 #Create Lat/Lon grid
 x=Spatial(cbind(min=c(-180,-80),max=c(180,-45)),proj4string=CRS("+proj=longlat +ellps=WGS84"))
-gr=gridlines(x,easts=seq(-180,180,by=ResLon),norths=seq(-80,-45,by=ResLat),ndiscr = 1000)
-
+if(is.na(LabLon)==FALSE){
+  gr=gridlines(x,easts=sort(unique(c(seq(-180,180,by=ResLon),LabLon))),norths=seq(-80,-45,by=ResLat),ndiscr = 1000) 
+}else{
+  gr=gridlines(x,easts=seq(-180,180,by=ResLon),norths=seq(-80,-45,by=ResLat),ndiscr = 1000)
+}
 
 #Create box
 LocsP=SpatialLines(list(Lines(list(Line(Locs)),'name')), proj4string=CRS(CCAMLRp))
@@ -79,7 +83,7 @@ if(is.na(LabLon)==FALSE){
   LatLabs=Labs[Labs$Lon==LabLon,]
   LonLabs=Labs[Labs$Lat==max(Labs$Lat),]
   #Offset Longitude labels
-  Lps=SpatialPoints(cbind(seq(-180,180,by=ResLon),-43),proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  Lps=SpatialPoints(cbind(sort(unique(c(seq(-180,180,by=ResLon),LabLon))),-43+offsetx),proj4string=CRS("+proj=longlat +ellps=WGS84"))
   Lps=spTransform(Lps,CRS(CCAMLRp))
   Lps=coordinates(Lps)
   LonLabs$x=Lps[,1]
