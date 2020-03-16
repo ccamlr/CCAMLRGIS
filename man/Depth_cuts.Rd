@@ -4,7 +4,9 @@
 \name{Depth_cuts}
 \alias{Depth_cuts}
 \title{Bathymetry depth classes}
-\format{Numeric vector}
+\format{
+Numeric vector
+}
 \usage{
 data(Depth_cuts)
 }
@@ -15,5 +17,5 @@ Set of depth classes to plot bathymetry, to be used in conjunction with \link{De
 plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 }
 \seealso{
-\code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
+\code{\link{Depth_cuts2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 }

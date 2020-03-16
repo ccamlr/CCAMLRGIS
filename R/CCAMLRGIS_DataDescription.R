@@ -37,7 +37,7 @@ NULL
 #' @usage data(Depth_cols)
 #' @format Character vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
-#' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
+#' @seealso \code{\link{Depth_cols2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
 
@@ -49,8 +49,32 @@ NULL
 #' @usage data(Depth_cuts)
 #' @format Numeric vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
-#' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
+#' @seealso  \code{\link{Depth_cuts2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
+NULL
+
+#' Bathymetry colors with Fishable Depth range
+#'
+#' Set of colors to plot bathymetry and highlight Fishable Depth range, to be used in conjunction with \link{Depth_cuts2}.
+#'
+#' @docType data
+#' @usage data(Depth_cols2)
+#' @format Character vector
+#' @examples plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
+#' @seealso \code{\link{Depth_cols}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
+#' @name Depth_cols2
+NULL
+
+#' Bathymetry depth classes with Fishable Depth range
+#'
+#' Set of depth classes to plot bathymetry and highlight Fishable Depth range, to be used in conjunction with \link{Depth_cols2}.
+#'
+#' @docType data
+#' @usage data(Depth_cuts2)
+#' @format Numeric vector
+#' @examples plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
+#' @seealso  \code{\link{Depth_cuts}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
+#' @name Depth_cuts2
 NULL
 
 #' Example dataset for create_PolyGrids
@@ -126,6 +150,7 @@ NULL
 #' Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 #' Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
 #' and a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+#' To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 #' \strong{To be only used for large scale illustrative purposes}. Please refer to the package's vignette
 #' (\code{browseVignettes("CCAMLRGIS")}; see Section 1) to produce a higher resolution raster, suitable for analyses.
 #'
@@ -134,7 +159,7 @@ NULL
 #' @format raster
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
-#' \code{\link{get_depths}}, \code{\link{create_Stations}}.
+#' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}}, \code{\link{create_Stations}}.
 #' @name SmallBathy
 NULL
 

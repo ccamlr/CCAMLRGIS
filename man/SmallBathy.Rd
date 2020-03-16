@@ -4,7 +4,9 @@
 \name{SmallBathy}
 \alias{SmallBathy}
 \title{Small bathymetry dataset}
-\format{raster}
+\format{
+raster
+}
 \usage{
 data(SmallBathy)
 }
@@ -12,6 +14,7 @@ data(SmallBathy)
 Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
 Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
 and a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 \strong{To be only used for large scale illustrative purposes}. Please refer to the package's vignette
 (\code{browseVignettes("CCAMLRGIS")}; see Section 1) to produce a higher resolution raster, suitable for analyses.
 }
@@ -20,5 +23,5 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 }
 \seealso{
 \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
-\code{\link{get_depths}}, \code{\link{create_Stations}}.
+\code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}}, \code{\link{create_Stations}}.
 }

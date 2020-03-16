@@ -1,8 +1,8 @@
 Type: Package
 Package: CCAMLRGIS
 Title: Antarctic Spatial Data Manipulation
-Version: 3.0.1
-Date: 2020-01-07
+Version: 3.0.2
+Date: 2020-03-16
 Authors@R:
     c(person("Stephane","Thanassekos",role = c("aut", "cre"), email = "stephane.thanassekos@ccamlr.org"),
     person("Keith", "Reid", role = "aut"),
@@ -28,6 +28,6 @@ Imports:
     graphics,
     grDevices,
     magrittr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

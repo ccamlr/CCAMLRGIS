@@ -9,6 +9,8 @@ if(all(is.na(c(dlon,dlat,Area)))){
   
   data=Input
   colnames(data)[1:2]=c("lat","lon")
+  #If only Lat and Lon are provided, add a 'Count' column to simply grid counts of observations
+  if(dim(data)[2]==2){data$Count=1}
   
 if(is.na(Area)==TRUE){
   #Prepare Lat/Lon grid
@@ -55,6 +57,10 @@ if(is.na(Area)==TRUE){
   s=sqrt(Area)   #first rough estimate of length of cell side
   PolyIndx=1     #Index of polygon (cell)
   Group = list() #Initialize storage of cells
+  
+  #Shift round latitudes otherwise they will not be assigned to a cell
+  indx=which(abs(data$lat - round(data$lat))<0.0001)
+  if(length(indx)>0){data$lat[indx]=round(data$lat[indx])-0.0001}
   
   StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+proj=longlat +ellps=WGS84"))
   LatS=0

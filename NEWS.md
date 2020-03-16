@@ -1,3 +1,14 @@
+# CCAMLRGIS 3.0.2
+
+Simplified Depth_cols and Depth_cuts. Added Depth_cols2 and Depth_cuts2 in which the Fishable Depth is highlighted in shades of green.
+
+In create_PolyGrids, when using equal area, added a condition to shift latitudes by -0.0001 degree for those latitudes that are too close to an integer value. Without this fix, those latitudes were not assigned to a grid cell as they were falling on an edge between cells.
+
+In create_PolyGrids, added the possibility to only input Lat/Lon without data, in which case the count of locations is gridded.
+
+In add_RefGrid, added the possibility to place LabLon wherever desired (ie not constrained to the grid produced by ResLat and ResLon).
+
+
 # CCAMLRGIS 3.0.1
 
 Added p4s argument in load functions to force the Lambert azimuthal equal-area projection when loading via GEOJSON. 

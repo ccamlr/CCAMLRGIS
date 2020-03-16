@@ -4,7 +4,9 @@
 \name{Coast}
 \alias{Coast}
 \title{Coast}
-\format{SpatialPolygonsDataFrame}
+\format{
+SpatialPolygonsDataFrame
+}
 \usage{
 data(Coast)
 }

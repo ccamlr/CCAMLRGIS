@@ -4,7 +4,9 @@
 \name{GridData}
 \alias{GridData}
 \title{Example dataset for create_PolyGrids}
-\format{DataFrame}
+\format{
+DataFrame
+}
 \usage{
 data(GridData)
 }
