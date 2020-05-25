@@ -4,7 +4,10 @@
 \alias{load_RefAreas}
 \title{Load CCAMLR Reference Areas}
 \usage{
-load_RefAreas()
+load_RefAreas(p4s = "+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs")
+}
+\arguments{
+  \item{p4s}{Coordinate reference system in proj4string representation.}
 }
 \description{
 Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.

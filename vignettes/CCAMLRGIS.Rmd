@@ -641,6 +641,7 @@ For details, type:
 #create some polygons
 MyPolys=create_Polys(PolyData,Densify=TRUE)
 #compute the seabed areas
+proj4string(SmallBathy) <- proj4string(MyPolys)
 FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #Result looks like this (note that the -600m to -1800m is renamed 'Fishable_area')
 head(FishDepth)

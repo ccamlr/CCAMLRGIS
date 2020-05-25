@@ -97,6 +97,7 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
         tmpArea=gBuffer(tmpArea,width=Buffer[i]*1852,byid=TRUE)
     }
     #Match points to polygons
+    slot(tmpArea, "proj4string") <- CRS(CCAMLRp)
     match=over(SPls,tmpArea)
     #Store results (an Area name per unique location)
     Assigned_Areas[,NamesOut[i]]=as.character(match[,AreaNameFormat[i]])
