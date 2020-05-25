@@ -4,7 +4,12 @@
 \name{Coast}
 \alias{Coast}
 \title{Coast}
-\format{SpatialPolygonsDataFrame}
+\format{
+SpatialPolygonsDataFrame
+}
+\usage{
+data(Coast)
+}
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 within the CCAMLR boundaries. This spatial object may be subsetted to plot the coastline for selected

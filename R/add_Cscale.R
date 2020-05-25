@@ -23,6 +23,7 @@
 #' 
 #' @seealso 
 #' \code{\link{SmallBathy}}, \code{\link{Depth_cuts}}, \code{\link{Depth_cols}}, \code{\link{add_col}},
+#' \code{\link{Depth_cuts2}}, \code{\link{Depth_cols2}},
 #' \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}, \code{\link[graphics]{legend}}.
 #' 
 #' @examples
@@ -33,19 +34,25 @@
 #' add_Cscale(height=95)
 #' par(Mypar)
 #' 
-#' #Example 2: Show only values greater than 'minVal'
+#' #' #Example 2: simple bathymetry plot with Fishable Depth range highlight and color scale
+#' Mypar=par(mai=c(0,0,0,1)) #plot margins as c(bottom, left, top, right)
+#' plot(SmallBathy, breaks=Depth_cuts2, col=Depth_cols2, legend=FALSE,axes=FALSE,box=FALSE)
+#' add_Cscale(height=95,cuts=Depth_cuts2,cols=Depth_cols2)
+#' par(Mypar)
+#' 
+#' #Example 3: Show only values greater than 'minVal'
 #' Mypar=par(mai=c(0,0,0,1)) #plot margins as c(bottom, left, top, right),
 #' plot(SmallBathy, breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_Cscale(minVal=-3200)
 #' par(Mypar)
 #' 
-#' #Example 3: Show only values between 'minVal' and 'maxVal'
+#' #Example 4: Show only values between 'minVal' and 'maxVal'
 #' Mypar=par(mai=c(0,0,0,1)) #plot margins as c(bottom, left, top, right)
 #' plot(SmallBathy, breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_Cscale(minVal=-3200,maxVal=-400)
 #' par(Mypar)
 #' 
-#' #Example 4: Adding two color scales
+#' #Example 5: Adding two color scales
 #' 
 #' #Bathymetry
 #' Mypar=par(mai=c(0,0,0,1)) #plot margins as c(bottom, left, top, right)
@@ -61,7 +68,7 @@
 #'            cuts=round(Gridcol$cuts,1),cols=Gridcol$cols,fontsize=0.8)
 #' par(Mypar)
 #' 
-#' #Example 5: Adding a color scale and a legend
+#' #Example 6: Adding a color scale and a legend
 #' 
 #' #Create some point data
 #' MyPoints=create_Points(PointData)

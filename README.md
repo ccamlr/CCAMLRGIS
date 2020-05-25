@@ -18,19 +18,6 @@ You can install the CCAMLRGIS R package from CRAN with:
 install.packages("CCAMLRGIS")
 ```
 
-You can install the CCAMLRGIS R package from github with:
-
-``` r
-#You'll need Rtools:
-http://cran.r-project.org/bin/windows/Rtools/
-#In R, first install devtools:
-install.packages("devtools")
-#rlang is also needed:
-install.packages("rlang")
-#Then install the package:
-devtools::install_github("ccamlr/CCAMLRGIS",build_vignettes=TRUE)
-```
-
 ## Vignette
 
 <center>
@@ -82,9 +69,10 @@ devtools::install_github("ccamlr/CCAMLRGIS",build_vignettes=TRUE)
 
 <!-- end list -->
 
-  - 5.1. Adding colors
-  - 5.2. Adding legends
-  - 5.3. Adding labels
+  - 5.1. Bathymetry colors
+  - 5.2. Adding colors to data
+  - 5.3. Adding legends
+  - 5.4. Adding labels
 
 -----
 
@@ -133,7 +121,7 @@ text(5200000,0,expression('x ('*10^6~'m)'),cex=0.75,col='blue')
 text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 ```
 
-<img src="README-unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -224,7 +212,7 @@ plot(Coast[Coast$ID=='All',],col='grey',lwd=0.01,add=T)
 add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
 ```
 
-<img src="README-unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -255,11 +243,11 @@ add_RefGrid(bb=bbox(B486),ResLat=5,ResLon=10,fontsize=0.75,lwd=0.75,offset = 100
 plot(S486,add=T,lwd=1,border='red')
 #Add a -2000m contour
 raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
-#Add single label at the centre of the polygon
-l=rgeos::polygonsLabel(S486,labels='48.6',col='red',cex=1.5)
+#Add single label at the centre of the polygon (see ?Labels)
+text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red',cex=1.5)
 ```
 
-<img src="README-unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -321,7 +309,7 @@ plot(Coast[Coast$ID=='All',],add=T,col='grey',lwd=0.5)
 box()
 ```
 
-<img src="README-unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -377,7 +365,7 @@ plot(Coast[Coast$ID=='All',],col='grey',add=T,lwd=0.5)
 box()
 ```
 
-<img src="README-unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -401,7 +389,7 @@ plot(MyLines,col='green',lwd=1)
 box()
 ```
 
-<img src="README-unnamed-chunk-17-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-16-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -442,7 +430,7 @@ text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white',cex=0.75)
 box()
 ```
 
-<img src="README-unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -477,7 +465,7 @@ plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 3',cex.main=0.75,lwd=0.1)
 box()
 ```
 
-<img src="README-unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -516,7 +504,7 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=18
 box()
 ```
 
-<img src="README-unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -552,7 +540,7 @@ text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 box()
 ```
 
-<img src="README-unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -584,7 +572,7 @@ plot(MyStations,add=T,col='orange',cex=0.75,lwd=1.5)
 box()
 ```
 
-<img src="README-unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -617,7 +605,7 @@ plot(MyStations[MyStations$Stratum=='2000-1500',],pch=21,bg='red',add=T,cex=0.75
 box()
 ```
 
-<img src="README-unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -649,7 +637,7 @@ plot(MyStations[MyStations$Stratum=='2000-1500',],pch=21,bg='red',add=T,cex=0.75
 box()
 ```
 
-<img src="README-unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-26-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -685,7 +673,7 @@ add_labels(mode='auto',layer='ASDs',fontsize=0.75,col='red')
 box()
 ```
 
-<img src="README-unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -786,7 +774,7 @@ segments(x0=MyDataD$x,
          y1=MyDataD$Y_3000,col='red')
 ```
 
-<img src="README-unnamed-chunk-32-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-31-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -854,7 +842,50 @@ table(MyData$MySSRUs)
 
 ## 5\. Adding colors, legends and labels
 
-### 5.1. Adding colors
+### 5.1. Bathymetry colors
+
+Coloring bathymetry requires a vector of depth classes and a vector of
+colors. Colors are applied between depth classes (so there is one less
+color than there are depth classes). Two sets of bathymetry colors are
+included in the package. One simply colors the bathyrmetry in shades of
+blue (Depth\_cols and Depth\_cuts), the other adds shades of green to
+highlight the Fishable Depth (600-1800m; Depth\_cols2 and Depth\_cuts2).
+
+#### Simple set of colors:
+
+``` r
+#Set the figure margins as c(bottom, left, top, right)
+Mypar<-par(mai=c(0,0.4,0,0))
+#Plot the bathymetry
+plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
+#Add color scale
+add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-500,width=16)
+```
+
+<img src="README-unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
+par(Mypar)
+```
+
+#### Highlighting the Fishable Depth range:
+
+``` r
+#Set the figure margins as c(bottom, left, top, right)
+Mypar<-par(mai=c(0,0.4,0,0))
+#Plot the bathymetry
+plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE)
+#Add color scale
+add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=-500,width=16)
+```
+
+<img src="README-unnamed-chunk-37-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
+par(Mypar)
+```
+
+### 5.2. Adding colors to data
 
 Adding colors to plots revolves around two functions:
 
@@ -905,7 +936,7 @@ add_Cscale(title='Number of fishes',
 box()
 ```
 
-<img src="README-unnamed-chunk-38-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-39-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -936,13 +967,13 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22
      fontsize=0.75,lwd=1) 
 ```
 
-<img src="README-unnamed-chunk-39-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
 ```
 
-### 5.2. Adding legends
+### 5.3. Adding legends
 
 To add a legend, use the base legend() function:
 
@@ -989,13 +1020,13 @@ legend(Loc,legend=c('one','two','three','four'),
        box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.5)
 ```
 
-<img src="README-unnamed-chunk-42-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
 ```
 
-### 5.3. Adding labels
+### 5.4. Adding labels
 
 To add labels, use the add\_labels() function:
 
@@ -1033,7 +1064,7 @@ plot(EEZs,add=TRUE,border='green')
 add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
 ```
 
-<img src="README-unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)

@@ -4,7 +4,12 @@
 \name{PointData}
 \alias{PointData}
 \title{Example dataset for create_Points}
-\format{DataFrame}
+\format{
+DataFrame
+}
+\usage{
+data(PointData)
+}
 \description{
 To be used in conjunction with \link{create_Points}.
 }

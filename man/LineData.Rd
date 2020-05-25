@@ -4,7 +4,12 @@
 \name{LineData}
 \alias{LineData}
 \title{Example dataset for create_Lines}
-\format{DataFrame}
+\format{
+DataFrame
+}
+\usage{
+data(LineData)
+}
 \description{
 To be used in conjunction with \link{create_Lines}.
 }

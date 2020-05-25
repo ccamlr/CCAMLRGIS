@@ -4,7 +4,12 @@
 \name{PolyData}
 \alias{PolyData}
 \title{Example dataset for create_Polys}
-\format{DataFrame}
+\format{
+DataFrame
+}
+\usage{
+data(PolyData)
+}
 \description{
 To be used in conjunction with \link{create_Polys}.
 }

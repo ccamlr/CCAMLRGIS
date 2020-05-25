@@ -4,10 +4,15 @@
 \name{Labels}
 \alias{Labels}
 \title{Polygon labels}
-\format{dataframe}
+\format{
+dataframe
+}
+\usage{
+data(Labels)
+}
 \description{
 Labels for the layers obtained via 'load_' functions. Positions correspond to the centroids
-of polygon parts. to be used in conjunction with \code{\link{add_labels}}.
+of polygon parts. Can be used in conjunction with \code{\link{add_labels}}.
 }
 \examples{
 \donttest{
