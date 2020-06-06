@@ -489,13 +489,13 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     pb=txtProgressBar(min=0,max=dim(IsoDs)[1],style=3,char=" )>(((*> ")
   }
   Biso=cut(Bathy,breaks=c(IsoDs$top[1],IsoDs$bot[1]))
-  Isos=rasterToPolygons(Biso,dissolve=TRUE)
+  Isos=suppressWarnings(rasterToPolygons(Biso,dissolve=TRUE))
   Isos$Stratum=IsoNames[1]
   if(ShowProgress==TRUE){setTxtProgressBar(pb, 1)}
   if(dim(IsoDs)[1]>1){
     for(i in seq(2,dim(IsoDs)[1])){
       Biso=cut(Bathy,breaks=c(IsoDs$top[i],IsoDs$bot[i]))
-      Isotmp=rasterToPolygons(Biso,dissolve=TRUE)
+      Isotmp=suppressWarnings(rasterToPolygons(Biso,dissolve=TRUE))
       Isotmp$layer=i
       Isotmp$Stratum=IsoNames[i]
       Isos=rbind(Isos,Isotmp)
@@ -508,14 +508,14 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     close(pb)
   }
   #crop Isos by Poly
-  Isos=raster::crop(Isos,Poly)
+  Isos=suppressWarnings(raster::crop(Isos,Poly))
   
   #Get number of stations per strata
   if(is.na(Nauto)==TRUE){
     IsoDs$n=N
   }else{
     #Get area of strata
-    ar=area(Isos)
+    ar=suppressWarnings(area(Isos))
     ar=ar/max(ar)
     IsoDs$n=round(ar*Nauto)
   }
@@ -525,7 +525,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     message('Station creation started',sep='\n')
     pb=txtProgressBar(min=0,max=dim(IsoDs)[1],style=3,char=" )>(((*> ")
   }
-  Grid=raster(extent(Isos),res=1000,crs=crs(Isos))
+  Grid=suppressWarnings(raster(extent(Isos),res=1000,crs=crs(Isos)))
   Grid=SpatialPoints(coordinates(Grid),proj4string=crs(Grid))
   #Remove points outside of strata
   Locs=NULL
