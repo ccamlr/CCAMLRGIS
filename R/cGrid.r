@@ -43,7 +43,7 @@ if(is.na(Area)==TRUE){
     
     Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(i))
   }
-  Group=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  Group=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   #project
   Group=spTransform(Group,CRS(CCAMLRp))
   #Get area
@@ -62,14 +62,14 @@ if(is.na(Area)==TRUE){
   # indx=which(abs(data$lat - round(data$lat))<0.0001)
   # if(length(indx)>0){data$lat[indx]=round(data$lat[indx])-0.0001}
   
-  StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+proj=longlat +ellps=WGS84"))
+  StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+proj=longlat +datum=WGS84 +no_defs"))
   LatS=0
   
   while(LatS>min(data$lat)){
     
     #Compute circumference at Northern latitude of cells
     NLine=SpatialLines(list(Lines(Line(cbind(seq(-180,180,length.out=10000),
-                                             rep(coordinates(StartP)[,2],10000))),'N')),CRS("+proj=longlat"))
+                                             rep(coordinates(StartP)[,2],10000))),'N')),CRS("+proj=longlat +datum=WGS84 +no_defs"))
     NLine=spTransform(NLine,CCAMLRp)
     L=SpatialLinesLengths(NLine)
     #Compute number of cells
@@ -124,7 +124,7 @@ if(is.na(Area)==TRUE){
     
     rm(NLine,Pl,Pls,PRO,StartP,i,L,LatSBase,Lons,lons,lx,ly,N,PLat,PLon,Res)
     
-    StartP=SpatialPoints(cbind(0,LatS),CRS("+proj=longlat"))
+    StartP=SpatialPoints(cbind(0,LatS),CRS("+proj=longlat +datum=WGS84 +no_defs"))
   }
   
   Group = SpatialPolygons(Group)

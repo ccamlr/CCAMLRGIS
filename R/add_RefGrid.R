@@ -56,7 +56,7 @@ if(is.na(sum(offset))==TRUE){
 }
 
 #Create Lat/Lon grid
-x=Spatial(cbind(min=c(-180,-80),max=c(180,-45)),proj4string=CRS("+proj=longlat +ellps=WGS84"))
+x=Spatial(cbind(min=c(-180,-80),max=c(180,-45)),proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
 if(is.na(LabLon)==FALSE){
   gr=gridlines(x,easts=sort(unique(c(seq(-180,180,by=ResLon),LabLon))),norths=seq(-80,-45,by=ResLat),ndiscr = 1000) 
 }else{
@@ -72,7 +72,7 @@ if(is.na(LabLon)==FALSE){
   grP=gIntersection(gr[1],gr[2])
   Cs=coordinates(grP)
   Cs=data.frame(Lat=Cs[,2],Lon=Cs[,1])
-  grP=SpatialPointsDataFrame(cbind(Cs$Lon,Cs$Lat),Cs,proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  grP=SpatialPointsDataFrame(cbind(Cs$Lon,Cs$Lat),Cs,proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   grP=spTransform(grP,CRS(CCAMLRp))
   tmp=coordinates(grP)
   grP$x=tmp[,1]
@@ -83,7 +83,7 @@ if(is.na(LabLon)==FALSE){
   LatLabs=Labs[Labs$Lon==LabLon,]
   LonLabs=Labs[Labs$Lat==max(Labs$Lat),]
   #Offset Longitude labels
-  Lps=SpatialPoints(cbind(sort(unique(c(seq(-180,180,by=ResLon),LabLon))),-43+offsetx),proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  Lps=SpatialPoints(cbind(sort(unique(c(seq(-180,180,by=ResLon),LabLon))),-43+offsetx),proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   Lps=spTransform(Lps,CRS(CCAMLRp))
   Lps=coordinates(Lps)
   LonLabs$x=Lps[,1]
@@ -95,8 +95,8 @@ if(is.na(LabLon)==FALSE){
   grlat=spTransform(gr[1],CRS(CCAMLRp))
   grlon=spTransform(gr[2],CRS(CCAMLRp))
   
-  grlat=raster::crop(grlat,LocsP)
-  grlon=raster::crop(grlon,LocsP)
+  grlat=suppressWarnings(raster::crop(grlat,LocsP))
+  grlon=suppressWarnings(raster::crop(grlon,LocsP))
   
   gr=rbind(grlat,grlon)
   

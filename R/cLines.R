@@ -20,7 +20,7 @@ cLines=function(Input,Densify=FALSE){
     Llengths=rbind(Llengths,cbind(id=as.character(ids[i]),
                                   L=LinesLength(Ll[[i]],longlat=TRUE)))
   }
-  Locs=SpatialLines(Ll, proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  Locs=SpatialLines(Ll, proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   #Format lengths
   Llengths=as.data.frame(Llengths)
   Llengths$id=as.character(Llengths$id)

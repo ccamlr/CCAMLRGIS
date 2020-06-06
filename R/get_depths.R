@@ -66,10 +66,10 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=F
   #Create spatial points
   Sp=SpatialPoints(out,CRS(CCAMLRp))
   #grid locations to create groups of locations
-  ra=raster(extent(Sp),res=d,crs=crs(Sp))
+  ra=suppressWarnings(raster(extent(Sp),res=d,crs=crs(Sp)))
   ra=extend(ra,2)
   values(ra)=1:ncell(ra)
-  gr=extract(ra,Sp)
+  gr=suppressWarnings(extract(ra,Sp))
   gr=match(gr,unique(gr))
   out$gr=gr
   
@@ -135,7 +135,7 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=F
         Lint=50 #add points every 50m on isobath
         L=gLength(Iso)
         L=ceiling(L)+Lint
-        int=gInterpolate(Iso, d=seq(0,L,by=Lint))
+        int=suppressWarnings(gInterpolate(Iso, d=seq(0,L,by=Lint)))
         IsoP=coordinates(int)
         #Compute distances to coastline
         Ds=pointDistance(cbind(Px,Py), IsoP,lonlat=FALSE)

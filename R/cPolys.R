@@ -18,7 +18,7 @@ cPolys=function(Input,Densify=FALSE){
     }
     Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(ids[i]))
   }
-  Locs=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  Locs=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
   #Summarise data
   Input=as.data.frame(Input[,-c(2,3)])
   colnames(Input)[1]='ID'

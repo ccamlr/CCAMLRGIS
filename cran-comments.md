@@ -9,6 +9,7 @@
 
 ## Notes about CRAN edits
 
+* Changed crs argument to accommodate rgdal and sp updates
 * Modified create_PolyGrids function to avoid locations falling on edges between cells.
 * Added p4s argument in load functions to force the Lambert azimuthal equal-area projection when loading via GEOJSON.
 * replaced T by TRUE and F by FALSE.

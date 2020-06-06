@@ -44,16 +44,17 @@
 #' 
 #' 
 #' #Example 2: 'manual' mode (you will have to do it yourself)
-#' plot(SmallBathy)
-#' ASDs=load_ASDs()
-#' plot(ASDs,add=TRUE)
-#' MyLabels=add_labels(mode='manual')
+#' #Examples 2 and 3 below are commented (remove the # to test)
+#' #plot(SmallBathy)
+#' #ASDs=load_ASDs()
+#' #plot(ASDs,add=TRUE)
+#' #MyLabels=add_labels(mode='manual')
 #' 
 #' 
 #' #Example 3: Re-use the label table generated in Example 2
-#' plot(SmallBathy)
-#' plot(ASDs,add=TRUE)
-#' add_labels(mode='input',LabelTable=MyLabels)
+#' #plot(SmallBathy)
+#' #plot(ASDs,add=TRUE)
+#' #add_labels(mode='input',LabelTable=MyLabels)
 #' 
 #' 
 #' 

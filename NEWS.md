@@ -1,3 +1,7 @@
+# CCAMLRGIS 3.0.4
+
+Changed crs arguments to accommodate rgdal and sp updates.
+
 # CCAMLRGIS 3.0.3
 
 Modified the way locations that are falling on a grid cell edge are dealt with (what was done in Version 3.0.2 did not always work). This sometimes occurs when building equal-area grids using create_PolyGrids. Now, those locations that are falling between cells are isolated and their Latitude and Longitude are randomly shifted by -0.0001 or +0.0001. This is done within a while loop, and, while there are locations that do not fall inside a cell, their locations are randomly shifted by a value increasing by 0.0001 increments (e.g., at the third unsuccessful iteration, Latitudes and Longitudes are randomly shifted by -0.0003 or +0.0003).
