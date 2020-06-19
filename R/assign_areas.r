@@ -85,7 +85,7 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Turn uniques into Spatial data
   SPls=SpatialPoints(cbind(Locu[,1],Locu[,2]),proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
   #Project to match Polys projection
-  SPls=spTransform(SPls,CRS(CCAMLRp))
+  SPls=spTransform(SPls,CRS(CCAMLRGIS::CCAMLRp))
   #Initialize a dataframe which will collate assigned Polys
   Assigned_Areas=data.frame(matrix(NA,nrow=dim(Locu)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut)))
   #loop over Polys to assign them to locations
