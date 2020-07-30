@@ -30,7 +30,7 @@
 load_ASDs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
-  ASD_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  ASD_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(ASD_data)
 }
 
@@ -66,7 +66,7 @@ load_ASDs=function(){
 load_SSRUs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
-  SSRU_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  SSRU_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(SSRU_data)
 }
 
@@ -102,7 +102,7 @@ load_SSRUs=function(){
 load_Coastline=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
-  Coastline_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  Coastline_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(Coastline_data)
 }
 
@@ -138,7 +138,7 @@ load_Coastline=function(){
 load_RBs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
-  RB_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  RB_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(RB_data)
 }
 
@@ -174,7 +174,7 @@ load_RBs=function(){
 load_SSMUs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
-  SSMU_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose=FALSE))
+  SSMU_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose=FALSE))
   return(SSMU_data)
 }
 
@@ -210,7 +210,7 @@ load_SSMUs=function(){
 load_MAs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-  MA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  MA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(MA_data)
 }
 
@@ -247,7 +247,7 @@ load_MAs=function(){
 load_RefAreas=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-  RA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  RA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(RA_data)
 }
 
@@ -284,7 +284,7 @@ load_RefAreas=function(){
 load_MPAs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
-  MPA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  MPA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(MPA_data)
 }
 
@@ -321,6 +321,6 @@ load_MPAs=function(){
 load_EEZs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
-  EEZ_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRGIS::CCAMLRp,verbose = FALSE))
+  EEZ_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
   return(EEZ_data)
 }
