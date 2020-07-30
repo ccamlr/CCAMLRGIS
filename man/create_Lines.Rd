@@ -11,7 +11,8 @@ create_Lines(
   Buffer = 0,
   Densify = FALSE,
   Clip = FALSE,
-  SeparateBuf = TRUE
+  SeparateBuf = TRUE,
+  NamesIn = NULL
 )
 }
 \arguments{
@@ -19,7 +20,7 @@ create_Lines(
 If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 e.g. "DataFile.csv".
 
-\strong{The columns in the \code{Input} must be in the following order:
+\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Line name, Latitude, Longitude.
 
@@ -44,6 +45,13 @@ prior to projection (see examples).}
 
 \item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
 all spatial objects are merged, resulting in a single spatial object.}
+
+\item{NamesIn}{character vector of length 3 specifying the column names of line identifier, Latitude
+and Longitude fields in the \code{Input}.
+
+\strong{Names must be given in that order, e.g.:
+
+\code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
@@ -79,28 +87,28 @@ Input=data.frame(
 )
 
 #Create lines and plot them
-plot(create_Lines(Input))
+plot(create_Lines(Input=Input))
 
 
 #Example 1: Simple and non-densified lines
 
-MyLines=create_Lines(LineData)
+MyLines=create_Lines(Input=LineData)
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
 #Example 2: Simple and densified lines (note the curvature of the purple line)
 
-MyLines=create_Lines(LineData,Densify=TRUE)
+MyLines=create_Lines(Input=LineData,Densify=TRUE)
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 
 #Example 3: Densified, buffered and clipped lines
 
-MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
+MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 
 plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 
 #Example 4: Buffered and grouped lines
-MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
+MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
 plot(MyLines,lwd=2,border='blue')
 
 }

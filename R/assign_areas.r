@@ -1,4 +1,4 @@
-#' Assign Areas
+#' Assign point locations to polygons
 #'
 #' Given a set of polygons and a set of point locations (given in decimal degrees),
 #' finds in which polygon those locations fall.
@@ -6,8 +6,13 @@
 #' 
 #' @param Input dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.
 #' 
-#' \strong{The columns in the \code{Input} must be in the following order:
+#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' Latitude, Longitude, Variable 1, Variable 2, ... Variable x.}.
+#' 
+#' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
+#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' 
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
 #' @param Polys character vector of spatial objects names (e.g., \code{Polys=c('ASDs','RBs')}).
 #' 
@@ -22,8 +27,10 @@
 #' 
 #' \code{'GAR_Long_Label'} (default) e.g., \code{'88.2'}
 #' 
-#' Several values may be entered if desired (if several \code{Polys} are used),
-#' e.g. \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.
+#' Several values may be entered if desired (if several \code{Polys} are used), e.g.:
+#' 
+#' \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.
+#' 
 #' @param Buffer distance in nautical miles to be added around the \code{Polys} of interest.
 #' Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 #' \code{Buffer} nautical miles of a polygon.
@@ -50,7 +57,7 @@
 #' ASDs=load_ASDs()
 #' SSRUs=load_SSRUs()
 #' 
-#' MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
+#' MyData=assign_areas(Input=MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 #' 
 #' #View(MyData)
 #' table(MyData$MyASDs) #count of locations per ASD
@@ -60,9 +67,15 @@
 #' 
 #' @export
 
-assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL){
+assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL,NamesIn=NULL){
   #Ensure Input is a data.frame
   Input=as.data.frame(Input)
+  #Use NamesIn to reorder columns
+  if(is.null(NamesIn)==F){
+    if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
+    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  }
   #Set NamesOut if not provided
   if(is.null(NamesOut)==TRUE){NamesOut=Polys}
   #Repeat Buffer if needed
@@ -73,9 +86,22 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   Locs=Input[,c(2,1)]
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
-  if(length(Missing)>0){
-  warning(paste0('WARNING from Assign_Areas function: ',length(Missing),' records are missing location and will not be assigned to any area\n'))
-    }
+  if(length(Missing)>1){
+    warning(paste0(length(Missing),' records are missing location and will not be assigned to any area\n'))
+  }
+  if(length(Missing)==1){
+    warning('One record is missing location and will not be assigned to any area\n')
+  }
+  #Count impossible locations to warn user and replace with NAs
+  Impossible=which(Locs[,1]>180 | Locs[,1]<(-180) | Locs[,2]>90 | Locs[,2]<(-90))
+  if(length(Impossible)>1){
+    warning(paste0(length(Impossible),' records are not on Earth and will not be assigned to any area\n'))
+    Locs[Impossible,]=NA
+  }
+  if(length(Impossible)==1){
+    warning('One record is not on Earth and will not be assigned to any area\n')
+    Locs[Impossible,]=NA
+  }
   #Create a code to match back to the dataframe at the end
   Locs$Code=paste0(Locs[,1],'|',Locs[,2])
   #Get uniques

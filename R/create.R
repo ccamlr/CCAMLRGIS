@@ -6,11 +6,19 @@
 #' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 #' e.g. "DataFile.csv".
 #' 
-#' \strong{The columns in the \code{Input} must be in the following order:
+#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Polygon name, Latitude, Longitude.
 #' 
 #' Latitudes and Longitudes must be given clockwise.}
+#' 
+#' @param NamesIn character vector of length 3 specifying the column names of polygon identifier, Latitude
+#' and Longitude fields in the \code{Input}.
+#' 
+#' \strong{Names must be given in that order, e.g.:
+#' 
+#' \code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.
+#' 
 #' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 #' "ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
 #' if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
@@ -27,8 +35,8 @@
 #' 
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} plus
-#' and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
-#' Also, columns "Labx" and "Laby" may be used to add labels to polygons.
+#' an additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
+#' Also, columns "Labx" and "Laby" which may be used to add labels to polygons.
 #' 
 #' To see the data contained in your spatial object, type: \code{View(MyPolygons@@data)}.
 #'
@@ -42,27 +50,27 @@
 #' 
 #' #Example 1: Simple and non-densified polygons
 #' 
-#' MyPolys=create_Polys(PolyData,Densify=FALSE)
+#' MyPolys=create_Polys(Input=PolyData,Densify=FALSE)
 #' plot(MyPolys,col='blue')
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
 #' #Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 #' 
-#' MyPolys=create_Polys(PolyData)
+#' MyPolys=create_Polys(Input=PolyData)
 #' plot(MyPolys,col='red')
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
 #' #Example 3: Buffered and clipped polygons
 #' 
-#' MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
-#' MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
+#' MyPolysBefore=create_Polys(Input=PolyData,Buffer=c(10,-15,120))
+#' MyPolysAfter=create_Polys(Input=PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 #' plot(MyPolysBefore,col='green')
 #' plot(Coast[Coast$ID=='All',],add=TRUE)
 #' plot(MyPolysAfter,col='red',add=TRUE)
 #' text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 #' 
 #' #Example 4: Buffered and grouped polygons
-#' MyPolys=create_Polys(PolyData,Buffer=80,SeparateBuf=FALSE)
+#' MyPolys=create_Polys(Input=PolyData,Buffer=80,SeparateBuf=FALSE)
 #' plot(MyPolys,border='blue',lwd=3)
 #' 
 #' 
@@ -70,9 +78,15 @@
 #' 
 #' @export
 
-create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE){
+create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
   if (class(Input)=="character"){Input=read.csv(Input)}
+  #Use NamesIn to reorder columns
+  if(is.null(NamesIn)==F){
+    if(length(NamesIn)!=3){stop("'NamesIn' should be a character vector of length 3")}
+    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  }
   # Run cPolys
   Output=cPolys(Input,Densify=Densify)
   # Run add_buffer
@@ -100,9 +114,15 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 #' e.g. "DataFile.csv".
 #' 
-#' \strong{The columns in the \code{Input} must be in the following order:
+#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}
+#' 
+#' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
+#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' 
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
+#' 
 #' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 #' "ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
 #' if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
@@ -135,24 +155,26 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' #Example 1: Simple grid, using automatic colors
 #' 
-#' MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
+#' MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
 #' #View(MyGrid@@data)
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
 #' 
 #' #Example 2: Equal area grid, using automatic colors
 #' 
-#' MyGrid=create_PolyGrids(GridData,Area=10000)
+#' MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
 #' 
 #' #Example 3: Equal area grid, using custom cuts and colors
 #' 
-#' #MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+#' MyGrid=create_PolyGrids(Input=GridData,
+#'        Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+#' 
 #' plot(MyGrid,col=MyGrid$Col_Catch_sum)
 #' 
 #' #Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
 #' 
 #' #Step 1: Generate your grid
-#' MyGrid=create_PolyGrids(GridData,Area=10000)
+#' MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 #' 
 #' #Step 2: Inspect your gridded data (e.g. sum of Catch) to
 #' #determine whether irregular cuts are required
@@ -173,8 +195,14 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' @export
 
-create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red')){
+create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red'),NamesIn=NULL){
   if (class(Input)=="character"){Input=read.csv(Input)}
+  #Use NamesIn to reorder columns
+  if(is.null(NamesIn)==F){
+    if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
+    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  }
   #Run cGrid
   Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols)
   if(OutputFormat=="SHAPEFILE"){
@@ -192,12 +220,19 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 #' e.g. "DataFile.csv".
 #' 
-#' \strong{The columns in the \code{Input} must be in the following order:
+#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Line name, Latitude, Longitude.
 #' 
 #' If a given line is made of more than two points, the locations of points
 #' must be given in order, from one end of the line to the other.}
+#' 
+#' @param NamesIn character vector of length 3 specifying the column names of line identifier, Latitude
+#' and Longitude fields in the \code{Input}.
+#' 
+#' \strong{Names must be given in that order, e.g.:
+#' 
+#' \code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.
 #' 
 #' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 #' "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -247,37 +282,43 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' )
 #' 
 #' #Create lines and plot them
-#' plot(create_Lines(Input))
+#' plot(create_Lines(Input=Input))
 #' 
 #' 
 #' #Example 1: Simple and non-densified lines
 #' 
-#' MyLines=create_Lines(LineData)
+#' MyLines=create_Lines(Input=LineData)
 #' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 #'
 #' #Example 2: Simple and densified lines (note the curvature of the purple line)
 #' 
-#' MyLines=create_Lines(LineData,Densify=TRUE)
+#' MyLines=create_Lines(Input=LineData,Densify=TRUE)
 #' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 #'
 #' #Example 3: Densified, buffered and clipped lines
 #' 
-#' MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
+#' MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 #' 
 #' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
 #' plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
 #' 
 #' #Example 4: Buffered and grouped lines
-#' MyLines=create_Lines(LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
+#' MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
 #' plot(MyLines,lwd=2,border='blue')
 #' 
 #' }
 #' 
 #' @export
 
-create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE){
+create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
   if (class(Input)=="character"){Input=read.csv(Input)}
+  #Use NamesIn to reorder columns
+  if(is.null(NamesIn)==F){
+    if(length(NamesIn)!=3){stop("'NamesIn' should be a character vector of length 3")}
+    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  }
   # Run cLines
   Output=cLines(Input,Densify=Densify)
   # Run add_buffer
@@ -303,9 +344,14 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 #' e.g. "DataFile.csv".
 #' 
-#' \strong{The columns in the \code{Input} must be in the following order:
+#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Latitude, Longitude, Variable 1, Variable 2, ... Variable x}
+#' 
+#' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
+#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' 
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
 #' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
 #' "ROBJECT" (the default), a spatial object is created in your R environment.
@@ -336,26 +382,26 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' #Example 1: Simple points with labels
 #' 
-#' MyPoints=create_Points(PointData)
+#' MyPoints=create_Points(Input=PointData)
 #' plot(MyPoints)
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 #' 
 #' #Example 2: Simple points with labels, highlighting one group of points with the same name
 #' 
-#' MyPoints=create_Points(PointData)
+#' MyPoints=create_Points(Input=PointData)
 #' plot(MyPoints)
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 #' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
 #' 
 #' #Example 3: Buffered points with radius proportional to catch
 #' 
-#' MyPoints=create_Points(PointData,Buffer=0.5*PointData$Catch)
+#' MyPoints=create_Points(Input=PointData,Buffer=0.5*PointData$Catch)
 #' plot(MyPoints,col='green')
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 #' 
 #' #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 #' 
-#' MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
+#' MyPoints=create_Points(Input=PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 #' plot(MyPoints,col='cyan')
 #' plot(Coast[Coast$ID=='All',],add=TRUE,col='grey')
 #' 
@@ -364,10 +410,16 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' @export
 
-create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE){
+create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
   if (class(Input)=="character"){Input=read.csv(Input)}
-  # Run cLines
+  #Use NamesIn to reorder columns
+  if(is.null(NamesIn)==F){
+    if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
+    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  }
+  # Run cPoints
   Output=cPoints(Input)
   # Run add_buffer
   if(length(Buffer)==1){
@@ -415,7 +467,7 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #'
 #' #First, create a polygon within which stations will be created
 #' 
-#' MyPolys=create_Polys(PolyData,Densify=TRUE)
+#' MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 #' plot(MyPolys)
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 #' #Subsample MyPolys to only keep the polygon with ID 'one'
@@ -429,7 +481,8 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' 
 #' #Example 1: Set numbers of stations, no distance constraint
 #' 
-#' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
+#' MyStations=create_Stations(Poly=MyPoly,
+#'            Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
 #' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 #' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
@@ -440,8 +493,8 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' 
 #' #Example 2: Set numbers of stations, with distance constraint
 #'  
-#' MyStations=create_Stations(MyPoly,BathyCroped,
-#'                          Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
+#' MyStations=create_Stations(Poly=MyPoly,
+#'            Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
 #' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 #' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
@@ -454,7 +507,8 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #' 
 #' #Example 3: Automatic numbers of stations, with distance constraint
 #' 
-#' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
+#' MyStations=create_Stations(Poly=MyPoly,
+#'            Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
 #' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 #' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 #' add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
@@ -623,7 +677,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     ns=c(ns,length(which(Stations$layer==i)))
   }
   if(sum(ns-IsoDs$n)!=0){
-    stop('Something unexpected happened. Please report the error to the CCAMLR Secretariat')
+    stop('Something unexpected happened. Please report the error to the package maintainer')
   }
   return(Stations)
 }

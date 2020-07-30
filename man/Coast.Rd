@@ -3,7 +3,7 @@
 \docType{data}
 \name{Coast}
 \alias{Coast}
-\title{Coast}
+\title{Simplified and subsettable coastline}
 \format{
 SpatialPolygonsDataFrame
 }

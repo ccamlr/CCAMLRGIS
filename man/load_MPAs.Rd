@@ -2,7 +2,7 @@
 % Please edit documentation in R/load.R
 \name{load_MPAs}
 \alias{load_MPAs}
-\title{load CCAMLR Marine Protected Areas}
+\title{Load CCAMLR Marine Protected Areas}
 \usage{
 load_MPAs()
 }

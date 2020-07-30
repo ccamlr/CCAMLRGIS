@@ -72,7 +72,7 @@ install.packages("CCAMLRGIS")
 ```
 
 Then, load the package by typing:
-```{r eval=F}
+```{r eval=T}
 library(CCAMLRGIS)
 ```
 
@@ -616,7 +616,7 @@ head(MyData)
 
 
 #Example 1: get depths of locations
-MyDataD=get_depths(MyData,SmallBathy)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #The resulting data looks like this (where 'd' is the depth and 'x' and 'y' are the projected locations):
 head(MyDataD)
 #Prepare layout for 2 sub-plots
@@ -635,9 +635,9 @@ text(XL[1]-500,mean(YL),'Catch',cex=0.75,xpd=T,srt=90)
 
 
 #Example 2: get depths of locations and distance to isobath -3000m
-MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=T,d=200000)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy,Isobaths=-3000,IsoLocs=T,d=200000)
 plot(MyDataD$x,MyDataD$y,pch=21,bg='green',cex=0.75,lwd=0.5)
-contour(SmallBathy,levels=-3000,add=T,col='blue',maxpixels=10000000)
+raster::contour(SmallBathy,levels=-3000,add=T,col='blue',maxpixels=10000000)
 segments(x0=MyDataD$x,
          y0=MyDataD$y,
          x1=MyDataD$X_3000,

@@ -54,7 +54,7 @@ install.packages("CCAMLRGIS")
 ```
 
 Then, load the package by typing:
-```{r eval=FALSE}
+```{r eval=T}
 library(CCAMLRGIS)
 ```
 
@@ -219,26 +219,26 @@ For details, type:
 Mypar<-par(mfrow=c(2,2),mai=c(0,0.01,0.2,0.01))
 
 #Example 1: Simple points with labels
-MyPoints=create_Points(PointData)
+MyPoints=create_Points(Input=PointData)
 plot(MyPoints,main='Example 1',cex.main=0.5,cex=0.5,lwd=0.5)
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE,cex=0.5)
 box()
 
 #Example 2: Simple points with labels, highlighting one group of points with the same name
-MyPoints=create_Points(PointData)
+MyPoints=create_Points(Input=PointData)
 plot(MyPoints,main='Example 2',cex.main=0.5,cex=0.5,lwd=0.5)
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE,cex=0.5)
 plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1,add=TRUE)
 box()
 
 #Example 3: Buffered points with radius proportional to catch
-MyPoints=create_Points(PointData,Buffer=1*PointData$Catch)
+MyPoints=create_Points(Input=PointData,Buffer=1*PointData$Catch)
 plot(MyPoints,col='green',main='Example 3',cex.main=0.5,cex=0.5,lwd=0.5)
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE,cex=0.5)
 box()
 
 #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
-MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
+MyPoints=create_Points(Input=PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 plot(MyPoints,col='cyan',main='Example 4',cex.main=0.5,cex=0.5,lwd=0.5)
 plot(Coast[Coast$ID=='All',],add=TRUE,col='grey',lwd=0.5)
 box()
@@ -277,17 +277,17 @@ Input=data.frame(
 Mypar<-par(mai=c(0,0.01,0.2,0.01),mfrow=c(1,3))
 
 #Example 1: Simple and non-densified lines
-MyLines=create_Lines(LineData)
+MyLines=create_Lines(Input=LineData)
 plot(MyLines,col=rainbow(length(MyLines)),main='Example 1',cex.main=0.5,lwd=1)
 box()
 
 #Example 2: Simple and densified lines (note the curvature of the purple line)
-MyLines=create_Lines(LineData,Densify=TRUE)
+MyLines=create_Lines(Input=LineData,Densify=TRUE)
 plot(MyLines,col=rainbow(length(MyLines)),main='Example 2',cex.main=0.5,lwd=1)
 box()
 
 #Example 3: Densified, buffered and clipped lines
-MyLines=create_Lines(LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
+MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 plot(MyLines,col=rainbow(length(MyLines)),main='Example 3',cex.main=0.5,lwd=1)
 plot(Coast[Coast$ID=='All',],col='grey',add=TRUE,lwd=0.5)
 box()
@@ -302,7 +302,7 @@ Adding a buffer with the argument SeparateBuf set to FALSE results in a single p
 Mypar<-par(mai=c(0.01,0.01,0.01,0.01))
 
 #Buffer merged lines
-MyLines=create_Lines(LineData,Buffer=10,SeparateBuf=FALSE)
+MyLines=create_Lines(Input=LineData,Buffer=10,SeparateBuf=FALSE)
 #The resulting polygon has an area of:
 MyLines$Buffered_AreaKm2
 
@@ -325,20 +325,20 @@ For details, type:
 Mypar<-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1: Simple and non-densified polygons
-MyPolys=create_Polys(PolyData,Densify=FALSE)
+MyPolys=create_Polys(Input=PolyData,Densify=FALSE)
 plot(MyPolys,col='blue',main='Example 1',cex.main=0.5,lwd=0.5)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white',cex=0.5)
 box()
 
 #Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
-MyPolys=create_Polys(PolyData)
+MyPolys=create_Polys(Input=PolyData)
 plot(MyPolys,col='red',main='Example 2',cex.main=0.5,lwd=0.5)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white',cex=0.5)
 box()
 
 #Example 3: Buffered and clipped polygons
-MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
-MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
+MyPolysBefore=create_Polys(Input=PolyData,Buffer=c(10,-15,120))
+MyPolysAfter=create_Polys(Input=PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green',main='Example 3',cex.main=0.5,lwd=0.5)
 plot(Coast[Coast$ID=='All',],add=TRUE,lwd=0.5)
 plot(MyPolysAfter,col='orange',add=TRUE,lwd=0.5)
@@ -359,17 +359,17 @@ For details, type:
 Mypar<-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1: Simple grid, using automatic colors
-MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
+MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
 plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 1',cex.main=0.5,lwd=0.1)
 box()
 
 #Example 2: Equal area grid, using automatic colors
-MyGrid=create_PolyGrids(GridData,Area=10000)
+MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 2',cex.main=0.5,lwd=0.1)
 box()
 
 #Example 3: Equal area grid, using custom cuts and colors
-MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+MyGrid=create_PolyGrids(Input=GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
 plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 3',cex.main=0.5,lwd=0.1)
 box()
 par(Mypar)
@@ -383,7 +383,7 @@ Customizing a grid and adding a color scale:
 Mypar<-par(mfrow=c(2,1),mai=c(0.2,0.05,0.1,0.1))
 
 #Step 1: Generate your grid
-MyGrid=create_PolyGrids(GridData,Area=10000)
+MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 
 #Step 2: Inspect your gridded data (e.g. sum of Catch) to determine whether irregular cuts are required
 hist(MyGrid$Catch_sum,100,cex=0.5,main='Frequency distribution of data',
@@ -422,7 +422,7 @@ First, create a polygon within which stations will be created:
 
 ```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
 #Create polygons
-MyPolys=create_Polys(PolyData,Densify=TRUE)
+MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0,0,0))
@@ -441,7 +441,7 @@ Example 1. Set numbers of stations, no distance constraint:
 ```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
 
 #Create polygon as shown above
-MyPolys=create_Polys(PolyData,Densify=TRUE)
+MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 MyPoly=MyPolys[MyPolys$ID=='one',]
 
 #optional: crop your bathymetry raster to match the extent of your polygon
@@ -449,7 +449,7 @@ BathyCroped=raster::crop(SmallBathy,MyPoly)
 
 
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
+MyStations=create_Stations(Poly=MyPoly,Bathy=BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0,0,0))
 
@@ -468,13 +468,13 @@ Example 2. Set numbers of stations, with distance constraint:
 ```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
 
 #Create polygon as shown above
-MyPolys=create_Polys(PolyData,Densify=TRUE)
+MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 MyPoly=MyPolys[MyPolys$ID=='one',]
 
 #optional: crop your bathymetry raster to match the extent of your polygon
 BathyCroped=raster::crop(SmallBathy,MyPoly)
 
-MyStations=create_Stations(MyPoly,BathyCroped,
+MyStations=create_Stations(Poly=MyPoly,Bathy=BathyCroped,
                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0,0,0))
@@ -496,13 +496,13 @@ Example 3. Automatic numbers of stations, with distance constraint:
 ```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
 
 #Create polygon as shown above
-MyPolys=create_Polys(PolyData,Densify=TRUE)
+MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 MyPoly=MyPolys[MyPolys$ID=='one',]
 
 #optional: crop your bathymetry raster to match the extent of your polygon
 BathyCroped=raster::crop(SmallBathy,MyPoly)
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
+MyStations=create_Stations(Poly=MyPoly,Bathy=BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0,0,0,0))
 
@@ -591,7 +591,7 @@ head(MyData)
 
 
 #Example 1: get depths of locations
-MyDataD=get_depths(MyData,SmallBathy)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #The resulting data looks like this (where 'd' is the depth and 'x' and 'y' are the projected locations):
 head(MyDataD)
 #Prepare layout for 2 sub-plots
@@ -610,9 +610,9 @@ text(XL[1]-500,mean(YL),'Catch',cex=0.5,xpd=TRUE,srt=90)
 
 
 #Example 2: get depths of locations and distance to isobath -3000m
-MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=TRUE,d=200000)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy,Isobaths=-3000,IsoLocs=TRUE,d=200000)
 plot(MyDataD$x,MyDataD$y,pch=21,bg='green',cex=0.75,lwd=0.5)
-contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
+raster::contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
 segments(x0=MyDataD$x,
          y0=MyDataD$y,
          x1=MyDataD$X_3000,
@@ -633,9 +633,9 @@ For details, type:
 
 ```{r message=FALSE,eval=TRUE}
 #create some polygons
-MyPolys=create_Polys(PolyData,Densify=TRUE)
+MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 #compute the seabed areas
-FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
+FishDepth=seabed_area(Bathy=SmallBathy,Polys=MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #Result looks like this (note that the -600m to -1800m is renamed 'Fishable_area')
 head(FishDepth)
 ```
@@ -662,7 +662,7 @@ head(MyData)
 SSRUs=load_SSRUs()
 
 #Assign ASDs and SSRUs to these locations 
-MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
+MyData=assign_areas(Input=MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 #The output data looks like this:
 head(MyData)
 
@@ -727,7 +727,7 @@ Knowing the names of colors in R would be useful here (http://www.stat.columbia.
 #Prepare layout for 3 sub-plots
 Mypar<-par(mfrow=c(3,1),mai=c(0.01,0.01,0.1,0.6))
 #Create some points
-MyPoints=create_Points(PointData)
+MyPoints=create_Points(Input=PointData)
 
 #Example 1: Add default cols and cuts
 MyCols=add_col(MyPoints$Nfishes) 
@@ -760,7 +760,7 @@ par(Mypar)
 #Adding colors to a grid with custom cuts (see also the last example in section 2.1.)
 
 #Step 1: Generate your grid
-MyGrid=create_PolyGrids(GridData,Area=10000)
+MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 
 #Step 2: Inspect your gridded data (e.g. hist(MyGrid$Catch_sum,100))
 #to determine whether irregular cuts are required.
@@ -799,7 +799,7 @@ Legend_Coordinates=add_Cscale(pos='2/3',offset=1000,height=40)
 #Adding a color scale and a legend
 
 #Create some point data
-MyPoints=create_Points(PointData)
+MyPoints=create_Points(Input=PointData)
 
 #Crop the bathymetry to match the extent of MyPoints (extended extent)
 BathyCr=raster::crop(SmallBathy,raster::extend(raster::extent(MyPoints),100000))

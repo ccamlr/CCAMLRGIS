@@ -2,20 +2,21 @@
 % Please edit documentation in R/assign_areas.r
 \name{assign_areas}
 \alias{assign_areas}
-\title{Assign Areas}
+\title{Assign point locations to polygons}
 \usage{
 assign_areas(
   Input,
   Polys,
   AreaNameFormat = "GAR_Long_Label",
   Buffer = 0,
-  NamesOut = NULL
+  NamesOut = NULL,
+  NamesIn = NULL
 )
 }
 \arguments{
 \item{Input}{dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.
 
-\strong{The columns in the \code{Input} must be in the following order:
+\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 Latitude, Longitude, Variable 1, Variable 2, ... Variable x.}.}
 
 \item{Polys}{character vector of spatial objects names (e.g., \code{Polys=c('ASDs','RBs')}).
@@ -31,8 +32,9 @@ we have the following:
 
 \code{'GAR_Long_Label'} (default) e.g., \code{'88.2'}
 
-Several values may be entered if desired (if several \code{Polys} are used),
-e.g. \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.}
+Several values may be entered if desired (if several \code{Polys} are used), e.g.:
+
+\code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.}
 
 \item{Buffer}{distance in nautical miles to be added around the \code{Polys} of interest.
 Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
@@ -41,6 +43,11 @@ Can be specified for each of the spatial objects named in \code{Polys} (e.g., \c
 \item{NamesOut}{names of the resulting area columns in the output dataframe,
 with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
 If not provided will be set as equal to \code{Polys}.}
+
+\item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
+the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 }
 \value{
 dataframe with the same structure as the \code{Input}, with additional columns corresponding
@@ -63,7 +70,7 @@ MyData=data.frame(Lat=runif(100,min=-65,max=-50),
 ASDs=load_ASDs()
 SSRUs=load_SSRUs()
 
-MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
+MyData=assign_areas(Input=MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'))
 
 #View(MyData)
 table(MyData$MyASDs) #count of locations per ASD

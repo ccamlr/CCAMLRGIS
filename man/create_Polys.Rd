@@ -11,7 +11,8 @@ create_Polys(
   Buffer = 0,
   Densify = TRUE,
   Clip = FALSE,
-  SeparateBuf = TRUE
+  SeparateBuf = TRUE,
+  NamesIn = NULL
 )
 }
 \arguments{
@@ -19,7 +20,7 @@ create_Polys(
 If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 e.g. "DataFile.csv".
 
-\strong{The columns in the \code{Input} must be in the following order:
+\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Polygon name, Latitude, Longitude.
 
@@ -43,12 +44,19 @@ prior to projection (see examples).}
 
 \item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
 all spatial objects are merged, resulting in a single spatial object.}
+
+\item{NamesIn}{character vector of length 3 specifying the column names of polygon identifier, Latitude
+and Longitude fields in the \code{Input}.
+
+\strong{Names must be given in that order, e.g.:
+
+\code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
 Data within the resulting spatial object contains the data provided in the \code{Input} plus
-and additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
-Also, columns "Labx" and "Laby" may be used to add labels to polygons.
+an additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
+Also, columns "Labx" and "Laby" which may be used to add labels to polygons.
 
 To see the data contained in your spatial object, type: \code{View(MyPolygons@data)}.
 }
@@ -61,27 +69,27 @@ Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 
 #Example 1: Simple and non-densified polygons
 
-MyPolys=create_Polys(PolyData,Densify=FALSE)
+MyPolys=create_Polys(Input=PolyData,Densify=FALSE)
 plot(MyPolys,col='blue')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
 #Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 
-MyPolys=create_Polys(PolyData)
+MyPolys=create_Polys(Input=PolyData)
 plot(MyPolys,col='red')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
 #Example 3: Buffered and clipped polygons
 
-MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
-MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
+MyPolysBefore=create_Polys(Input=PolyData,Buffer=c(10,-15,120))
+MyPolysAfter=create_Polys(Input=PolyData,Buffer=c(10,-15,120),Clip=TRUE)
 plot(MyPolysBefore,col='green')
 plot(Coast[Coast$ID=='All',],add=TRUE)
 plot(MyPolysAfter,col='red',add=TRUE)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 
 #Example 4: Buffered and grouped polygons
-MyPolys=create_Polys(PolyData,Buffer=80,SeparateBuf=FALSE)
+MyPolys=create_Polys(Input=PolyData,Buffer=80,SeparateBuf=FALSE)
 plot(MyPolys,border='blue',lwd=3)
 
 

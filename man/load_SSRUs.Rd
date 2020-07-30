@@ -2,7 +2,7 @@
 % Please edit documentation in R/load.R
 \name{load_SSRUs}
 \alias{load_SSRUs}
-\title{load CCAMLR Small Scale Research Units}
+\title{Load CCAMLR Small Scale Research Units}
 \usage{
 load_SSRUs()
 }
