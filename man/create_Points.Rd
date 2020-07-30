@@ -10,7 +10,8 @@ create_Points(
   OutputName = NULL,
   Buffer = 0,
   Clip = FALSE,
-  SeparateBuf = TRUE
+  SeparateBuf = TRUE,
+  NamesIn = NULL
 )
 }
 \arguments{
@@ -18,7 +19,7 @@ create_Points(
 If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 e.g. "DataFile.csv".
 
-\strong{The columns in the \code{Input} must be in the following order:
+\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
 
@@ -37,6 +38,11 @@ each point (as a numeric vector).}
 
 \item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
 all spatial objects are merged, resulting in a single spatial object.}
+
+\item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
+the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
@@ -55,26 +61,26 @@ Create Points to display point locations. Buffering points may be used to produc
 
 #Example 1: Simple points with labels
 
-MyPoints=create_Points(PointData)
+MyPoints=create_Points(Input=PointData)
 plot(MyPoints)
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 
 #Example 2: Simple points with labels, highlighting one group of points with the same name
 
-MyPoints=create_Points(PointData)
+MyPoints=create_Points(Input=PointData)
 plot(MyPoints)
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
 
 #Example 3: Buffered points with radius proportional to catch
 
-MyPoints=create_Points(PointData,Buffer=0.5*PointData$Catch)
+MyPoints=create_Points(Input=PointData,Buffer=0.5*PointData$Catch)
 plot(MyPoints,col='green')
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 
 #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 
-MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=TRUE)
+MyPoints=create_Points(Input=PointData,Buffer=2*PointData$Catch,Clip=TRUE)
 plot(MyPoints,col='cyan')
 plot(Coast[Coast$ID=='All',],add=TRUE,col='grey')
 

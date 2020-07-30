@@ -10,12 +10,13 @@ get_depths(
   d = 10000,
   Isobaths = NA,
   IsoLocs = FALSE,
-  ShowProgress = FALSE
+  ShowProgress = FALSE,
+  NamesIn = NULL
 )
 }
 \arguments{
 \item{Input}{dataframe with, at least, Latitudes and Longitudes.
-\strong{The columns in the \code{Input} must be in the following order:
+\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
 
@@ -33,6 +34,11 @@ make computations faster but at the risk of not finding distances to isobaths (w
 locations given in the \code{Input} are added to the exported dataframe.}
 
 \item{ShowProgress}{if set to \code{TRUE}, a progress bar is shown (\code{get_depths} may take a while).}
+
+\item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
+the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 }
 \value{
 dataframe with the same structure as the \code{Input} with additional columns, where 
@@ -55,15 +61,16 @@ Lon=PointData$Lon,
 Catch=PointData$Catch)
 
 #Example 1: get depths of locations
-MyDataD=get_depths(MyData,SmallBathy)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #View(MyDataD)
 plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue') #Plot of catch vs depth
 
 #Example 2: get depths of locations and distance to isobath -3000m
 
-MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy,
+        Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
 plot(MyDataD$x,MyDataD$y,pch=21,bg='green')
-contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
+raster::contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
 segments(x0=MyDataD$x,
          y0=MyDataD$y,
          x1=MyDataD$X_3000,

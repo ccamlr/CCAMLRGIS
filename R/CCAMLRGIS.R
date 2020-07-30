@@ -45,13 +45,14 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @import sp
 #' @import rgdal
 #' @import rgeos
-#' @import raster
 #' @import geosphere
 #' @importFrom dplyr distinct group_by summarise_all
 #' @importFrom grDevices colorRampPalette recordPlot replayPlot
-#' @importFrom graphics par rect segments
+#' @importFrom graphics par rect segments text
 #' @importFrom methods slot
+#' @importFrom stats quantile
 #' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu
 #' @importFrom magrittr %>%
+#' @importFrom raster raster extent extend crop extract rasterToContour pointDistance xres yres cut rasterToPolygons area crs match ncell setValues minValue maxValue mask cellStats contour click
 #' @name CCAMLRGIS
 NULL

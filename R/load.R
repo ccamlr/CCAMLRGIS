@@ -34,7 +34,7 @@ load_ASDs=function(){
   return(ASD_data)
 }
 
-#' load CCAMLR Small Scale Research Units
+#' Load CCAMLR Small Scale Research Units
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
@@ -70,7 +70,7 @@ load_SSRUs=function(){
   return(SSRU_data)
 }
 
-#' load the full CCAMLR Coastline
+#' Load the full CCAMLR Coastline
 #' 
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
@@ -251,7 +251,7 @@ load_RefAreas=function(){
   return(RA_data)
 }
 
-#' load CCAMLR Marine Protected Areas
+#' Load CCAMLR Marine Protected Areas
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.

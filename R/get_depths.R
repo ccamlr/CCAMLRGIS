@@ -5,9 +5,15 @@
 #' Optionally can also compute the horizontal distance of locations to chosen isobaths.
 #' 
 #' @param Input dataframe with, at least, Latitudes and Longitudes.
-#' \strong{The columns in the \code{Input} must be in the following order:
+#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Latitude, Longitude, Variable 1, Variable 2, ... Variable x}
+#' 
+#' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
+#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' 
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
+#' 
 #' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
 #' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
 #' resolution than \code{\link{SmallBathy}}.
@@ -36,15 +42,16 @@
 #' Catch=PointData$Catch)
 #' 
 #' #Example 1: get depths of locations
-#' MyDataD=get_depths(MyData,SmallBathy)
+#' MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #' #View(MyDataD)
 #' plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue') #Plot of catch vs depth
 #' 
 #' #Example 2: get depths of locations and distance to isobath -3000m
 #' 
-#' MyDataD=get_depths(MyData,SmallBathy,Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
+#' MyDataD=get_depths(Input=MyData,Bathy=SmallBathy,
+#'         Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
 #' plot(MyDataD$x,MyDataD$y,pch=21,bg='green')
-#' contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
+#' raster::contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
 #' segments(x0=MyDataD$x,
 #'          y0=MyDataD$y,
 #'          x1=MyDataD$X_3000,
@@ -55,10 +62,16 @@
 #'
 #' @export
 
-get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=FALSE){
+get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=FALSE,NamesIn=NULL){
 
   if(ShowProgress==TRUE){message('Bathymetry computation started',sep='\n')}
-    
+  
+  #Use NamesIn to reorder columns
+  if(is.null(NamesIn)==F){
+    if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
+    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  }
   #Project Lat/Lon
   xy=project(cbind(Input[,2],Input[,1]), CCAMLRp)
   #Create output dataframe
@@ -68,7 +81,7 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=F
   #grid locations to create groups of locations
   ra=suppressWarnings(raster(extent(Sp),res=d,crs=crs(Sp)))
   ra=extend(ra,2)
-  values(ra)=1:ncell(ra)
+  ra=setValues(ra,1:ncell(ra))
   gr=suppressWarnings(extract(ra,Sp))
   gr=match(gr,unique(gr))
   out$gr=gr

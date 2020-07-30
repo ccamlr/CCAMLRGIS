@@ -52,7 +52,7 @@ A distance constraint between stations may also be used if desired.
 
 #First, create a polygon within which stations will be created
 
-MyPolys=create_Polys(PolyData,Densify=TRUE)
+MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
 plot(MyPolys)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 #Subsample MyPolys to only keep the polygon with ID 'one'
@@ -66,7 +66,8 @@ BathyCroped=raster::crop(SmallBathy,MyPoly)
 
 #Example 1: Set numbers of stations, no distance constraint
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
+MyStations=create_Stations(Poly=MyPoly,
+           Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
 Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
@@ -77,8 +78,8 @@ par(Mypar)
 
 #Example 2: Set numbers of stations, with distance constraint
  
-MyStations=create_Stations(MyPoly,BathyCroped,
-                         Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
+MyStations=create_Stations(Poly=MyPoly,
+           Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
 Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
@@ -91,7 +92,8 @@ par(Mypar)
 
 #Example 3: Automatic numbers of stations, with distance constraint
 
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
+MyStations=create_Stations(Poly=MyPoly,
+           Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
 Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
 plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)

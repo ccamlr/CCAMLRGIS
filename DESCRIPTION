@@ -1,8 +1,8 @@
 Type: Package
 Package: CCAMLRGIS
 Title: Antarctic Spatial Data Manipulation
-Version: 3.0.4
-Date: 2020-06-06
+Version: 3.0.5
+Date: 2020-07-29
 Authors@R:
     c(person("Stephane","Thanassekos",role = c("aut", "cre"), email = "stephane.thanassekos@ccamlr.org"),
     person("Keith", "Reid", role = "aut"),
@@ -15,12 +15,14 @@ Description: Loads and creates spatial data, including layers and tools that are
     Load functions are used to import existing spatial layers from the online CCAMLR GIS
     such as the ASD boundaries. Create functions are used to create layers from user data
     such as polygons and grids.
-Depends: R (>= 3.6), sp, dplyr, raster
+Depends: R (>= 3.6), sp
 License: GPL-3
 URL: https://github.com/ccamlr/CCAMLRGIS
 Encoding: UTF-8
 LazyData: true
-Imports: 
+Imports:
+    dplyr,
+    raster,
     methods,
     rgdal,
     rgeos,
@@ -28,6 +30,6 @@ Imports:
     graphics,
     grDevices,
     magrittr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

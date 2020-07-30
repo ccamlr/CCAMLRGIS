@@ -2,7 +2,7 @@
 % Please edit documentation in R/load.R
 \name{load_Coastline}
 \alias{load_Coastline}
-\title{load the full CCAMLR Coastline}
+\title{Load the full CCAMLR Coastline}
 \usage{
 load_Coastline()
 }

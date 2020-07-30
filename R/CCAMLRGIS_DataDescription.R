@@ -10,7 +10,7 @@
 #' @name CCAMLRp
 NULL
 
-#' Coast
+#' Simplified and subsettable coastline
 #'
 #' Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 #' within the CCAMLR boundaries. This spatial object may be subsetted to plot the coastline for selected

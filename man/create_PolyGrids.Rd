@@ -12,7 +12,8 @@ create_PolyGrids(
   dlat = NA,
   Area = NA,
   cuts = 100,
-  cols = c("green", "yellow", "red")
+  cols = c("green", "yellow", "red"),
+  NamesIn = NULL
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ create_PolyGrids(
 If a .csv file is used as input, this file must be in your working directory and its name given in quotes
 e.g. "DataFile.csv".
 
-\strong{The columns in the \code{Input} must be in the following order:
+\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}}
 
@@ -41,6 +42,11 @@ shapefile in quotes (e.g. "MyGrid") must be provided.}
 \item{cuts}{Number of desired color classes.}
 
 \item{cols}{Desired colors. If more that one color is provided, a linear color gradient is generated.}
+
+\item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
+the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.
@@ -65,24 +71,26 @@ Cell size may be specified in degrees or as a desired area in square kilometers
 
 #Example 1: Simple grid, using automatic colors
 
-MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
+MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
 #View(MyGrid@data)
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
 
 #Example 2: Equal area grid, using automatic colors
 
-MyGrid=create_PolyGrids(GridData,Area=10000)
+MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
 
 #Example 3: Equal area grid, using custom cuts and colors
 
-#MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+MyGrid=create_PolyGrids(Input=GridData,
+       Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
+
 plot(MyGrid,col=MyGrid$Col_Catch_sum)
 
 #Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
 
 #Step 1: Generate your grid
-MyGrid=create_PolyGrids(GridData,Area=10000)
+MyGrid=create_PolyGrids(Input=GridData,Area=10000)
 
 #Step 2: Inspect your gridded data (e.g. sum of Catch) to
 #determine whether irregular cuts are required

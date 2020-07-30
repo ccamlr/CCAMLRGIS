@@ -82,7 +82,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
     )
     ls=par("usr")
     Gr=raster(extent(ls),nrows=100,ncols=100)
-    values(Gr)=NA
+    Gr=setValues(Gr,NA)
     #First label
     replayPlot(P)
     message('Click on your figure to add a label\n')
