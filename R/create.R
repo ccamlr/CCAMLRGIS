@@ -588,7 +588,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     GridL=Grid[is.na(GridL)==FALSE]
     Locs=rbind(Locs,cbind(coordinates(GridL),i))
   }
-  Grid=SpatialPointsDataFrame(cbind(Locs[,1],Locs[,2]),data.frame(layer=Locs[,3]),proj4string=CRS(CCAMLRp))
+  Grid=SpatialPointsDataFrame(cbind(Locs[,1],Locs[,2]),data.frame(layer=Locs[,3]),proj4string=CRS("+init=epsg:6932"))
   
   if(is.na(dist)==TRUE){ #Random locations
     Locs=NULL
@@ -601,10 +601,9 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
                     x=Locs[,1],
                     y=Locs[,2])
     #Add Lat/Lon
-    tmp=project(cbind(Locs$x,Locs$y),proj=CCAMLRp,inv=TRUE)
-    Locs$Lat=tmp[,2]
-    Locs$Lon=tmp[,1]
-    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS(CCAMLRp))
+    Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    
+    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS("+init=epsg:6932"))
     if(ShowProgress==TRUE){
       message('\n')
       message('Station creation ended',sep='\n')
@@ -621,7 +620,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     wdth=100*ceiling(1852*dist/100)
     Locs=NULL
     while(length(Grid)>0){
-      smallB=gBuffer(SpatialPoints(cbind(tmpx,tmpy),proj4string=CRS(CCAMLRp)),width=wdth,quadsegs=25)
+      smallB=gBuffer(SpatialPoints(cbind(tmpx,tmpy),proj4string=CRS("+init=epsg:6932")),width=wdth,quadsegs=25)
       smallBi=over(Grid,smallB)
       smallBi=which(is.na(smallBi)==FALSE)
       #Save central point locations
@@ -661,10 +660,9 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     }
     Locs=Locs[indx,]    
     #Add Lat/Lon
-    tmp=project(cbind(Locs$x,Locs$y),proj=CCAMLRp,inv=TRUE)
-    Locs$Lat=tmp[,2]
-    Locs$Lon=tmp[,1]
-    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS(CCAMLRp))
+    Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    
+    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS("+init=epsg:6932"))
     if(ShowProgress==TRUE){
       message('\n')
       message('Station creation ended',sep='\n')

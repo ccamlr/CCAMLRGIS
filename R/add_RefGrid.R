@@ -56,7 +56,7 @@ if(is.na(sum(offset))==TRUE){
 }
 
 #Create Lat/Lon grid
-x=Spatial(cbind(min=c(-180,-80),max=c(180,-45)),proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
+x=Spatial(cbind(min=c(-180,-80),max=c(180,-45)),proj4string=CRS("+init=epsg:4326"))
 if(is.na(LabLon)==FALSE){
   gr=gridlines(x,easts=sort(unique(c(seq(-180,180,by=ResLon),LabLon))),norths=seq(-80,-45,by=ResLat),ndiscr = 1000) 
 }else{
@@ -64,7 +64,7 @@ if(is.na(LabLon)==FALSE){
 }
 
 #Create box
-LocsP=SpatialLines(list(Lines(list(Line(Locs)),'name')), proj4string=CRS(CCAMLRp))
+LocsP=SpatialLines(list(Lines(list(Line(Locs)),'name')), proj4string=CRS("+init=epsg:6932"))
 
 #Get labels
 #Circumpolar
@@ -72,19 +72,19 @@ if(is.na(LabLon)==FALSE){
   grP=gIntersection(gr[1],gr[2])
   Cs=coordinates(grP)
   Cs=data.frame(Lat=Cs[,2],Lon=Cs[,1])
-  grP=SpatialPointsDataFrame(cbind(Cs$Lon,Cs$Lat),Cs,proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
-  grP=spTransform(grP,CRS(CCAMLRp))
+  grP=SpatialPointsDataFrame(cbind(Cs$Lon,Cs$Lat),Cs,proj4string=CRS("+init=epsg:4326"))
+  grP=spTransform(grP,CRS("+init=epsg:6932"))
   tmp=coordinates(grP)
   grP$x=tmp[,1]
   grP$y=tmp[,2]
-  gr=spTransform(gr,CRS(CCAMLRp))
+  gr=spTransform(gr,CRS("+init=epsg:6932"))
   
   Labs=grP@data
   LatLabs=Labs[Labs$Lon==LabLon,]
   LonLabs=Labs[Labs$Lat==max(Labs$Lat),]
   #Offset Longitude labels
-  Lps=SpatialPoints(cbind(sort(unique(c(seq(-180,180,by=ResLon),LabLon))),-43+offsetx),proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
-  Lps=spTransform(Lps,CRS(CCAMLRp))
+  Lps=SpatialPoints(cbind(sort(unique(c(seq(-180,180,by=ResLon),LabLon))),-43+offsetx),proj4string=CRS("+init=epsg:4326"))
+  Lps=spTransform(Lps,CRS("+init=epsg:6932"))
   Lps=coordinates(Lps)
   LonLabs$x=Lps[,1]
   LonLabs$y=Lps[,2]
@@ -92,11 +92,11 @@ if(is.na(LabLon)==FALSE){
   LonLabs$xadj=0.5
   LatLabs$xadj=0.5
 }else{
-  grlat=spTransform(gr[1],CRS(CCAMLRp))
-  grlon=spTransform(gr[2],CRS(CCAMLRp))
+  grlat=spTransform(gr[1],CRS("+init=epsg:6932"))
+  grlon=spTransform(gr[2],CRS("+init=epsg:6932"))
   
-  grlat=suppressWarnings(raster::crop(grlat,LocsP))
-  grlon=suppressWarnings(raster::crop(grlon,LocsP))
+  grlat=raster::crop(grlat,LocsP)
+  grlon=raster::crop(grlon,LocsP)
   
   gr=rbind(grlat,grlon)
   
@@ -123,12 +123,8 @@ if(is.na(LabLon)==FALSE){
   if((dim(LabslatH)[1]+dim(LabslonV)[1])>(dim(LabslatV)[1]+dim(LabslonH)[1])){
     #go with LabslatH and LabslonV
     #Get Lat/Lon
-    tmp=project(cbind(LabslatH$x,LabslatH$y),proj=CCAMLRp,inv=TRUE)
-    LabslatH$Lat=tmp[,2]
-    LabslatH$Lon=tmp[,1]
-    tmp=project(cbind(LabslonV$x,LabslonV$y),proj=CCAMLRp,inv=TRUE)
-    LabslonV$Lat=tmp[,2]
-    LabslonV$Lon=tmp[,1]
+    LabslatH=project_data(Input=LabslatH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    LabslatV=project_data(Input=LabslatV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
     #Add offset
     LabslatH$y[LabslatH$y==max(LabslatH$y)]=LabslatH$y[LabslatH$y==max(LabslatH$y)]+offsety
     LabslatH$y[LabslatH$y==min(LabslatH$y)]=LabslatH$y[LabslatH$y==min(LabslatH$y)]-offsety
@@ -143,12 +139,8 @@ if(is.na(LabLon)==FALSE){
   }else{
     #go with LabslatV and LabslonH
     #Get Lat/Lon
-    tmp=project(cbind(LabslatV$x,LabslatV$y),proj=CCAMLRp,inv=TRUE)
-    LabslatV$Lat=tmp[,2]
-    LabslatV$Lon=tmp[,1]
-    tmp=project(cbind(LabslonH$x,LabslonH$y),proj=CCAMLRp,inv=TRUE)
-    LabslonH$Lat=tmp[,2]
-    LabslonH$Lon=tmp[,1]
+    LabslatV=project_data(Input=LabslatV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    LabslonH=project_data(Input=LabslonH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
     #Add offset
     LabslonH$xadj=0.5
     LabslatV$xadj=1

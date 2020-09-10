@@ -73,16 +73,17 @@ get_depths=function(Input,Bathy,d=10000,Isobaths=NA,IsoLocs=FALSE,ShowProgress=F
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   #Project Lat/Lon
-  xy=project(cbind(Input[,2],Input[,1]), CCAMLRp)
+  xy=data.frame(Lat=Input[,1],Lon=Input[,2])
+  xy=project_data(xy,NamesIn=c('Lat','Lon'),append=F)
   #Create output dataframe
-  out=data.frame(X=xy[,1],Y=xy[,2])
+  out=xy[,c(2,1)]
   #Create spatial points
-  Sp=SpatialPoints(out,CRS(CCAMLRp))
+  Sp=SpatialPoints(out,CRS("+init=epsg:6932"))
   #grid locations to create groups of locations
-  ra=suppressWarnings(raster(extent(Sp),res=d,crs=crs(Sp)))
+  ra=raster(extent(Sp),res=d,crs=crs(Sp))
   ra=extend(ra,2)
   ra=setValues(ra,1:ncell(ra))
-  gr=suppressWarnings(extract(ra,Sp))
+  gr=extract(ra,Sp)
   gr=match(gr,unique(gr))
   out$gr=gr
   

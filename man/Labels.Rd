@@ -30,5 +30,5 @@ add_labels(mode='auto',layer='ASDs',fontsize=1,fonttype=2)
 \seealso{
 \code{\link{add_labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
-\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}.
+\code{\link{load_MPAs}}.
 }

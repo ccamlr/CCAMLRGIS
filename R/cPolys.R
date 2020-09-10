@@ -18,7 +18,7 @@ cPolys=function(Input,Densify=FALSE){
     }
     Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(ids[i]))
   }
-  Locs=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
+  Locs=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:4326"))
   #Summarise data
   Input=as.data.frame(Input[,-c(2,3)])
   colnames(Input)[1]='ID'
@@ -39,7 +39,7 @@ cPolys=function(Input,Densify=FALSE){
   row.names(Sdata)=Sdata$ID
   Locs=SpatialPolygonsDataFrame(Locs,Sdata)
   #Project
-  Locs=spTransform(Locs,CRS(CCAMLRp))
+  Locs=spTransform(Locs,CRS("+init=epsg:6932"))
   #Get areas
   Ar=round(gArea(Locs,byid=TRUE)/1000000,1)
   Locs$AreaKm2=as.numeric(Ar)[match(Locs$ID,names(Ar))]

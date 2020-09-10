@@ -32,7 +32,7 @@
 #' @export
 
 Clip2Coast=function(Input){
-  tmp=gDifference(Input,Coast[Coast$ID=='All',],byid=TRUE,checkValidity=2,id=as.character(Input$ID))
+  tmp=suppressWarnings(gDifference(Input,Coast[Coast$ID=='All',],byid=TRUE,checkValidity=2,id=as.character(Input$ID)))
   #Get areas
   Ar=round(gArea(tmp,byid=TRUE)/1000000,1)
   if("Buffered_AreaKm2"%in%colnames(Input@data)){

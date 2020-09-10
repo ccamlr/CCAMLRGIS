@@ -1,13 +1,13 @@
 #' Load CCAMLR statistical Areas, Subareas and Divisions
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -29,21 +29,22 @@
 
 load_ASDs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas&outputFormat=json"
-  ASD_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(ASD_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load CCAMLR Small Scale Research Units
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -65,21 +66,23 @@ load_ASDs=function(){
 #' 
 load_SSRUs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus&outputFormat=json"
-  SSRU_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(SSRU_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load the full CCAMLR Coastline
 #' 
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use. Note that this coastline expands further north than \link{Coast}.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#' Note that this coastline expands further north than \link{Coast}.
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -101,21 +104,22 @@ load_SSRUs=function(){
 #' 
 load_Coastline=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline&outputFormat=json"
-  Coastline_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(Coastline_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load CCAMLR Research Blocks
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -137,21 +141,22 @@ load_Coastline=function(){
 #' 
 load_RBs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks&maxFeatures=50&outputFormat=json"
-  RB_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(RB_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load CCAMLR Small Scale Management Units
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -173,21 +178,22 @@ load_RBs=function(){
 #' 
 load_SSMUs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus&outputFormat=json"
-  SSMU_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose=FALSE))
-  return(SSMU_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load CCAMLR Management Areas
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -209,58 +215,22 @@ load_SSMUs=function(){
 #' 
 load_MAs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-  MA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(MA_data)
-}
-
-#' Load CCAMLR Reference Areas
-#'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
-#'
-#' @seealso 
-#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
-#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
-#' 
-#' @export
-#' @examples  
-#' \donttest{
-#' 
-#' #When online:
-#' RefAreas=load_RefAreas()
-#' plot(RefAreas)
-#' 
-#' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
-#' RefAreas=load_RefAreas()
-#' EEZs=load_EEZs()
-#' save(list=c('RefAreas','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
-#' rm(RefAreas,EEZs)
-#' load(file.path(tempdir(), "CCAMLRLayers.RData"))
-#' 
-#' }
-#' 
-
-load_RefAreas=function(){
-  #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas&outputFormat=json"
-  RA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(RA_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load CCAMLR Marine Protected Areas
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_EEZs}}.
 #' 
 #' @export
 #' @examples  
@@ -283,21 +253,22 @@ load_RefAreas=function(){
 
 load_MPAs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas&outputFormat=json"
-  MPA_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(MPA_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }
 
 #' Load Exclusive Economic Zones
 #' 
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-#' The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-#' See examples for offline use.
+#' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}.
+#' \code{\link{load_MPAs}}.
 #' 
 #' @export
 #' @examples  
@@ -320,7 +291,8 @@ load_MPAs=function(){
 
 load_EEZs=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez&outputFormat=json"
-  EEZ_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",p4s=CCAMLRp,verbose = FALSE))
-  return(EEZ_data)
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez_6932&outputFormat=json"
+  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
+  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  return(CCAMLR_data)
 }

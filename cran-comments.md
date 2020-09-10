@@ -6,12 +6,14 @@
 
 ## R CMD check results
 
-* There were no ERRORS, WARNINGS OR NOTES on Windows OS. 
+* 1 Note on Windows platforms tested: checking for future file timestamps | unable to verify current time.
+* There were no ERRORS OR WARNINGS on Windows OS. 
 * Preperror on Ubuntu Linux 16.04 LTS, R-release, GCC: *installation of package ‘rgdal’ had non-zero exit status*
 * Preperror on Fedora Linux, R-devel, clang, gfortran: *installation of package ‘rgdal’ had non-zero exit status*
 
 ## Notes about CRAN edits
 
+* Moved to using EPSG codes in spatial operations
 * Added NamesIn parameter in create_x functions
 * Changed handling of packages dependencies
 * Changed crs argument to accommodate rgdal and sp updates

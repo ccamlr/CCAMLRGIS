@@ -2,6 +2,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID'))
 #' 
 #' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
+#' All operations use the Lambert azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs).
 #'
 #' This package provides two broad categories of functions: load functions and create functions.
 #' 
@@ -14,7 +15,6 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #'   \item \link{load_SSMUs}
 #'   \item \link{load_MAs}
 #'   \item \link{load_Coastline}
-#'   \item \link{load_RefAreas}
 #'   \item \link{load_MPAs}
 #'   \item \link{load_EEZs}
 #' }

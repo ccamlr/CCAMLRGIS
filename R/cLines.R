@@ -20,7 +20,7 @@ cLines=function(Input,Densify=FALSE){
     Llengths=rbind(Llengths,cbind(id=as.character(ids[i]),
                                   L=LinesLength(Ll[[i]],longlat=TRUE)))
   }
-  Locs=SpatialLines(Ll, proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
+  Locs=SpatialLines(Ll, proj4string=CRS("+init=epsg:4326"))
   #Format lengths
   Llengths=as.data.frame(Llengths)
   Llengths$id=as.character(Llengths$id)
@@ -51,6 +51,6 @@ cLines=function(Input,Densify=FALSE){
   row.names(Sdata)=Sdata$ID
   Locs=SpatialLinesDataFrame(Locs,Sdata)
   #Project
-  Locs=spTransform(Locs,CRS(CCAMLRp))
+  Locs=spTransform(Locs,CRS("+init=epsg:6932"))
   return(Locs)
 }
