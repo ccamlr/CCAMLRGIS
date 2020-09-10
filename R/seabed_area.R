@@ -39,7 +39,7 @@
 seabed_area=function (Bathy, Polys, depth_classes=c(-600,-1800)){
 
   if (proj4string(Bathy) != suppressWarnings(proj4string(Polys))){ 
-   warning("Projection of bathymetry does not match that of polygons, results may be inaccurate.")}
+   warning("Projection of bathymetry does not match that of polygons, results will be inaccurate.")}
   
   cellarea=xres(Bathy)*yres(Bathy)
   

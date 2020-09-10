@@ -1,7 +1,9 @@
 #' CCAMLRGIS Projection
 #'
-#' The CCAMLRGIS package uses the \href{http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
-#' Source: \url{http://gis.ccamlr.org/}
+#' The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
+#' Source: \url{http://gis.ccamlr.org/}.
+#' In order to align with recent developments within Geographic Information Software, this projection
+#' will be accessed via EPSG code 6932 (see \url{https://epsg.org/}).
 #' 
 #' @docType data
 #' @usage data(CCAMLRp)
@@ -147,19 +149,21 @@ NULL
 
 #' Small bathymetry dataset
 #'
-#' Bathymetry dataset derived from the \href{http://www.gebco.net/}{GEBCO 2019} dataset.
+#' Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2020} dataset.
 #' Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
-#' and a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+#' at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 #' To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 #' \strong{To be only used for large scale illustrative purposes}. Please refer to the package's vignette
 #' (\code{browseVignettes("CCAMLRGIS")}; see Section 1) to produce a higher resolution raster, suitable for analyses.
-#'
+#' 
+#' 
 #' @docType data
 #' @usage data(SmallBathy)
 #' @format raster
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
 #' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}}, \code{\link{create_Stations}}.
+#' @references GEBCO Compilation Group (2020) GEBCO 2020 Grid (doi:10.5285/a29c5465-b138-234d-e053-6c86abc040b9)
 #' @name SmallBathy
 NULL
 
@@ -185,6 +189,6 @@ NULL
 #' 
 #' @seealso \code{\link{add_labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}.
+#' \code{\link{load_MPAs}}.
 #' @name Labels
 NULL

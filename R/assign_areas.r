@@ -43,7 +43,7 @@
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
 #' @examples
 #' \donttest{
@@ -70,20 +70,24 @@
 assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL,NamesIn=NULL){
   #Ensure Input is a data.frame
   Input=as.data.frame(Input)
-  #Use NamesIn to reorder columns
+  #Check NamesIn
   if(is.null(NamesIn)==F){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
     if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
-    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   #Set NamesOut if not provided
   if(is.null(NamesOut)==TRUE){NamesOut=Polys}
+  if(any(NamesOut%in%colnames(Input)==T)){stop("'NamesOut' matches column names in 'Input', please use different names")}
   #Repeat Buffer if needed
   if(length(Buffer)==1 & length(Polys)>1){Buffer=rep(Buffer,length(Polys))}
   #Repeat AreaNameFormat if needed
   if(length(AreaNameFormat)==1 & length(Polys)>1){AreaNameFormat=rep(AreaNameFormat,length(Polys))}
   #Get locations
+  if(is.null(NamesIn)==T){
   Locs=Input[,c(2,1)]
+  }else{
+  Locs=Input[,NamesIn[c(2,1)]]  
+  }
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
   if(length(Missing)>1){
@@ -109,9 +113,9 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Remove missing locations
   Locu=Locu[is.na(Locu[,1])==FALSE & is.na(Locu[,2])==FALSE,]
   #Turn uniques into Spatial data
-  SPls=SpatialPoints(cbind(Locu[,1],Locu[,2]),proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
+  SPls=SpatialPoints(cbind(Locu[,1],Locu[,2]),proj4string = CRS("+init=epsg:4326"))
   #Project to match Polys projection
-  SPls=spTransform(SPls,CRS(CCAMLRp))
+  SPls=spTransform(SPls,CRS("+init=epsg:6932"))
   #Initialize a dataframe which will collate assigned Polys
   Assigned_Areas=data.frame(matrix(NA,nrow=dim(Locu)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut)))
   #loop over Polys to assign them to locations
@@ -130,7 +134,11 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Add new, empty columns to input dataframe to store results
   Input=cbind(Input,data.frame(matrix(NA,nrow=dim(Input)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut))))
   #Create a temporary code to match unique locations back to input dataframe
+  if(is.null(NamesIn)==T){
   tmp=paste0(Input[,2],'|',Input[,1])
+  }else{
+  tmp=paste0(Input[,NamesIn[2]],'|',Input[,NamesIn[1]])  
+  }
   #Match assigned areas to input dataframe
   match=match(tmp,Locu$Code)
   for(i in seq(1,length(Polys))){

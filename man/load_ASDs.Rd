@@ -8,8 +8,8 @@ load_ASDs()
 }
 \description{
 Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
-The layer's Metadata is accessible by clicking on the red 'i' in the list of layers available on the \href{http://gis.ccamlr.org/}{online CCAMLRGIS}.
-See examples for offline use.
+See examples for offline use. All layers use the Lambert azimuthal equal-area projection
+ (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
 }
 \examples{
  
@@ -32,5 +32,5 @@ load(file.path(tempdir(), "CCAMLRLayers.RData"))
 \seealso{
 \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-\code{\link{load_RefAreas}}, \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+\code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 }

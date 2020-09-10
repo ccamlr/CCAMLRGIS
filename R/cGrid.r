@@ -43,9 +43,9 @@ if(is.na(Area)==TRUE){
     
     Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(i))
   }
-  Group=SpatialPolygons(Pl, proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
+  Group=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:4326"))
   #project
-  Group=spTransform(Group,CRS(CCAMLRp))
+  Group=spTransform(Group,CRS("+init=epsg:6932"))
   #Get area
   tmp=gArea(Group, byid=TRUE)
   tmp=data.frame(ID=names(tmp),AreaKm2=tmp*1e-6)
@@ -58,19 +58,15 @@ if(is.na(Area)==TRUE){
   PolyIndx=1     #Index of polygon (cell)
   Group = list() #Initialize storage of cells
   
-  # #Shift round latitudes otherwise they will not be assigned to a cell
-  # indx=which(abs(data$lat - round(data$lat))<0.0001)
-  # if(length(indx)>0){data$lat[indx]=round(data$lat[indx])-0.0001}
-  
-  StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+proj=longlat +datum=WGS84 +no_defs"))
+  StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+init=epsg:4326"))
   LatS=0
   
   while(LatS>min(data$lat)){
     
     #Compute circumference at Northern latitude of cells
     NLine=SpatialLines(list(Lines(Line(cbind(seq(-180,180,length.out=10000),
-                                             rep(coordinates(StartP)[,2],10000))),'N')),CRS("+proj=longlat +datum=WGS84 +no_defs"))
-    NLine=spTransform(NLine,CCAMLRp)
+                                             rep(coordinates(StartP)[,2],10000))),'N')),CRS("+init=epsg:4326"))
+    NLine=spTransform(NLine,CRS("+init=epsg:6932"))
     L=SpatialLinesLengths(NLine)
     #Compute number of cells
     N=floor(L/s)
@@ -84,8 +80,14 @@ if(is.na(Area)==TRUE){
     lons=unique(c(Lons[1],seq(Lons[1],Lons[2],by=0.1),Lons[2]))
     PLon=c(lons,rev(lons),lons[1])
     PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
-    PRO = project(cbind(PLon, PLat), CCAMLRp)
-    Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+    
+    # PRO = project(cbind(PLon, PLat), CCAMLRp)
+    # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+    
+    PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
+                     NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+    Pl=Polygon(PRO[,c('x','y')])
+    
     
     Res=10/10^(0:15)
     while(Area>Pl@area & length(Res)!=0){
@@ -99,13 +101,25 @@ if(is.na(Area)==TRUE){
         LatS=-90
         break}
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
-      PRO = project(cbind(PLon, PLat), CCAMLRp)
-      Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+      
+      # PRO = project(cbind(PLon, PLat), CCAMLRp)
+      # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+      
+      PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
+                       NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+      Pl=Polygon(PRO[,c('x','y')])
+      
       if(Area<Pl@area){
         LatS=LatSBase
         PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
-        PRO = project(cbind(PLon, PLat), CCAMLRp)
-        Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+        
+        # PRO = project(cbind(PLon, PLat), CCAMLRp)
+        # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+        
+        PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
+                         NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+        Pl = Polygon(PRO[,c('x','y')])
+        
         Res=Res[-1]
       }
     }
@@ -115,8 +129,15 @@ if(is.na(Area)==TRUE){
       lons=unique(c(Lons[i],seq(Lons[i],Lons[i+1],by=0.1),Lons[i+1]))
       PLon=c(lons,rev(lons),lons[1])
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
-      PRO = project(cbind(PLon, PLat), CCAMLRp)
-      Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+      
+      # PRO = project(cbind(PLon, PLat), CCAMLRp)
+      # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
+      
+      PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
+                       NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+      Pl = Polygon(PRO[,c('x','y')])
+      
+      
       Pls = Polygons(list(Pl), ID = PolyIndx)
       Group[[PolyIndx]] = Pls
       PolyIndx=PolyIndx+1
@@ -124,11 +145,11 @@ if(is.na(Area)==TRUE){
     
     rm(NLine,Pl,Pls,PRO,StartP,i,L,LatSBase,Lons,lons,lx,ly,N,PLat,PLon,Res)
     
-    StartP=SpatialPoints(cbind(0,LatS),CRS("+proj=longlat +datum=WGS84 +no_defs"))
+    StartP=SpatialPoints(cbind(0,LatS),CRS("+init=epsg:4326"))
   }
   
   Group = SpatialPolygons(Group)
-  proj4string(Group) = CRS(CCAMLRp)
+  proj4string(Group) = CRS("+init=epsg:6932")
   tmp=gArea(Group, byid=TRUE)
   tmp=data.frame(ID=names(tmp),AreaKm2=tmp*1e-6)
   Group=SpatialPolygonsDataFrame(Group,tmp)
@@ -143,7 +164,10 @@ if(is.na(Area)==TRUE){
   Group$Laby=labs[match(Group$ID,row.names(labs)),'y']
   
   #Match data to grid cells
-  tmp=over(SpatialPoints(project(cbind(data$lon,data$lat),CCAMLRp),CRS(CCAMLRp)),Group)
+  tmp_p=project_data(Input=data,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
+  tmp_p=SpatialPoints(tmp_p[,c('x','y')],CRS("+init=epsg:6932"))
+  tmp=over(tmp_p,Group)
+  
   #Look for un-assigned data points (falling on an edge between cells)
   Iout=which(is.na(tmp$ID)==T) #Index of those falling out
   while(length(Iout)>0){
@@ -157,7 +181,10 @@ if(is.na(Area)==TRUE){
     datatmp$lat=datatmp$lat+MovLat
     datatmp$lon=datatmp$lon+MovLon
     data=rbind(data,datatmp)
-    tmptmp=over(SpatialPoints(project(cbind(datatmp$lon,datatmp$lat),CCAMLRp),CRS(CCAMLRp)),Group)
+    tmptmp_p=project_data(Input=datatmp,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
+    tmptmp_p=SpatialPoints(tmptmp_p[,c('x','y')],CRS("+init=epsg:6932"))
+    tmptmp=over(tmptmp_p,Group)
+    
     tmp=rbind(tmp,tmptmp)
     rm(datatmp,tmptmp)
     DegDev=DegDev+0.0001

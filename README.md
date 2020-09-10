@@ -62,6 +62,7 @@ install.packages("CCAMLRGIS")
   - 4.1. get\_depths
   - 4.2. seabed\_area
   - 4.3. assign\_areas
+  - 4.4. project\_data
 
 <!-- end list -->
 
@@ -143,7 +144,7 @@ a higher resolution:
 
 ``` r
 
-#Step 1: Download the global GEBCO_2019 Grid in netCDF format (11 Gbytes, 12 Gbytes uncompressed), from:
+#Step 1: Download the global GEBCO Grid, from:
 #http://www.gebco.net/data_and_products/gridded_bathymetry_data/
 
 #Step 2: load the 'raster' and 'rgeos' libraries
@@ -151,7 +152,7 @@ library(raster)
 library(rgeos)
 
 #Step 3: Read the data
-G=raster(" Path to the folder containing the GEBCO data /GEBCO_2019.nc")
+G=raster(" Path to the folder containing the GEBCO data /GEBCO_YearXXXX.nc")
 
 #Step 4: Crop the data to below 40 degrees South
 G=crop(G,extent(-180,180,-90,-40))
@@ -695,11 +696,10 @@ SSRUs=load_SSRUs()
 RBs=load_RBs()
 SSMUs=load_SSMUs()
 MAs=load_MAs()
-RefAreas=load_RefAreas()
 MPAs=load_MPAs()
 
 #Save as .RData file (here in the temp directory)
-save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','RefAreas','MPAs'),
+save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','MPAs'),
      file = file.path(tempdir(), "CCAMLRLayers.RData"), compress='xz')
 
 #Later, when offline load layers:
@@ -742,13 +742,13 @@ head(MyData)
 MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #The resulting data looks like this (where 'd' is the depth and 'x' and 'y' are the projected locations):
 head(MyDataD)
-#>         Lat       Lon    Catch          x        y         d
-#> 1 -68.63966 -175.0078 53.33002 -206321.41 -2361962 -3855.353
-#> 2 -67.03475 -178.0322 38.66385  -87445.72 -2545119 -3938.129
-#> 3 -65.44164 -170.1656 20.32608 -464656.29 -2680488 -2998.277
-#> 4 -68.36806  151.0247 69.81201 1162986.84 -2100218  -119.294
-#> 5 -63.89171  154.4327 52.32101 1246832.20 -2606157 -3131.400
-#> 6 -66.35370  153.6906 78.65576 1161675.96 -2349505 -2235.786
+#>         Lat       Lon    Catch          x        y           d
+#> 1 -68.63966 -175.0078 53.33002 -206321.41 -2361962 -3902.17494
+#> 2 -67.03475 -178.0322 38.66385  -87445.72 -2545119 -3944.33588
+#> 3 -65.44164 -170.1656 20.32608 -464656.29 -2680488 -3002.31098
+#> 4 -68.36806  151.0247 69.81201 1162986.84 -2100218   -95.20888
+#> 5 -63.89171  154.4327 52.32101 1246832.20 -2606157 -3306.09463
+#> 6 -66.35370  153.6906 78.65576 1161675.96 -2349505 -2263.46712
 #Prepare layout for 2 sub-plots
 Mypar<-par(mfrow=c(2,1),mai=c(0.4,0.4,0.1,0.1))
 #Plot Catch vs Depth
@@ -800,9 +800,9 @@ FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000
 #Result looks like this (note that the -600m to -1800m is renamed 'Fishable_area')
 head(FishDepth)
 #>   Polys 0|-200 -200|-600 Fishable_area -1800|-3000 -3000|-5000
-#> 1   one      0     17600         40400       42000       87300
-#> 2   two      0       400          2200        8700       84100
-#> 3 three    200      1200         12800      217900      128100
+#> 1   one      0     18000         40300       39200       89800
+#> 2   two      0      1100          1100        8900       84300
+#> 3 three    300      1600          6400      223200      128100
 ```
 
 ### 4.3. assign\_areas
@@ -840,6 +840,35 @@ table(MyData$MyASDs)
 table(MyData$MySSRUs) 
 ```
 
+### 4.4. project\_data
+
+A simple function to project user-supplied locations. Input must be a
+dataframe, outputs may be appended to the dataframe.
+
+``` r
+
+#The input data looks like this:
+head(PointData)
+#>         Lat       Lon  name    Catch Nfishes n
+#> 1 -68.63966 -175.0078   one 53.33002     460 1
+#> 2 -67.03475 -178.0322   two 38.66385     945 2
+#> 3 -65.44164 -170.1656   two 20.32608     374 3
+#> 4 -68.36806  151.0247   two 69.81201      87 4
+#> 5 -63.89171  154.4327 three 52.32101     552 5
+#> 6 -66.35370  153.6906  four 78.65576      22 6
+#Generate a dataframe with random locations
+MyData=project_data(Input=PointData,NamesIn=c('Lat','Lon'),NamesOut=c('Projected_Y','Projectd_X'),append=TRUE)
+#The output data looks like this:
+head(MyData)
+#>         Lat       Lon  name    Catch Nfishes n Projected_Y Projectd_X
+#> 1 -68.63966 -175.0078   one 53.33002     460 1    -2361962 -206321.41
+#> 2 -67.03475 -178.0322   two 38.66385     945 2    -2545119  -87445.72
+#> 3 -65.44164 -170.1656   two 20.32608     374 3    -2680488 -464656.29
+#> 4 -68.36806  151.0247   two 69.81201      87 4    -2100218 1162986.84
+#> 5 -63.89171  154.4327 three 52.32101     552 5    -2606157 1246832.20
+#> 6 -66.35370  153.6906  four 78.65576      22 6    -2349505 1161675.96
+```
+
 ## 5\. Adding colors, legends and labels
 
 ### 5.1. Bathymetry colors
@@ -847,7 +876,7 @@ table(MyData$MySSRUs)
 Coloring bathymetry requires a vector of depth classes and a vector of
 colors. Colors are applied between depth classes (so there is one less
 color than there are depth classes). Two sets of bathymetry colors are
-included in the package. One simply colors the bathyrmetry in shades of
+included in the package. One simply colors the bathymetry in shades of
 blue (Depth\_cols and Depth\_cuts), the other adds shades of green to
 highlight the Fishable Depth (600-1800m; Depth\_cols2 and Depth\_cuts2).
 
@@ -862,7 +891,7 @@ plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FAL
 add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-500,width=16)
 ```
 
-<img src="README-unnamed-chunk-36-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-37-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -879,7 +908,7 @@ plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=F
 add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=-500,width=16)
 ```
 
-<img src="README-unnamed-chunk-37-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-38-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -936,7 +965,7 @@ add_Cscale(title='Number of fishes',
 box()
 ```
 
-<img src="README-unnamed-chunk-39-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-40-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -967,7 +996,7 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22
      fontsize=0.75,lwd=1) 
 ```
 
-<img src="README-unnamed-chunk-40-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-41-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -1020,7 +1049,7 @@ legend(Loc,legend=c('one','two','three','four'),
        box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.5)
 ```
 
-<img src="README-unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)
@@ -1064,7 +1093,7 @@ plot(EEZs,add=TRUE,border='green')
 add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
 ```
 
-<img src="README-unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="README-unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 par(Mypar)

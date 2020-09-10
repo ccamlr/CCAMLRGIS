@@ -1,3 +1,15 @@
+# CCAMLRGIS 3.0.6
+
+Moved to spatial operations using EPSG codes. Now using EPSG:6932 to project to Lambert azimuthal equal-area projection. This was included in all internal projections as well as load_ functions.
+
+Added project_data function.
+
+Added Latitudes/Longitudes to label table when using the add_labels function in 'manual' mode. This may be used to find Latitudes/Longitudes by clicking on a map.
+
+Updated SmallBathy to GEBCO 2020.
+
+assign_areas doesn't re-order columns of the input dataframe any more (when using NamesIn parameter).
+
 # CCAMLRGIS 3.0.5
 
 Changed how other packages and functions are loaded when CCAMLRGIS is loaded. Now, only sp is loaded (unavoidable) which removes some past package conflicts (e.g., masking of dplyr functions when raster was loaded).

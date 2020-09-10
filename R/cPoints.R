@@ -1,6 +1,6 @@
 cPoints=function(Input){
-  Locs=SpatialPointsDataFrame(cbind(Input[,2],Input[,1]),Input,proj4string=CRS("+proj=longlat +datum=WGS84 +no_defs"))
-  Locs=spTransform(Locs,CRS(CCAMLRp))
+  Locs=SpatialPointsDataFrame(cbind(Input[,2],Input[,1]),Input,proj4string=CRS("+init=epsg:4326"))
+  Locs=spTransform(Locs,CRS("+init=epsg:6932"))
   tmp=coordinates(Locs)
   Locs$x=tmp[,1]
   Locs$y=tmp[,2]

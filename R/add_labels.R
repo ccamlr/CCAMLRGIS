@@ -24,7 +24,7 @@
 #' @seealso 
 #' @seealso \code{\link{Labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
-#' \code{\link{load_RefAreas}}, \code{\link{load_MPAs}},
+#' \code{\link{load_MPAs}},
 #' \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
 #'  
 #' @examples
@@ -100,6 +100,8 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
                 stringsAsFactors=FALSE
               )
     )
+    Lab=project_data(Input=Lab,NamesIn=c('y','x'),NamesOut=c('Latitude','Longitude'),append=TRUE,inv=TRUE)
+    
     for(ang in unique(Lab$angle)){
       text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
            Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
@@ -124,17 +126,19 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
         message('Then edit the label table and close it\n')
         a=click(Gr,xy=TRUE,n=1,show=FALSE)
         Lab=rbind(Lab,
-                  data.frame(
-                    x=a$x,
-                    y=a$y,
-                    text='NewLabel',
-                    fontsize=1,
-                    fonttype=1,
-                    angle=0,
-                    col='black',
-                    stringsAsFactors=FALSE
-                  )
+                       project_data(Input=data.frame(
+                       x=a$x,
+                       y=a$y,
+                       text='NewLabel',
+                       fontsize=1,
+                       fonttype=1,
+                       angle=0,
+                       col='black',
+                       stringsAsFactors=FALSE
+                     ),NamesIn=c('y','x'),NamesOut=c('Latitude','Longitude'),append=TRUE,inv=TRUE)
         )
+        
+        
         for(ang in unique(Lab$angle)){
           text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
                Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
