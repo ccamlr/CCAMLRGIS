@@ -160,9 +160,13 @@ if(is.na(Area)==TRUE){
   #Add cell labels centers
   #Get labels locations
   labs=coordinates(gCentroid(Group,byid=TRUE))
-  Group$Labx=labs[match(Group$ID,row.names(labs)),'x']
-  Group$Laby=labs[match(Group$ID,row.names(labs)),'y']
-  
+  Group$Centrex=labs[match(Group$ID,row.names(labs)),'x']
+  Group$Centrey=labs[match(Group$ID,row.names(labs)),'y']
+  #project to get Lat/Lon of centres
+  CenLL=project_data(Input=Group@data,NamesIn=c('Centrey','Centrex'),NamesOut = c('Centrelat','Centrelon'),append = F,inv=T)
+  Group$Centrelon=CenLL$Centrelon
+  Group$Centrelat=CenLL$Centrelat
+  rm(CenLL)
   #Match data to grid cells
   tmp_p=project_data(Input=data,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
   tmp_p=SpatialPoints(tmp_p[,c('x','y')],CRS("+init=epsg:6932"))
@@ -210,11 +214,16 @@ if(is.na(Area)==TRUE){
                          median=~median(.,na.rm=TRUE)))
     Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(data$ID)))}
   #Merge data to Polygons
-  row.names(Sdata)=Sdata$ID
-  Group=SpatialPolygonsDataFrame(Group,Sdata)
+  CellData=Group@data
+  CellData=left_join(CellData,Sdata,by="ID")
+  row.names(CellData)=CellData$ID
+  Group=SpatialPolygonsDataFrame(Group,CellData)
   
   #Add colors
-  for(i in which(unlist(lapply(Group@data, class))%in%c("integer","numeric"))){
+  VarToColor=which(unlist(lapply(Group@data, class))%in%c("integer","numeric"))
+  VarNotToColor=which(colnames(Group@data)%in%c("Centrex","Centrey","Centrelon","Centrelat"))
+  VarToColor=VarToColor[-which(VarToColor%in%VarNotToColor)]
+  for(i in VarToColor){
     coldata=Group@data[,i]
     if(all(is.na(coldata))){
       Group@data[,paste0('Col_',colnames(Group@data)[i])]=NA
