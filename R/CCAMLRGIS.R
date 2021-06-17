@@ -46,7 +46,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @import rgdal
 #' @import rgeos
 #' @import geosphere
-#' @importFrom dplyr distinct group_by summarise_all
+#' @importFrom dplyr distinct group_by summarise_all left_join
 #' @importFrom grDevices colorRampPalette recordPlot replayPlot
 #' @importFrom graphics par rect segments text
 #' @importFrom methods slot

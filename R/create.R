@@ -137,13 +137,16 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' @return Spatial object in your environment or ESRI shapefile in your working directory.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 #' within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
-#' median of values in each cell is returned.
+#' median of values in each cell is returned. In addition, for each cell, its area (AreaKm2), projected 
+#' centroid (Centrex, Centrey) and unprojected centroid (Centrelon, Centrelat) is given.
 #' 
 #' To see the data contained in your spatial object, type: \code{View(MyGrid@@data)}.
 #' 
-#' In addition, colors are generated for each aggregated values according to the chosen \code{cuts} (numerical classes)
-#' and \code{cols} (colors).
-#' To generate a custom color scale, refer to \code{\link{add_col}} and \code{\link{add_Cscale}}.
+#' Finally, colors are generated for each aggregated values according to the chosen \code{cuts} 
+#' (numerical classes) and \code{cols} (colors).
+#' 
+#' To generate a custom color scale after the grid creation, refer to \code{\link{add_col}} and 
+#' \code{\link{add_Cscale}}. See Example 4 below.
 #' 
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},

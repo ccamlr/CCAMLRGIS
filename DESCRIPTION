@@ -1,8 +1,8 @@
 Type: Package
 Package: CCAMLRGIS
 Title: Antarctic Spatial Data Manipulation
-Version: 3.0.6
-Date: 2020-09-10
+Version: 3.0.7
+Date: 2021-06-17
 Authors@R:
     c(person("Stephane","Thanassekos",role = c("aut", "cre"), email = "stephane.thanassekos@ccamlr.org"),
     person("Keith", "Reid", role = "aut"),

@@ -124,7 +124,7 @@ if(is.na(LabLon)==FALSE){
     #go with LabslatH and LabslonV
     #Get Lat/Lon
     LabslatH=project_data(Input=LabslatH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
-    LabslatV=project_data(Input=LabslatV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    LabslonV=project_data(Input=LabslonV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
     #Add offset
     LabslatH$y[LabslatH$y==max(LabslatH$y)]=LabslatH$y[LabslatH$y==max(LabslatH$y)]+offsety
     LabslatH$y[LabslatH$y==min(LabslatH$y)]=LabslatH$y[LabslatH$y==min(LabslatH$y)]-offsety

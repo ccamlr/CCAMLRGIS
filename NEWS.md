@@ -1,3 +1,7 @@
+# CCAMLRGIS 3.0.7
+
+Added the area and centroid location for each cell in the outputs of create_PolyGrids. 
+
 # CCAMLRGIS 3.0.6
 
 Moved to spatial operations using EPSG codes. Now using EPSG:6932 to project to Lambert azimuthal equal-area projection. This was included in all internal projections as well as load_ functions.
