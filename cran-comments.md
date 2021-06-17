@@ -6,13 +6,12 @@
 
 ## R CMD check results
 
-* 1 Note on Windows platforms tested: checking for future file timestamps | unable to verify current time.
-* There were no ERRORS OR WARNINGS on Windows OS. 
-* Preperror on Ubuntu Linux 16.04 LTS, R-release, GCC: *installation of package ‘rgdal’ had non-zero exit status*
-* Preperror on Fedora Linux, R-devel, clang, gfortran: *installation of package ‘rgdal’ had non-zero exit status*
+* There were no ERRORS, WARNINGS OR NOTES on Windows OS. 
+* Preperror on Windows Server 2008 R2 SP1, R-devel, 32/64 bit: *Bioconductor does not yet build and check packages for R version 4.2*
 
 ## Notes about CRAN edits
 
+* Added area and centroid for each cell created using create_PolyGrids
 * Moved to using EPSG codes in spatial operations
 * Added NamesIn parameter in create_x functions
 * Changed handling of packages dependencies

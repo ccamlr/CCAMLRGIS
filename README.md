@@ -26,7 +26,7 @@ install.packages("CCAMLRGIS")
 
 </center>
 
------
+------------------------------------------------------------------------
 
 <center>
 
@@ -34,48 +34,34 @@ install.packages("CCAMLRGIS")
 
 </center>
 
------
+------------------------------------------------------------------------
 
 1.  Basemaps
 2.  Create functions
 
-<!-- end list -->
-
-  - 2.1. Points, lines, polygons and grids
-  - 2.2. Create Stations
-
-<!-- end list -->
+-   2.1. Points, lines, polygons and grids
+-   2.2. Create Stations
 
 3.  Load functions
 
-<!-- end list -->
-
-  - 3.1. Online use
-  - 3.2. Offline use
-
-<!-- end list -->
+-   3.1. Online use
+-   3.2. Offline use
 
 4.  Other functions
 
-<!-- end list -->
-
-  - 4.1. get\_depths
-  - 4.2. seabed\_area
-  - 4.3. assign\_areas
-  - 4.4. project\_data
-
-<!-- end list -->
+-   4.1. get\_depths
+-   4.2. seabed\_area
+-   4.3. assign\_areas
+-   4.4. project\_data
 
 5.  Adding colors, legends and labels
 
-<!-- end list -->
+-   5.1. Bathymetry colors
+-   5.2. Adding colors to data
+-   5.3. Adding legends
+-   5.4. Adding labels
 
-  - 5.1. Bathymetry colors
-  - 5.2. Adding colors to data
-  - 5.3. Adding legends
-  - 5.4. Adding labels
-
------
+------------------------------------------------------------------------
 
 ## Introduction
 
@@ -134,7 +120,7 @@ par(Mypar)
 
 </center>
 
-## 1\. Basemaps
+## 1. Basemaps
 
 Prior to detailing the package’s capabilities, a set of basic commands
 are shown here to display a few core mapping elements. In a first
@@ -143,7 +129,6 @@ package (‘SmallBathy’) is shown, and may be used to produce a raster at
 a higher resolution:
 
 ``` r
-
 #Step 1: Download the global GEBCO Grid, from:
 #http://www.gebco.net/data_and_products/gridded_bathymetry_data/
 
@@ -254,7 +239,7 @@ text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='re
 par(Mypar)
 ```
 
-## 2\. Create functions
+## 2. Create functions
 
 ### 2.1. Points, lines, polygons and grids
 
@@ -280,7 +265,6 @@ For details, type:
 ```
 
 ``` r
-
 #Prepare layout for 4 sub-plots
 Mypar<-par(mfrow=c(2,2),mai=c(0,0.01,0.2,0.01))
 
@@ -345,7 +329,6 @@ Input=data.frame(
 ```
 
 ``` r
-
 #Prepare layout for 3 sub-plots
 Mypar<-par(mai=c(0,0.01,0.2,0.01),mfrow=c(1,3))
 
@@ -376,7 +359,6 @@ Adding a buffer with the argument SeparateBuf set to FALSE results in a
 single polygon which may be viewed as a footprint:
 
 ``` r
-
 #Set the figure margins as c(bottom, left, top, right)
 Mypar<-par(mai=c(0.01,0.01,0.01,0.01))
 
@@ -405,7 +387,6 @@ For details, type:
 ```
 
 ``` r
-
 #Prepare layout for 3 sub-plots
 Mypar<-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
@@ -446,7 +427,6 @@ For details, type:
 ```
 
 ``` r
-
 #Prepare layout for 3 sub-plots
 Mypar<-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
@@ -475,7 +455,6 @@ par(Mypar)
 Customizing a grid and adding a color scale:
 
 ``` r
-
 #Prepare layout for 2 sub-plots
 Mypar<-par(mfrow=c(2,1),mai=c(0.2,0.05,0.1,1.3))
 
@@ -550,7 +529,6 @@ par(Mypar)
 Example 1. Set numbers of stations, no distance constraint:
 
 ``` r
-
 #Create polygon as shown above
 MyPolys=create_Polys(PolyData,Densify=T)
 MyPoly=MyPolys[MyPolys$ID=='one',]
@@ -582,7 +560,6 @@ par(Mypar)
 Example 2. Set numbers of stations, with distance constraint:
 
 ``` r
-
 #Create polygon as shown above
 MyPolys=create_Polys(PolyData,Densify=T)
 MyPoly=MyPolys[MyPolys$ID=='one',]
@@ -615,7 +592,6 @@ par(Mypar)
 Example 3. Automatic numbers of stations, with distance constraint:
 
 ``` r
-
 #Create polygon as shown above
 MyPolys=create_Polys(PolyData,Densify=T)
 MyPoly=MyPolys[MyPolys$ID=='one',]
@@ -644,7 +620,7 @@ box()
 par(Mypar)
 ```
 
-## 3\. Load functions
+## 3. Load functions
 
 ### 3.1. Online use
 
@@ -658,7 +634,6 @@ For details, type:
 ```
 
 ``` r
-
 #Load ASDs, EEZs, and Coastline
 ASDs=load_ASDs()
 EEZs=load_EEZs()
@@ -687,7 +662,6 @@ desire to save layers on their hard drive for offline use. This may be
 done, at the risk of not having the most up-to-date layers, as follows:
 
 ``` r
-
 #Load all layers
 ASDs=load_ASDs()
 EEZs=load_EEZs()
@@ -706,7 +680,7 @@ save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','MPAs'),
 load(file.path(tempdir(), "CCAMLRLayers.RData"))
 ```
 
-## 4\. Other functions
+## 4. Other functions
 
 ### 4.1. get\_depths
 
@@ -722,7 +696,6 @@ For details, type:
 ```
 
 ``` r
-
 #Generate a dataframe
 MyData=data.frame(Lat=PointData$Lat,
                   Lon=PointData$Lon,
@@ -846,7 +819,6 @@ A simple function to project user-supplied locations. Input must be a
 dataframe, outputs may be appended to the dataframe.
 
 ``` r
-
 #The input data looks like this:
 head(PointData)
 #>         Lat       Lon  name    Catch Nfishes n
@@ -869,7 +841,7 @@ head(MyData)
 #> 6 -66.35370  153.6906  four 78.65576      22 6    -2349505 1161675.96
 ```
 
-## 5\. Adding colors, legends and labels
+## 5. Adding colors, legends and labels
 
 ### 5.1. Bathymetry colors
 
@@ -932,7 +904,6 @@ colors in R would be useful here
 (<http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf>).
 
 ``` r
-
 #Adding color to points
 
 #Prepare layout for 3 sub-plots
@@ -972,7 +943,6 @@ par(Mypar)
 ```
 
 ``` r
-
 #Adding colors to a grid with custom cuts (see also the last example in section 2.1.)
 
 #Step 1: Generate your grid
@@ -1065,17 +1035,15 @@ To add labels, use the add\_labels() function:
 
 Three modes are available within the add\_labels function:
 
-  - In ‘auto’ mode, labels are placed at the centres of polygon parts of
+-   In ‘auto’ mode, labels are placed at the centres of polygon parts of
     spatial objects loaded via the load\_ functions.
-  - In ‘manual’ mode, users may click on their plot to position labels.
+-   In ‘manual’ mode, users may click on their plot to position labels.
     An editable label table is generated to allow fine-tuning of labels
     appearance, and may be saved for external use. To edit the label
     table, double-click inside one of its cells, edit the value, then
     close the table.
-  - In ‘input’ mode, a label table that was generated in ‘manual’ mode
+-   In ‘input’ mode, a label table that was generated in ‘manual’ mode
     is re-used.
-
-<!-- end list -->
 
 ``` r
 #Example 1: 'auto' mode
