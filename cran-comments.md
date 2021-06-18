@@ -11,6 +11,7 @@
 
 ## Notes about CRAN edits
 
+* Shortened Vignette to pass CRAN tests
 * Added area and centroid for each cell created using create_PolyGrids
 * Moved to using EPSG codes in spatial operations
 * Added NamesIn parameter in create_x functions

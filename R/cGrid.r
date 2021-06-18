@@ -215,7 +215,7 @@ if(is.na(Area)==TRUE){
     Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(data$ID)))}
   #Merge data to Polygons
   CellData=Group@data
-  CellData=left_join(CellData,Sdata,by="ID")
+  CellData=dplyr::left_join(CellData,Sdata,by="ID")
   row.names(CellData)=CellData$ID
   Group=SpatialPolygonsDataFrame(Group,CellData)
   
