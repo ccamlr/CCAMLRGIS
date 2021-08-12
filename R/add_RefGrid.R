@@ -10,7 +10,7 @@
 #' @param fontsize Font size of the Reference grid's labels.
 #' @param offset offset of the Reference grid's labels (distance to plot border).
 #' @seealso 
-#' \code{\link{SmallBathy}}
+#' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}.
 #' 
 #' @examples
 #'

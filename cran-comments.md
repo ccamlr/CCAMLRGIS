@@ -7,10 +7,12 @@
 ## R CMD check results
 
 * There were no ERRORS, WARNINGS OR NOTES on Windows OS. 
-* Preperror on Windows Server 2008 R2 SP1, R-devel, 32/64 bit: *Bioconductor does not yet build and check packages for R version 4.2*
+* Preperror on Fedora Linux, R-devel, clang, gfortran: *cannot open URL 'https://sysreqs.r-hub.io...*
+* Preperror on Ubuntu Linux 20.04.1 LTS, R-release, GCC: *cannot open URL 'https://sysreqs.r-hub.io...*
 
 ## Notes about CRAN edits
 
+* Added load_Bathy() function
 * Shortened Vignette to pass CRAN tests
 * Added area and centroid for each cell created using create_PolyGrids
 * Moved to using EPSG codes in spatial operations

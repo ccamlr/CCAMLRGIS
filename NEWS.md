@@ -1,3 +1,7 @@
+# CCAMLRGIS 3.1.0
+
+Added the load_Bathy function.
+
 # CCAMLRGIS 3.0.7
 
 Added the area and centroid location for each cell in the outputs of create_PolyGrids. 

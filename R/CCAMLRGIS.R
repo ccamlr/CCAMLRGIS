@@ -17,6 +17,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #'   \item \link{load_Coastline}
 #'   \item \link{load_MPAs}
 #'   \item \link{load_EEZs}
+#'   \item \link{load_Bathy}
 #' }
 #' 
 #' @section Create functions:
@@ -51,7 +52,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @importFrom graphics par rect segments text
 #' @importFrom methods slot
 #' @importFrom stats quantile
-#' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu
+#' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu download.file
 #' @importFrom magrittr %>%
 #' @importFrom raster raster extent extend crop extract rasterToContour pointDistance xres yres cut rasterToPolygons area crs match ncell setValues minValue maxValue mask cellStats contour click
 #' @name CCAMLRGIS
