@@ -53,5 +53,5 @@ plot(MyPolys,add=TRUE,col='orange',border='brown',lwd=2)
 
 }
 \seealso{
-\code{\link{SmallBathy}}
+\code{\link{load_Bathy}}, \code{\link{SmallBathy}}.
 }

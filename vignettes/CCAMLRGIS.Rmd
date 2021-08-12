@@ -93,55 +93,15 @@ par(Mypar)
 
 ## 1. Basemaps
 
-Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements. In a first instance, the code used to produce the bathymetry raster included in the package ('SmallBathy') is shown, and may be used to produce a raster at a higher resolution:
+Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements. All scripts use the low-resolution bathymetry raster included in the package ('SmallBathy'). In order to obtain higher resolution bathymetry data, use the *Load_Bathy()* function:
 
 ```{r eval=FALSE}
+#A simple map:
+Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
+plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
 
-#Step 1: Download the global GEBCO Grid, from:
-#http://www.gebco.net/data_and_products/gridded_bathymetry_data/
-
-#Step 2: load the 'raster' and 'rgeos' libraries
-library(raster)
-library(rgeos)
-
-#Step 3: Read the data
-G=raster(" Path to the folder containing the GEBCO data /GEBCO_YearXXXX.nc")
-
-#Step 4: Crop the data to below 40 degrees South
-G=crop(G,extent(-180,180,-90,-40))
-
-#Step 5: Project the data using the CCAMLR projection
-Gp=projectRaster(G, crs=proj4string(CCAMLRp))
-
-#Step 6: Mask the data using a buffered contour of the Convention area
-#load ASDs, buffer them and extract the outer polygon (first polygon within the list of polygons)
-ASDs=load_ASDs()
-#Build 500km contour
-Contour=gBuffer(ASDs,width=500000,quadsegs = 25)
-#Extract outer boundary (first polygon)
-pol=Contour@polygons[[1]]@Polygons[1]
-pol=Polygons(pol,ID='1')
-pol=SpatialPolygons(list(pol),proj4string = CRS(CCAMLRp))
-#Apply mask
-Gpm=mask(Gp, pol)
-
-#Step 7: Clamp the raster to exclude values higher than 500m
-Gpmc=clamp(Gpm, upper=500,useValues=FALSE)
-
-#At this point, you may export the data and use it in its native resolution
-#Export:
-writeRaster(Gpmc,"GEBCOpmc.tif")
-#to re-Import:
-Gpmc=raster(' Path to the folder containing the GEBCO data /GEBCOpmc.tif')
-
-#Or, resample it (e.g., at a 500m resolution, using the nearest neighbor method):
-newR=raster(crs=crs(Gpmc), ext=extent(Gpmc), resolution=500)
-Gr=resample(Gpmc,newR,method="ngb")
-#Export:
-writeRaster(Gr,"GEBCOpmcr500NN.tif")
-#to re-Import:
-Gpmcr500N=raster(' Path to the folder containing the data /GEBCOpmc.tif')
-
+#Please refer to ?load_Bathy for more details, including how to save the bathymetry data
+#so that you do not have to re-download it every time you need it.
 ```
 
 #### Circumpolar map:
@@ -409,7 +369,7 @@ par(Mypar)
 
 ### 2.2. Create Stations
 
-This function was designed to create random point locations inside a polygon and within bathymetry strata constraints. A distance constraint between stations may also be used if desired.
+This function was designed to create random point locations inside a polygon and within bathymetry strata constraints. A distance constraint between stations may also be used if desired. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 ```{r eval=FALSE}
@@ -476,6 +436,7 @@ Download the up-to-date spatial layers from the online CCAMLRGIS and load them t
 For details, type:
 ```{r eval=FALSE}
 ?load_ASDs
+?load_Bathy
 ```
 
 ```{r fig.align="center",out.width="100%",message=FALSE,dpi=200,eval=TRUE}
@@ -518,11 +479,13 @@ save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','MPAs'),
 load(file.path(tempdir(), "CCAMLRLayers.RData"))
 ```
 
+The load_Bathy() function may also be used to download and store bathymetry data for later use, see ?load_Bathy for details.
+
 ## 4. Other functions
 
 ### 4.1. get_depths
 
-Given a bathymetry raster and a an input dataframe of latitudes/longitudes, this function computes the depths at these locations. Optionally it can also compute the horizontal distance of locations to chosen isobaths.
+Given a bathymetry raster and a an input dataframe of latitudes/longitudes, this function computes the depths at these locations. Optionally it can also compute the horizontal distance of locations to chosen isobaths. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 ```{r eval=FALSE}
@@ -573,7 +536,7 @@ par(Mypar)
 ### 4.2. seabed_area
 
 Function to calculate planimetric seabed area within polygons and depth strata in square kilometers.
-Its accuracy depends on the input bathymetry raster.
+Its accuracy depends on the input bathymetry raster. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 ```{r eval=FALSE}
@@ -643,7 +606,7 @@ head(MyData)
 ### 5.1. Bathymetry colors
 
 Coloring bathymetry requires a vector of depth classes and a vector of colors. Colors are applied between depth classes (so there is one less color than there are depth classes).
-Two sets of bathymetry colors are included in the package. One simply colors the bathymetry in shades of blue (Depth_cols and Depth_cuts), the other adds shades of green to highlight the Fishable Depth (600-1800m; Depth_cols2 and Depth_cuts2).
+Two sets of bathymetry colors are included in the package. One simply colors the bathymetry in shades of blue (Depth_cols and Depth_cuts), the other adds shades of green to highlight the Fishable Depth (600-1800m; Depth_cols2 and Depth_cuts2). The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 #### Simple set of colors:
 

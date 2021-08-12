@@ -4,7 +4,7 @@
 #' 
 #' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
 #' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
-#' resolution than \code{\link{SmallBathy}}.
+#' resolution than \code{\link{SmallBathy}}, see \code{\link{load_Bathy}}.
 #' @param Polys polygon(s) within which the areas of depth strata are computed. 
 #' @param depth_classes numeric vector of strata depths. for example, \code{depth_classes=c(-600,-1000,-2000)}.
 #' If the values \code{-600,-1800} are given within \code{depth_classes}, the computed area will be labelled as 'Fishable_area'.
@@ -12,7 +12,7 @@
 #' Note that polygon names are taken from the first column in the data of the input SpatialPolygonDataframe.
 #' 
 #' @seealso 
-#' \code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
+#' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
 #' 
 #' @examples
 #' \donttest{

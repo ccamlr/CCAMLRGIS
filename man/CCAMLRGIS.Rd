@@ -20,6 +20,7 @@ Load functions are used to import CCAMLR geo-referenced layers and include:
   \item \link{load_Coastline}
   \item \link{load_MPAs}
   \item \link{load_EEZs}
+  \item \link{load_Bathy}
 }
 }
 

@@ -9,7 +9,7 @@ seabed_area(Bathy, Polys, depth_classes = c(-600, -1800))
 \arguments{
 \item{Bathy}{bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
 such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
-resolution than \code{\link{SmallBathy}}.}
+resolution than \code{\link{SmallBathy}}, see \code{\link{load_Bathy}}.}
 
 \item{Polys}{polygon(s) within which the areas of depth strata are computed.}
 
@@ -45,5 +45,5 @@ FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000
 
 }
 \seealso{
-\code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
+\code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
 }

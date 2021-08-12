@@ -79,11 +79,11 @@ library(CCAMLRGIS)
 
 All spatial manipulations are made using the South Pole Lambert Azimuthal Equal Area projection (type ?CCAMLRp for more details).
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig01,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Map with axes, to understand projection
 
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(1.2,0.7,0.5,0.45),xpd=TRUE)
+par(mai=c(1.2,0.7,0.5,0.45),xpd=TRUE)
 #plot entire Coastline
 plot(Coast[Coast$ID=='All',],col='grey',lwd=0.1)
 #Add reference grid
@@ -98,7 +98,7 @@ text(0,seq(-4000000,-1000000,by=1000000),seq(-4,-1,by=1),cex=0.75,col='blue',adj
 text(0,0,0,cex=0.75,col='blue',adj=c(-0.5,-0.5))
 text(5200000,0,expression('x ('*10^6~'m)'),cex=0.75,col='blue')
 text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
-par(Mypar)
+
 
 ```
 <center>
@@ -108,65 +108,35 @@ par(Mypar)
 
 ## 1. Basemaps
 
-Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements. In a first instance, the code used to produce the bathymetry raster included in the package ('SmallBathy') is shown, and may be used to produce a raster at a higher resolution:
+Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements. All scripts use the low-resolution bathymetry raster included in the package ('SmallBathy'). In order to obtain higher resolution bathymetry data, use the *Load_Bathy()* function:
 
-```{r eval=F}
+```{r Fig02,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+#A simple map:
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
+plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
 
-#Step 1: Download the global GEBCO Grid, from:
-#http://www.gebco.net/data_and_products/gridded_bathymetry_data/
 
-#Step 2: load the 'raster' and 'rgeos' libraries
-library(raster)
-library(rgeos)
+#Please refer to ?load_Bathy for more details, including how to save the bathymetry data so that you do not need to re-download
+#it every time you need it.
+```
 
-#Step 3: Read the data
-G=raster(" Path to the folder containing the GEBCO data /GEBCO_YearXXXX.nc")
-
-#Step 4: Crop the data to below 40 degrees South
-G=crop(G,extent(-180,180,-90,-40))
-
-#Step 5: Project the data using the CCAMLR projection
-Gp=projectRaster(G, crs=proj4string(CCAMLRp))
-
-#Step 6: Mask the data using a buffered contour of the Convention area
-#load ASDs, buffer them and extract the outer polygon (first polygon within the list of polygons)
-ASDs=load_ASDs()
-#Build 500km contour
-Contour=gBuffer(ASDs,width=500000,quadsegs = 25)
-#Extract outer boundary (first polygon)
-pol=Contour@polygons[[1]]@Polygons[1]
-pol=Polygons(pol,ID='1')
-pol=SpatialPolygons(list(pol),proj4string = CRS(CCAMLRp))
-#Apply mask
-Gpm=mask(Gp, pol)
-
-#Step 7: Clamp the raster to exclude values higher than 500m
-Gpmc=clamp(Gpm, upper=500,useValues=F)
-
-#At this point, you may export the data and use it in its native resolution
-#Export:
-writeRaster(Gpmc,"GEBCOpmc.tif")
-#to re-Import:
-Gpmc=raster(' Path to the folder containing the GEBCO data /GEBCOpmc.tif')
-
-#Or, resample it (e.g., at a 500m resolution, using the nearest neighbor method):
-newR=raster(crs=crs(Gpmc), ext=extent(Gpmc), resolution=500)
-Gr=resample(Gpmc,newR,method="ngb")
-#Export:
-writeRaster(Gr,"GEBCOpmcr500NN.tif")
-#to re-Import:
-Gpmcr500N=raster(' Path to the folder containing the data /GEBCOpmc.tif')
-
+```{r, echo = FALSE, message = FALSE}
+#Delete GEBCO file
+Fs=list.files()
+Fs=Fs[grep("GEBCO",Fs)]
+a=file.remove(Fs)
 ```
 
 #### Circumpolar map:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig03,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Load ASDs and EEZs
 ASDs=load_ASDs()
 EEZs=load_EEZs()
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0.4,0,0))
+par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
 plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
 #Add color scale
@@ -180,13 +150,13 @@ plot(EEZs,add=T,lwd=0.75,border='red')
 plot(Coast[Coast$ID=='All',],col='grey',lwd=0.01,add=T)
 #Add ASD labels
 add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
-par(Mypar)
+
 ```
 
 
 #### Local map (e.g. Subarea 48.6):
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig04,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Load ASDs
 ASDs=load_ASDs()
 #Subsample ASDs to only keep Subarea 48.6
@@ -196,7 +166,7 @@ B486=raster::crop(SmallBathy,S486)
 #Optional: get the maximum depth in that area to constrain the color scale
 minD=raster::minValue(B486)
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0.2,0.4,0.2,0.55))
+par(mai=c(0.2,0.4,0.2,0.55))
 #Plot the bathymetry
 plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
 #Add color scale
@@ -211,7 +181,7 @@ plot(S486,add=T,lwd=1,border='red')
 raster::contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
 #Add single label at the centre of the polygon (see ?Labels)
 text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red',cex=1.5)
-par(Mypar)
+
 ```
 
 ## 2. Create functions
@@ -232,10 +202,10 @@ For details, type:
 ?create_Points
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig05,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 
 #Prepare layout for 4 sub-plots
-Mypar<-par(mfrow=c(2,2),mai=c(0,0.01,0.2,0.01))
+par(mfrow=c(2,2),mai=c(0,0.01,0.2,0.01))
 
 #Example 1: Simple points with labels
 MyPoints=create_Points(PointData)
@@ -261,7 +231,7 @@ MyPoints=create_Points(PointData,Buffer=2*PointData$Catch,Clip=T)
 plot(MyPoints,col='cyan',main='Example 4',cex.main=0.75,cex=0.75,lwd=0.5)
 plot(Coast[Coast$ID=='All',],add=T,col='grey',lwd=0.5)
 box()
-par(Mypar)
+
 ```
 
 #### Create lines:
@@ -290,10 +260,10 @@ Input=data.frame(
 )
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+```{r Fig06,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
 
 #Prepare layout for 3 sub-plots
-Mypar<-par(mai=c(0,0.01,0.2,0.01),mfrow=c(1,3))
+par(mai=c(0,0.01,0.2,0.01),mfrow=c(1,3))
 
 #Example 1: Simple and non-densified lines
 MyLines=create_Lines(LineData)
@@ -310,15 +280,15 @@ MyLines=create_Lines(LineData,Densify=T,Buffer=c(10,40,50,80,100),Clip=T)
 plot(MyLines,col=rainbow(length(MyLines)),main='Example 3',cex.main=0.75,lwd=1)
 plot(Coast[Coast$ID=='All',],col='grey',add=T,lwd=0.5)
 box()
-par(Mypar)
+
 ```
 
 Adding a buffer with the argument SeparateBuf set to FALSE results in a single polygon which may be viewed as a footprint:
 
-```{r fig.align="center",out.width="80%",message=F,dpi=200,eval=T,fig.height=3}
+```{r Fig07,fig.align="center",out.width="80%",message=F,dpi=200,eval=T,fig.height=3}
 
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0.01,0.01,0.01,0.01))
+par(mai=c(0.01,0.01,0.01,0.01))
 
 #Buffer merged lines
 MyLines=create_Lines(LineData,Buffer=10,SeparateBuf=F)
@@ -327,7 +297,7 @@ MyLines$Buffered_AreaKm2
 
 plot(MyLines,col='green',lwd=1)
 box()
-par(Mypar)
+
 ```
 
 
@@ -338,10 +308,10 @@ For details, type:
 ?create_Polys
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+```{r Fig08,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
 
 #Prepare layout for 3 sub-plots
-Mypar<-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
+par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1: Simple and non-densified polygons
 MyPolys=create_Polys(PolyData,Densify=F)
@@ -363,7 +333,7 @@ plot(Coast[Coast$ID=='All',],add=T,lwd=0.5)
 plot(MyPolysAfter,col='orange',add=T,lwd=0.5)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white',cex=0.75)
 box()
-par(Mypar)
+
 ```
 
 #### Create grids:
@@ -372,10 +342,10 @@ For details, type:
 ?create_PolyGrids
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+```{r Fig09,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
 
 #Prepare layout for 3 sub-plots
-Mypar<-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
+par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1: Simple grid, using automatic colors
 MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
@@ -391,15 +361,15 @@ box()
 MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
 plot(MyGrid,col=MyGrid$Col_Catch_sum,main='Example 3',cex.main=0.75,lwd=0.1)
 box()
-par(Mypar)
+
 ```
 
 Customizing a grid and adding a color scale:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=5}
+```{r Fig10,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=5}
 
 #Prepare layout for 2 sub-plots
-Mypar<-par(mfrow=c(2,1),mai=c(0.2,0.05,0.1,1.3))
+par(mfrow=c(2,1),mai=c(0.2,0.05,0.1,1.3))
 
 #Step 1: Generate your grid
 MyGrid=create_PolyGrids(GridData,Area=10000)
@@ -425,12 +395,12 @@ plot(MyGrid,col=Gridcol$varcol,lwd=0.1)
 add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=18,
      fontsize=0.6,lwd=0.5,height = 100) 
 box()
-par(Mypar)
+
 ```
 
 ### 2.2. Create Stations
 
-This function was designed to create random point locations inside a polygon and within bathymetry strata constraints. A distance constraint between stations may also be used if desired.
+This function was designed to create random point locations inside a polygon and within bathymetry strata constraints. A distance constraint between stations may also be used if desired. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 ```{r eval=F}
@@ -439,12 +409,12 @@ For details, type:
 
 First, create a polygon within which stations will be created:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig11,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Create polygons
 MyPolys=create_Polys(PolyData,Densify=T)
 
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0,0,0))
+par(mai=c(0,0,0,0))
 plot(MyPolys)
 
 #Subsample MyPolys to only keep the polygon with ID 'one'
@@ -453,12 +423,12 @@ MyPoly=MyPolys[MyPolys$ID=='one',]
 plot(MyPoly,col='green',add=T)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
 box()
-par(Mypar)
+
 ```
 
 Example 1. Set numbers of stations, no distance constraint:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig12,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 
 #Create polygon as shown above
 MyPolys=create_Polys(PolyData,Densify=T)
@@ -471,7 +441,7 @@ BathyCroped=raster::crop(SmallBathy,MyPoly)
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0.1,0.1,0.1,0.1))
+par(mai=c(0.1,0.1,0.1,0.1))
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
@@ -480,13 +450,13 @@ add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts
 plot(MyPoly,add=T,border='red',lwd=2)
 plot(MyStations,add=T,col='orange',cex=0.75,lwd=1.5)
 box()
-par(Mypar)
+
 ```
 
 
 Example 2. Set numbers of stations, with distance constraint:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig13,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 
 #Create polygon as shown above
 MyPolys=create_Polys(PolyData,Densify=T)
@@ -498,7 +468,7 @@ BathyCroped=raster::crop(SmallBathy,MyPoly)
 MyStations=create_Stations(MyPoly,BathyCroped,
                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0,0,0))
+par(mai=c(0,0,0,0))
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
@@ -509,14 +479,14 @@ plot(MyStations[MyStations$Stratum=='1000-550',],pch=21,bg='yellow',add=T,cex=0.
 plot(MyStations[MyStations$Stratum=='1500-1000',],pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
 plot(MyStations[MyStations$Stratum=='2000-1500',],pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
 box()
-par(Mypar)
+
 
 ```
 
 
 Example 3. Automatic numbers of stations, with distance constraint:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig14,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 
 #Create polygon as shown above
 MyPolys=create_Polys(PolyData,Densify=T)
@@ -527,7 +497,7 @@ BathyCroped=raster::crop(SmallBathy,MyPoly)
 
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0,0,0))
+par(mai=c(0,0,0,0))
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
@@ -538,7 +508,7 @@ plot(MyStations[MyStations$Stratum=='1000-550',],pch=21,bg='yellow',add=T,cex=0.
 plot(MyStations[MyStations$Stratum=='1500-1000',],pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
 plot(MyStations[MyStations$Stratum=='2000-1500',],pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
 box()
-par(Mypar)
+
 ```
 
 ## 3. Load functions
@@ -550,9 +520,10 @@ Download the up-to-date spatial layers from the online CCAMLRGIS and load them t
 For details, type:
 ```{r eval=F}
 ?load_ASDs
+?load_Bathy
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig15,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 
 #Load ASDs, EEZs, and Coastline
 ASDs=load_ASDs()
@@ -560,14 +531,14 @@ EEZs=load_EEZs()
 Coastline=load_Coastline()
 
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0,0,0))
+par(mai=c(0,0,0,0))
 #Plot
 plot(ASDs,col='green',border='blue')
 plot(EEZs,col='orange',border='purple',add=T)
 plot(Coastline,col='grey',add=T)
 add_labels(mode='auto',layer='ASDs',fontsize=0.75,col='red')
 box()
-par(Mypar)
+
 ```
 
 ### 3.2. Offline use
@@ -594,18 +565,20 @@ save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','MPAs'),
 load(file.path(tempdir(), "CCAMLRLayers.RData"))
 ```
 
+The load_Bathy() function may also be used to download and store bathymetry data for later use, see ?load_Bathy for details.
+
 ## 4. Other functions
 
 ### 4.1. get_depths
 
-Given a bathymetry raster and a an input dataframe of latitudes/longitudes, this function computes the depths at these locations. Optionally it can also compute the horizontal distance of locations to chosen isobaths.
+Given a bathymetry raster and a an input dataframe of latitudes/longitudes, this function computes the depths at these locations. Optionally it can also compute the horizontal distance of locations to chosen isobaths. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 ```{r eval=F}
 ?get_depths
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=7}
+```{r Fig16,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=7}
 
 #Generate a dataframe
 MyData=data.frame(Lat=PointData$Lat,
@@ -620,7 +593,7 @@ MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #The resulting data looks like this (where 'd' is the depth and 'x' and 'y' are the projected locations):
 head(MyDataD)
 #Prepare layout for 2 sub-plots
-Mypar<-par(mfrow=c(2,1),mai=c(0.4,0.4,0.1,0.1))
+par(mfrow=c(2,1),mai=c(0.4,0.4,0.1,0.1))
 #Plot Catch vs Depth
 XL=c(-5000,0) #Set plot x-axis limits
 YL=c(10,80)       #Set plot y-axis limits
@@ -642,14 +615,14 @@ segments(x0=MyDataD$x,
          y0=MyDataD$y,
          x1=MyDataD$X_3000,
          y1=MyDataD$Y_3000,col='red')
-par(Mypar)
+
 ```
 
 
 ### 4.2. seabed_area
 
 Function to calculate planimetric seabed area within polygons and depth strata in square kilometers.
-Its accuracy depends on the input bathymetry raster.
+Its accuracy depends on the input bathymetry raster. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 ```{r eval=F}
@@ -719,30 +692,30 @@ head(MyData)
 ### 5.1. Bathymetry colors
 
 Coloring bathymetry requires a vector of depth classes and a vector of colors. Colors are applied between depth classes (so there is one less color than there are depth classes).
-Two sets of bathymetry colors are included in the package. One simply colors the bathymetry in shades of blue (Depth_cols and Depth_cuts), the other adds shades of green to highlight the Fishable Depth (600-1800m; Depth_cols2 and Depth_cuts2).
+Two sets of bathymetry colors are included in the package. One simply colors the bathymetry in shades of blue (Depth_cols and Depth_cuts), the other adds shades of green to highlight the Fishable Depth (600-1800m; Depth_cols2 and Depth_cuts2). The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 #### Simple set of colors:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig17,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0.4,0,0))
+par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
 plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
 #Add color scale
 add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-500,width=16)
-par(Mypar)
+
 ```
 
 #### Highlighting the Fishable Depth range:
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig18,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Set the figure margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0.4,0,0))
+par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
 plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE)
 #Add color scale
 add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=-500,width=16)
-par(Mypar)
+
 ```
 
 
@@ -759,12 +732,12 @@ Adding colors to plots revolves around two functions:
 add_col() generates colors for a variable of interest as well as a set of color classes and colors to be used as inputs to the add_Cscale() function. Colors and color classes may be generated automatically or customized, depending on the intended appearance.
 Knowing the names of colors in R would be useful here (http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf).
 
-```{r fig.align="center",out.width="80%",message=F,dpi=200,eval=T,fig.height=8}
+```{r Fig19,fig.align="center",out.width="80%",message=F,dpi=200,eval=T,fig.height=8}
 
 #Adding color to points
 
 #Prepare layout for 3 sub-plots
-Mypar<-par(mfrow=c(3,1),mai=c(0.1,0.1,0.1,1))
+par(mfrow=c(3,1),mai=c(0.1,0.1,0.1,1))
 #Create some points
 MyPoints=create_Points(PointData)
 
@@ -791,10 +764,10 @@ add_Cscale(title='Number of fishes',
            height=95,fontsize=0.75,width=16,lwd=1,offset=0,
            cuts=round(MyCols$cuts,1),cols=MyCols$cols)
 box()
-par(Mypar)
+
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig20,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 
 #Adding colors to a grid with custom cuts (see also the last example in section 2.1.)
 
@@ -811,13 +784,13 @@ MyCuts=c(0,50,100,500,2000,2500)
 Gridcol=add_col(MyGrid$Catch_sum,cuts=MyCuts,cols=c('blue','white','red'))
 
 #Step 4: Plot result and add color scale
-Mypar<-par(mai=c(0,0,0,1.5)) #set plot margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,1.5)) #set plot margins as c(bottom, left, top, right)
 #Use the colors generated by add_col
 plot(MyGrid,col=Gridcol$varcol,lwd=0.1) 
 #Add color scale using cuts and cols generated by add_col
 add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22,
      fontsize=0.75,lwd=1) 
-par(Mypar)
+
 ```
 
 ### 5.3. Adding legends
@@ -834,7 +807,7 @@ To position the legend, the add_Cscale() function can generate legend coordinate
 Legend_Coordinates=add_Cscale(pos='2/3',offset=1000,height=40)
 ```
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig21,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Adding a color scale and a legend
 
 #Create some point data
@@ -843,7 +816,7 @@ MyPoints=create_Points(PointData)
 #Crop the bathymetry to match the extent of MyPoints (extended extent)
 BathyCr=raster::crop(SmallBathy,raster::extend(raster::extent(MyPoints),100000))
 #set plot margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0,0,0.5))
+par(mai=c(0,0,0,0.5))
 #Plot the bathymetry
 plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F)
 #Add a color scale
@@ -862,7 +835,7 @@ Loc=add_Cscale(pos='2/2',height=40,mode='Legend')
 legend(Loc,legend=c('one','two','three','four'),
        title='Vessel',pch=Psymbols,pt.bg=Pcolors,xpd=T,
        box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.5)
-par(Mypar)
+
 ```
 
 ### 5.4. Adding labels
@@ -879,12 +852,12 @@ Three modes are available within the add_labels function:
 * In 'manual' mode, users may click on their plot to position labels. An editable label table is generated to allow fine-tuning of labels appearance, and may be saved for external use. To edit the label table, double-click inside one of its cells, edit the value, then close the table.
 * In 'input' mode, a label table that was generated in 'manual' mode is re-used.
 
-```{r fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r Fig22,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Example 1: 'auto' mode
 #label ASDs in bold and red
 ASDs=load_ASDs()
 #set plot margins as c(bottom, left, top, right)
-Mypar<-par(mai=c(0,0,0,0))
+par(mai=c(0,0,0,0))
 plot(ASDs)
 add_labels(mode='auto',layer='ASDs',fontsize=0.75,fonttype=2,col='red')
 #add MPAs and EEZs and their labels in large, green and vertical text
@@ -893,7 +866,7 @@ EEZs=load_EEZs()
 plot(MPAs,add=TRUE,border='green')
 plot(EEZs,add=TRUE,border='green')
 add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
-par(Mypar)
+
 ```
 
 ```{r eval=F}

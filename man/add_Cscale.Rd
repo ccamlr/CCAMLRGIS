@@ -121,7 +121,7 @@ par(Mypar)
 
 }
 \seealso{
-\code{\link{SmallBathy}}, \code{\link{Depth_cuts}}, \code{\link{Depth_cols}}, \code{\link{add_col}},
-\code{\link{Depth_cuts2}}, \code{\link{Depth_cols2}},
+\code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{Depth_cuts}}, \code{\link{Depth_cols}}, 
+\code{\link{Depth_cuts2}}, \code{\link{Depth_cols2}}, \code{\link{add_col}},
 \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}, \code{\link[graphics]{legend}}.
 }

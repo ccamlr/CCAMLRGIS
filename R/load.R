@@ -296,3 +296,69 @@ load_EEZs=function(){
   CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
   return(CCAMLR_data)
 }
+
+#' Load Bathymetry data
+#' 
+#' Download the up-to-date projected GEBCO data from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' This functions can be used in two steps, to first download the data and then use it. If you keep the downloaded data, you can then
+#' re-use it in all your scripts.
+#' 
+#' To download the data, you must either have set your working directory using \code{\link[base]{setwd}}, or be working within an Rproject.
+#' In any case, your file will be downloaded to the folder path given by \code{\link[base]{getwd}}.
+#' 
+#' \strong{It is strongly recommended to first download the lowest resolution data (set \code{Res=5000}) to ensure it is working as expected.}
+#' 
+#' To re-use the downloaded data, you must provide the full path to that file, for example:
+#' 
+#' "C:/Desktop/GEBCO2020_5000.tif".
+#' 
+#' This data was reprojected from the original GEBCO Grid after cropping at 40 degrees South. Projection was made using the Lambert
+#' azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs),
+#' and the data was aggregated at a several resolutions.
+#' 
+#' @param LocalFile To download the data, set to \code{FALSE}. To re-use a downloaded file, set to the full path of the file 
+#' (e.g., "C:/Desktop/GEBCO2020_5000.tif").
+#' @param Res Desired resolution in meters. May only be one of: 500, 1000, 2500 or 5000.
+#' @return Bathymetry raster.
+#' 
+#' @seealso
+#' \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
+#' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}},
+#' \code{\link{create_Stations}},
+#' \code{\link{SmallBathy}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
+#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
+#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
+#' @references GEBCO Compilation Group (2020) GEBCO 2020 Grid (doi:10.5285/a29c5465-b138-234d-e053-6c86abc040b9) 
+#' 
+#' @export
+#' @examples  
+#' \donttest{
+#' 
+#' #The examples below are commented. To test, remove the '#'.
+#' 
+#' ##Download the data. It will go in the folder given by getwd():
+#' #Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
+#' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=F)
+#' 
+#' ##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2020_5000.tif"):
+#' #Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2020_5000.tif")
+#' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=F)
+#' 
+#' }
+#' 
+
+load_Bathy=function(LocalFile,Res=5000){
+  if(LocalFile==FALSE){
+    if(Res%in%c(500,1000,2500,5000)==FALSE){stop("'Res' should be one of: 500, 1000, 2500 or 5000")}
+    Fname=paste0("GEBCO2020_",Res,".tif")
+    url=paste0("https://gis.ccamlr.org/geoserver/www/",Fname)
+    download.file(url, destfile=paste0(getwd(),"/",Fname),mode="wb")
+    Bathy=raster::raster(paste0(getwd(),"/",Fname))
+  }else{
+    if(file.exists(LocalFile)==FALSE){stop("File not found. Either the file is missing or 'LocalFile' is not properly set.")}
+    Bathy=raster::raster(LocalFile)
+  }
+  return(Bathy)
+}
