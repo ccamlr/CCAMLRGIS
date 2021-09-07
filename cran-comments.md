@@ -7,11 +7,11 @@
 ## R CMD check results
 
 * There were no ERRORS, WARNINGS OR NOTES on Windows OS. 
-* Preperror on Fedora Linux, R-devel, clang, gfortran: *cannot open URL 'https://sysreqs.r-hub.io...*
-* Preperror on Ubuntu Linux 20.04.1 LTS, R-release, GCC: *cannot open URL 'https://sysreqs.r-hub.io...*
+* 1 NOTE on other platforms: package was archived (I don't know why it was)
 
 ## Notes about CRAN edits
 
+* Added create_Pies() and add_PieLegend() functions
 * Added load_Bathy() function
 * Shortened Vignette to pass CRAN tests
 * Added area and centroid for each cell created using create_PolyGrids
