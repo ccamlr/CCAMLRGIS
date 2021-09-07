@@ -41,6 +41,7 @@ install.packages("CCAMLRGIS")
 
 -   2.1. Points, lines, polygons and grids
 -   2.2. Create Stations
+-   2.3. Create Pies
 
 3.  Load functions
 
@@ -135,8 +136,8 @@ plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
 
 ``` r
 
-#Please refer to ?load_Bathy for more details, including how to save the bathymetry data so that you do not need to re-download
-#it every time you need it.
+#Please refer to ?load_Bathy for more details, including how to save the bathymetry data so that you
+#do not have to re-download it every time you need it.
 ```
 
 #### Circumpolar map:
@@ -539,6 +540,254 @@ box()
 
 <img src="README-Fig14-1.png" width="100%" style="display: block; margin: auto;" />
 
+### 2.3. Create pies
+
+The function create\_Pies() generates pie charts that can be overlaid on
+maps. The *Input* data must be a dataframe with, at least, columns for
+latitude, longitude, class and value. For each location, a pie is
+created with pieces for each class, and the size of each piece depends
+on the proportion of each class (the value of each class divided by the
+sum of values). Optionally, the area of each pie can be proportional to
+a chosen variable (if that variable is different than the value
+mentioned above, the *Input* data must have a fifth column and that
+variable must be unique to each location). If the *Input* data contains
+locations that are too close together, the data can be gridded by
+setting *GridKm* (see Examples 7-9). Once pie charts have been created,
+the function add\_PieLegend() may be used to add a legend to the figure.
+
+For details, type:
+
+``` r
+?create_Pies
+?add_PieLegend
+#The examples below use the following example datasets:
+View(PieData)
+View(PieData2)
+```
+
+<br>
+
+Example 1. Pies of constant size, all classes displayed:
+
+``` r
+#Set plot margins
+par(mai=c(1.2,0,0,0)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Crop Coastline to match the extent of B486
+C486=raster::crop(Coast[Coast$ID=='All',],raster::extent(B486))
+#Add coastline
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=50
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.5,0.45,0.12,0.45),
+              PieTitle="Species")
+```
+
+<img src="README-FigP01-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 2. Pies of constant size, selected classes displayed:
+
+``` r
+#Set plot margins
+par(mai=c(1.2,0,0,0)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=50,
+                   Classes=c("TOP","TOA","ANI")
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.6,0.6,0.12,0.55),
+              PieTitle="Selected species")
+```
+
+<img src="README-FigP02-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 3. Pies of constant size, proportions below 25% are grouped in a
+‘Other’ class (N.B.: unlike Example 2, the ‘Other’ class may contain
+classes that are displayed in the legend. Please compare Example 1 and
+Example 3):
+
+``` r
+#Set plot margins
+par(mai=c(1.2,0,0,0)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=50,
+                   Other=25
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.55,0.55,0.12,0.45),
+              PieTitle="Other (%) class")
+```
+
+<img src="README-FigP03-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 4. Pies of variable size (here, their area is proportional to
+‘Catch’), all classes displayed, horizontal legend:
+
+``` r
+#Set plot margins
+par(mai=c(1.2,0,0,0)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=18,
+                   SizeVar="Catch"
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.16,0.1,0.1,0.4),
+              PieTitle="Species",SizeTitle="Catch (t.)")
+```
+
+<img src="README-FigP04-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 5. Pies of variable size (here, their area is proportional to
+‘Catch’), all classes displayed, vertical legend:
+
+``` r
+#Set plot margins
+par(mai=c(0,0,0,1.2)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=18,
+                   SizeVar="Catch"
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=2.32,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
+              PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
+```
+
+<img src="README-FigP05-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 6. Pies of constant size, all classes displayed. Too many pies
+(see next example for solution):
+
+``` r
+#Set plot margins
+par(mai=c(1.2,0,0,0)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData2,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=5
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=0.4,PosY=-1.5,Boxexp=c(0.5,0.45,0.12,0.45),
+              PieTitle="Species")
+```
+
+<img src="README-FigP06-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 7. Pies of constant size, all classes displayed. Gridded
+locations (in which case numerical variables in the *Input* are summed
+for each grid point):
+
+``` r
+#Set plot margins
+par(mai=c(1.2,0,0,0)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData2,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=5,
+                   GridKm=250
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=0.4,PosY=-1.3,Boxexp=c(0.5,0.45,0.12,0.45),
+              PieTitle="Species")
+```
+
+<img src="README-FigP07-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 8. Pies of variable size (here, their area is proportional to
+‘Catch’), all classes displayed, vertical legend, gridded locations (in
+which case numerical variables in the *Input* are summed for each grid
+point):
+
+``` r
+#Set plot margins
+par(mai=c(0,0,0,1.2)) #as c(bottom,left,top,right)
+#Plot the bathymetry (See section 'Local map' where B486 was created)
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#Add coastline (see example 1 where it was created)
+plot(C486,col='grey',lwd=1,add=TRUE)
+#Create pies
+MyPies=create_Pies(Input=PieData2,
+                   NamesIn=c("Lat","Lon","Sp","N"),
+                   Size=3,
+                   GridKm=250,
+                   SizeVar='Catch'
+                   )
+#Plot Pies
+plot(MyPies,col=MyPies$col,add=TRUE)
+#Add Pies legend
+add_PieLegend(Pies=MyPies,PosX=2.8,PosY=0.15,Boxexp=c(0.38,0.32,0.08,0.18),
+              PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",
+              SizeTitleVadj=0.8,nSizes=2)
+```
+
+<img src="README-FigP08-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
 ## 3. Load functions
 
 ### 3.1. Online use
@@ -749,7 +998,8 @@ head(PointData)
 #> 5 -63.89171  154.4327 three 52.32101     552 5
 #> 6 -66.35370  153.6906  four 78.65576      22 6
 #Generate a dataframe with random locations
-MyData=project_data(Input=PointData,NamesIn=c('Lat','Lon'),NamesOut=c('Projected_Y','Projectd_X'),append=TRUE)
+MyData=project_data(Input=PointData,NamesIn=c('Lat','Lon'),
+                    NamesOut=c('Projected_Y','Projectd_X'),append=TRUE)
 #The output data looks like this:
 head(MyData)
 #>         Lat       Lon  name    Catch Nfishes n Projected_Y Projectd_X

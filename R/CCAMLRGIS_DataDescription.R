@@ -193,3 +193,53 @@ NULL
 #' \code{\link{load_MPAs}}.
 #' @name Labels
 NULL
+
+#' Example dataset for create_Pies
+#'
+#' To be used in conjunction with \link{create_Pies}. Count of species per location.
+#'
+#' @docType data
+#' @usage data(PieData)
+#' @format DataFrame
+#' @examples 
+#' #View(PieData)
+#' 
+#' #Create pies
+#' MyPies=create_Pies(Input=PieData,
+#'                    NamesIn=c("Lat","Lon","Sp","N"),
+#'                    Size=50
+#' )
+#' #Plot Pies
+#' plot(MyPies,col=MyPies$col)
+#' #Add Pies legend
+#' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.5,0.45,0.12,0.45),
+#'               PieTitle="Species")
+#' 
+#' @seealso \code{\link{create_Pies}}.  
+#' @name PieData
+NULL
+
+#' Example dataset for create_Pies
+#'
+#' To be used in conjunction with \link{create_Pies}. Count of species per location.
+#'
+#' @docType data
+#' @usage data(PieData2)
+#' @format DataFrame
+#' @examples 
+#' #View(PieData2)
+#' 
+#'MyPies=create_Pies(Input=PieData2,
+#'                   NamesIn=c("Lat","Lon","Sp","N"),
+#'                   Size=5,
+#'                   GridKm=250
+#')
+#'#Plot Pies
+#'plot(MyPies,col=MyPies$col)
+#'#Add Pies legend
+#'add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.3,Boxexp=c(0.5,0.45,0.12,0.45),
+#'              PieTitle="Species")
+#' 
+#' @seealso \code{\link{create_Pies}}.  
+#' @name PieData2
+NULL

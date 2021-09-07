@@ -1,5 +1,6 @@
 utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols2','Depth_cuts2',
-'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID'))
+'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID','PieData','PieData2',
+'Lat','Lon','N','Tot','p'))
 #' 
 #' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
 #' All operations use the Lambert azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs).
@@ -28,6 +29,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #'   \item \link{create_Polys}
 #'   \item \link{create_PolyGrids}
 #'   \item \link{create_Stations}
+#'   \item \link{create_Pies}
 #' }
 #' 
 #' @section Vignette:
@@ -51,7 +53,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @importFrom grDevices colorRampPalette recordPlot replayPlot
 #' @importFrom graphics par rect segments text
 #' @importFrom methods slot
-#' @importFrom stats quantile
+#' @importFrom stats quantile median
 #' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu download.file
 #' @importFrom magrittr %>%
 #' @importFrom raster raster extent extend crop extract rasterToContour pointDistance xres yres cut rasterToPolygons area crs match ncell setValues minValue maxValue mask cellStats contour click

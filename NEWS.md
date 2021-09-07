@@ -1,3 +1,7 @@
+# CCAMLRGIS 3.2.0
+
+Added the create_Pies and add_PieLegend functions.
+
 # CCAMLRGIS 3.1.0
 
 Added the load_Bathy function.
