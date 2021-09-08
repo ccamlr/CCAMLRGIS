@@ -18,7 +18,7 @@ You can install the CCAMLRGIS R package from CRAN with:
 install.packages("CCAMLRGIS")
 ```
 
-## Vignette
+## Documentation
 
 <center>
 
@@ -66,13 +66,6 @@ install.packages("CCAMLRGIS")
 
 ## Introduction
 
-The CCAMLRGIS package was developed to simplify the production of maps
-in the CCAMLR Convention Area. It provides two categories of functions:
-load functions and create functions. Load functions are used to import
-spatial layers from the online CCAMLR GIS (<http://gis.ccamlr.org/>)
-such as the ASD boundaries. Create functions are used to create layers
-from user data such as polygons and grids.
-
 First, install the package by typing:
 
 ``` r
@@ -118,6 +111,8 @@ text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 
 ## 1. Basemaps
 
+#### Bathymetry:
+
 Prior to detailing the package’s capabilities, a set of basic commands
 are shown here to display a few core mapping elements. All scripts use
 the low-resolution bathymetry raster included in the package
@@ -140,7 +135,7 @@ plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
 #do not have to re-download it every time you need it.
 ```
 
-#### Circumpolar map:
+#### Statistical Areas, Subareas and Divisions (ASDs):
 
 ``` r
 #Load ASDs and EEZs
@@ -165,7 +160,7 @@ add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
 
 <img src="README-Fig03-1.png" width="100%" style="display: block; margin: auto;" />
 
-#### Local map (e.g. Subarea 48.6):
+#### Local map (*e.g.*, Subarea 48.6):
 
 ``` r
 #Load ASDs
@@ -204,8 +199,8 @@ These functions are used to transform user data into spatial layers with
 the appropriate projection. User data may either be generated within an
 R script or imported from a ‘.csv’ file located in the working
 directory. Users can set their working directory using the command
-setwd(). It is however recommended to, instead, create an R project in a
-folder and put your ‘.csv’ files in it.
+*setwd()*. It is however recommended to, instead, create an R project in
+a folder and put your ‘.csv’ files in it.
 
 To see your current working directory, type:
 
@@ -304,8 +299,8 @@ box()
 
 <img src="README-Fig06-1.png" width="100%" style="display: block; margin: auto;" />
 
-Adding a buffer with the argument SeparateBuf set to FALSE results in a
-single polygon which may be viewed as a footprint:
+Adding a buffer with the argument *SeparateBuf* set to FALSE results in
+a single polygon which may be viewed as a footprint:
 
 ``` r
 #Set the figure margins as c(bottom, left, top, right)
@@ -542,18 +537,19 @@ box()
 
 ### 2.3. Create pies
 
-The function create\_Pies() generates pie charts that can be overlaid on
-maps. The *Input* data must be a dataframe with, at least, columns for
-latitude, longitude, class and value. For each location, a pie is
-created with pieces for each class, and the size of each piece depends
-on the proportion of each class (the value of each class divided by the
-sum of values). Optionally, the area of each pie can be proportional to
-a chosen variable (if that variable is different than the value
-mentioned above, the *Input* data must have a fifth column and that
-variable must be unique to each location). If the *Input* data contains
-locations that are too close together, the data can be gridded by
-setting *GridKm* (see Examples 7-9). Once pie charts have been created,
-the function add\_PieLegend() may be used to add a legend to the figure.
+The function *create\_Pies()* generates pie charts that can be overlaid
+on maps. The *Input* data must be a dataframe with, at least, columns
+for latitude, longitude, class and value. For each location, a pie is
+created with pieces for each class, and the size of each pie piece
+depends on the proportion of each class (the value of each class divided
+by the sum of values). Optionally, the area of each pie can be
+proportional to a chosen variable (if that variable is different than
+the value mentioned above, the *Input* data must have a fifth column and
+that variable must be unique to each location). If the *Input* data
+contains locations that are too close together, the data can be gridded
+by setting *GridKm* (see Examples 7-9). Once pie charts have been
+created, the function *add\_PieLegend()* may be used to add a legend to
+the figure.
 
 For details, type:
 
@@ -621,7 +617,7 @@ add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.6,0.6,0.12,0.55),
 <br>
 
 Example 3. Pies of constant size, proportions below 25% are grouped in a
-‘Other’ class (N.B.: unlike Example 2, the ‘Other’ class may contain
+‘Other’ class (*N.B.*: unlike Example 2, the ‘Other’ class may contain
 classes that are displayed in the legend. Please compare Example 1 and
 Example 3):
 
@@ -792,7 +788,7 @@ add_PieLegend(Pies=MyPies,PosX=2.8,PosY=0.15,Boxexp=c(0.38,0.32,0.08,0.18),
 
 ### 3.1. Online use
 
-Download the up-to-date spatial layers from the online CCAMLRGIS and
+Download the up-to-date spatial layers from the online CCAMLR GIS and
 load them to your environment.
 
 For details, type:
@@ -822,7 +818,7 @@ box()
 
 ### 3.2. Offline use
 
-Since the ‘load\_’ functions require an internet connection, users may
+Since the ‘*load\_*’ functions require an internet connection, users may
 desire to save layers on their hard drive for offline use. This may be
 done, at the risk of not having the most up-to-date layers, as follows:
 
@@ -845,7 +841,7 @@ save(list=c('ASDs','EEZs','Coastline','SSRUs','RBs','SSMUs','MAs','MPAs'),
 load(file.path(tempdir(), "CCAMLRLayers.RData"))
 ```
 
-The load\_Bathy() function may also be used to download and store
+The *load\_Bathy()* function may also be used to download and store
 bathymetry data for later use, see ?load\_Bathy for details.
 
 ## 4. Other functions
@@ -1061,11 +1057,11 @@ Adding colors to plots revolves around two functions:
 ?add_Cscale
 ```
 
-add\_col() generates colors for a variable of interest as well as a set
-of color classes and colors to be used as inputs to the add\_Cscale()
-function. Colors and color classes may be generated automatically or
-customized, depending on the intended appearance. Knowing the names of
-colors in R would be useful here
+*add\_col()* generates colors for a variable of interest as well as a
+set of color classes and colors to be used as inputs to the
+*add\_Cscale()* function. Colors and color classes may be generated
+automatically or customized, depending on the intended appearance.
+Knowing the names of colors in R would be useful here
 (<http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf>).
 
 ``` r
@@ -1131,16 +1127,16 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22
 
 ### 5.3. Adding legends
 
-To add a legend, use the base legend() function:
+To add a legend, use the base *legend()* function:
 
 ``` r
 ?legend
 ```
 
-To position the legend, the add\_Cscale() function can generate legend
+To position the legend, the *add\_Cscale()* function can generate legend
 coordinates which correspond to the top-left corner of the legend box.
 These may be adjusted using the ‘pos’, ‘height’ and ‘offset’ arguments
-within add\_Cscale(), e.g.:
+within *add\_Cscale()*, *e.g.*:
 
 ``` r
 Legend_Coordinates=add_Cscale(pos='2/3',offset=1000,height=40)
@@ -1180,16 +1176,16 @@ legend(Loc,legend=c('one','two','three','four'),
 
 ### 5.4. Adding labels
 
-To add labels, use the add\_labels() function:
+To add labels, use the *add\_labels()* function:
 
 ``` r
 ?add_labels
 ```
 
-Three modes are available within the add\_labels function:
+Three modes are available within the *add\_labels()* function:
 
 -   In ‘auto’ mode, labels are placed at the centres of polygon parts of
-    spatial objects loaded via the load\_ functions.
+    spatial objects loaded via the *load\_* functions.
 -   In ‘manual’ mode, users may click on their plot to position labels.
     An editable label table is generated to allow fine-tuning of labels
     appearance, and may be saved for external use. To edit the label
