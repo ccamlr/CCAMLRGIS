@@ -1,3 +1,4 @@
+
 ## Test environments
 
 * win-builder (devel and release, 64 and 32bit)
@@ -7,10 +8,11 @@
 ## R CMD check results
 
 * There were no ERRORS, WARNINGS OR NOTES on Windows OS. 
-* 1 NOTE on other platforms: package was archived (I don't know why it was)
+* 1 NOTE on other platforms: package was archived.
 
 ## Notes about CRAN edits
 
+* Now the vignette links to the GitHub README to avoid CRAN Checks issues
 * Added create_Pies() and add_PieLegend() functions
 * Added load_Bathy() function
 * Shortened Vignette to pass CRAN tests
