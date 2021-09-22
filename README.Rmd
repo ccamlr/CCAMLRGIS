@@ -337,6 +337,33 @@ box()
 
 ```
 
+
+```{r Fig08b,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+#Convention area
+#The locations of vertices are given clockwise, starting from the northwest corner of 48.3
+CA=data.frame(
+  Name="CA",
+  Lat=c(-50,-50,-45,-45,-55,-55,-60,-60),
+  Lon=c(-50,30,30,80,80,150,150,-50)
+)
+
+
+#Prepare layout for 2 sub-plots
+par(mfrow=c(1,2),mai=c(0,0,0.2,0))
+
+#Example 4: Convention area contour
+MyPoly=create_Polys(CA)
+plot(MyPoly,col='blue',border='green',main='Example 4',cex.main=0.75,lwd=2)
+box()
+
+#Example 5: Convention area contour, coastline excluded
+MyPoly=create_Polys(CA,Clip = TRUE)
+plot(MyPoly,col='blue',border='green',main='Example 5',cex.main=0.75,lwd=2)
+box()
+
+```
+
+
 #### Create grids:
 For details, type:
 ```{r eval=F}
