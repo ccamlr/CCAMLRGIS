@@ -32,19 +32,15 @@
 #' @export
 
 Clip2Coast=function(Input){
-  tmp=suppressWarnings(gDifference(Input,Coast[Coast$ID=='All',],byid=TRUE,checkValidity=2,id=as.character(Input$ID)))
+  Output=suppressWarnings(st_difference(Input,as(Coast[Coast$ID=='All',],"sfc"),validate=TRUE))
   #Get areas
-  Ar=round(gArea(tmp,byid=TRUE)/1000000,1)
-  if("Buffered_AreaKm2"%in%colnames(Input@data)){
-    Input$Buffered_and_clipped_AreaKm2=as.numeric(Ar)[match(Input$ID,names(Ar))]
+  Ar=round(st_area(Output)/1000000,1)
+  if("Buffered_AreaKm2"%in%colnames(Output)){
+    Output$Buffered_and_clipped_AreaKm2=as.numeric(Ar)
   }
-  if("AreaKm2"%in%colnames(Input@data)){
-    Input$Clipped_AreaKm2=as.numeric(Ar)[match(Input$ID,names(Ar))]
+  if("AreaKm2"%in%colnames(Output)){
+    Output$Clipped_AreaKm2=as.numeric(Ar)
   }
-  #Get data back
-  pdata=Input@data
-  row.names(pdata)=Input$ID
-  Output=SpatialPolygonsDataFrame(tmp,pdata)
   return(Output)
 }
 

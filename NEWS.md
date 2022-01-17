@@ -1,3 +1,15 @@
+# CCAMLRGIS 4.0.0
+
+Due to the incoming retirement of packages rgdal and rgeos, the CCAMLRGIS package has been recoded to use the packages sf and terra. The main difference to users is that in order to plot objects, one must replace:
+
+plot(MyObject)
+
+with:
+
+plot(st_geometry(MyObject))
+
+We apologize for any inconvenience.
+
 # CCAMLRGIS 3.2.0
 
 Added the create_Pies and add_PieLegend functions.

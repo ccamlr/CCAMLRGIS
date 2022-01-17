@@ -413,9 +413,9 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' @export
 
-create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
+create_Points=function(Input,Buffer=0,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
-  if (class(Input)=="character"){Input=read.csv(Input)}
+  if (class(Input)!="data.frame"){Input=as.data.frame(Input)}
   #Use NamesIn to reorder columns
   if(is.null(NamesIn)==F){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
@@ -425,18 +425,11 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
   # Run cPoints
   Output=cPoints(Input)
   # Run add_buffer
-  if(length(Buffer)==1){
-    if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
-  }else{
-    Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)
-  }
+  if(all(Buffer>0)){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
+  if(any(Buffer<0)){stop("'Buffer' should be positive")}
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-  # Export to shapefile if desired
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")}else{
-      return(Output)
-    }
+  return(Output)
 }
 
 #' Create Stations
