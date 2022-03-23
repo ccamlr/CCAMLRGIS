@@ -91,16 +91,16 @@ project_data=function(Input,NamesIn=NULL,NamesOut=NULL,append=TRUE,inv=FALSE){
   }
   
   if(inv==FALSE){
-    Locs=SpatialPoints(Locs,proj4string=CRS("+init=epsg:4326"))
-    Locs=spTransform(Locs,CRS("+init=epsg:6932"))
-    Locs=as.data.frame(coordinates(Locs))
+    Locs=st_as_sf(x=Locs,coords=c(1,2),crs=4326,remove=FALSE)
+    Locs=st_transform(x=Locs,crs=6932)
+    Locs=as.data.frame(st_coordinates(Locs))
     colnames(Locs)=c(NamesOut[2],NamesOut[1])
     Locs=Locs[,NamesOut]
   }else{
-    Locs=SpatialPoints(Locs,proj4string=CRS("+init=epsg:6932"))
-    Locs=spTransform(Locs,CRS("+init=epsg:4326"))
-    Locs=as.data.frame(coordinates(Locs))
-    colnames(Locs)=c(NamesOut[2],NamesOut[1]) 
+    Locs=st_as_sf(x=Locs,coords=c(1,2),crs=6932,remove=FALSE)
+    Locs=st_transform(x=Locs,crs=4326)
+    Locs=as.data.frame(st_coordinates(Locs))
+    colnames(Locs)=c(NamesOut[2],NamesOut[1])
     Locs=Locs[,NamesOut]
   }
   

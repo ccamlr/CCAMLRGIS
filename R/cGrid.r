@@ -40,16 +40,20 @@ if(is.na(Area)==TRUE){
       lats=c(rep(ymax,length(lons)),rep(ymin,length(lons)))
       lons=c(lons,rev(lons))
     }
+    #close polygons
+    lons=c(lons,lons[1])
+    lats=c(lats,lats[1])
     
-    Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(i))
+    Pl[[i]]=st_polygon(list(cbind(lons,lats)))
   }
-  Group=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:4326"))
+  Group=st_sfc(Pl, crs = 4326)
   #project
-  Group=spTransform(Group,CRS("+init=epsg:6932"))
+  Group=st_transform(x=Group,crs=6932)
   #Get area
-  tmp=gArea(Group, byid=TRUE)
-  tmp=data.frame(ID=names(tmp),AreaKm2=tmp*1e-6)
-  Group=SpatialPolygonsDataFrame(Group,tmp)
+  tmp=round(st_area(Group)/1000000,1)
+  tmp=data.frame(ID=seq(1,length(tmp)),AreaKm2=as.numeric(tmp))
+
+  Group=st_set_geometry(tmp,Group)
   
 }else{
   #Equal-area grid
@@ -58,39 +62,37 @@ if(is.na(Area)==TRUE){
   PolyIndx=1     #Index of polygon (cell)
   Group = list() #Initialize storage of cells
   
-  StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+init=epsg:4326"))
+  # StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+init=epsg:4326"))
+  StartP=cbind(0,ceiling(max(data$lat)))
   LatS=0
   
   while(LatS>min(data$lat)){
     
     #Compute circumference at Northern latitude of cells
-    NLine=SpatialLines(list(Lines(Line(cbind(seq(-180,180,length.out=10000),
-                                             rep(coordinates(StartP)[,2],10000))),'N')),CRS("+init=epsg:4326"))
-    NLine=spTransform(NLine,CRS("+init=epsg:6932"))
-    L=SpatialLinesLengths(NLine)
+    NLine=st_sfc(st_linestring(cbind(seq(-180,180,length.out=10000),rep(StartP[,2],10000))), crs = 4326)
+    NLine=st_transform(x=NLine,crs=6932)
+    L=as.numeric(st_length(NLine))
+    
     #Compute number of cells
     N=floor(L/s)
     lx=L/N
     ly=Area/lx
     #Prepare cell boundaries
     Lons=seq(-180,180,length.out=N)
-    LatN=as.numeric(coordinates(StartP)[1,2])
-    LatS=as.numeric(destPoint(cbind(Lons[1],LatN), 180, d=ly)[,2])
+    LatN=StartP[1,2]
+    LatS=as.numeric(geosphere::destPoint(cbind(Lons[1],LatN), 180, d=ly)[,2])
     #Refine LatS
     lons=unique(c(Lons[1],seq(Lons[1],Lons[2],by=0.1),Lons[2]))
     PLon=c(lons,rev(lons),lons[1])
     PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
     
-    # PRO = project(cbind(PLon, PLat), CCAMLRp)
-    # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
-    
     PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
                      NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
-    Pl=Polygon(PRO[,c('x','y')])
-    
-    
+    Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
+    Pl_a=st_area(Pl)
+
     Res=10/10^(0:15)
-    while(Area>Pl@area & length(Res)!=0){
+    while(Area>Pl_a & length(Res)!=0){
       LatSBase=LatS
       LatS=LatS-Res[1]
       if(LatS<(-90)){
@@ -102,23 +104,19 @@ if(is.na(Area)==TRUE){
         break}
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
       
-      # PRO = project(cbind(PLon, PLat), CCAMLRp)
-      # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
-      
       PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
                        NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
-      Pl=Polygon(PRO[,c('x','y')])
+      Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
+      Pl_a=st_area(Pl)
       
-      if(Area<Pl@area){
+      if(Area<Pl_a){
         LatS=LatSBase
         PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
         
-        # PRO = project(cbind(PLon, PLat), CCAMLRp)
-        # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
-        
         PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
                          NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
-        Pl = Polygon(PRO[,c('x','y')])
+        Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
+        Pl_a=st_area(Pl)
         
         Res=Res[-1]
       }
@@ -130,50 +128,45 @@ if(is.na(Area)==TRUE){
       PLon=c(lons,rev(lons),lons[1])
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
       
-      # PRO = project(cbind(PLon, PLat), CCAMLRp)
-      # Pl = Polygon(cbind(PRO[, 1], PRO[, 2]))
-      
       PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
                        NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
-      Pl = Polygon(PRO[,c('x','y')])
+      Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
       
-      
-      Pls = Polygons(list(Pl), ID = PolyIndx)
-      Group[[PolyIndx]] = Pls
+      Group[[PolyIndx]] = Pl
       PolyIndx=PolyIndx+1
     }
     
-    rm(NLine,Pl,Pls,PRO,StartP,i,L,LatSBase,Lons,lons,lx,ly,N,PLat,PLon,Res)
+    rm(NLine,Pl,PRO,StartP,i,L,LatSBase,Lons,lons,lx,ly,N,PLat,PLon,Res)
     
-    StartP=SpatialPoints(cbind(0,LatS),CRS("+init=epsg:4326"))
+    StartP=cbind(0,LatS)
   }
-  
-  Group = SpatialPolygons(Group)
-  proj4string(Group) = CRS("+init=epsg:6932")
-  tmp=gArea(Group, byid=TRUE)
-  tmp=data.frame(ID=names(tmp),AreaKm2=tmp*1e-6)
-  Group=SpatialPolygonsDataFrame(Group,tmp)
-  rm(tmp)
-  
+  Group=st_sfc(Group, crs = 6932)
+
+  #Get area
+  tmp=round(st_area(Group)/1000000,1)
+  tmp=data.frame(ID=seq(1,length(tmp)),AreaKm2=as.numeric(tmp))
+  Group=st_set_geometry(tmp,Group)  
 }
 
   #Add cell labels centers
   #Get labels locations
-  labs=coordinates(gCentroid(Group,byid=TRUE))
-  Group$Centrex=labs[match(Group$ID,row.names(labs)),'x']
-  Group$Centrey=labs[match(Group$ID,row.names(labs)),'y']
+  labs=st_coordinates(st_centroid(st_geometry(Group)))
+  Group$Centrex=labs[,1]
+  Group$Centrey=labs[,2]
+  
   #project to get Lat/Lon of centres
-  CenLL=project_data(Input=Group@data,NamesIn=c('Centrey','Centrex'),NamesOut = c('Centrelat','Centrelon'),append = F,inv=T)
+  CenLL=project_data(Input=st_drop_geometry(Group),NamesIn=c('Centrey','Centrex'),
+                     NamesOut = c('Centrelat','Centrelon'),append = F,inv=T)
   Group$Centrelon=CenLL$Centrelon
   Group$Centrelat=CenLL$Centrelat
   rm(CenLL)
   #Match data to grid cells
   tmp_p=project_data(Input=data,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
-  tmp_p=SpatialPoints(tmp_p[,c('x','y')],CRS("+init=epsg:6932"))
-  tmp=over(tmp_p,Group)
+  tmp_p=st_as_sf(x=tmp_p,coords=c(2,1),crs=6932,remove=TRUE)
+  tmp=sapply(st_intersects(tmp_p,Group), function(z) if (length(z)==0) NA_integer_ else z[1]) #sp::over replacement
   
   #Look for un-assigned data points (falling on an edge between cells)
-  Iout=which(is.na(tmp$ID)==T) #Index of those falling out
+  Iout=which(is.na(tmp)==T) #Index of those falling out
   while(length(Iout)>0){
     tmp=tmp[-Iout,]
     datatmp=data[Iout,]
@@ -186,16 +179,16 @@ if(is.na(Area)==TRUE){
     datatmp$lon=datatmp$lon+MovLon
     data=rbind(data,datatmp)
     tmptmp_p=project_data(Input=datatmp,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
-    tmptmp_p=SpatialPoints(tmptmp_p[,c('x','y')],CRS("+init=epsg:6932"))
-    tmptmp=over(tmptmp_p,Group)
-    
+    tmptmp_p=st_as_sf(x=tmptmp_p,coords=c(2,1),crs=6932,remove=TRUE)
+    tmptmp=sapply(st_intersects(tmptmp_p,Group), function(z) if (length(z)==0) NA_integer_ else z[1]) #sp::over replacement
+
     tmp=rbind(tmp,tmptmp)
     rm(datatmp,tmptmp)
     DegDev=DegDev+0.0001
-    Iout=which(is.na(tmp$ID)==T) #Index of those falling out
+    Iout=which(is.na(tmp)==T) #Index of those falling out
     }
   #Append cell ID to data
-  data$ID=as.character(tmp$ID)
+  data$ID=as.character(tmp)
   rm(tmp)
   Group=Group[Group$ID%in%unique(data$ID),]
   #Summarise data
@@ -214,22 +207,21 @@ if(is.na(Area)==TRUE){
                          median=~median(.,na.rm=TRUE)))
     Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(data$ID)))}
   #Merge data to Polygons
-  CellData=Group@data
-  CellData=dplyr::left_join(CellData,Sdata,by="ID")
-  row.names(CellData)=CellData$ID
-  Group=SpatialPolygonsDataFrame(Group,CellData)
-  
+  Group$ID=as.character(Group$ID)
+  Group=left_join(Group,Sdata,by="ID")
+
   #Add colors
-  VarToColor=which(unlist(lapply(Group@data, class))%in%c("integer","numeric"))
-  VarNotToColor=which(colnames(Group@data)%in%c("Centrex","Centrey","Centrelon","Centrelat"))
+  GroupData=st_drop_geometry(Group)
+  VarToColor=which(unlist(lapply(GroupData, class))%in%c("integer","numeric"))
+  VarNotToColor=which(colnames(GroupData)%in%c("Centrex","Centrey","Centrelon","Centrelat"))
   VarToColor=VarToColor[-which(VarToColor%in%VarNotToColor)]
   for(i in VarToColor){
-    coldata=Group@data[,i]
+    coldata=GroupData[,i]
     if(all(is.na(coldata))){
-      Group@data[,paste0('Col_',colnames(Group@data)[i])]=NA
+      Group[,paste0('Col_',colnames(GroupData)[i])]=NA
     }else{
       tmp=add_col(var=coldata,cuts=cuts,cols=cols)
-      Group@data[,paste0('Col_',colnames(Group@data)[i])]=tmp$varcol
+      Group[,paste0('Col_',colnames(GroupData)[i])]=tmp$varcol
     }
   }
   

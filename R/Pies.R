@@ -229,7 +229,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
   #Compute sum(N) and append to D
   C=dplyr::summarise(group_by(D,Lat,Lon),Tot=sum(N,na.rm=TRUE),.groups = 'drop')
   C$ID=seq(1,nrow(C))
-  D=left_join(D,C, by = c("Lat", "Lon"))
+  D=dplyr::left_join(D,C, by = c("Lat", "Lon"))
   if(is.null(SizeVar)==FALSE){
     if(SizeVar==NamesIn[4]){
       D$SizeVar=D$Tot
@@ -307,17 +307,18 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
         X=Cx+R*sin(A)
         Y=Cy+R*cos(A)
       }
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
     }
   }
-  Pols=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-  row.names(D)=D$PolID
-  Pols=SpatialPolygonsDataFrame(Pols,D)
+  Pols=st_sfc(Pl, crs = 6932)
+  # row.names(D)=D$PolID
+  # Pols=SpatialPolygonsDataFrame(Pols,D)
+  Pols=st_set_geometry(D,Pols)
   #Re-order polys if needed
   if(length(unique(Pols$R))>1){
     Pols=Pols[order(Pols$R,decreasing = TRUE),]
   }
-  Pols@plotOrder=seq(1,length(Pols))
+  # Pols@plotOrder=seq(1,length(Pols))
   return(Pols)
 }
 
@@ -502,11 +503,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
                        PieTitle="Pie chart",SizeTitle="Size chart",
                        PieTitleVadj=0.5,SizeTitleVadj=0.3,nSizes=3,SizeClasses=NULL){
   
-  if(class(Pies)[1]!="SpatialPolygonsDataFrame"){
-    stop("'Pies' must be a SpatialPolygonsDataFrame generated using create_Pies()")
+  if(class(Pies)[1]!="sf"){
+    stop("'Pies' must be generated using create_Pies()")
   }
-  if("LegT"%in%colnames(Pies@data)==FALSE){
-    stop("'Pies' must be a SpatialPolygonsDataFrame generated using create_Pies()")
+  if("LegT"%in%colnames(Pies)==FALSE){
+    stop("'Pies' must be generated using create_Pies()")
   }
   if(is.null(PosX)==TRUE){
     stop("Argument 'PosX' is missing")
@@ -521,7 +522,7 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     nSizes=NULL
   }
   
-  Pdata=Pies@data
+  Pdata=st_drop_geometry(Pies)
   Classes=Pdata$Leg[which(Pdata$LegT=="Classes")]
   cols=Pdata$Leg[which(Pdata$LegT=="cols")]
   Classes=strsplit(Classes,";")[[1]]
@@ -566,13 +567,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       if(diff(A)>0.1){A=sort(unique(c(A,seq(A[1],A[2],by=0.1))))} #Densify
       X=c(Cx,Cx+R*sin(A),Cx)
       Y=c(Cy,Cy+R*cos(A),Cy)
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
     }
-    Pols=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-    row.names(dat)=dat$PolID
-    Pols=SpatialPolygonsDataFrame(Pols,dat)
-    Pols@plotOrder=seq(1,length(Pols))
-    
+    Pols=st_sfc(Pl, crs = 6932)
+    Pols=st_set_geometry(dat,Pols)
+     
     PieTitlex=Cx
     PieTitley=Cy+(R+R*PieTitleVadj)
     
@@ -582,11 +581,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     dat$Ladjx[dat$LabA>pi & dat$LabA<2*pi]=1
     
     if(is.null(Boxexp)==FALSE){
-      bb=bbox(Pols)
-      Xmin=bb['x','min']
-      Ymin=bb['y','min']
-      Xmax=bb['x','max']
-      Ymax=bb['y','max']
+      bb=st_bbox(Pols)
+      Xmin=bb['xmin']
+      Ymin=bb['ymin']
+      Xmax=bb['xmax']
+      Ymax=bb['ymax']
       
       dX=abs(Xmax-Xmin)
       dY=abs(Ymax-Ymin)
@@ -603,14 +602,14 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      Bpol=SpatialPolygons(list(Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),"box")), proj4string=CRS("+init=epsg:6932"))
-      
+      # Bpol=SpatialPolygons(list(Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),"box")), proj4string=CRS("+init=epsg:6932"))
+      Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
       plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
     }
     for(i in seq(1,nrow(dat))){
       text(dat$Labx[i],dat$Laby[i],dat$Cl[i],adj=c(dat$Ladjx[i],0.5),xpd=TRUE,cex=fontsize)
     }
-    plot(Pols,col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
     text(PieTitlex,PieTitley,PieTitle,adj=c(0.5,0),cex=fontsize*1.2,xpd=TRUE)
     
   }else{ #With SizeVar
@@ -659,12 +658,13 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       if(diff(A)>0.1){A=sort(unique(c(A,seq(A[1],A[2],by=0.1))))} #Densify
       X=c(Cx,Cx+R*sin(A),Cx)
       Y=c(Cy,Cy+R*cos(A),Cy)
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
     }
-    Pols=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-    row.names(dat)=dat$PolID
-    Pols=SpatialPolygonsDataFrame(Pols,dat)
-    Pols@plotOrder=seq(1,length(Pols))
+    Pols=st_sfc(Pl, crs = 6932)
+    Pols=st_set_geometry(dat,Pols)
+    
+    
+    #TO DO BELOW#####
     
     PieTitlex=Cx
     PieTitley=Cy+(R+R*PieTitleVadj)

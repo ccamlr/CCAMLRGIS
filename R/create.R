@@ -78,9 +78,9 @@
 #' 
 #' @export
 
-create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
+create_Polys=function(Input,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
-  if (class(Input)=="character"){Input=read.csv(Input)}
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
   if(is.null(NamesIn)==F){
     if(length(NamesIn)!=3){stop("'NamesIn' should be a character vector of length 3")}
@@ -97,11 +97,7 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
   }
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-  # Export to shapefile if desired
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")}else{
-    return(Output)
-  }
+  return(Output)
 }
 
 #' Create a Polygon Grid 
@@ -198,8 +194,8 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' @export
 
-create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red'),NamesIn=NULL){
-  if (class(Input)=="character"){Input=read.csv(Input)}
+create_PolyGrids=function(Input,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red'),NamesIn=NULL){
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
   if(is.null(NamesIn)==F){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
@@ -208,11 +204,7 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
   }
   #Run cGrid
   Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols)
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")
-  }else{
-    return(Output)
-  }
+  return(Output)
 }
 
 #' Create Lines 
@@ -313,9 +305,9 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' 
 #' @export
 
-create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
+create_Lines=function(Input,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
-  if (class(Input)=="character"){Input=read.csv(Input)}
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
   if(is.null(NamesIn)==F){
     if(length(NamesIn)!=3){stop("'NamesIn' should be a character vector of length 3")}
@@ -332,11 +324,9 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
   }
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-  # Export to shapefile if desired
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")}else{
-      return(Output)
-    }
+
+  return(Output)
+  
 }
 
 #' Create Points
@@ -415,7 +405,7 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 
 create_Points=function(Input,Buffer=0,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
   # Load data
-  if (class(Input)!="data.frame"){Input=as.data.frame(Input)}
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
   if(is.null(NamesIn)==F){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
