@@ -81,13 +81,12 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
       col=character()
     )
     ls=par("usr")
-    Gr=raster(extent(ls),nrows=100,ncols=100)
-    Gr=setValues(Gr,NA)
+    Gr=terra::rast(terra::ext(ls),nrows=100,ncols=100,vals=NA)
     #First label
     replayPlot(P)
     message('Click on your figure to add a label\n')
     message('Then edit the label table and close it\n')
-    a=click(Gr,xy=TRUE,n=1,show=FALSE)
+    a=terra::click(Gr,xy=TRUE,n=1,show=FALSE,type="n")
     Lab=rbind(Lab,
               data.frame(
                 x=a$x,
@@ -124,7 +123,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
             if(xx==1){
         message('Click on your figure to add a label\n')
         message('Then edit the label table and close it\n')
-        a=click(Gr,xy=TRUE,n=1,show=FALSE)
+        a=terra::click(Gr,xy=TRUE,n=1,show=FALSE,type="n")
         Lab=rbind(Lab,
                        project_data(Input=data.frame(
                        x=a$x,

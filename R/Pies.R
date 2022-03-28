@@ -602,7 +602,6 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      # Bpol=SpatialPolygons(list(Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),"box")), proj4string=CRS("+init=epsg:6932"))
       Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
       plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
     }
@@ -663,9 +662,6 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     Pols=st_sfc(Pl, crs = 6932)
     Pols=st_set_geometry(dat,Pols)
     
-    
-    #TO DO BELOW#####
-    
     PieTitlex=Cx
     PieTitley=Cy+(R+R*PieTitleVadj)
     
@@ -695,28 +691,26 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       A=c(seq(0,2*pi,length.out=50),0) #angles
       X=SvarX+Sdat$R[j]*sin(A)
       Y=SvarY+Sdat$R[j]*cos(A)
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
       Sdat$Xs[j]=X[1]
       Sdat$Ys[j]=Y[1]
       Sdat$Xe[j]=SvarX+Sdat$R[1]+(Sdat$R[1]-Sdat$R[2])/10
       Sdat$Ye[j]=Y[1]
     }
-    Polsvar=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-    row.names(Sdat)=Sdat$ID
-    Polsvar=SpatialPolygonsDataFrame(Polsvar,Sdat)
-    Polsvar@plotOrder=seq(1,length(Polsvar))
+    Polsvar=st_sfc(Pl, crs = 6932)
+    Polsvar=st_set_geometry(Sdat,Polsvar)
     
     SizeTitlex=SvarX
     SizeTitley=SvarY+(Sdat$R[1]+Sdat$R[1]*SizeTitleVadj)
     
     #Do box
     if(is.null(Boxexp)==FALSE){
-      bb=bbox(Polsvar)
-      Xmin=bb['x','min']
-      Ymin=bb['y','min']
-      Xmax=bb['x','max']
-      Ymax=bb['y','max']
-      
+      bb=st_bbox(Polsvar)
+      Xmin=bb['xmin']
+      Ymin=bb['ymin']
+      Xmax=bb['xmax']
+      Ymax=bb['ymax']
+
       Xmin=min(c(Xmin,dat$Labx))
       Ymin=min(c(Ymin,dat$Laby))
       Xmax=max(c(Xmax,dat$Labx,Sdat$Xe))
@@ -732,13 +726,14 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      Bpol=SpatialPolygons(list(Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),"box")), proj4string=CRS("+init=epsg:6932"))
+      Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
       
       plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
     }
     #Plot Pols
-    plot(Pols,col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
-    plot(Polsvar,add=TRUE,xpd=TRUE,col='white',lwd=lwd)
+    plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    plot(st_geometry(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd)
+    
     #Add Pie labels
     for(i in seq(1,nrow(dat))){
       text(dat$Labx[i],dat$Laby[i],dat$Cl[i],adj=c(dat$Ladjx[i],0.5),xpd=TRUE,cex=fontsize)

@@ -30,8 +30,8 @@
 load_ASDs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:statistical_areas_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -67,8 +67,8 @@ load_ASDs=function(){
 load_SSRUs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssrus_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -105,8 +105,8 @@ load_SSRUs=function(){
 load_Coastline=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -142,8 +142,8 @@ load_Coastline=function(){
 load_RBs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:research_blocks_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -179,8 +179,8 @@ load_RBs=function(){
 load_SSMUs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:ssmus_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -216,8 +216,8 @@ load_SSMUs=function(){
 load_MAs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:omas_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -254,8 +254,8 @@ load_MAs=function(){
 load_MPAs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:mpas_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -292,8 +292,8 @@ load_MPAs=function(){
 load_EEZs=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:eez_6932&outputFormat=json"
-  CCAMLR_data=suppressWarnings(readOGR(dsn=ccamlrgisurl,layer="OGRGeoJSON",verbose = FALSE))
-  CCAMLR_data=spTransform(CCAMLR_data,CRS("+init=epsg:6932"))
+  CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -355,10 +355,10 @@ load_Bathy=function(LocalFile,Res=5000){
     Fname=paste0("GEBCO2020_",Res,".tif")
     url=paste0("https://gis.ccamlr.org/geoserver/www/",Fname)
     download.file(url, destfile=paste0(getwd(),"/",Fname),mode="wb")
-    Bathy=raster::raster(paste0(getwd(),"/",Fname))
+    Bathy=terra::rast(paste0(getwd(),"/",Fname))
   }else{
     if(file.exists(LocalFile)==FALSE){stop("File not found. Either the file is missing or 'LocalFile' is not properly set.")}
-    Bathy=raster::raster(LocalFile)
+    Bathy=terra::rast(LocalFile)
   }
   return(Bathy)
 }

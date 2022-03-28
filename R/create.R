@@ -516,9 +516,14 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
   if(is.na(sum(N))==FALSE & length(N)!=length(Depths)-1){
     stop('Incorrect number of stations specified.')
   }
+  if(class(Poly)[1]!="sf"){
+    stop("'Poly' must be an sf object")
+  }
+  Bathy=terra::rast(Bathy)
 
   #Crop Bathy
-  Bathy=raster::crop(Bathy,extend(extent(Poly),10000))
+  Bathy=terra::crop(Bathy,terra::extend(ext(Poly),10000))
+  
   #Generate Isobaths polygons
   IsoDs=data.frame(top=Depths[1:(length(Depths)-1)],
                    bot=Depths[2:length(Depths)])
@@ -528,17 +533,20 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     message('Depth strata creation started',sep='\n')
     pb=txtProgressBar(min=0,max=dim(IsoDs)[1],style=3,char=" )>(((*> ")
   }
-  Biso=cut(Bathy,breaks=c(IsoDs$top[1],IsoDs$bot[1]))
-  Isos=suppressWarnings(rasterToPolygons(Biso,dissolve=TRUE))
+  Biso=terra::clamp(Bathy,lower=IsoDs$top[1], upper=IsoDs$bot[1],values=FALSE)
+  Biso=terra::classify(Biso,cbind(IsoDs$top[1],IsoDs$bot[1],1),include.lowest=TRUE)
+  Isos=terra::as.polygons(Biso,values=FALSE)
+  
   Isos$Stratum=IsoNames[1]
   if(ShowProgress==TRUE){setTxtProgressBar(pb, 1)}
   if(dim(IsoDs)[1]>1){
     for(i in seq(2,dim(IsoDs)[1])){
-      Biso=cut(Bathy,breaks=c(IsoDs$top[i],IsoDs$bot[i]))
-      Isotmp=suppressWarnings(rasterToPolygons(Biso,dissolve=TRUE))
-      Isotmp$layer=i
+      Biso=terra::clamp(Bathy,lower=IsoDs$top[i], upper=IsoDs$bot[i],values=FALSE)
+      Biso=terra::classify(Biso,cbind(IsoDs$top[i],IsoDs$bot[i],1),include.lowest=TRUE)
+      Isotmp=terra::as.polygons(Biso,values=FALSE)
       Isotmp$Stratum=IsoNames[i]
       Isos=rbind(Isos,Isotmp)
+      
       if(ShowProgress==TRUE){setTxtProgressBar(pb, i)}
     }
   }
@@ -548,7 +556,11 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     close(pb)
   }
   #crop Isos by Poly
-  Isos=suppressWarnings(raster::crop(Isos,Poly))
+  Isos=sf::st_as_sf(Isos)
+  Poly=sf::st_as_sf(Poly)
+  st_crs(Isos)=6932
+  Poly=st_transform(Poly,crs=6932)
+  Isos=sf::st_intersection(st_geometry(Poly),Isos)
   
   #Get number of stations per strata
   if(is.na(Nauto)==TRUE){
@@ -565,68 +577,68 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     message('Station creation started',sep='\n')
     pb=txtProgressBar(min=0,max=dim(IsoDs)[1],style=3,char=" )>(((*> ")
   }
-  Grid=suppressWarnings(raster(extent(Isos),res=1000,crs=crs(Isos)))
-  Grid=SpatialPoints(coordinates(Grid),proj4string=crs(Grid))
+  Grid=st_make_grid(x=Isos,cellsize = 1000,what="centers")
+  
   #Remove points outside of strata
-  Locs=NULL
+  Gridtmp=NULL
   for(i in seq(1,dim(IsoDs)[1])){
-    GridL=over(Grid,gBuffer(Isos[i,],width=-Buf))
-    GridL=Grid[is.na(GridL)==FALSE]
-    Locs=rbind(Locs,cbind(coordinates(GridL),i))
+    tmp=st_buffer(Isos[[i]],dist=-Buf)
+    tmp=st_sfc(tmp, crs = 6932)
+    GridL=unlist(sf::st_intersects(tmp,Grid))
+    Gridtmp=rbind(Gridtmp,cbind(st_coordinates(Grid)[GridL,],i))
   }
-  Grid=SpatialPointsDataFrame(cbind(Locs[,1],Locs[,2]),data.frame(layer=Locs[,3]),proj4string=CRS("+init=epsg:6932"))
+  Grid=as.data.frame(Gridtmp)
+  Grid=st_as_sf(x=Grid,coords=c(1,2),crs=6932,remove=FALSE)
   
   if(is.na(dist)==TRUE){ #Random locations
     Locs=NULL
     for(i in seq(1,dim(IsoDs)[1])){
-      Locs=rbind(Locs,cbind(coordinates(Grid[Grid$layer==i,])[sample(seq(1,length(which(Grid$layer==i))),IsoDs$n[i]),],i))
+      Locs=rbind(Locs,cbind(Grid[Grid$i==i,][sample(seq(1,length(which(Grid$i==i))),IsoDs$n[i]),]))
       if(ShowProgress==TRUE){setTxtProgressBar(pb, i)}
     }
-    Locs=data.frame(layer=Locs[,3],
-                    Stratum=IsoNames[Locs[,3]],
-                    x=Locs[,1],
-                    y=Locs[,2])
-    #Add Lat/Lon
-    Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    Locs$Stratum=IsoNames[Locs$i]
     
-    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS("+init=epsg:6932"))
+    #Add Lat/Lon
+    Locs=project_data(Input=Locs,NamesIn = c('Y','X'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    
+    Stations=st_as_sf(x=Locs,coords=c('X','Y'),crs=6932,remove=FALSE)
     if(ShowProgress==TRUE){
       message('\n')
       message('Station creation ended',sep='\n')
       close(pb)
     }
-  }else{ #Pseudo-random locations
+  }else{ #Pseudo-random locations      
     #Get starting point
     indx=floor(dim(Grid)[1]/2)
-    tmp=coordinates(Grid)
-    tmpx=tmp[indx,1]
-    tmpy=tmp[indx,2]
-    lay=Grid$layer[indx]
+    tmpx=Grid$X[indx]
+    tmpy=Grid$Y[indx]
+    lay=Grid$i[indx]
+    
     #Set buffer width
     wdth=100*ceiling(1852*dist/100)
+    
     Locs=NULL
-    while(length(Grid)>0){
-      smallB=gBuffer(SpatialPoints(cbind(tmpx,tmpy),proj4string=CRS("+init=epsg:6932")),width=wdth,quadsegs=25)
-      smallBi=over(Grid,smallB)
-      smallBi=which(is.na(smallBi)==FALSE)
+    while(nrow(Grid)>0){
+      smallB=st_buffer(st_as_sf(x=data.frame(tmpx,tmpy),coords=c(1,2),crs=6932),dist = wdth,nQuadSegs=25)
+      smallBi=unlist(st_intersects(smallB,Grid))
       #Save central point locations
       Locs=rbind(Locs,cbind(tmpx,tmpy,lay))
       #Remove points within buffer
       Grid=Grid[-smallBi,]
       #Get new point
-      if(length(Grid)>0){
-        indx=as.numeric(sample(seq(1,length(Grid)),1))
-        tmp=coordinates(Grid)
-        tmpx=tmp[indx,1]
-        tmpy=tmp[indx,2]
-        lay=Grid$layer[indx]}
+      if(nrow(Grid)>0){
+        indx=as.numeric(sample(seq(1,nrow(Grid)),1))
+        tmpx=Grid$X[indx]
+        tmpy=Grid$Y[indx]
+        lay=Grid$i[indx]
+        }
     }
     Locs=data.frame(layer=Locs[,3],
                     Stratum=IsoNames[Locs[,3]],
                     x=Locs[,1],
                     y=Locs[,2])
     Locs$Stratum=as.character(Locs$Stratum)
-    #Report results
+    #Report results 
     message('\n')
     for(s in sort(unique(Locs$layer))){
       ns=length(which(Locs$layer==s))
@@ -639,7 +651,8 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
         stop('Cannot generate stations given the constraints. Reduce dist and/or number of stations and/or Buf.')
       }
     }
-    #Randomize locs within constraints
+    
+    #Sample locs within constraints 
     indx=NULL
     for(i in sort(unique(Locs$layer))){
       indx=c(indx,sample(which(Locs$layer==i),IsoDs$n[i]))
@@ -647,8 +660,8 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     Locs=Locs[indx,]    
     #Add Lat/Lon
     Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    Stations=st_as_sf(x=Locs,coords=c('x','y'),crs=6932,remove=FALSE)
     
-    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS("+init=epsg:6932"))
     if(ShowProgress==TRUE){
       message('\n')
       message('Station creation ended',sep='\n')

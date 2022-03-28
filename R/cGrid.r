@@ -63,7 +63,7 @@ if(is.na(Area)==TRUE){
   Group = list() #Initialize storage of cells
   
   # StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+init=epsg:4326"))
-  StartP=cbind(0,ceiling(max(data$lat)))
+  StartP=cbind(0,ceiling(max(data$lat)+0.001))
   LatS=0
   
   while(LatS>min(data$lat)){
