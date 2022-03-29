@@ -10,6 +10,8 @@ plot(st_geometry(MyObject))
 
 We apologize for any inconvenience.
 
+Convert back to sp objects using as_Spatial()
+
 # CCAMLRGIS 3.2.0
 
 Added the create_Pies and add_PieLegend functions.

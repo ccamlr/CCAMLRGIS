@@ -67,8 +67,8 @@
 #' 
 #' @export
 
-assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesOut=NULL,NamesIn=NULL){
-  #Ensure Input is a data.frame
+assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,NamesIn=NULL,NamesOut=NULL){
+  #coerce Input to a data.frame
   Input=as.data.frame(Input)
   #Check NamesIn
   if(is.null(NamesIn)==F){
@@ -82,11 +82,17 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   if(length(Buffer)==1 & length(Polys)>1){Buffer=rep(Buffer,length(Polys))}
   #Repeat AreaNameFormat if needed
   if(length(AreaNameFormat)==1 & length(Polys)>1){AreaNameFormat=rep(AreaNameFormat,length(Polys))}
+  #Create Key
+  if(is.null(NamesIn)==T){
+    Input$Ass_Ar_Key=paste0(Input[,1],'|',Input[,2])     
+  }else{
+    Input$Ass_Ar_Key=paste0(Input[,NamesIn[1]],'|',Input[,NamesIn[2]])
+  }
   #Get locations
   if(is.null(NamesIn)==T){
-  Locs=Input[,c(2,1)]
+  Locs=Input[,c(2,1,ncol(Input))]
   }else{
-  Locs=Input[,NamesIn[c(2,1)]]  
+  Locs=Input[,c(NamesIn[c(2,1)],"Ass_Ar_Key")]  
   }
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
@@ -106,43 +112,34 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
     warning('One record is not on Earth and will not be assigned to any area\n')
     Locs[Impossible,]=NA
   }
-  #Create a code to match back to the dataframe at the end
-  Locs$Code=paste0(Locs[,1],'|',Locs[,2])
   #Get uniques
   Locu=unique(Locs)
   #Remove missing locations
   Locu=Locu[is.na(Locu[,1])==FALSE & is.na(Locu[,2])==FALSE,]
   #Turn uniques into Spatial data
-  SPls=SpatialPoints(cbind(Locu[,1],Locu[,2]),proj4string = CRS("+init=epsg:4326"))
+  SPls=st_as_sf(x=Locu,coords=c(1,2),crs=4326,remove=FALSE)
   #Project to match Polys projection
-  SPls=spTransform(SPls,CRS("+init=epsg:6932"))
+  SPls=st_transform(x=SPls,crs=6932)
   #Initialize a dataframe which will collate assigned Polys
   Assigned_Areas=data.frame(matrix(NA,nrow=dim(Locu)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut)))
+  Assigned_Areas$Ass_Ar_Key=SPls$Ass_Ar_Key
   #loop over Polys to assign them to locations
   for(i in seq(1,length(Polys))){
     #Get each Area sequentially
     tmpArea=get(Polys[i])
     #Add buffer to Area if desired
     if(Buffer[i]>0){
-        tmpArea=gBuffer(tmpArea,width=Buffer[i]*1852,byid=TRUE)
+        tmpArea=st_buffer(tmpArea,dist=Buffer[i]*1852)
     }
     #Match points to polygons
-    match=over(SPls,tmpArea)
+    match=sapply(st_intersects(SPls,tmpArea), function(z) if (length(z)==0) NA_integer_ else z[1])
+    tmpArea=st_drop_geometry(tmpArea)
+    match=tmpArea[match,]
     #Store results (an Area name per unique location)
     Assigned_Areas[,NamesOut[i]]=as.character(match[,AreaNameFormat[i]])
   }
-  #Add new, empty columns to input dataframe to store results
-  Input=cbind(Input,data.frame(matrix(NA,nrow=dim(Input)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut))))
-  #Create a temporary code to match unique locations back to input dataframe
-  if(is.null(NamesIn)==T){
-  tmp=paste0(Input[,2],'|',Input[,1])
-  }else{
-  tmp=paste0(Input[,NamesIn[2]],'|',Input[,NamesIn[1]])  
-  }
-  #Match assigned areas to input dataframe
-  match=match(tmp,Locu$Code)
-  for(i in seq(1,length(Polys))){
-    Input[,NamesOut[i]]=Assigned_Areas[match,NamesOut[i]]
-  }
+  #Merge Assigned_Areas to Input
+  Input=dplyr::left_join(Input,Assigned_Areas,by="Ass_Ar_Key")
+  Input=Input%>%dplyr::select(-Ass_Ar_Key)%>%as.data.frame()
   return(Input)
 }

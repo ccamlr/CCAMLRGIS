@@ -603,12 +603,12 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
       Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
-      plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
     }
     for(i in seq(1,nrow(dat))){
       text(dat$Labx[i],dat$Laby[i],dat$Cl[i],adj=c(dat$Ladjx[i],0.5),xpd=TRUE,cex=fontsize)
     }
-    plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    plot(as_Spatial(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
     text(PieTitlex,PieTitley,PieTitle,adj=c(0.5,0),cex=fontsize*1.2,xpd=TRUE)
     
   }else{ #With SizeVar
@@ -728,11 +728,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
       Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
       
-      plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
     }
     #Plot Pols
-    plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
-    plot(st_geometry(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd)
+    plot(as_Spatial(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    plot(as_Spatial(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd)
     
     #Add Pie labels
     for(i in seq(1,nrow(dat))){
