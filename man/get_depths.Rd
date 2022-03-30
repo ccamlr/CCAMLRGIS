@@ -4,15 +4,7 @@
 \alias{get_depths}
 \title{Get depths of locations from bathymetry raster}
 \usage{
-get_depths(
-  Input,
-  Bathy,
-  d = 10000,
-  Isobaths = NA,
-  IsoLocs = FALSE,
-  ShowProgress = FALSE,
-  NamesIn = NULL
-)
+get_depths(Input, Bathy, NamesIn = NULL)
 }
 \arguments{
 \item{Input}{dataframe with, at least, Latitudes and Longitudes.
@@ -24,6 +16,11 @@ Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
 such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
 resolution than \code{\link{SmallBathy}} (see \code{\link{load_Bathy}}).}
 
+\item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
+the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+
 \item{d}{distance in meters, used to group locations by distance and speed up computations (by cutting
 the bathymetry raster into small pieces matching the extent of grouped locations). Lower values
 make computations faster but at the risk of not finding distances to isobaths (when desired).}
@@ -34,11 +31,6 @@ make computations faster but at the risk of not finding distances to isobaths (w
 locations given in the \code{Input} are added to the exported dataframe.}
 
 \item{ShowProgress}{if set to \code{TRUE}, a progress bar is shown (\code{get_depths} may take a while).}
-
-\item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
-the \code{Input}. \strong{Latitudes name must be given first, e.g.:
-
-\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 }
 \value{
 dataframe with the same structure as the \code{Input} with additional columns, where 
@@ -48,8 +40,8 @@ closest point location on \code{'Isobaths'}. All units are in meters.
 }
 \description{
 Given a bathymetry raster and an input dataframe of point locations (given in decimal degrees),
-computes the depths at these locations using bilinear interpolation (using \code{\link[raster]{extract}}).
-Optionally can also compute the horizontal distance of locations to chosen isobaths.
+computes the depths at these locations (values for the cell each point falls in). The accuracy is
+dependent on the resolution of the bathymetry raster (see \code{\link{load_Bathy}} to get high resolution).
 }
 \examples{
 \donttest{

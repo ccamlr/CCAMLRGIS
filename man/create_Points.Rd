@@ -6,8 +6,6 @@
 \usage{
 create_Points(
   Input,
-  OutputFormat = "ROBJECT",
-  OutputName = NULL,
   Buffer = 0,
   Clip = FALSE,
   SeparateBuf = TRUE,
@@ -23,14 +21,6 @@ e.g. "DataFile.csv".
 
 Latitude, Longitude, Variable 1, Variable 2, ... Variable x}}
 
-\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-"ROBJECT" (the default), a spatial object is created in your R environment.
-if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-your working directory.}
-
-\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-shapefile in quotes (e.g. "MyPoints") must be provided.}
-
 \item{Buffer}{Radius in nautical miles by which to expand the points. Can be specified for
 each point (as a numeric vector).}
 
@@ -43,6 +33,14 @@ all spatial objects are merged, resulting in a single spatial object.}
 the \code{Input}. \strong{Latitudes name must be given first, e.g.:
 
 \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a spatial object is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
+
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyPoints") must be provided.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.

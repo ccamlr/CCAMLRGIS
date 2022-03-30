@@ -38,24 +38,19 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' 
 #' @seealso 
 #' The CCAMLRGIS package relies on several other package which users may want to familiarize themselves with,
-#' namely \href{https://CRAN.R-project.org/package=sp}{sp},
-#' \href{https://CRAN.R-project.org/package=raster}{raster},
-#' \href{https://CRAN.R-project.org/package=rgeos}{rgeos} and
-#' \href{https://CRAN.R-project.org/package=rgdal}{rgdal}.
+#' namely \href{https://CRAN.R-project.org/package=sf}{sf} and
+#' \href{https://CRAN.R-project.org/package=terra}{terra}.
 #' 
 #'  
 #' @docType package
-#' @import sp
-#' @import rgdal
-#' @import rgeos
+#' @import sf
 #' @import geosphere
 #' @importFrom dplyr distinct group_by summarise_all left_join
 #' @importFrom grDevices colorRampPalette recordPlot replayPlot
 #' @importFrom graphics par rect segments text
-#' @importFrom methods slot
 #' @importFrom stats quantile median
 #' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu download.file
 #' @importFrom magrittr %>%
-#' @importFrom raster raster extent extend crop extract rasterToContour pointDistance xres yres cut rasterToPolygons area crs match ncell setValues minValue maxValue mask cellStats contour click
+#' @importFrom terra rast crop ext mask vect classify expanse extract extend clamp as.polygons plot
 #' @name CCAMLRGIS
 NULL

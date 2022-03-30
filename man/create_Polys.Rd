@@ -6,8 +6,6 @@
 \usage{
 create_Polys(
   Input,
-  OutputFormat = "ROBJECT",
-  OutputName = NULL,
   Buffer = 0,
   Densify = TRUE,
   Clip = FALSE,
@@ -26,14 +24,6 @@ Polygon name, Latitude, Longitude.
 
 Latitudes and Longitudes must be given clockwise.}}
 
-\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
-if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-your working directory.}
-
-\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-shapefile in quotes (e.g. "MyPolygons") must be provided.}
-
 \item{Buffer}{Distance in nautical miles by which to expand the polygons. Can be specified for
 each polygon (as a numeric vector).}
 
@@ -51,6 +41,14 @@ and Longitude fields in the \code{Input}.
 \strong{Names must be given in that order, e.g.:
 
 \code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.}
+
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
+
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyPolygons") must be provided.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.

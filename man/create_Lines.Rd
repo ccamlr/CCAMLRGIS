@@ -6,8 +6,6 @@
 \usage{
 create_Lines(
   Input,
-  OutputFormat = "ROBJECT",
-  OutputName = NULL,
   Buffer = 0,
   Densify = FALSE,
   Clip = FALSE,
@@ -27,14 +25,6 @@ Line name, Latitude, Longitude.
 If a given line is made of more than two points, the locations of points
 must be given in order, from one end of the line to the other.}}
 
-\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-"ROBJECT" (the default), a spatial object is created in your R environment.
-if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-your working directory.}
-
-\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-shapefile in quotes (e.g. "MyLines") must be provided.}
-
 \item{Buffer}{Distance in nautical miles by which to expand the lines. Can be specified for
 each line (as a numeric vector).}
 
@@ -52,6 +42,14 @@ and Longitude fields in the \code{Input}.
 \strong{Names must be given in that order, e.g.:
 
 \code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.}
+
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a spatial object is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
+
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyLines") must be provided.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.

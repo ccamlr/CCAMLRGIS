@@ -32,7 +32,7 @@
 #' @export
 
 Clip2Coast=function(Input){
-  Output=suppressWarnings(st_difference(Input,as(Coast[Coast$ID=='All',],"sfc"),validate=TRUE))
+  Output=suppressWarnings(st_difference(Input,Coast[Coast$ID=='All',],validate=TRUE))
   #Get areas
   Ar=round(st_area(Output)/1000000,1)
   if("Buffered_AreaKm2"%in%colnames(Output)){

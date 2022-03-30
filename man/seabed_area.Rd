@@ -4,14 +4,16 @@
 \alias{seabed_area}
 \title{Calculate planimetric seabed area}
 \usage{
-seabed_area(Bathy, Polys, depth_classes = c(-600, -1800))
+seabed_area(Bathy, Poly, PolyNames = NULL, depth_classes = c(-600, -1800))
 }
 \arguments{
 \item{Bathy}{bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
 such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
 resolution than \code{\link{SmallBathy}}, see \code{\link{load_Bathy}}.}
 
-\item{Polys}{polygon(s) within which the areas of depth strata are computed.}
+\item{Poly}{polygon(s) within which the areas of depth strata are computed.}
+
+\item{PolyNames}{Column name to be used ...}
 
 \item{depth_classes}{numeric vector of strata depths. for example, \code{depth_classes=c(-600,-1000,-2000)}.
 If the values \code{-600,-1800} are given within \code{depth_classes}, the computed area will be labelled as 'Fishable_area'.}

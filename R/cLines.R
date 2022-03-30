@@ -44,7 +44,9 @@ cLines=function(Input,Densify=FALSE){
                          median=~median(.,na.rm=TRUE)))
     #add line lengths
     Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(Input$ID)))}
-  Sdata=Sdata[match(Sdata$ID,ids),]
+  if(length(ids)>1){
+    Sdata=Sdata[match(ids,Sdata$ID),]
+  }
   indx=match(Sdata$ID,Llengths$id)
   Sdata$LengthKm=Llengths$LengthKm[indx]
   Sdata$LengthNm=Llengths$LengthNm[indx]

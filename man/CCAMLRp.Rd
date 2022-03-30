@@ -17,5 +17,5 @@ data(CCAMLRp)
 The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
 Source: \url{http://gis.ccamlr.org/}.
 In order to align with recent developments within Geographic Information Software, this projection
-will be accessed via EPSG code 6932 (see: epsg dot org).
+will be accessed via EPSG code \href{https://epsg.org/crs_6932/WGS-84-NSIDC-EASE-Grid-2-0-South.html}{6932}.
 }

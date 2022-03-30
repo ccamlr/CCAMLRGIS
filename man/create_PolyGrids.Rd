@@ -6,8 +6,6 @@
 \usage{
 create_PolyGrids(
   Input,
-  OutputFormat = "ROBJECT",
-  OutputName = NULL,
   dlon = NA,
   dlat = NA,
   Area = NA,
@@ -25,14 +23,6 @@ e.g. "DataFile.csv".
 
 Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}}
 
-\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
-if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-your working directory.}
-
-\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-shapefile in quotes (e.g. "MyGrid") must be provided.}
-
 \item{dlon}{width of the grid cells in decimal degrees of longitude.}
 
 \item{dlat}{height of the grid cells in decimal degrees of latitude.}
@@ -47,6 +37,14 @@ shapefile in quotes (e.g. "MyGrid") must be provided.}
 the \code{Input}. \strong{Latitudes name must be given first, e.g.:
 
 \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+
+\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
+"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
+if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
+your working directory.}
+
+\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
+shapefile in quotes (e.g. "MyGrid") must be provided.}
 }
 \value{
 Spatial object in your environment or ESRI shapefile in your working directory.

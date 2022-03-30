@@ -9,13 +9,16 @@ add_RefGrid(
   ResLat = 1,
   ResLon = 2,
   LabLon = NA,
+  LatR = c(-80, -45),
   lwd = 1,
+  lcol = "black",
   fontsize = 1,
+  fontcol = "black",
   offset = NA
 )
 }
 \arguments{
-\item{bb}{bounding box of the first plotted object. for example, \code{bb=bbox(SmallBathy)} or \code{bb=bbox(MyPolys)}.}
+\item{bb}{bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy)} or \code{bb=st_bbox(MyPolys)}.}
 
 \item{ResLat}{Latitude resolution in decimal degrees.}
 
@@ -23,9 +26,15 @@ add_RefGrid(
 
 \item{LabLon}{Longitude at which Latitude labels should appear. if set, the resulting Reference grid will be circumpolar.}
 
+\item{LatR}{Range of latitudes (for circumpolar).}
+
 \item{lwd}{Line thickness of the Reference grid.}
 
+\item{lcol}{Line color of the Reference grid.}
+
 \item{fontsize}{Font size of the Reference grid's labels.}
+
+\item{fontcol}{Font color of the Reference grid's labels.}
 
 \item{offset}{offset of the Reference grid's labels (distance to plot border).}
 }

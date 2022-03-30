@@ -330,7 +330,7 @@ load_EEZs=function(){
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
 #' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
 #' 
-#' @references GEBCO Compilation Group (2020) GEBCO 2020 Grid (doi:10.5285/a29c5465-b138-234d-e053-6c86abc040b9) 
+#' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f) 
 #' 
 #' @export
 #' @examples  
@@ -352,7 +352,7 @@ load_EEZs=function(){
 load_Bathy=function(LocalFile,Res=5000){
   if(LocalFile==FALSE){
     if(Res%in%c(500,1000,2500,5000)==FALSE){stop("'Res' should be one of: 500, 1000, 2500 or 5000")}
-    Fname=paste0("GEBCO2020_",Res,".tif")
+    Fname=paste0("GEBCO2021_",Res,".tif")
     url=paste0("https://gis.ccamlr.org/geoserver/www/",Fname)
     download.file(url, destfile=paste0(getwd(),"/",Fname),mode="wb")
     Bathy=terra::rast(paste0(getwd(),"/",Fname))

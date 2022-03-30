@@ -9,8 +9,8 @@ assign_areas(
   Polys,
   AreaNameFormat = "GAR_Long_Label",
   Buffer = 0,
-  NamesOut = NULL,
-  NamesIn = NULL
+  NamesIn = NULL,
+  NamesOut = NULL
 )
 }
 \arguments{
@@ -40,14 +40,14 @@ Several values may be entered if desired (if several \code{Polys} are used), e.g
 Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 \code{Buffer} nautical miles of a polygon.}
 
-\item{NamesOut}{names of the resulting area columns in the output dataframe,
-with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
-If not provided will be set as equal to \code{Polys}.}
-
 \item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
 the \code{Input}. \strong{Latitudes name must be given first, e.g.:
 
 \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+
+\item{NamesOut}{names of the resulting area columns in the output dataframe,
+with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
+If not provided will be set as equal to \code{Polys}.}
 }
 \value{
 dataframe with the same structure as the \code{Input}, with additional columns corresponding

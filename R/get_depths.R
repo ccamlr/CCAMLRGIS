@@ -75,12 +75,12 @@ get_depths=function(Input,Bathy,NamesIn=NULL){
       stop("'NamesIn' do not match column names in 'Input'")
     }
   }else{
-    stop("'NamesIn' not specified")
+    NamesIn=colnames(Input)[1:2]
   }
   
-  #Check Bathy
-  if(any(class(Bathy)=="SpatRaster")==FALSE){
-    stop("'Bathy' should be a SpatRaster built using the terra package")
+  #Coerce Bathy
+  if(class(Bathy)[1]!="SpatRaster"){
+    Bathy=terra::rast(Bathy)
   }
   
   #Project Lat/Lon

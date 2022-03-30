@@ -519,7 +519,9 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
   if(class(Poly)[1]!="sf"){
     stop("'Poly' must be an sf object")
   }
-  Bathy=terra::rast(Bathy)
+  if(class(Bathy)[1]!="SpatRaster"){
+    Bathy=terra::rast(Bathy)
+  }
 
   #Crop Bathy
   Bathy=terra::crop(Bathy,terra::extend(ext(Poly),10000))
@@ -560,6 +562,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
   Poly=sf::st_as_sf(Poly)
   st_crs(Isos)=6932
   Poly=st_transform(Poly,crs=6932)
+  Isos=st_make_valid(Isos)
   Isos=sf::st_intersection(st_geometry(Poly),Isos)
   
   #Get number of stations per strata
@@ -567,7 +570,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     IsoDs$n=N
   }else{
     #Get area of strata
-    ar=suppressWarnings(area(Isos))
+    ar=as.numeric(st_area(Isos))
     ar=ar/max(ar)
     IsoDs$n=round(ar*Nauto)
   }
