@@ -17,19 +17,19 @@
 #' 
 #' 
 #'#Example 1 (Intersection beyond the range of segments)
-#'get_cart_intersection(Line1=c(-30,-55,-29,-50),Line2=c(-50,-60,-40,-60))
+#'get_C_intersection(Line1=c(-30,-55,-29,-50),Line2=c(-50,-60,-40,-60))
 #'
 #'#Example 2 (Intersection on one of the segments)
-#'get_cart_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-40,-60))
+#'get_C_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-40,-60))
 #'
 #'#Example 3 (Crossed segments)
-#'get_cart_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-25,-60))
+#'get_C_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-25,-60))
 #'
 #'#Example 4 (Antimeridian crossed)
-#'get_cart_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
+#'get_C_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
 #'
 #'#Example 5 (Parallel lines)
-#'get_cart_intersection(Line1=c(0,-60,10,-60),Line2=c(-10,-60,10,-60))
+#'get_C_intersection(Line1=c(0,-60,10,-60),Line2=c(-10,-60,10,-60))
 #'
 #'
 #'}
@@ -69,7 +69,7 @@ get_C_intersection=function(Line1,Line2,Plot=TRUE){
     YL=c(YL[1]-0.1*abs(mean(YL)),YL[2]+0.1*abs(mean(YL)))
     plot(c(x1,x2,x3,x4),c(y1,y2,y3,y4),xlim=XL,ylim=YL,pch=21,bg=c("green","green","blue","blue"),xlab="Longitude",ylab="Latitude")
     par(new=T)
-    plot(Px,Py,xlim=XL,ylim=YL,pch=4,col="red",xlab="",ylab="",lwd=2)
+    plot(Px,Py,xlim=XL,ylim=YL,pch=4,col="red",xlab="Longitude",ylab="Latitude",lwd=2)
     lines(c(x1,x2),c(y1,y2),col="green",lwd=2)
     lines(c(x3,x4),c(y3,y4),col="blue",lwd=2)
     lines(c(x1,x2,Px),c(y1,y2,Py),col="green",lty=2)
