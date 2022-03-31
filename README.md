@@ -6,13 +6,40 @@
 This package was developed to simplify the production of maps in the
 CCAMLR Convention Area. It provides two categories of functions: load
 functions and create functions. Load functions are used to import
-spatial layers from the online CCAMLR GIS (<http://gis.ccamlr.org/>)
-such as the ASD boundaries. Create functions are used to create layers
-from user data such as polygons and grids.
+spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such
+as the ASD boundaries. Create functions are used to create layers from
+user data such as polygons and grids.
 
-This package relies on the [sf
+<center>
+
+#### Note on V4 update:
+
+</center>
+
+Due to the retirement of some packages that the CCAMLRGIS package use to
+rely on, since CCAMLRGIS V4.0.0 the package relies on the [sf
 package](https://CRAN.R-project.org/package=sf), users may need to
-familiarize themselves with it.
+familiarize themselves with it. For those that were using older
+versions, the main difference is in plotting commands.
+
+Plotting a spatial object X used to be:
+
+``` r
+plot(X)
+```
+
+Since V4, it will be:
+
+``` r
+plot(st_geometry(X))
+```
+
+Using *sf* objects has advantages such as the ability to use [Tidyverse
+methods](https://r-spatial.github.io/sf/reference/tidyverse.html).
+Further, additional [plotting
+methods](https://r-spatial.github.io/sf/articles/sf5.html) are
+available, some of which are described in section 5.5. [Using
+sf](#55-using-sf).
 
 ## Installation
 
@@ -40,33 +67,34 @@ install.packages("CCAMLRGIS")
 
 ------------------------------------------------------------------------
 
-1.  [Basemaps](#basemaps)
-2.  [Create functions](#create-functions)
+1.  [Basemaps](#1-basemaps)
+2.  [Create functions](#2-create-functions)
 
 -   2.1. [Points](#create-points), [lines](#create-lines),
     [polygons](#create-polygons) and [grids](#create-grids)
--   2.2. [Create Stations](#create-stations)
--   2.3. [Create Pies](#create-pies)
+-   2.2. [Create Stations](#22-create-stations)
+-   2.3. [Create Pies](#23-create-pies)
 
-3.  [Load functions](#load-functions)
+3.  [Load functions](#3-load-functions)
 
 -   3.1. Online use
 -   3.2. Offline use
 
 4.  Other functions
 
--   4.1. [get_depths](#get_depths)
--   4.2. [seabed_area](#seabed_area)
--   4.3. [assign_areas](#assign_areas)
--   4.4. [project_data](#project_data)
--   4.5. [get_C\_intersection](#get_C_intersection)
+-   4.1. [get_depths](#41-get_depths)
+-   4.2. [seabed_area](#42-seabed_area)
+-   4.3. [assign_areas](#43-assign_areas)
+-   4.4. [project_data](#44-project_data)
+-   4.5. [get_C\_intersection](#45-get_c_intersection)
 
 5.  Adding colors, legends and labels
 
--   5.1. [Bathymetry colors](#bathymetry-colors)
--   5.2. [Adding colors to data](#adding-colors-to-data)
--   5.3. [Adding legends](#adding-legends)
--   5.4. [Adding labels](#adding-labels)
+-   5.1. [Bathymetry colors](#51-bathymetry-colors)
+-   5.2. [Adding colors to data](#52-adding-colors-to-data)
+-   5.3. [Adding legends](#53-adding-legends)
+-   5.4. [Adding labels](#54-adding-labels)
+-   5.5. [Using sf](#55-using-sf)
 
 ------------------------------------------------------------------------
 
@@ -85,7 +113,7 @@ library(CCAMLRGIS)
 ```
 
 In order to plot bathymetry data, you will also need to load
-\[terra\]:<https://CRAN.R-project.org/package=terra> :
+[terra](https://CRAN.R-project.org/package=terra):
 
 ``` r
 library(terra)
@@ -472,7 +500,7 @@ MyPoly=create_Polys(
 par(mai=c(0,0,0,0))
 plot(st_geometry(Coast[Coast$ID=='88.1',]),col='grey')
 plot(st_geometry(MyPoly),col='green',add=T)
-text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
+text(MyPoly$Labx,MyPoly$Laby,MyPoly$ID)
 box()
 ```
 
@@ -486,16 +514,13 @@ BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
 
 #Create stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
-#Set the figure margins as c(bottom, left, top, right)
-par(mai=c(0.1,0.1,0.1,0.1))
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
 plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
-plot(st_geometry(MyPoly),add=T,border='red',lwd=2)
+plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations),add=T,col='orange',cex=0.75,lwd=1.5,pch=3)
-box()
 ```
 
 <img src="README-Fig12-1.png" width="100%" style="display: block; margin: auto;" />
@@ -506,18 +531,15 @@ Example 2. Set numbers of stations, with distance constraint:
 #Create Stations
 MyStations=create_Stations(MyPoly,BathyCroped,
                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
-#Set the figure margins as c(bottom, left, top, right)
-par(mai=c(0,0,0,0))
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
 plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
-plot(st_geometry(MyPoly),add=T,border='red',lwd=2)
+plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
-box()
 ```
 
 <img src="README-Fig13-1.png" width="100%" style="display: block; margin: auto;" />
@@ -527,18 +549,15 @@ Example 3. Automatic numbers of stations, with distance constraint:
 ``` r
 #Create Stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
-#Set the figure margins as c(bottom, left, top, right)
-par(mai=c(0,0,0,0))
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
 plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
-plot(st_geometry(MyPoly),add=T,border='red',lwd=2)
+plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
-box()
 ```
 
 <img src="README-Fig14-1.png" width="100%" style="display: block; margin: auto;" />
@@ -989,16 +1008,16 @@ head(PointData)
 #> 6 -66.35370  153.6906  four 78.65576      22 6
 #Generate a dataframe with random locations
 MyData=project_data(Input=PointData,NamesIn=c('Lat','Lon'),
-                    NamesOut=c('Projected_Y','Projectd_X'),append=TRUE)
+                    NamesOut=c('Projected_Y','Projected_X'),append=TRUE)
 #The output data looks like this:
 head(MyData)
-#>         Lat       Lon  name    Catch Nfishes n Projected_Y Projectd_X
-#> 1 -68.63966 -175.0078   one 53.33002     460 1    -2361962 -206321.41
-#> 2 -67.03475 -178.0322   two 38.66385     945 2    -2545119  -87445.72
-#> 3 -65.44164 -170.1656   two 20.32608     374 3    -2680488 -464656.29
-#> 4 -68.36806  151.0247   two 69.81201      87 4    -2100218 1162986.84
-#> 5 -63.89171  154.4327 three 52.32101     552 5    -2606157 1246832.20
-#> 6 -66.35370  153.6906  four 78.65576      22 6    -2349505 1161675.96
+#>         Lat       Lon  name    Catch Nfishes n Projected_Y Projected_X
+#> 1 -68.63966 -175.0078   one 53.33002     460 1    -2361962  -206321.41
+#> 2 -67.03475 -178.0322   two 38.66385     945 2    -2545119   -87445.72
+#> 3 -65.44164 -170.1656   two 20.32608     374 3    -2680488  -464656.29
+#> 4 -68.36806  151.0247   two 69.81201      87 4    -2100218  1162986.84
+#> 5 -63.89171  154.4327 three 52.32101     552 5    -2606157  1246832.20
+#> 6 -66.35370  153.6906  four 78.65576      22 6    -2349505  1161675.96
 ```
 
 ### 4.5. get_C\_intersection
@@ -1164,6 +1183,8 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22
      fontsize=0.75,lwd=1) 
 ```
 
+<img src="README-Fig20-1.png" width="100%" style="display: block; margin: auto;" />
+
 ### 5.3. Adding legends
 
 To add a legend, use the base *legend()* function:
@@ -1192,7 +1213,7 @@ BathyCr=crop(rast(SmallBathy),extend(ext(MyPoints),100000))
 #Plot the bathymetry
 plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(0,0,0,7))
 #Add a color scale
-add_Cscale(pos='1/2',height=50,maxVal=-1,minVal=-4000,fontsize=0.75,lwd=1,width=16)
+add_Cscale(pos='3/8',height=50,maxVal=-1,minVal=-4000,fontsize=0.75,lwd=1,width=16)
 
 #Plot points with different symbols and colors (see ?points)
 Psymbols=c(21,22,23,24)
@@ -1203,7 +1224,7 @@ plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3
 plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T)
 
 #Add legend with position determined by add_Cscale
-Loc=add_Cscale(pos='2/2',height=40,mode='Legend')
+Loc=add_Cscale(pos='7/8',height=40,mode='Legend')
 legend(Loc,legend=c('one','two','three','four'),
        title='Vessel',pch=Psymbols,pt.bg=Pcolors,xpd=T,
        box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.5)
@@ -1267,3 +1288,5 @@ plot(SmallBathy)
 plot(st_geometry(ASDs),add=T)
 add_labels(mode='input',LabelTable=MyLabels)
 ```
+
+### 5.5. Using sf
