@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 This package was developed to simplify the production of maps in the CCAMLR Convention Area. It provides two categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
 
 <center>
-#### Note on V4 update:
+## Note on V4 update:
 </center>
 
 Due to the retirement of some packages that the CCAMLRGIS package use to rely on, since CCAMLRGIS V4.0.0 the package relies on the [sf package](https://CRAN.R-project.org/package=sf), users may need to familiarize themselves with it. For those that were using older versions, the main difference is in plotting commands.
@@ -1114,7 +1114,7 @@ add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
 ```{r eval=F}
 #Example 2: 'auto' and 'input' modes
 #This example is not executed here because it needs user interaction.
-#Please copy and paste it to see how it works.
+#Please copy and paste it in the Console to see how it works.
 
 #Prepare a basemap
 plot(SmallBathy)
@@ -1132,3 +1132,73 @@ add_labels(mode='input',LabelTable=MyLabels)
 
 ### 5.5. Using sf
 
+Depending on the function used, the CCAMLRGIS package computes data summaries and includes them in the resulting spatial object. For example, *create_Polys* takes any numerical values included in the *Input* data frame and computes, for each polygon, the minimum, maximum, mean, median, sum, count and standard deviation of values associated with each polygon. The *sf* package has some useful plotting methods, some of which are shown below.
+
+```{r message=F,eval=T}
+
+#First, let's create some example polygons
+MyPolys=create_Polys(PolyData)
+
+#MyPolys is an sf object; it is a data frame that includes a column named 'geometry':
+kableExtra::kable(MyPolys)
+
+```
+
+The 'geometry' column contains the locations of each point of a given polygon (each row), and can be plotted using *plot(st_geometry(MyPolys))*, as shown previously in this document. Alternatively, one can use *plot(MyPolys)* directly:
+
+
+```{r Fig23,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+plot(MyPolys)
+```
+
+This results in a warning *Warning: plotting the first 9 out of 25 attributes...* and a 9-panel plot as shown above, with each panel corresponding to each column present in *MyPolys* and automatic colors generated according to the values in each column. In order to plot only one variable, it must be named in the plotting command:
+
+```{r Fig24,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+plot(MyPolys["Catch_mean"])
+```
+
+There are several available options, for example:
+
+```{r Fig25,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+Gr=st_graticule(MyPolys,lon=seq(-180,180,by=5),lat=seq(-80,0,by=2.5))
+plot(MyPolys["Catch_mean"],
+     graticule=Gr,axes=T,key.pos=1,key.width=0.2,key.length=0.8,breaks=seq(50,65,by=2.5))
+```
+
+Where:
+
+- *key.pos* controls the color legend position as 1=below, 2=left, 3=above and 4=right,
+
+- *key.width* and *key.length* control the size of the color legend,
+
+- *breaks* controls the classes,
+
+- The function *st_graticule* generates a Lat/Lon grid.
+
+
+Additionally, *sf* objects can be plotted using *ggplot*. For example:
+
+```{r Fig26,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+library(ggplot2)
+ggplot() + 
+  geom_sf(data = MyPolys, aes(fill = Catch_mean))
+```
+
+Using *ggplot* and *gridExtra*, multi-panel plots can be drawn:
+
+```{r Fig27,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+library(gridExtra)
+map1 <- ggplot() +
+  geom_sf(data = MyPolys, aes(fill = Catch_mean)) + 
+  labs(title="Mean catch")
+
+map2 <- ggplot() +
+  geom_sf(data = MyPolys, aes(fill = Catch_sd)) + 
+  labs(title="S.D. of catch")
+
+map3 <- ggplot() +
+  geom_sf(data = MyPolys, aes(fill = AreaKm2)) + 
+  labs(title="Polygon area")
+
+grid.arrange(map1, map2, map3, ncol=2)
+```

@@ -12,7 +12,7 @@ user data such as polygons and grids.
 
 <center>
 
-#### Note on V4 update:
+## Note on V4 update:
 
 </center>
 
@@ -1273,7 +1273,7 @@ add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
 ``` r
 #Example 2: 'auto' and 'input' modes
 #This example is not executed here because it needs user interaction.
-#Please copy and paste it to see how it works.
+#Please copy and paste it in the Console to see how it works.
 
 #Prepare a basemap
 plot(SmallBathy)
@@ -1290,3 +1290,434 @@ add_labels(mode='input',LabelTable=MyLabels)
 ```
 
 ### 5.5. Using sf
+
+Depending on the function used, the CCAMLRGIS package computes data
+summaries and includes them in the resulting spatial object. For
+example, *create_Polys* take any numerical values included in the
+*Input* data frame and computes, for each polygon, the minimum, maximum,
+mean, median, sum, count and standard deviation of values associated
+with each polygon. The *sf* package has some useful plotting methods,
+some of which are shown below.
+
+``` r
+#First, let's create some example polygons
+MyPolys=create_Polys(PolyData)
+
+#MyPolys is an sf object; it is a data frame that includes a column named 'geometry':
+kableExtra::kable(MyPolys)
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+ID
+</th>
+<th style="text-align:right;">
+Catch_min
+</th>
+<th style="text-align:right;">
+Nfishes_min
+</th>
+<th style="text-align:right;">
+n_min
+</th>
+<th style="text-align:right;">
+Catch_max
+</th>
+<th style="text-align:right;">
+Nfishes_max
+</th>
+<th style="text-align:right;">
+n_max
+</th>
+<th style="text-align:right;">
+Catch_mean
+</th>
+<th style="text-align:right;">
+Nfishes_mean
+</th>
+<th style="text-align:right;">
+n_mean
+</th>
+<th style="text-align:right;">
+Catch_sum
+</th>
+<th style="text-align:right;">
+Nfishes_sum
+</th>
+<th style="text-align:right;">
+n_sum
+</th>
+<th style="text-align:right;">
+Catch_count
+</th>
+<th style="text-align:right;">
+Nfishes_count
+</th>
+<th style="text-align:right;">
+n_count
+</th>
+<th style="text-align:right;">
+Catch_sd
+</th>
+<th style="text-align:right;">
+Nfishes_sd
+</th>
+<th style="text-align:right;">
+n_sd
+</th>
+<th style="text-align:right;">
+Catch_median
+</th>
+<th style="text-align:right;">
+Nfishes_median
+</th>
+<th style="text-align:right;">
+n_median
+</th>
+<th style="text-align:left;">
+geometry
+</th>
+<th style="text-align:right;">
+AreaKm2
+</th>
+<th style="text-align:right;">
+Labx
+</th>
+<th style="text-align:right;">
+Laby
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+one
+</td>
+<td style="text-align:left;">
+one
+</td>
+<td style="text-align:right;">
+52.61262
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+71.65909
+</td>
+<td style="text-align:right;">
+329
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+64.17380
+</td>
+<td style="text-align:right;">
+172.5000
+</td>
+<td style="text-align:right;">
+2.5
+</td>
+<td style="text-align:right;">
+256.6952
+</td>
+<td style="text-align:right;">
+690
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+9.084736
+</td>
+<td style="text-align:right;">
+153.3917
+</td>
+<td style="text-align:right;">
+1.290994
+</td>
+<td style="text-align:right;">
+66.21175
+</td>
+<td style="text-align:right;">
+175.0
+</td>
+<td style="text-align:right;">
+2.5
+</td>
+<td style="text-align:left;">
+POLYGON ((-290035.9 -164487…
+</td>
+<td style="text-align:right;">
+187281.3
+</td>
+<td style="text-align:right;">
+-170519.8
+</td>
+<td style="text-align:right;">
+-1949051
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+two
+</td>
+<td style="text-align:left;">
+two
+</td>
+<td style="text-align:right;">
+23.12032
+</td>
+<td style="text-align:right;">
+116
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+73.49383
+</td>
+<td style="text-align:right;">
+954
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+51.94951
+</td>
+<td style="text-align:right;">
+505.0000
+</td>
+<td style="text-align:right;">
+6.5
+</td>
+<td style="text-align:right;">
+207.7980
+</td>
+<td style="text-align:right;">
+2020
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+22.264999
+</td>
+<td style="text-align:right;">
+428.9188
+</td>
+<td style="text-align:right;">
+1.290994
+</td>
+<td style="text-align:right;">
+55.59195
+</td>
+<td style="text-align:right;">
+475.0
+</td>
+<td style="text-align:right;">
+6.5
+</td>
+<td style="text-align:left;">
+POLYGON ((-423880.7 -240394…
+</td>
+<td style="text-align:right;">
+95294.2
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-2483470
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+three
+</td>
+<td style="text-align:left;">
+three
+</td>
+<td style="text-align:right;">
+10.23393
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+95.57774
+</td>
+<td style="text-align:right;">
+988
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+52.50313
+</td>
+<td style="text-align:right;">
+412.3333
+</td>
+<td style="text-align:right;">
+11.5
+</td>
+<td style="text-align:right;">
+315.0188
+</td>
+<td style="text-align:right;">
+2474
+</td>
+<td style="text-align:right;">
+69
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+32.152675
+</td>
+<td style="text-align:right;">
+382.8685
+</td>
+<td style="text-align:right;">
+1.870829
+</td>
+<td style="text-align:right;">
+54.15367
+</td>
+<td style="text-align:right;">
+341.5
+</td>
+<td style="text-align:right;">
+11.5
+</td>
+<td style="text-align:left;">
+POLYGON ((480755.1 -2726497…
+</td>
+<td style="text-align:right;">
+361556.2
+</td>
+<td style="text-align:right;">
+786933.1
+</td>
+<td style="text-align:right;">
+-2846388
+</td>
+</tr>
+</tbody>
+</table>
+
+The ‘geometry’ column contains the locations of each point of a given
+polygon (row), and can be plotted using *plot(st_geometry(MyPolys))*, as
+shown previously in this document. Alternatively, one can use
+*plot(MyPolys)* directly:
+
+``` r
+plot(MyPolys)
+#> Warning: plotting the first 9 out of 25 attributes; use max.plot = 25 to plot
+#> all
+```
+
+<img src="README-Fig23-1.png" width="100%" style="display: block; margin: auto;" />
+
+This results in a warning *Warning: plotting the first 9 out of 25
+attributes…* and a 9-panel plot as shown above, with each panel
+corresponding to each column present in *MyPolys* and automatic colors
+generated according to the values in each column. In order to plot only
+one variable, it must be named in the plotting command:
+
+``` r
+plot(MyPolys["Catch_mean"])
+```
+
+<img src="README-Fig24-1.png" width="100%" style="display: block; margin: auto;" />
+
+There are several available options, for example:
+
+``` r
+Gr=st_graticule(MyPolys,lon=seq(-180,180,by=5),lat=seq(-80,0,by=2.5))
+plot(MyPolys["Catch_mean"],
+     graticule=Gr,axes=T,key.pos=1,key.width=0.2,key.length=0.8,breaks=seq(50,65,by=2.5))
+```
+
+<img src="README-Fig25-1.png" width="100%" style="display: block; margin: auto;" />
+
+Where:
+
+-   *key.pos* controls the color legend position as 1=below, 2=left,
+    3=above and 4=right,
+
+-   *key.width* and *key.length* control the size of the color legend,
+
+-   *breaks* controls the classes,
+
+-   The function *st_graticule* generates a Lat/Lon grid.
+
+Additionally, *sf* objects can be plotted using *ggplot*. For example:
+
+``` r
+library(ggplot2)
+ggplot() + 
+  geom_sf(data = MyPolys, aes(fill = Catch_mean))
+```
+
+<img src="README-Fig26-1.png" width="100%" style="display: block; margin: auto;" />
+
+Using *ggplot* and *gridExtra*, multi-panel plots can be drawn:
+
+``` r
+library(gridExtra)
+map1 <- ggplot() +
+  geom_sf(data = MyPolys, aes(fill = Catch_mean)) + 
+  labs(title="Mean catch")
+
+map2 <- ggplot() +
+  geom_sf(data = MyPolys, aes(fill = Catch_sd)) + 
+  labs(title="S.D. of catch")
+
+map3 <- ggplot() +
+  geom_sf(data = MyPolys, aes(fill = AreaKm2)) + 
+  labs(title="Polygon area")
+
+grid.arrange(map1, map2, map3, ncol=2)
+```
+
+<img src="README-Fig27-1.png" width="100%" style="display: block; margin: auto;" />
