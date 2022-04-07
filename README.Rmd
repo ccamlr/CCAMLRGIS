@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 
 # CCAMLRGIS R package
 
-This package was developed to simplify the production of maps in the CCAMLR Convention Area. It provides two categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
+This package was developed to simplify the production of maps in the CAMLR Convention Area. It provides two main categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
 
-<center>
+
 ## Note on V4 update:
-</center>
+
 
 Due to the retirement of some packages that the CCAMLRGIS package use to rely on, since CCAMLRGIS V4.0.0 the package relies on the [sf package](https://CRAN.R-project.org/package=sf), users may need to familiarize themselves with it. For those that were using older versions, the main difference is in plotting commands.
 
@@ -496,7 +496,7 @@ MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 1")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations),add=T,col='orange',cex=0.75,lwd=1.5,pch=3)
@@ -513,7 +513,7 @@ MyStations=create_Stations(MyPoly,BathyCroped,
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 2")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
@@ -532,7 +532,7 @@ MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 3")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
@@ -839,7 +839,7 @@ For details, type:
 MyPolys=create_Polys(PolyData,Densify=T)
 #compute the seabed areas
 FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",depth_classes=c(0,-200,-600,-1800,-3000,-5000))
-#Result looks like this (note that the -600m to -1800m is renamed 'Fishable_area')
+#Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 head(FishDepth)
 ```
 
@@ -1140,7 +1140,7 @@ Depending on the function used, the CCAMLRGIS package computes data summaries an
 MyPolys=create_Polys(PolyData)
 
 #MyPolys is an sf object; it is a data frame that includes a column named 'geometry':
-kableExtra::kable(MyPolys)
+kableExtra::kable(MyPolys,row.names = F)
 
 ```
 
@@ -1176,7 +1176,7 @@ Where:
 - The function *st_graticule* generates a Lat/Lon grid.
 
 
-Additionally, *sf* objects can be plotted using *ggplot*. For example:
+Additionally, *sf* objects can be plotted using *ggplot2*. For example:
 
 ```{r Fig26,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 library(ggplot2)
@@ -1184,7 +1184,7 @@ ggplot() +
   geom_sf(data = MyPolys, aes(fill = Catch_mean))
 ```
 
-Using *ggplot* and *gridExtra*, multi-panel plots can be drawn:
+Using *ggplot2* and *gridExtra*, multi-panel plots can be drawn:
 
 ```{r Fig27,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 library(gridExtra)

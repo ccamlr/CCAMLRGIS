@@ -2,7 +2,7 @@
 #'
 #' Given a set of polygons and a set of point locations (given in decimal degrees),
 #' finds in which polygon those locations fall.
-#' Finds, for example, in which ASD the given fishing locations occurred.
+#' Finds, for example, in which Subarea the given fishing locations occurred.
 #' 
 #' @param Input dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.
 #' 
@@ -14,7 +14,7 @@
 #' 
 #' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
-#' @param Polys character vector of spatial objects names (e.g., \code{Polys=c('ASDs','RBs')}).
+#' @param Polys character vector of polygon names (e.g., \code{Polys=c('ASDs','RBs')}).
 #' 
 #' \strong{Must be matching the names of the pre-loaded spatial objects (loaded via e.g., \code{ASDs=load_ASDs()})}
 #' 
@@ -32,9 +32,9 @@
 #' \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.
 #' 
 #' @param Buffer distance in nautical miles to be added around the \code{Polys} of interest.
-#' Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
+#' Can be specified for each of the \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 #' \code{Buffer} nautical miles of a polygon.
-#' @param NamesOut names of the resulting area columns in the output dataframe,
+#' @param NamesOut names of the resulting column names in the output dataframe,
 #' with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
 #' If not provided will be set as equal to \code{Polys}.
 #' @return dataframe with the same structure as the \code{Input}, with additional columns corresponding
@@ -71,25 +71,25 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #coerce Input to a data.frame
   Input=as.data.frame(Input)
   #Check NamesIn
-  if(is.null(NamesIn)==F){
+  if(is.null(NamesIn)==FALSE){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
-    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
   }
   #Set NamesOut if not provided
   if(is.null(NamesOut)==TRUE){NamesOut=Polys}
-  if(any(NamesOut%in%colnames(Input)==T)){stop("'NamesOut' matches column names in 'Input', please use different names")}
+  if(any(NamesOut%in%colnames(Input)==TRUE)){stop("'NamesOut' matches column names in 'Input', please use different names")}
   #Repeat Buffer if needed
   if(length(Buffer)==1 & length(Polys)>1){Buffer=rep(Buffer,length(Polys))}
   #Repeat AreaNameFormat if needed
   if(length(AreaNameFormat)==1 & length(Polys)>1){AreaNameFormat=rep(AreaNameFormat,length(Polys))}
   #Create Key
-  if(is.null(NamesIn)==T){
+  if(is.null(NamesIn)==TRUE){
     Input$Ass_Ar_Key=paste0(Input[,1],'|',Input[,2])     
   }else{
     Input$Ass_Ar_Key=paste0(Input[,NamesIn[1]],'|',Input[,NamesIn[2]])
   }
   #Get locations
-  if(is.null(NamesIn)==T){
+  if(is.null(NamesIn)==TRUE){
   Locs=Input[,c(2,1,ncol(Input))]
   }else{
   Locs=Input[,c(NamesIn[c(2,1)],"Ass_Ar_Key")]  

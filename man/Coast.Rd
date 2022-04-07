@@ -5,23 +5,23 @@
 \alias{Coast}
 \title{Simplified and subsettable coastline}
 \format{
-SpatialPolygonsDataFrame
+sf
 }
 \usage{
 data(Coast)
 }
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
-within the CCAMLR boundaries. This spatial object may be subsetted to plot the coastline for selected
-ASDs or EEZs. Source: \url{http://gis.ccamlr.org/}
+within the boundaries of the Convention Area. This spatial object may be subsetted to plot the coastline for selected
+ASDs or EEZs (see examples). Source: \url{http://gis.ccamlr.org/}
 }
 \examples{
 #Complete coastline:
-plot(Coast[Coast$ID=='All',],col='grey')
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey')
 
 #ASD 48.1 coastline:
-plot(Coast[Coast$ID=='48.1',],col='grey')
+plot(st_geometry(Coast[Coast$ID=='48.1',]),col='grey')
 }
 \seealso{
-\code{\link{Clip2Coast}}.
+\code{\link{Clip2Coast}}, \code{\link{load_Coastline}}.
 }

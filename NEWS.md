@@ -10,7 +10,13 @@ plot(st_geometry(MyObject))
 
 We apologize for any inconvenience.
 
-Convert back to sp objects using as_Spatial()
+Convert sf objects to sp objects using as_Spatial() if preferred.
+
+Simplified create_X() functions to only use dataframe input.
+
+Added get_C_intersection() function.
+
+Removed distance to isobath calculations in get_depths().
 
 # CCAMLRGIS 3.2.0
 

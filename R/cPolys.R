@@ -37,7 +37,7 @@ cPolys=function(Input,Densify=FALSE){
     Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(Input$ID)))}
   #Merge data to polys
   row.names(Sdata)=Sdata$ID
-  if(length(ids)>1){
+  if(length(ids)>1 & ncol(Sdata)>1){
   Sdata=Sdata[match(ids,Sdata$ID),]
   }
   Locs=st_set_geometry(Sdata,Locs)

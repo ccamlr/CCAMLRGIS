@@ -5,7 +5,7 @@
 \alias{LineData}
 \title{Example dataset for create_Lines}
 \format{
-DataFrame
+data.frame
 }
 \usage{
 data(LineData)
@@ -18,7 +18,7 @@ To be used in conjunction with \link{create_Lines}.
 #View(LineData)
 
 MyLines=create_Lines(LineData)
-plot(MyLines,lwd=2)
+plot(st_geometry(MyLines),lwd=2,col=rainbow(5))
 }
 \seealso{
 \code{\link{create_Lines}}.

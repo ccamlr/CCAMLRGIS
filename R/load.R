@@ -2,7 +2,7 @@
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
@@ -15,12 +15,13 @@
 #' 
 #' #When online:
 #' ASDs=load_ASDs()
-#' plot(ASDs)
+#' plot(st_geometry(ASDs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' ASDs=load_ASDs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('ASDs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(ASDs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -39,7 +40,7 @@ load_ASDs=function(){
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_RBs}},
@@ -52,12 +53,13 @@ load_ASDs=function(){
 #' 
 #' #When online:
 #' SSRUs=load_SSRUs()
-#' plot(SSRUs)
+#' plot(st_geometry(SSRUs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' SSRUs=load_SSRUs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('SSRUs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(SSRUs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -76,7 +78,7 @@ load_SSRUs=function(){
 #' 
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #' Note that this coastline expands further north than \link{Coast}.
 #'
 #' @seealso 
@@ -90,12 +92,13 @@ load_SSRUs=function(){
 #' 
 #' #When online:
 #' Coastline=load_Coastline()
-#' plot(Coastline)
+#' plot(st_geometry(Coastline))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' Coastline=load_Coastline()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('Coastline','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(Coastline,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -114,7 +117,7 @@ load_Coastline=function(){
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}},
@@ -127,12 +130,13 @@ load_Coastline=function(){
 #' 
 #' #When online:
 #' RBs=load_RBs()
-#' plot(RBs)
+#' plot(st_geometry(RBs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' RBs=load_RBs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('RBs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(RBs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -151,7 +155,7 @@ load_RBs=function(){
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
@@ -164,12 +168,13 @@ load_RBs=function(){
 #' 
 #' #When online:
 #' SSMUs=load_SSMUs()
-#' plot(SSMUs)
+#' plot(st_geometry(SSMUs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' SSMUs=load_SSMUs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('SSMUs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(SSMUs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -188,7 +193,7 @@ load_SSMUs=function(){
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
@@ -201,12 +206,13 @@ load_SSMUs=function(){
 #' 
 #' #When online:
 #' MAs=load_MAs()
-#' plot(MAs)
+#' plot(st_geometry(MAs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' MAs=load_MAs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('MAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(MAs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -225,7 +231,7 @@ load_MAs=function(){
 #'
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
@@ -238,12 +244,13 @@ load_MAs=function(){
 #' 
 #' #When online:
 #' MPAs=load_MPAs()
-#' plot(MPAs)
+#' plot(st_geometry(MPAs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('MPAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(MPAs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -263,7 +270,7 @@ load_MPAs=function(){
 #' 
 #' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+#'  (\code{\link{CCAMLRp}})
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
@@ -276,12 +283,13 @@ load_MPAs=function(){
 #' 
 #' #When online:
 #' EEZs=load_EEZs()
-#' plot(EEZs)
+#' plot(st_geometry(EEZs))
 #' 
 #' #If going offline in the future: load and save as RData when online,
-#' # then reload RData when offline:
+#' #then reload RData when offline:
 #' MPAs=load_MPAs()
 #' EEZs=load_EEZs()
+#' #N.B.: replace tempdir() with folder location of your choice
 #' save(list=c('MPAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 #' rm(MPAs,EEZs)
 #' load(file.path(tempdir(), "CCAMLRLayers.RData"))
@@ -310,14 +318,14 @@ load_EEZs=function(){
 #' 
 #' To re-use the downloaded data, you must provide the full path to that file, for example:
 #' 
-#' "C:/Desktop/GEBCO2020_5000.tif".
+#' "C:/Desktop/GEBCO2021_5000.tif".
 #' 
 #' This data was reprojected from the original GEBCO Grid after cropping at 40 degrees South. Projection was made using the Lambert
-#' azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs),
+#' azimuthal equal-area projection (\code{\link{CCAMLRp}}),
 #' and the data was aggregated at a several resolutions.
 #' 
 #' @param LocalFile To download the data, set to \code{FALSE}. To re-use a downloaded file, set to the full path of the file 
-#' (e.g., "C:/Desktop/GEBCO2020_5000.tif").
+#' (e.g., "C:/Desktop/GEBCO2021_5000.tif").
 #' @param Res Desired resolution in meters. May only be one of: 500, 1000, 2500 or 5000.
 #' @return Bathymetry raster.
 #' 
@@ -325,10 +333,7 @@ load_EEZs=function(){
 #' \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
 #' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}},
 #' \code{\link{create_Stations}},
-#' \code{\link{SmallBathy}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
-#' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
-#' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-#' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' \code{\link{SmallBathy}}.
 #' 
 #' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f) 
 #' 
@@ -340,11 +345,11 @@ load_EEZs=function(){
 #' 
 #' ##Download the data. It will go in the folder given by getwd():
 #' #Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
-#' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=F)
+#' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 #' 
-#' ##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2020_5000.tif"):
-#' #Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2020_5000.tif")
-#' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=F)
+#' ##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2021_5000.tif"):
+#' #Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2021_5000.tif")
+#' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 #' 
 #' }
 #' 

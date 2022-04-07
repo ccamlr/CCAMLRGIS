@@ -10,7 +10,7 @@
 #' 
 #' @param Line2 Same as \code{Line1}.
 #' 
-#' @param Plot Logical (TRUE or FALSE), plot a schematic of calculations.
+#' @param Plot logical, if set to TRUE, plots a schematic of calculations.
 #' 
 #' @examples
 #' \donttest{
@@ -28,8 +28,8 @@
 #'#Example 4 (Antimeridian crossed)
 #'get_C_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
 #'
-#'#Example 5 (Parallel lines)
-#'get_C_intersection(Line1=c(0,-60,10,-60),Line2=c(-10,-60,10,-60))
+#'#Example 5 (Parallel lines - uncomment to test as it will return an error)
+#'#get_C_intersection(Line1=c(0,-60,10,-60),Line2=c(-10,-60,10,-60))
 #'
 #'
 #'}
@@ -53,7 +53,7 @@ get_C_intersection=function(Line1,Line2,Plot=TRUE){
   #Compute intersection:
   D=(x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)
   if(D==0){
-    if(Plot==T){plot(1,1);text(1,1,"Parallel lines",col="red")}
+    if(Plot==TRUE){plot(1,1);text(1,1,"Parallel lines",col="red")}
     stop("Parallel lines.")
   }
   Px=((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/D
@@ -68,13 +68,13 @@ get_C_intersection=function(Line1,Line2,Plot=TRUE){
     YL=range(c(y1,y2,y3,y4,Py))
     YL=c(YL[1]-0.1*abs(mean(YL)),YL[2]+0.1*abs(mean(YL)))
     plot(c(x1,x2,x3,x4),c(y1,y2,y3,y4),xlim=XL,ylim=YL,pch=21,bg=c("green","green","blue","blue"),xlab="Longitude",ylab="Latitude")
-    par(new=T)
+    par(new=TRUE)
     plot(Px,Py,xlim=XL,ylim=YL,pch=4,col="red",xlab="Longitude",ylab="Latitude",lwd=2)
     lines(c(x1,x2),c(y1,y2),col="green",lwd=2)
     lines(c(x3,x4),c(y3,y4),col="blue",lwd=2)
     lines(c(x1,x2,Px),c(y1,y2,Py),col="green",lty=2)
     lines(c(x3,x4,Px),c(y3,y4,Py),col="blue",lty=2)
-    if(abs(Px)>180){abline(v=c(-180,180),col="red",lwd=2);text(Px,Py,"Antimeridian crossed",col="red",xpd=T)}
+    if(abs(Px)>180){abline(v=c(-180,180),col="red",lwd=2);text(Px,Py,"Antimeridian crossed",col="red",xpd=TRUE)}
     legend("topleft",c("Line 1","Line 2","Intersection"),col=c("green","blue","red"),lwd=c(2,2,NA),pch=c(21,21,4),pt.bg=c("green","blue","red"))
   }
   return(c(Lon=Px,Lat=Py))

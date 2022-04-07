@@ -2,15 +2,14 @@
 #'
 #' Calculate planimetric seabed area within polygons and depth strata in square kilometers.
 #' 
-#' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
-#' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
+#' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}}.
+#' It is highly recommended to use a raster of higher
 #' resolution than \code{\link{SmallBathy}}, see \code{\link{load_Bathy}}.
 #' @param Poly polygon(s) within which the areas of depth strata are computed.
-#' @param PolyNames Column name to be used ... 
+#' @param PolyNames character, column name (from the polygon object) to be used in the output. 
 #' @param depth_classes numeric vector of strata depths. for example, \code{depth_classes=c(-600,-1000,-2000)}.
 #' If the values \code{-600,-1800} are given within \code{depth_classes}, the computed area will be labelled as 'Fishable_area'.
 #' @return dataframe with the name of polygons in the first column and the area for each strata in the following columns.
-#' Note that polygon names are taken from the first column in the data of the input SpatialPolygonDataframe.
 #' 
 #' @seealso 
 #' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{create_Polys}}, \code{\link{load_RBs}}.
@@ -18,19 +17,13 @@
 #' @examples
 #' \donttest{
 #' 
-#'
-#' #Example 1: Compute fishable area in Research Blocks using the SmallBathy (not recommended)
-#' 
-#' RBs=load_RBs() 
-#' RBs@@data[,1]=RBs$GAR_Short_Label #Take the 'GAR_Short_Label' as polygon names
-#' FishDepth=seabed_area(SmallBathy,RBs)
-#' #View(FishDepth)
-#' 
-#' #Example 2: Compute various strata areas within user-generated polygons
-#' 
-#' MyPolys=create_Polys(PolyData,Densify=TRUE)
-#' FishDepth=seabed_area(SmallBathy,MyPolys,depth_classes=c(0,-200,-600,-1800,-3000,-5000))
-#' #View(FishDepth)
+#'#create some polygons
+#'MyPolys=create_Polys(PolyData,Densify=TRUE)
+#'#compute the seabed areas
+#'FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",
+#'depth_classes=c(0,-200,-600,-1800,-3000,-5000))
+#'#Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
+#'#View(FishDepth)
 #' 
 #' 
 #' }

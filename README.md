@@ -4,17 +4,13 @@
 # CCAMLRGIS R package
 
 This package was developed to simplify the production of maps in the
-CCAMLR Convention Area. It provides two categories of functions: load
-functions and create functions. Load functions are used to import
+CAMLR Convention Area. It provides two main categories of functions:
+load functions and create functions. Load functions are used to import
 spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such
 as the ASD boundaries. Create functions are used to create layers from
 user data such as polygons and grids.
 
-<center>
-
 ## Note on V4 update:
-
-</center>
 
 Due to the retirement of some packages that the CCAMLRGIS package use to
 rely on, since CCAMLRGIS V4.0.0 the package relies on the [sf
@@ -517,7 +513,7 @@ MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 1")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations),add=T,col='orange',cex=0.75,lwd=1.5,pch=3)
@@ -534,7 +530,7 @@ MyStations=create_Stations(MyPoly,BathyCroped,
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 2")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
@@ -552,7 +548,7 @@ MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F)
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 3")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
@@ -922,7 +918,7 @@ For details, type:
 MyPolys=create_Polys(PolyData,Densify=T)
 #compute the seabed areas
 FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",depth_classes=c(0,-200,-600,-1800,-3000,-5000))
-#Result looks like this (note that the -600m to -1800m is renamed 'Fishable_area')
+#Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 head(FishDepth)
 #>      ID 0|-200 -200|-600 Fishable_area -1800|-3000 -3000|-5000
 #> 1   one      0  19100.01      41400.01    40500.01    92700.03
@@ -1293,7 +1289,7 @@ add_labels(mode='input',LabelTable=MyLabels)
 
 Depending on the function used, the CCAMLRGIS package computes data
 summaries and includes them in the resulting spatial object. For
-example, *create_Polys* take any numerical values included in the
+example, *create_Polys* takes any numerical values included in the
 *Input* data frame and computes, for each polygon, the minimum, maximum,
 mean, median, sum, count and standard deviation of values associated
 with each polygon. The *sf* package has some useful plotting methods,
@@ -1304,14 +1300,12 @@ some of which are shown below.
 MyPolys=create_Polys(PolyData)
 
 #MyPolys is an sf object; it is a data frame that includes a column named 'geometry':
-kableExtra::kable(MyPolys)
+kableExtra::kable(MyPolys,row.names = F)
 ```
 
 <table>
 <thead>
 <tr>
-<th style="text-align:left;">
-</th>
 <th style="text-align:left;">
 ID
 </th>
@@ -1397,9 +1391,6 @@ Laby
 <td style="text-align:left;">
 one
 </td>
-<td style="text-align:left;">
-one
-</td>
 <td style="text-align:right;">
 52.61262
 </td>
@@ -1477,9 +1468,6 @@ POLYGON ((-290035.9 -164487…
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-two
-</td>
 <td style="text-align:left;">
 two
 </td>
@@ -1563,9 +1551,6 @@ POLYGON ((-423880.7 -240394…
 <td style="text-align:left;">
 three
 </td>
-<td style="text-align:left;">
-three
-</td>
 <td style="text-align:right;">
 10.23393
 </td>
@@ -1646,9 +1631,9 @@ POLYGON ((480755.1 -2726497…
 </table>
 
 The ‘geometry’ column contains the locations of each point of a given
-polygon (row), and can be plotted using *plot(st_geometry(MyPolys))*, as
-shown previously in this document. Alternatively, one can use
-*plot(MyPolys)* directly:
+polygon (each row), and can be plotted using
+*plot(st_geometry(MyPolys))*, as shown previously in this document.
+Alternatively, one can use *plot(MyPolys)* directly:
 
 ``` r
 plot(MyPolys)
@@ -1691,7 +1676,7 @@ Where:
 
 -   The function *st_graticule* generates a Lat/Lon grid.
 
-Additionally, *sf* objects can be plotted using *ggplot*. For example:
+Additionally, *sf* objects can be plotted using *ggplot2*. For example:
 
 ``` r
 library(ggplot2)
@@ -1701,7 +1686,7 @@ ggplot() +
 
 <img src="README-Fig26-1.png" width="100%" style="display: block; margin: auto;" />
 
-Using *ggplot* and *gridExtra*, multi-panel plots can be drawn:
+Using *ggplot2* and *gridExtra*, multi-panel plots can be drawn:
 
 ``` r
 library(gridExtra)

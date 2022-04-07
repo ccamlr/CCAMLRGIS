@@ -3,15 +3,15 @@
 #' Add a Latitude/Longitude reference grid to maps.
 #'
 #' @param bb bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy)} or \code{bb=st_bbox(MyPolys)}.
-#' @param ResLat Latitude resolution in decimal degrees.
-#' @param ResLon Longitude resolution in decimal degrees.
-#' @param LabLon Longitude at which Latitude labels should appear. if set, the resulting Reference grid will be circumpolar.
-#' @param LatR Range of latitudes (for circumpolar).
-#' @param lwd Line thickness of the Reference grid.
-#' @param lcol Line color of the Reference grid.
-#' @param fontsize Font size of the Reference grid's labels.
-#' @param fontcol Font color of the Reference grid's labels.
-#' @param offset offset of the Reference grid's labels (distance to plot border).
+#' @param ResLat numeric, latitude resolution in decimal degrees.
+#' @param ResLon numeric, longitude resolution in decimal degrees.
+#' @param LabLon numeric, longitude at which Latitude labels should appear. if set, the resulting Reference grid will be circumpolar.
+#' @param LatR numeric, range of latitudes of circumpolar grid.
+#' @param lwd numeric, line thickness of the Reference grid.
+#' @param lcol character, line color of the Reference grid.
+#' @param fontsize numeric, font size of the Reference grid's labels.
+#' @param fontcol character, font color of the Reference grid's labels.
+#' @param offset numeric, offset of the Reference grid's labels (distance to plot border).
 #' @seealso 
 #' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}.
 #' 
@@ -19,10 +19,8 @@
 #'
 #' #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 #' 
-#' Mypar=par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
-#' par(Mypar)
 #' plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-#' add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
+#' add_RefGrid(bb=st_bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
 #' 
 #' #Example 2: Local grid around created polygons
 #' 
@@ -31,8 +29,8 @@
 #' Mypar=par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
 #' par(Mypar)
 #' plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-#' add_RefGrid(bb=bbox(BathyC),ResLat=2,ResLon=6)
-#' plot(MyPolys,add=TRUE,col='orange',border='brown',lwd=2)
+#' add_RefGrid(bb=st_bbox(BathyC),ResLat=2,ResLon=6)
+#' plot(st_geometry(MyPolys),add=TRUE,col='orange',border='brown',lwd=2)
 #' 
 #' @export
 
@@ -144,8 +142,8 @@ if(is.na(LabLon)==FALSE){
   if((dim(LabslatH)[1]+dim(LabslonV)[1])>(dim(LabslatV)[1]+dim(LabslonH)[1])){
     #go with LabslatH and LabslonV
     #Get Lat/Lon
-    LabslatH=project_data(Input=LabslatH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
-    LabslonV=project_data(Input=LabslonV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    LabslatH=project_data(Input=LabslatH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
+    LabslonV=project_data(Input=LabslonV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
     #Add offset
     LabslatH$y[LabslatH$y==max(LabslatH$y)]=LabslatH$y[LabslatH$y==max(LabslatH$y)]+offsety
     LabslatH$y[LabslatH$y==min(LabslatH$y)]=LabslatH$y[LabslatH$y==min(LabslatH$y)]-offsety
@@ -160,8 +158,8 @@ if(is.na(LabLon)==FALSE){
   }else{
     #go with LabslatV and LabslonH
     #Get Lat/Lon
-    LabslatV=project_data(Input=LabslatV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
-    LabslonH=project_data(Input=LabslonH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    LabslatV=project_data(Input=LabslatV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
+    LabslonH=project_data(Input=LabslonH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
     #Add offset
     LabslonH$xadj=0.5
     LabslatV$xadj=1

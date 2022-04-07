@@ -12,6 +12,7 @@
 
 ## Notes about CRAN edits
 
+* Moved all oprations from sp/raster to sf/terra
 * Now the vignette links to the GitHub README to avoid CRAN Checks issues
 * Added create_Pies() and add_PieLegend() functions
 * Added load_Bathy() function

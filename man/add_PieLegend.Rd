@@ -70,7 +70,7 @@ displayed by default. (only used if \code{SizeVar} was specified in \link{create
 (only used if \code{SizeVar} was specified in \link{create_Pies}). If set, overrides \code{nSizes}.}
 }
 \value{
-Adds a legend to a pre-existing plot.
+Adds a legend to a pre-existing pie plot.
 }
 \description{
 Adds a legend to pies created using \link{create_Pies}.
@@ -83,7 +83,7 @@ MyPies=create_Pies(Input=PieData,
                    Size=50
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 1")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.5,0.45,0.12,0.45),
              PieTitle="Species")
@@ -97,14 +97,14 @@ MyPies=create_Pies(Input=PieData,
                    Classes=c("TOP","TOA","ANI")
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 2")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.6,0.6,0.12,0.55),
               PieTitle="Selected species")
 
 
 #Example 3. Pies of constant size, proportions below 25\% are grouped in a 'Other' class
-#(N.B.: unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
+#(unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
 #Please compare Example 1 and Example 3)
 #Create pies
 MyPies=create_Pies(Input=PieData,
@@ -113,7 +113,7 @@ MyPies=create_Pies(Input=PieData,
                    Other=25
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 3")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.55,0.55,0.12,0.45),
               PieTitle="Other (\%) class")
@@ -128,7 +128,7 @@ MyPies=create_Pies(Input=PieData,
                    SizeVar="Catch"
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 4")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.3,PosY=-0.8,Boxexp=c(0.16,0.1,0.1,0.4),
               PieTitle="Species",SizeTitle="Catch (t.)")
@@ -143,7 +143,7 @@ MyPies=create_Pies(Input=PieData,
                    SizeVar="Catch"
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 5")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-1.7,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
               PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
@@ -157,14 +157,14 @@ MyPies=create_Pies(Input=PieData2,
                    Size=5
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 6")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
               PieTitle="Species")
 
 
-#Example 7. Pies of constant size, all classes displayed. Gridded locations (in which case numerical
-#variables in the 'Input' are summed for each grid point):
+#Example 7. Pies of constant size, all classes displayed. Gridded locations
+#(in which case numerical variables in the 'Input' are summed for each grid point):
 #Create pies
 MyPies=create_Pies(Input=PieData2,
                    NamesIn=c("Lat","Lon","Sp","N"),
@@ -172,7 +172,7 @@ MyPies=create_Pies(Input=PieData2,
                    GridKm=250
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 7")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
               PieTitle="Species")
@@ -188,7 +188,7 @@ MyPies=create_Pies(Input=PieData2,
                    SizeVar='Catch'
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 8")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-1.2,PosY=0.3,Boxexp=c(0.38,0.32,0.08,0.18),
               PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",

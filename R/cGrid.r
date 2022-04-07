@@ -62,7 +62,6 @@ if(is.na(Area)==TRUE){
   PolyIndx=1     #Index of polygon (cell)
   Group = list() #Initialize storage of cells
   
-  # StartP=SpatialPoints(cbind(0,ceiling(max(data$lat))),CRS("+init=epsg:4326"))
   StartP=cbind(0,ceiling(max(data$lat)+0.001))
   LatS=0
   
@@ -87,7 +86,7 @@ if(is.na(Area)==TRUE){
     PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
     
     PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
-                     NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+                     NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = FALSE)
     Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
     Pl_a=st_area(Pl)
 
@@ -105,7 +104,7 @@ if(is.na(Area)==TRUE){
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
       
       PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
-                       NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+                       NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = FALSE)
       Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
       Pl_a=st_area(Pl)
       
@@ -114,7 +113,7 @@ if(is.na(Area)==TRUE){
         PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
         
         PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
-                         NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+                         NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = FALSE)
         Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
         Pl_a=st_area(Pl)
         
@@ -129,7 +128,7 @@ if(is.na(Area)==TRUE){
       PLat=c(rep(LatN,length(lons)),rep(LatS,length(lons)),LatN)
       
       PRO=project_data(Input = data.frame(Lat=PLat,Lon=PLon),
-                       NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = F)
+                       NamesIn = c("Lat","Lon"),NamesOut = c("y","x"),append = FALSE)
       Pl=st_polygon(list(cbind(PRO$x,PRO$y)))
       
       Group[[PolyIndx]] = Pl
@@ -156,36 +155,36 @@ if(is.na(Area)==TRUE){
   
   #project to get Lat/Lon of centres
   CenLL=project_data(Input=st_drop_geometry(Group),NamesIn=c('Centrey','Centrex'),
-                     NamesOut = c('Centrelat','Centrelon'),append = F,inv=T)
+                     NamesOut = c('Centrelat','Centrelon'),append = FALSE,inv=TRUE)
   Group$Centrelon=CenLL$Centrelon
   Group$Centrelat=CenLL$Centrelat
   rm(CenLL)
   #Match data to grid cells
-  tmp_p=project_data(Input=data,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
+  tmp_p=project_data(Input=data,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = FALSE,inv=FALSE)
   tmp_p=st_as_sf(x=tmp_p,coords=c(2,1),crs=6932,remove=TRUE)
   tmp=sapply(st_intersects(tmp_p,Group), function(z) if (length(z)==0) NA_integer_ else z[1]) #sp::over replacement
   
   #Look for un-assigned data points (falling on an edge between cells)
-  Iout=which(is.na(tmp)==T) #Index of those falling out
+  Iout=which(is.na(tmp)==TRUE) #Index of those falling out
   while(length(Iout)>0){
     tmp=tmp[-Iout,]
     datatmp=data[Iout,]
     data=data[-Iout,]
     DegDev=0
     Mov=c(-(0.0001+DegDev),0.0001+DegDev)
-    MovLat=Mov[sample(c(1,2),length(Iout),replace = T)]
-    MovLon=Mov[sample(c(1,2),length(Iout),replace = T)]
+    MovLat=Mov[sample(c(1,2),length(Iout),replace = TRUE)]
+    MovLon=Mov[sample(c(1,2),length(Iout),replace = TRUE)]
     datatmp$lat=datatmp$lat+MovLat
     datatmp$lon=datatmp$lon+MovLon
     data=rbind(data,datatmp)
-    tmptmp_p=project_data(Input=datatmp,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = F,inv=F)
+    tmptmp_p=project_data(Input=datatmp,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = FALSE,inv=FALSE)
     tmptmp_p=st_as_sf(x=tmptmp_p,coords=c(2,1),crs=6932,remove=TRUE)
     tmptmp=sapply(st_intersects(tmptmp_p,Group), function(z) if (length(z)==0) NA_integer_ else z[1]) #sp::over replacement
 
     tmp=rbind(tmp,tmptmp)
     rm(datatmp,tmptmp)
     DegDev=DegDev+0.0001
-    Iout=which(is.na(tmp)==T) #Index of those falling out
+    Iout=which(is.na(tmp)==TRUE) #Index of those falling out
     }
   #Append cell ID to data
   data$ID=as.character(tmp)

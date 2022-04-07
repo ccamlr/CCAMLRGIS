@@ -6,17 +6,15 @@
 \usage{
 create_Lines(
   Input,
+  NamesIn = NULL,
   Buffer = 0,
   Densify = FALSE,
   Clip = FALSE,
-  SeparateBuf = TRUE,
-  NamesIn = NULL
+  SeparateBuf = TRUE
 )
 }
 \arguments{
-\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
-If a .csv file is used as input, this file must be in your working directory and its name given in quotes
-e.g. "DataFile.csv".
+\item{Input}{input dataframe.
 
 \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
@@ -25,17 +23,6 @@ Line name, Latitude, Longitude.
 If a given line is made of more than two points, the locations of points
 must be given in order, from one end of the line to the other.}}
 
-\item{Buffer}{Distance in nautical miles by which to expand the lines. Can be specified for
-each line (as a numeric vector).}
-
-\item{Densify}{If set to TRUE, additional points between points of equal latitude are added
-prior to projection (see examples).}
-
-\item{Clip}{if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).}
-
-\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
-all spatial objects are merged, resulting in a single spatial object.}
-
 \item{NamesIn}{character vector of length 3 specifying the column names of line identifier, Latitude
 and Longitude fields in the \code{Input}.
 
@@ -43,24 +30,28 @@ and Longitude fields in the \code{Input}.
 
 \code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.}
 
-\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-"ROBJECT" (the default), a spatial object is created in your R environment.
-if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-your working directory.}
+\item{Buffer}{numeric, distance in nautical miles by which to expand the lines. Can be specified for
+each line (as a numeric vector).}
 
-\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-shapefile in quotes (e.g. "MyLines") must be provided.}
+\item{Densify}{logical, if set to TRUE, additional points between points of equal latitude are added
+prior to projection (see examples).}
+
+\item{Clip}{logical, if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).}
+
+\item{SeparateBuf}{logical, if set to FALSE when adding a \code{Buffer},
+all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
-Spatial object in your environment or ESRI shapefile in your working directory.
+Spatial object in your environment.
 Data within the resulting spatial object contains the data provided in the \code{Input} plus
 additional "LengthKm" and "LengthNm" columns which corresponds to the lines lengths,
-in kilometers and nautical miles respectively.
+in kilometers and nautical miles respectively. If additional data was included in the \code{Input},
+any numerical values are summarized for each line (min, max, mean, median, sum, count and sd).
 
-To see the data contained in your spatial object, type: \code{View(MyLines@data)}.
+To see the data contained in your spatial object, type: \code{View(MyLines)}.
 }
 \description{
-Create Lines to display, for example, fishing line locations or tagging data.
+Create lines to display, for example, fishing line locations or tagging data.
 }
 \examples{
 \donttest{
@@ -85,34 +76,34 @@ Input=data.frame(
 )
 
 #Create lines and plot them
-plot(create_Lines(Input=Input))
+plot(st_geometry(create_Lines(Input=Input)))
 
 
 #Example 1: Simple and non-densified lines
 
 MyLines=create_Lines(Input=LineData)
-plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
+plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 1")
 
 #Example 2: Simple and densified lines (note the curvature of the purple line)
 
 MyLines=create_Lines(Input=LineData,Densify=TRUE)
-plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
+plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 2")
 
 #Example 3: Densified, buffered and clipped lines
 
 MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 
-plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
-plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
+plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 3")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 
 #Example 4: Buffered and grouped lines
 MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
-plot(MyLines,lwd=2,border='blue')
+plot(st_geometry(MyLines),lwd=2,border='blue',main="Example 4")
 
 }
 
 }
 \seealso{
 \code{\link{create_Points}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-\code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
+\code{\link{create_Stations}}, \code{\link{create_Pies}}.
 }

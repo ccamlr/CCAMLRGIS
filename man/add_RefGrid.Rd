@@ -20,23 +20,23 @@ add_RefGrid(
 \arguments{
 \item{bb}{bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy)} or \code{bb=st_bbox(MyPolys)}.}
 
-\item{ResLat}{Latitude resolution in decimal degrees.}
+\item{ResLat}{numeric, latitude resolution in decimal degrees.}
 
-\item{ResLon}{Longitude resolution in decimal degrees.}
+\item{ResLon}{numeric, longitude resolution in decimal degrees.}
 
-\item{LabLon}{Longitude at which Latitude labels should appear. if set, the resulting Reference grid will be circumpolar.}
+\item{LabLon}{numeric, longitude at which Latitude labels should appear. if set, the resulting Reference grid will be circumpolar.}
 
-\item{LatR}{Range of latitudes (for circumpolar).}
+\item{LatR}{numeric, range of latitudes of circumpolar grid.}
 
-\item{lwd}{Line thickness of the Reference grid.}
+\item{lwd}{numeric, line thickness of the Reference grid.}
 
-\item{lcol}{Line color of the Reference grid.}
+\item{lcol}{character, line color of the Reference grid.}
 
-\item{fontsize}{Font size of the Reference grid's labels.}
+\item{fontsize}{numeric, font size of the Reference grid's labels.}
 
-\item{fontcol}{Font color of the Reference grid's labels.}
+\item{fontcol}{character, font color of the Reference grid's labels.}
 
-\item{offset}{offset of the Reference grid's labels (distance to plot border).}
+\item{offset}{numeric, offset of the Reference grid's labels (distance to plot border).}
 }
 \description{
 Add a Latitude/Longitude reference grid to maps.
@@ -45,10 +45,8 @@ Add a Latitude/Longitude reference grid to maps.
 
 #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 
-Mypar=par(mai=c(1,1.5,0.5,0)) #Figure margins as c(bottom, left, top, right)
-par(Mypar)
 plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_RefGrid(bb=bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
+add_RefGrid(bb=st_bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
 
 #Example 2: Local grid around created polygons
 
@@ -57,8 +55,8 @@ BathyC=raster::crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent
 Mypar=par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
 par(Mypar)
 plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_RefGrid(bb=bbox(BathyC),ResLat=2,ResLon=6)
-plot(MyPolys,add=TRUE,col='orange',border='brown',lwd=2)
+add_RefGrid(bb=st_bbox(BathyC),ResLat=2,ResLon=6)
+plot(st_geometry(MyPolys),add=TRUE,col='orange',border='brown',lwd=2)
 
 }
 \seealso{

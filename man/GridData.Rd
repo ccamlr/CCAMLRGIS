@@ -5,7 +5,7 @@
 \alias{GridData}
 \title{Example dataset for create_PolyGrids}
 \format{
-DataFrame
+data.frame
 }
 \usage{
 data(GridData)
@@ -17,7 +17,7 @@ To be used in conjunction with \link{create_PolyGrids}.
 #View(GridData)
 
 MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
-plot(MyGrid,col=MyGrid$Col_Catch_sum)
+plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum)
 }
 \seealso{
 \code{\link{create_PolyGrids}}.

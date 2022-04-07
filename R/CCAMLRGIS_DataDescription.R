@@ -7,7 +7,7 @@
 #' 
 #' @docType data
 #' @usage data(CCAMLRp)
-#' @format Character string
+#' @format character string
 #' @return "+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
 #' @name CCAMLRp
 NULL
@@ -15,19 +15,19 @@ NULL
 #' Simplified and subsettable coastline
 #'
 #' Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
-#' within the CCAMLR boundaries. This spatial object may be subsetted to plot the coastline for selected
-#' ASDs or EEZs. Source: \url{http://gis.ccamlr.org/}
+#' within the boundaries of the Convention Area. This spatial object may be subsetted to plot the coastline for selected
+#' ASDs or EEZs (see examples). Source: \url{http://gis.ccamlr.org/}
 #'
 #' @docType data
 #' @usage data(Coast)
-#' @format SpatialPolygonsDataFrame
+#' @format sf
 #' @examples 
 #' #Complete coastline:
-#' plot(Coast[Coast$ID=='All',],col='grey')
+#' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey')
 #' 
 #' #ASD 48.1 coastline:
-#' plot(Coast[Coast$ID=='48.1',],col='grey')
-#' @seealso \code{\link{Clip2Coast}}.
+#' plot(st_geometry(Coast[Coast$ID=='48.1',]),col='grey')
+#' @seealso \code{\link{Clip2Coast}}, \code{\link{load_Coastline}}.
 #' @name Coast
 NULL
 
@@ -37,8 +37,8 @@ NULL
 #'
 #' @docType data
 #' @usage data(Depth_cols)
-#' @format Character vector
-#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
+#' @format character vector
+#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 #' @seealso \code{\link{Depth_cols2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
@@ -49,7 +49,7 @@ NULL
 #'
 #' @docType data
 #' @usage data(Depth_cuts)
-#' @format Numeric vector
+#' @format numeric vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso  \code{\link{Depth_cuts2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
@@ -57,11 +57,11 @@ NULL
 
 #' Bathymetry colors with Fishable Depth range
 #'
-#' Set of colors to plot bathymetry and highlight Fishable Depth range, to be used in conjunction with \link{Depth_cuts2}.
+#' Set of colors to plot bathymetry and highlight Fishable Depth range (600-1800), to be used in conjunction with \link{Depth_cuts2}.
 #'
 #' @docType data
 #' @usage data(Depth_cols2)
-#' @format Character vector
+#' @format character vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{Depth_cols}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols2
@@ -69,11 +69,11 @@ NULL
 
 #' Bathymetry depth classes with Fishable Depth range
 #'
-#' Set of depth classes to plot bathymetry and highlight Fishable Depth range, to be used in conjunction with \link{Depth_cols2}.
+#' Set of depth classes to plot bathymetry and highlight Fishable Depth range (600-1800), to be used in conjunction with \link{Depth_cols2}.
 #'
 #' @docType data
 #' @usage data(Depth_cuts2)
-#' @format Numeric vector
+#' @format numeric vector
 #' @examples plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
 #' @seealso  \code{\link{Depth_cuts}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts2
@@ -85,12 +85,12 @@ NULL
 #'
 #' @docType data
 #' @usage data(GridData)
-#' @format DataFrame
+#' @format data.frame
 #' @examples 
 #' #View(GridData)
 #' 
 #' MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
-#' plot(MyGrid,col=MyGrid$Col_Catch_sum)
+#' plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum)
 #' @seealso \code{\link{create_PolyGrids}}.
 #' @name GridData
 NULL
@@ -101,12 +101,12 @@ NULL
 #'
 #' @docType data
 #' @usage data(LineData)
-#' @format DataFrame
+#' @format data.frame
 #' @examples  
 #' #View(LineData)
 #' 
 #' MyLines=create_Lines(LineData)
-#' plot(MyLines,lwd=2)
+#' plot(st_geometry(MyLines),lwd=2,col=rainbow(5))
 #' @seealso \code{\link{create_Lines}}. 
 #' @name LineData
 NULL
@@ -117,14 +117,14 @@ NULL
 #'
 #' @docType data
 #' @usage data(PointData)
-#' @format DataFrame
+#' @format data.frame
 #' @examples 
 #' #View(PointData)
 #' 
 #' MyPoints=create_Points(PointData)
-#' plot(MyPoints)
+#' plot(st_geometry(MyPoints))
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
-#' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
+#' plot(st_geometry(MyPoints[MyPoints$name=='four',]),bg='red',pch=21,cex=1.5,add=TRUE)
 #' @seealso \code{\link{create_Points}}.  
 #' @name PointData
 NULL
@@ -135,14 +135,14 @@ NULL
 #'
 #' @docType data
 #' @usage data(PolyData)
-#' @format DataFrame
+#' @format data.frame
 #' @examples 
 #' #View(PolyData)
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=TRUE)
-#' plot(MyPolys,col='green',add=TRUE)
+#' plot(st_geometry(MyPolys),col='green')
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
-#' plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=TRUE)
+#' plot(st_geometry(MyPolys[MyPolys$ID=='three',]),border='red',lwd=3,add=TRUE)
 #' @seealso \code{\link{create_Polys}}.  
 #' @name PolyData
 NULL
@@ -163,7 +163,7 @@ NULL
 #' @seealso \code{\link{load_Bathy}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}},
 #' \code{\link{Depth_cuts}},
 #' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}}, \code{\link{create_Stations}}.
-#' @references GEBCO Compilation Group (2020) GEBCO 2020 Grid (doi:10.5285/a29c5465-b138-234d-e053-6c86abc040b9)
+#' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f)
 #' @name SmallBathy
 NULL
 
@@ -174,16 +174,22 @@ NULL
 #' 
 #' @docType data
 #' @usage data(Labels)
-#' @format dataframe
+#' @format data.frame
 #' @examples 
 #' \donttest{
 #' 
 #' 
 #' #View(Labels)
 #' 
+#' #Example 1
 #' ASDs=load_ASDs()
-#' plot(ASDs)
+#' plot(st_geometry(ASDs),main="Example 1")
 #' add_labels(mode='auto',layer='ASDs',fontsize=1,fonttype=2)
+#' 
+#' #Example 2
+#' SSRUs=load_SSRUs()
+#' plot(st_geometry(SSRUs),main="Example 2")
+#' add_labels(mode='auto',layer='SSRUs',fontsize=0.5,fonttype=1)
 #' 
 #' }
 #' 
@@ -195,11 +201,11 @@ NULL
 
 #' Example dataset for create_Pies
 #'
-#' To be used in conjunction with \link{create_Pies}. Count of species per location.
+#' To be used in conjunction with \link{create_Pies}. Count and catch of species per location.
 #'
 #' @docType data
 #' @usage data(PieData)
-#' @format DataFrame
+#' @format data.frame
 #' @examples 
 #' #View(PieData)
 #' 
@@ -209,7 +215,7 @@ NULL
 #'                    Size=50
 #' )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col)
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.5,0.45,0.12,0.45),
 #'               PieTitle="Species")
@@ -220,11 +226,11 @@ NULL
 
 #' Example dataset for create_Pies
 #'
-#' To be used in conjunction with \link{create_Pies}. Count of species per location.
+#' To be used in conjunction with \link{create_Pies}. Count and catch of species per location.
 #'
 #' @docType data
 #' @usage data(PieData2)
-#' @format DataFrame
+#' @format data.frame
 #' @examples 
 #' #View(PieData2)
 #' 
@@ -234,7 +240,7 @@ NULL
 #'                   GridKm=250
 #')
 #'#Plot Pies
-#'plot(MyPies,col=MyPies$col)
+#'plot(st_geometry(MyPies),col=MyPies$col)
 #'#Add Pies legend
 #'add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.3,Boxexp=c(0.5,0.45,0.12,0.45),
 #'              PieTitle="Species")

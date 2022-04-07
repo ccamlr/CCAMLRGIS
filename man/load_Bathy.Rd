@@ -8,7 +8,7 @@ load_Bathy(LocalFile, Res = 5000)
 }
 \arguments{
 \item{LocalFile}{To download the data, set to \code{FALSE}. To re-use a downloaded file, set to the full path of the file 
-(e.g., "C:/Desktop/GEBCO2020_5000.tif").}
+(e.g., "C:/Desktop/GEBCO2021_5000.tif").}
 
 \item{Res}{Desired resolution in meters. May only be one of: 500, 1000, 2500 or 5000.}
 }
@@ -28,10 +28,10 @@ In any case, your file will be downloaded to the folder path given by \code{\lin
 
 To re-use the downloaded data, you must provide the full path to that file, for example:
 
-"C:/Desktop/GEBCO2020_5000.tif".
+"C:/Desktop/GEBCO2021_5000.tif".
 
 This data was reprojected from the original GEBCO Grid after cropping at 40 degrees South. Projection was made using the Lambert
-azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs),
+azimuthal equal-area projection (\code{\link{CCAMLRp}}),
 and the data was aggregated at a several resolutions.
 }
 \examples{
@@ -42,24 +42,21 @@ and the data was aggregated at a several resolutions.
 
 ##Download the data. It will go in the folder given by getwd():
 #Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
-#plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=F)
+#plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 
-##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2020_5000.tif"):
-#Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2020_5000.tif")
-#plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=F)
+##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2021_5000.tif"):
+#Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2021_5000.tif")
+#plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 
 }
 
 }
 \references{
-GEBCO Compilation Group (2020) GEBCO 2020 Grid (doi:10.5285/a29c5465-b138-234d-e053-6c86abc040b9)
+GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f)
 }
 \seealso{
 \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
 \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}},
 \code{\link{create_Stations}},
-\code{\link{SmallBathy}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
-\code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
-\code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_Coastline}},
-\code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+\code{\link{SmallBathy}}.
 }

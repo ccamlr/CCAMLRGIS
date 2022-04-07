@@ -1,4 +1,4 @@
-#' Get depths of locations from bathymetry raster
+#' Get depths of locations from a bathymetry raster
 #'
 #' Given a bathymetry raster and an input dataframe of point locations (given in decimal degrees),
 #' computes the depths at these locations (values for the cell each point falls in). The accuracy is
@@ -15,26 +15,15 @@
 #' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
 #' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
-#' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is recommended to use a raster of higher
+#' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is highly recommended to use a raster of higher
 #' resolution than \code{\link{SmallBathy}} (see \code{\link{load_Bathy}}).
-#' @param d distance in meters, used to group locations by distance and speed up computations (by cutting
-#' the bathymetry raster into small pieces matching the extent of grouped locations). Lower values
-#' make computations faster but at the risk of not finding distances to isobaths (when desired).
-#' @param Isobaths Depths to which the horizontal distances to locations are computed, if required.
-#' @param IsoLocs If \code{TRUE}, the locations on the \code{Iosbaths} that are closest to the
-#' locations given in the \code{Input} are added to the exported dataframe.
-#' @param ShowProgress if set to \code{TRUE}, a progress bar is shown (\code{get_depths} may take a while).
-#' @return dataframe with the same structure as the \code{Input} with additional columns, where 
-#' \code{'x'} and \code{'y'} are the projected locations, \code{'d'} is the depth,
-#' \code{'D_iso'}, \code{'X_iso'} and \code{'Y_iso'} are the horizontal distances and 
-#' closest point location on \code{'Isobaths'}. All units are in meters.
+#' @return dataframe with the same structure as the \code{Input} with an additional depth column \code{'d'}.
 #' 
 #' @seealso 
-#' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{create_Points}},
-#'  \code{\link{create_Stations}}, \code{\link[raster]{extract}}.
+#' \code{\link{load_Bathy}}, \code{\link{create_Points}},
+#'  \code{\link{create_Stations}}.
 #' 
 #' @examples
-#' \donttest{
 #' 
 #' 
 #' #Generate a dataframe
@@ -42,24 +31,12 @@
 #' Lon=PointData$Lon,
 #' Catch=PointData$Catch)
 #' 
-#' #Example 1: get depths of locations
+#' #get depths of locations
 #' MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #' #View(MyDataD)
-#' plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue') #Plot of catch vs depth
+#' plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue')
 #' 
-#' #Example 2: get depths of locations and distance to isobath -3000m
-#' 
-#' MyDataD=get_depths(Input=MyData,Bathy=SmallBathy,
-#'         Isobaths=-3000,IsoLocs=TRUE,d=200000,ShowProgress=TRUE)
-#' plot(MyDataD$x,MyDataD$y,pch=21,bg='green')
-#' raster::contour(SmallBathy,levels=-3000,add=TRUE,col='blue',maxpixels=10000000)
-#' segments(x0=MyDataD$x,
-#'          y0=MyDataD$y,
-#'          x1=MyDataD$X_3000,
-#'          y1=MyDataD$Y_3000,col='red')
 #'
-#'
-#'}
 #'
 #' @export
 
@@ -84,7 +61,7 @@ get_depths=function(Input,Bathy,NamesIn=NULL){
   }
   
   #Project Lat/Lon
-  xy=project_data(Input,NamesIn=NamesIn,append=F)
+  xy=project_data(Input,NamesIn=NamesIn,append=FALSE)
   xy=cbind(xy[,2],xy[,1])
   #extract depths
   ds=terra::extract(Bathy,xy)

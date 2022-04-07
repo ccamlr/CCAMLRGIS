@@ -20,27 +20,27 @@ create_Stations(
 
 \item{Bathy}{bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}}, such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}.}
 
-\item{Depths}{vector of depths. For example, if the depth strata required are 600 to 1000 and 1000 to 2000,
+\item{Depths}{numeric, vector of depths. For example, if the depth strata required are 600 to 1000 and 1000 to 2000,
 \code{Depths=c(-600,-1000,-2000)}.}
 
-\item{N}{vector of number of stations required in each depth strata,
+\item{N}{numeric, vector of number of stations required in each depth strata,
 therefore \code{length(N)} must equal \code{length(Depths)-1}.}
 
-\item{Nauto}{instead of specifying \code{N}, a number of stations proportional to the areas of the depth strata
+\item{Nauto}{numeric, instead of specifying \code{N}, a number of stations proportional to the areas of the depth strata
 may be created. \code{Nauto} is the maximum number of stations required in any depth stratum.}
 
-\item{dist}{if desired, a distance constraint in nautical miles may be applied. For example, if \code{dist=2},
+\item{dist}{numeric, if desired, a distance constraint in nautical miles may be applied. For example, if \code{dist=2},
 stations will be at least 2 nautical miles apart.}
 
-\item{Buf}{distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.}
+\item{Buf}{numeric, distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.}
 
-\item{ShowProgress}{if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).}
+\item{ShowProgress}{logical, if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).}
 }
 \value{
 Spatial object in your environment. Data within the resulting object contains the strata and stations
 locations in both projected space ("x" and "y") and degrees of Latitude/Longitude.
 
-To see the data contained in your spatial object, type: \code{View(MyStations@data)}.
+To see the data contained in your spatial object, type: \code{View(MyStations)}.
 }
 \description{
 Create random point locations inside a polygon and within bathymetry strata constraints.
@@ -49,64 +49,75 @@ A distance constraint between stations may also be used if desired.
 \examples{
 \donttest{
 
-
 #First, create a polygon within which stations will be created
+MyPoly=create_Polys(
+ data.frame(Name="mypol",
+            Latitude=c(-75,-75,-70,-70),
+            Longitude=c(-170,-180,-180,-170))
+ ,Densify=TRUE)
 
-MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
-plot(MyPolys)
-text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
-#Subsample MyPolys to only keep the polygon with ID 'one'
-MyPoly=MyPolys[MyPolys$ID=='one',]
-plot(MyPoly,col='green',add=TRUE)
+par(mai=c(0,0,0,0))
+plot(st_geometry(Coast[Coast$ID=='88.1',]),col='grey')
+plot(st_geometry(MyPoly),col='green',add=TRUE)
+text(MyPoly$Labx,MyPoly$Laby,MyPoly$ID)
 
-#Second (optional), crop your bathymetry raster to match the extent of your polygon
+#Example 1. Set numbers of stations, no distance constraint:
+library(terra)
+#optional: crop your bathymetry raster to match the extent of your polygon
+BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
 
-BathyCroped=raster::crop(SmallBathy,MyPoly)
+#Create stations
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
 
+#add custom colors to the bathymetry to indicate the strata of interest
+MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 1")
+add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
+offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
+plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
+plot(st_geometry(MyStations),add=TRUE,col='orange',cex=0.75,lwd=1.5,pch=3)
 
-#Example 1: Set numbers of stations, no distance constraint
-
-MyStations=create_Stations(Poly=MyPoly,
-           Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
-Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-plot(MyPoly,add=TRUE,border='red',lwd=2)
-raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
-plot(MyStations,add=TRUE,col='orange')
-par(Mypar)
-
-#Example 2: Set numbers of stations, with distance constraint
+#Example 2. Set numbers of stations, with distance constraint:
  
-MyStations=create_Stations(Poly=MyPoly,
-           Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
-Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-plot(MyPoly,add=TRUE,border='red',lwd=2)
-raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
-plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
-plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
-plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
-par(Mypar)
+#Create Stations
+MyStations=create_Stations(MyPoly,BathyCroped,
+                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
 
-#Example 3: Automatic numbers of stations, with distance constraint
+#add custom colors to the bathymetry to indicate the strata of interest
+MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 2")
+add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
+offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
+plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
+plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),
+pch=21,bg='yellow',add=TRUE,cex=0.75,lwd=0.1)
+plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),
+pch=21,bg='orange',add=TRUE,cex=0.75,lwd=0.1)
+plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),
+pch=21,bg='red',add=TRUE,cex=0.75,lwd=0.1)
 
-MyStations=create_Stations(Poly=MyPoly,
-           Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
-Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-plot(MyPoly,add=TRUE,border='red',lwd=2)
-raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
-plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
-plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
-plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
-par(Mypar)
+#Example 3. Automatic numbers of stations, with distance constraint:
+ 
+#Create Stations
+MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
+
+#add custom colors to the bathymetry to indicate the strata of interest
+MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 3")
+add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
+offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
+plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
+plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),
+pch=21,bg='yellow',add=TRUE,cex=0.75,lwd=0.1)
+plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),
+pch=21,bg='orange',add=TRUE,cex=0.75,lwd=0.1)
+plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),
+pch=21,bg='red',add=TRUE,cex=0.75,lwd=0.1)
+
 
 }
 
 }
 \seealso{
-\code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{add_RefGrid}}.
+\code{\link{create_Polys}}, \code{\link{SmallBathy}}.
 }

@@ -39,8 +39,7 @@ Create functions are used to create geo-referenced layers from user-generated da
 
 \section{Vignette}{
 
-To learn more about CCAMLRGIS, start with the vignette:
-\code{browseVignettes(package = "CCAMLRGIS")}
+To learn more about CCAMLRGIS, start with the \href{https://github.com/ccamlr/CCAMLRGIS#table-of-contents}{GitHub ReadMe}.
 }
 
 \seealso{

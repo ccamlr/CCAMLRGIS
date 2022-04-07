@@ -1,6 +1,6 @@
 utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols2','Depth_cuts2',
 'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID','PieData','PieData2',
-'Lat','Lon','N','Tot','p'))
+'Lat','Lon','N','Tot','p','Ass_Ar_Key'))
 #' 
 #' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
 #' All operations use the Lambert azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs).
@@ -33,8 +33,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' }
 #' 
 #' @section Vignette:
-#' To learn more about CCAMLRGIS, start with the vignette:
-#' \code{browseVignettes(package = "CCAMLRGIS")}
+#' To learn more about CCAMLRGIS, start with the \href{https://github.com/ccamlr/CCAMLRGIS#table-of-contents}{GitHub ReadMe}.
 #' 
 #' @seealso 
 #' The CCAMLRGIS package relies on several other package which users may want to familiarize themselves with,
@@ -43,14 +42,16 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' 
 #'  
 #' @docType package
+#' @import sp
 #' @import sf
 #' @import geosphere
 #' @importFrom dplyr distinct group_by summarise_all left_join
 #' @importFrom grDevices colorRampPalette recordPlot replayPlot
-#' @importFrom graphics par rect segments text
+#' @importFrom graphics par rect segments text lines abline legend
 #' @importFrom stats quantile median
 #' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu download.file
 #' @importFrom magrittr %>%
-#' @importFrom terra rast crop ext mask vect classify expanse extract extend clamp as.polygons plot
+#' @importFrom terra rast crop ext mask vect classify expanse extract extend clamp as.polygons plot click
+#' @importFrom raster raster plot
 #' @name CCAMLRGIS
 NULL

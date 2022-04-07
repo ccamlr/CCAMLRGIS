@@ -5,7 +5,7 @@
 \alias{CCAMLRp}
 \title{CCAMLRGIS Projection}
 \format{
-Character string
+character string
 }
 \usage{
 data(CCAMLRp)

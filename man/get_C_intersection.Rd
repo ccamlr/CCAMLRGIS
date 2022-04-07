@@ -13,7 +13,7 @@ get_C_intersection(Line1, Line2, Plot = TRUE)
 
 \item{Line2}{Same as \code{Line1}.}
 
-\item{Plot}{Logical (TRUE or FALSE), plot a schematic of calculations.}
+\item{Plot}{logical, if set to TRUE, plots a schematic of calculations.}
 }
 \description{
 Given two lines defined by the Latitudes/Longitudes of their extremities, finds the location of their 
@@ -25,19 +25,19 @@ intersection, in Euclidean space, using
 
 
 #Example 1 (Intersection beyond the range of segments)
-get_cart_intersection(Line1=c(-30,-55,-29,-50),Line2=c(-50,-60,-40,-60))
+get_C_intersection(Line1=c(-30,-55,-29,-50),Line2=c(-50,-60,-40,-60))
 
 #Example 2 (Intersection on one of the segments)
-get_cart_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-40,-60))
+get_C_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-40,-60))
 
 #Example 3 (Crossed segments)
-get_cart_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-25,-60))
+get_C_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-25,-60))
 
 #Example 4 (Antimeridian crossed)
-get_cart_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
+get_C_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
 
-#Example 5 (Parallel lines)
-get_cart_intersection(Line1=c(0,-60,10,-60),Line2=c(-10,-60,10,-60))
+#Example 5 (Parallel lines - uncomment to test as it will return an error)
+#get_C_intersection(Line1=c(0,-60,10,-60),Line2=c(-10,-60,10,-60))
 
 
 }

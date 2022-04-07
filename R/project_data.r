@@ -1,9 +1,9 @@
 #' Project user-supplied locations
 #'
-#' Given an input dataframe containing locations (given in decimal degrees or meters),
-#' projects these locations and, if desired, appends them to the dataframe.
+#' Given an input dataframe containing locations given in decimal degrees or meters (if projected),
+#' projects these locations and, if desired, appends them to the input dataframe.
 #' May also be used to back-project to Latitudes/Longitudes provided the input was projected
-#' using a Lambert azimuthal equal-area projection.
+#' using a Lambert azimuthal equal-area projection (\code{\link{CCAMLRp}}).
 #' 
 #' @param Input dataframe containing - at the minimum - Latitudes and Longitudes to be projected (or Y and X to be back-projected).
 #' 
@@ -12,13 +12,13 @@
 #' 
 #' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
-#' @param NamesOut optional. Names of the resulting columns in the output dataframe,
+#' @param NamesOut character vector of length 2, optional. Names of the resulting columns in the output dataframe,
 #' with order matching that of \code{NamesIn} (e.g., \code{NamesOut=c('Y','X')}).
 #' 
-#' @param append TRUE or FALSE. Should the projected locations be appended to the \code{Input}?
+#' @param append logical (T/F). Should the projected locations be appended to the \code{Input}?
 #' 
-#' @param inv TRUE or FALSE. Should a back-projection be performed? In such case, locations must be given in meters
-#' and have been projected using a Lambert azimuthal equal-area projection.
+#' @param inv logical (T/F). Should a back-projection be performed? In such case, locations must be given in meters
+#' and have been projected using a Lambert azimuthal equal-area projection (\code{\link{CCAMLRp}}).
 #' 
 #'
 #' @seealso 
@@ -33,7 +33,7 @@
 #' 
 #' #Project data using a Lambert azimuthal equal-area projection
 #' MyData=project_data(Input=MyData,NamesIn=c("Lat","Lon"))
-#' 
+#' #View(MyData)
 #' 
 #' @export
 
