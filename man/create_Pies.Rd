@@ -26,22 +26,22 @@ Class and value fields in the \code{Input}.
 
 \code{NamesIn=c('Latitude','Longitude','Class','Value')}}.}
 
-\item{Classes}{optional character vector of classes to be displayed. If this excludes classes that are in the \code{Input},
+\item{Classes}{character, optional vector of classes to be displayed. If this excludes classes that are in the \code{Input},
 those excluded classes will be pooled in a 'Other' class.}
 
-\item{cols}{vector of two or more color names to colorize pie pieces.}
+\item{cols}{character, vector of two or more color names to colorize pie pieces.}
 
-\item{Size}{numeric value controlling the size of pies.}
+\item{Size}{numeric, value controlling the size of pies.}
 
-\item{SizeVar}{optional, name of the field in the \code{Input} that should be used to scale the area of pies.
-Must be unique to locations.}
+\item{SizeVar}{numeric, optional, name of the field in the \code{Input} that should be used to scale the area of pies.
+Must be unique to locations in the input.}
 
-\item{GridKm}{optional, cell size of the grid in kilometers. If provided, locations are pooled by grid
+\item{GridKm}{numeric, optional, cell size of the grid in kilometers. If provided, locations are pooled by grid
 cell and values are summed for each class.}
 
-\item{Other}{optional, percentage threshold below which classes are pooled in a 'Other' class.}
+\item{Other}{numeric, optional, percentage threshold below which classes are pooled in a 'Other' class.}
 
-\item{Othercol}{optional, color of the pie piece for the 'Other' class.}
+\item{Othercol}{character, optional, color of the pie piece for the 'Other' class.}
 }
 \value{
 Spatial object in your environment, ready to be plotted.

@@ -410,7 +410,7 @@ create_Points=function(Input,NamesIn=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE){
 #' @param Buf numeric, distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.
 #' @param ShowProgress logical, if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).
 #' @return Spatial object in your environment. Data within the resulting object contains the strata and stations
-#' locations in both projected space ("x" and "y") and degrees of Latitude/Longitude.
+#' locations in both projected space ("x" and "y") and decimal degrees of Latitude/Longitude.
 #' 
 #' To see the data contained in your spatial object, type: \code{View(MyStations)}.
 #'

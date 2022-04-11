@@ -18,7 +18,7 @@ get_C_intersection(Line1, Line2, Plot = TRUE)
 \description{
 Given two lines defined by the Latitudes/Longitudes of their extremities, finds the location of their 
 intersection, in Euclidean space, using 
-\href{https://en.wikipedia.org/wiki/Line-line_intersection}{this approach}.
+this approach: \url{https://en.wikipedia.org/wiki/Line-line_intersection}.
 }
 \examples{
 \donttest{

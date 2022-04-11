@@ -32,41 +32,41 @@ add_PieLegend(
 
 \item{PosY}{numeric, vertical adjustment of legend.}
 
-\item{Size}{numeric value controlling the size of pies.}
+\item{Size}{numeric, controls the size of pies.}
 
-\item{lwd}{numeric value controlling the line thickness of pies.}
+\item{lwd}{numeric, line thickness of pies.}
 
-\item{Boxexp}{numeric vector of length 4 controlling the expansion of the legend box, given
+\item{Boxexp}{numeric, vector of length 4 controls the expansion of the legend box, given
 as \code{c(xmin,xmax,ymin,ymax)}.}
 
-\item{Boxbd}{color of the background of the legend box.}
+\item{Boxbd}{character, color of the background of the legend box.}
 
-\item{Boxlwd}{numeric value controlling the line thickness of the legend box.}
+\item{Boxlwd}{numeric, line thickness of the legend box.}
 
-\item{Labexp}{numeric value controlling the distance of the pie labels to the center of the pie.}
+\item{Labexp}{numeric, controls the distance of the pie labels to the center of the pie.}
 
-\item{fontsize}{Size of the legend font.}
+\item{fontsize}{numeric, size of the legend font.}
 
-\item{LegSp}{Numeric, spacing between the pie and the size chart (only used if \code{SizeVar}
+\item{LegSp}{numeric, spacing between the pie and the size chart (only used if \code{SizeVar}
 was specified in \link{create_Pies}).}
 
-\item{Horiz}{Logical. Set to FALSE if vertical layout is desired (only used if \code{SizeVar}
+\item{Horiz}{logical. Set to FALSE for vertical layout (only used if \code{SizeVar}
 was specified in \link{create_Pies}).}
 
-\item{PieTitle}{Character, title of the pie chart.}
+\item{PieTitle}{character, title of the pie chart.}
 
-\item{SizeTitle}{Character, title of the size chart (only used if \code{SizeVar}
+\item{SizeTitle}{character, title of the size chart (only used if \code{SizeVar}
 was specified in \link{create_Pies}).}
 
-\item{PieTitleVadj}{numeric value controlling the vertical adjustment of the title of the pie chart.}
+\item{PieTitleVadj}{numeric, vertical adjustment of the title of the pie chart.}
 
-\item{SizeTitleVadj}{numeric value controlling the vertical adjustment of the title of the size chart (only used if \code{SizeVar}
+\item{SizeTitleVadj}{numeric, vertical adjustment of the title of the size chart (only used if \code{SizeVar}
 was specified in \link{create_Pies}).}
 
 \item{nSizes}{integer, number of size classes to display in the size chart. Minimum and maximum sizes are
 displayed by default. (only used if \code{SizeVar} was specified in \link{create_Pies}).}
 
-\item{SizeClasses}{numeric vector (e.g. c(1,10,100)) to select the size classes to display in the size chart
+\item{SizeClasses}{numeric, vector (e.g. c(1,10,100)) of size classes to display in the size chart
 (only used if \code{SizeVar} was specified in \link{create_Pies}). If set, overrides \code{nSizes}.}
 }
 \value{

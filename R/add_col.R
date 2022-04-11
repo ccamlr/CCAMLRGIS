@@ -20,7 +20,7 @@
 #' 
 #' @examples
 #' 
-#' #Example 1: add color to points
+#' #Example 1: add colors to points
 #' 
 #' MyPoints=create_Points(PointData)
 #' MyCols=add_col(MyPoints$Nfishes) #With default cols and cuts

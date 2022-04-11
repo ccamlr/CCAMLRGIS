@@ -2,7 +2,7 @@
 #'
 #' Given two lines defined by the Latitudes/Longitudes of their extremities, finds the location of their 
 #' intersection, in Euclidean space, using 
-#' \href{https://en.wikipedia.org/wiki/Line-line_intersection}{this approach}.
+#' this approach: \url{https://en.wikipedia.org/wiki/Line-line_intersection}.
 #'  
 #' @param Line1 Vector of 4 coordinates, given in decimal degrees as: 
 #' 

@@ -38,7 +38,7 @@ stations will be at least 2 nautical miles apart.}
 }
 \value{
 Spatial object in your environment. Data within the resulting object contains the strata and stations
-locations in both projected space ("x" and "y") and degrees of Latitude/Longitude.
+locations in both projected space ("x" and "y") and decimal degrees of Latitude/Longitude.
 
 To see the data contained in your spatial object, type: \code{View(MyStations)}.
 }

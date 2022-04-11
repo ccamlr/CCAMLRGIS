@@ -2,7 +2,7 @@
 #'
 #' Given a bathymetry raster and an input dataframe of point locations (given in decimal degrees),
 #' computes the depths at these locations (values for the cell each point falls in). The accuracy is
-#' dependent on the resolution of the bathymetry raster (see \code{\link{load_Bathy}} to get high resolution).
+#' dependent on the resolution of the bathymetry raster (see \code{\link{load_Bathy}} to get high resolution data).
 #' 
 #' @param Input dataframe with, at least, Latitudes and Longitudes.
 #' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:

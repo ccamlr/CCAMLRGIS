@@ -570,7 +570,7 @@ proportional to a chosen variable (if that variable is different than
 the value mentioned above, the *Input* data must have a fifth column and
 that variable must be unique to each location). If the *Input* data
 contains locations that are too close together, the data can be gridded
-by setting *GridKm* (see Examples 7-9). Once pie charts have been
+by setting *GridKm* (see Examples 6-8). Once pie charts have been
 created, the function *add_PieLegend()* may be used to add a legend to
 the figure.
 
@@ -853,7 +853,7 @@ bathymetry data for later use, see ?load_Bathy for details.
 
 ### 4.1. get_depths
 
-Given a bathymetry raster and a an input dataframe of
+Given a bathymetry raster and an input dataframe of
 latitudes/longitudes, this function computes the depths at these
 locations. The examples below use the ‘SmallBathy’ data for illustrative
 purposes; users should use a higher resolution bathymetry dataset

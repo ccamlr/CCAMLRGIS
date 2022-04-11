@@ -32,11 +32,11 @@ we have the following:
 
 \code{'GAR_Long_Label'} (default) e.g., \code{'88.2'}
 
-Several values may be entered if desired (if several \code{Polys} are used), e.g.:
+Several values may be entered if several \code{Polys} are used, e.g.:
 
 \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.}
 
-\item{Buffer}{distance in nautical miles to be added around the \code{Polys} of interest.
+\item{Buffer}{numeric, distance in nautical miles to be added around the \code{Polys} of interest.
 Can be specified for each of the \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 \code{Buffer} nautical miles of a polygon.}
 
@@ -45,7 +45,7 @@ the \code{Input}. \strong{Latitudes name must be given first, e.g.:
 
 \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 
-\item{NamesOut}{names of the resulting column names in the output dataframe,
+\item{NamesOut}{character, names of the resulting column names in the output dataframe,
 with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
 If not provided will be set as equal to \code{Polys}.}
 }

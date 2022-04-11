@@ -3,10 +3,10 @@
 #' Adds a color scale to plots. Default behavior set for bathymetry. May also be used to 
 #' place a \code{\link[graphics]{legend}}.
 #' 
-#' @param pos character, fraction indicating the vertical position of the color scale (which is always on the 
+#' @param pos character, fraction indicating the vertical position of the color scale (which, by default, is on the 
 #' right side of plots). if \code{pos="1/1"}, the color scale will be centered. 
-#' if \code{pos="1/2"}, the color scale will in the top half of the plotting region.
-#' if \code{pos="2/2"}, the color scale will in the bottom half of the plotting region.
+#' if \code{pos="1/2"}, the color scale will be centered on the top half of the plotting region.
+#' if \code{pos="2/2"}, the color scale will be centered on the bottom half of the plotting region.
 #' @param title character, title of the color scale.
 #' @param width numeric, width of the color scale box, expressed in \% of the width of the plotting region.
 #' @param height numeric, height of the color scale box, expressed in \% of the height of the plotting region.
@@ -15,7 +15,7 @@
 #' @param minVal numeric, if desired, the color scale may be generated starting from the value \code{minVal}. See examples.
 #' @param maxVal numeric, if desired, the color scale may be generated up to the value \code{maxVal}. See examples.
 #' @param fontsize numeric, size of the text in the color scale.
-#' @param offset numeric, controls the horizontal position of the color scale. Increase to distance from the plotting region.
+#' @param offset numeric, controls the horizontal position of the color scale.
 #' @param lwd numeric, thickness of lines.
 #' @param mode character, if 'Cscale', the default, the function builds a color scale. if 'Legend', the function
 #' gives you the location of a \code{\link[graphics]{legend}}, arguments \code{pos}, \code{offset} and \code{height}
@@ -47,7 +47,7 @@
 #' #Example 5: Adding two color scales
 #' 
 #' plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
-#' add_Cscale(pos='1/2',height=45,maxVal=-1,minVal=-4000,fontsize=0.8)
+#' add_Cscale(pos='1/2',height=45,maxVal=0,minVal=-4000,fontsize=0.8)
 #' #Some gridded data
 #' MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
 #' Gridcol=add_col(MyGrid$Catch_sum,cuts=10)
@@ -65,7 +65,7 @@
 #' library(terra)
 #' BathyCr=crop(rast(SmallBathy),extend(ext(MyPoints),100000))
 #' plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0,0,0,7))
-#' add_Cscale(pos='1/2',height=45,maxVal=-1,minVal=-4000,fontsize=0.8)
+#' add_Cscale(pos='1/2',height=45,maxVal=0,minVal=-4000,fontsize=0.8)
 #' 
 #' #Plot points with different symbols and colors (see ?points)
 #' Psymbols=c(21,22,23,24)

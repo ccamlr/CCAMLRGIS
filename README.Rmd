@@ -543,7 +543,7 @@ plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),pch=21,bg='red',a
 
 ### 2.3. Create pies
 
-The function *create_Pies()* generates pie charts that can be overlaid on maps. The *Input* data must be a dataframe with, at least, columns for latitude, longitude, class and value. For each location, a pie is created with pie pieces for each class, and the size of each pie piece depends on the proportion of each class (the value of each class divided by the sum of values). Optionally, the area of each pie can be proportional to a chosen variable (if that variable is different than the value mentioned above, the *Input* data must have a fifth column and that variable must be unique to each location). If the *Input* data contains locations that are too close together, the data can be gridded by setting *GridKm* (see Examples 7-9). Once pie charts have been created, the function *add_PieLegend()* may be used to add a legend to the figure.
+The function *create_Pies()* generates pie charts that can be overlaid on maps. The *Input* data must be a dataframe with, at least, columns for latitude, longitude, class and value. For each location, a pie is created with pie pieces for each class, and the size of each pie piece depends on the proportion of each class (the value of each class divided by the sum of values). Optionally, the area of each pie can be proportional to a chosen variable (if that variable is different than the value mentioned above, the *Input* data must have a fifth column and that variable must be unique to each location). If the *Input* data contains locations that are too close together, the data can be gridded by setting *GridKm* (see Examples 6-8). Once pie charts have been created, the function *add_PieLegend()* may be used to add a legend to the figure.
 
 For details, type:
 
@@ -797,7 +797,7 @@ The *load_Bathy()* function may also be used to download and store bathymetry da
 
 ### 4.1. get_depths
 
-Given a bathymetry raster and a an input dataframe of latitudes/longitudes, this function computes the depths at these locations. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
+Given a bathymetry raster and an input dataframe of latitudes/longitudes, this function computes the depths at these locations. The examples below use the 'SmallBathy' data for illustrative purposes; users should use a higher resolution bathymetry dataset instead, as obtained via the *load_Bathy()* function.
 
 For details, type:
 

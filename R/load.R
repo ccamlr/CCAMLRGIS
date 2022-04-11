@@ -1,6 +1,6 @@
 #' Load CCAMLR statistical Areas, Subareas and Divisions
 #'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -38,7 +38,7 @@ load_ASDs=function(){
 
 #' Load CCAMLR Small Scale Research Units
 #'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -76,7 +76,7 @@ load_SSRUs=function(){
 
 #' Load the full CCAMLR Coastline
 #' 
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #' Note that this coastline expands further north than \link{Coast}.
@@ -115,7 +115,7 @@ load_Coastline=function(){
 
 #' Load CCAMLR Research Blocks
 #'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -153,7 +153,7 @@ load_RBs=function(){
 
 #' Load CCAMLR Small Scale Management Units
 #'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -191,7 +191,7 @@ load_SSMUs=function(){
 
 #' Load CCAMLR Management Areas
 #'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -229,7 +229,7 @@ load_MAs=function(){
 
 #' Load CCAMLR Marine Protected Areas
 #'
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -268,7 +268,7 @@ load_MPAs=function(){
 
 #' Load Exclusive Economic Zones
 #' 
-#' Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
 #'  (\code{\link{CCAMLRp}})
 #'
@@ -307,7 +307,7 @@ load_EEZs=function(){
 
 #' Load Bathymetry data
 #' 
-#' Download the up-to-date projected GEBCO data from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+#' Download the up-to-date projected GEBCO data from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' This functions can be used in two steps, to first download the data and then use it. If you keep the downloaded data, you can then
 #' re-use it in all your scripts.
 #' 
@@ -318,14 +318,14 @@ load_EEZs=function(){
 #' 
 #' To re-use the downloaded data, you must provide the full path to that file, for example:
 #' 
-#' "C:/Desktop/GEBCO2021_5000.tif".
+#' \code{LocalFile="C:/Desktop/GEBCO2021_5000.tif"}.
 #' 
 #' This data was reprojected from the original GEBCO Grid after cropping at 40 degrees South. Projection was made using the Lambert
 #' azimuthal equal-area projection (\code{\link{CCAMLRp}}),
-#' and the data was aggregated at a several resolutions.
+#' and the data was aggregated at several resolutions.
 #' 
 #' @param LocalFile To download the data, set to \code{FALSE}. To re-use a downloaded file, set to the full path of the file 
-#' (e.g., "C:/Desktop/GEBCO2021_5000.tif").
+#' (e.g., \code{LocalFile="C:/Desktop/GEBCO2021_5000.tif"}).
 #' @param Res Desired resolution in meters. May only be one of: 500, 1000, 2500 or 5000.
 #' @return Bathymetry raster.
 #' 

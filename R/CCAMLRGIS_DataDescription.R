@@ -1,9 +1,9 @@
 #' CCAMLRGIS Projection
 #'
-#' The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
+#' The CCAMLRGIS package uses the Lambert azimuthal equal-area projection (see \url{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}).
 #' Source: \url{http://gis.ccamlr.org/}.
 #' In order to align with recent developments within Geographic Information Software, this projection
-#' will be accessed via EPSG code \href{https://epsg.org/crs_6932/WGS-84-NSIDC-EASE-Grid-2-0-South.html}{6932}.
+#' will be accessed via EPSG code 6932 (see \url{https://epsg.org/crs_6932/WGS-84-NSIDC-EASE-Grid-2-0-South.html}).
 #' 
 #' @docType data
 #' @usage data(CCAMLRp)
@@ -149,7 +149,7 @@ NULL
 
 #' Small bathymetry dataset
 #'
-#' Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2021} dataset.
+#' Bathymetry dataset derived from the GEBCO 2021 (see \url{https://www.gebco.net/}) dataset.
 #' Subsampled at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 #' To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 #' \strong{To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
