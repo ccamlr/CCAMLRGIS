@@ -82,17 +82,11 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   if(length(Buffer)==1 & length(Polys)>1){Buffer=rep(Buffer,length(Polys))}
   #Repeat AreaNameFormat if needed
   if(length(AreaNameFormat)==1 & length(Polys)>1){AreaNameFormat=rep(AreaNameFormat,length(Polys))}
-  #Create Key
-  if(is.null(NamesIn)==TRUE){
-    Input$Ass_Ar_Key=paste0(Input[,1],'|',Input[,2])     
-  }else{
-    Input$Ass_Ar_Key=paste0(Input[,NamesIn[1]],'|',Input[,NamesIn[2]])
-  }
   #Get locations
   if(is.null(NamesIn)==TRUE){
-  Locs=Input[,c(2,1,ncol(Input))]
+  Locs=Input[,c(2,1)]
   }else{
-  Locs=Input[,c(NamesIn[c(2,1)],"Ass_Ar_Key")]  
+  Locs=Input[,c(NamesIn[c(2,1)])]  
   }
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
@@ -122,7 +116,8 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   SPls=st_transform(x=SPls,crs=6932)
   #Initialize a dataframe which will collate assigned Polys
   Assigned_Areas=data.frame(matrix(NA,nrow=dim(Locu)[1],ncol=length(Polys),dimnames=list(NULL,NamesOut)))
-  Assigned_Areas$Ass_Ar_Key=SPls$Ass_Ar_Key
+  Assigned_Areas$Lat=Locu[,2]
+  Assigned_Areas$Lon=Locu[,1]
   #loop over Polys to assign them to locations
   for(i in seq(1,length(Polys))){
     #Get each Area sequentially
@@ -134,12 +129,21 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
     #Match points to polygons
     match=sapply(st_intersects(SPls,tmpArea), function(z) if (length(z)==0) NA_integer_ else z[1])
     tmpArea=st_drop_geometry(tmpArea)
+    if(ncol(tmpArea)==1){tmpArea$xyz123=NA}#Add empty column to avoid subsetting error when only 1 column
     match=tmpArea[match,]
     #Store results (an Area name per unique location)
     Assigned_Areas[,NamesOut[i]]=as.character(match[,AreaNameFormat[i]])
   }
   #Merge Assigned_Areas to Input
-  Input=dplyr::left_join(Input,Assigned_Areas,by="Ass_Ar_Key")
-  Input=Input%>%dplyr::select(-Ass_Ar_Key)%>%as.data.frame()
+  join_cols=c("Lat","Lon")
+  
+  if(is.null(NamesIn)==TRUE){
+    names(join_cols)=colnames(Input)[c(1,2)]
+  }else{
+    names(join_cols)=NamesIn
+  }
+  
+  Input=dplyr::left_join(Input,Assigned_Areas,by = join_cols)
+  Input=as.data.frame(Input)
   return(Input)
 }

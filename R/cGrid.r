@@ -207,7 +207,7 @@ if(is.na(Area)==TRUE){
     Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(data$ID)))}
   #Merge data to Polygons
   Group$ID=as.character(Group$ID)
-  Group=left_join(Group,Sdata,by="ID")
+  Group=dplyr::left_join(Group,Sdata,by="ID")
 
   #Add colors
   GroupData=st_drop_geometry(Group)

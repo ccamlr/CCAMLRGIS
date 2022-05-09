@@ -18,17 +18,21 @@ package](https://CRAN.R-project.org/package=sf), users may need to
 familiarize themselves with it. For those that were using older
 versions, the main difference is in plotting commands.
 
-Plotting a spatial object X used to be:
+Plotting a spatial object *MyObject* used to be:
 
 ``` r
-plot(X)
+plot(MyObject)
 ```
 
 Since V4, it will be:
 
 ``` r
-plot(st_geometry(X))
+plot(st_geometry(MyObject))
 ```
+
+Also, to access the data inside spatial objects, instead of
+<MyObject@data>, type MyObject directly. You can revert to *sp* objects
+with as_Spatial(MyObject) if preferred.
 
 Using *sf* objects has advantages such as the ability to use [Tidyverse
 methods](https://r-spatial.github.io/sf/reference/tidyverse.html).

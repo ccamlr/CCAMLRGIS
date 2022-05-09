@@ -8,7 +8,7 @@ with:
 
 plot(st_geometry(MyObject))
 
-We apologize for any inconvenience.
+Also, to access the data inside objects, instead of MyObject@data, type MyObject directly.
 
 Convert sf objects to sp objects using as_Spatial() if preferred.
 
