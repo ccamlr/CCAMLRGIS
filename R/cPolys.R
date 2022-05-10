@@ -16,36 +16,39 @@ cPolys=function(Input,Densify=FALSE){
       lons=tmp[,1]
       lats=tmp[,2]
     }
-    Pl[[i]]=Polygons(list(Polygon(cbind(lons,lats),hole=FALSE)),as.character(ids[i]))
+    Pl[[i]]=st_polygon(list(cbind(lons,lats)))
   }
-  Locs=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:4326"))
+  Locs=st_sfc(Pl, crs = 4326)
   #Summarise data
   Input=as.data.frame(Input[,-c(2,3)])
   colnames(Input)[1]='ID'
   nums = which(unlist(lapply(Input, is.numeric))==TRUE)
   if(length(nums)>0){
-  Input=Input[,c(1,nums)]
-  Sdata=Input%>%
-    group_by(ID)%>%
-    summarise_all(list(min=~min(.,na.rm=TRUE),
-                       max=~max(.,na.rm=TRUE),
-                       mean=~mean(.,na.rm=TRUE),
-                       sum=~sum(.,na.rm=TRUE),
-                       count=~length(.),
-                       sd=~sd(.,na.rm=TRUE),
-                       median=~median(.,na.rm=TRUE)))
-  Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(Input$ID)))}
-  #Merge data to SpatialLines
+    Input=Input[,c(1,nums)]
+    Sdata=Input%>%
+      group_by(ID)%>%
+      summarise_all(list(min=~min(.,na.rm=TRUE),
+                         max=~max(.,na.rm=TRUE),
+                         mean=~mean(.,na.rm=TRUE),
+                         sum=~sum(.,na.rm=TRUE),
+                         count=~length(.),
+                         sd=~sd(.,na.rm=TRUE),
+                         median=~median(.,na.rm=TRUE)))
+    Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(Input$ID)))}
+  #Merge data to polys
   row.names(Sdata)=Sdata$ID
-  Locs=SpatialPolygonsDataFrame(Locs,Sdata)
+  if(length(ids)>1 & ncol(Sdata)>1){
+  Sdata=Sdata[match(ids,Sdata$ID),]
+  }
+  Locs=st_set_geometry(Sdata,Locs)
   #Project
-  Locs=spTransform(Locs,CRS("+init=epsg:6932"))
+  Locs=st_transform(x=Locs,crs=6932)
   #Get areas
-  Ar=round(gArea(Locs,byid=TRUE)/1000000,1)
-  Locs$AreaKm2=as.numeric(Ar)[match(Locs$ID,names(Ar))]
+  Ar=round(st_area(Locs)/1000000,1)
+  Locs$AreaKm2=as.numeric(Ar)
   #Get labels locations
-  labs=coordinates(gCentroid(Locs,byid=TRUE))
-  Locs$Labx=labs[match(Locs$ID,row.names(labs)),'x']
-  Locs$Laby=labs[match(Locs$ID,row.names(labs)),'y']
+  labs=st_coordinates(st_centroid(st_geometry(Locs)))
+  Locs$Labx=labs[,1]
+  Locs$Laby=labs[,2]
   return(Locs)
 }

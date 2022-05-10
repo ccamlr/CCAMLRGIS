@@ -5,7 +5,7 @@
 \alias{Depth_cuts}
 \title{Bathymetry depth classes}
 \format{
-Numeric vector
+numeric vector
 }
 \usage{
 data(Depth_cuts)

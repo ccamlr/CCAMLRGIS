@@ -9,8 +9,8 @@ assign_areas(
   Polys,
   AreaNameFormat = "GAR_Long_Label",
   Buffer = 0,
-  NamesOut = NULL,
-  NamesIn = NULL
+  NamesIn = NULL,
+  NamesOut = NULL
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ assign_areas(
 \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 Latitude, Longitude, Variable 1, Variable 2, ... Variable x.}.}
 
-\item{Polys}{character vector of spatial objects names (e.g., \code{Polys=c('ASDs','RBs')}).
+\item{Polys}{character vector of polygon names (e.g., \code{Polys=c('ASDs','RBs')}).
 
 \strong{Must be matching the names of the pre-loaded spatial objects (loaded via e.g., \code{ASDs=load_ASDs()})}}
 
@@ -32,22 +32,22 @@ we have the following:
 
 \code{'GAR_Long_Label'} (default) e.g., \code{'88.2'}
 
-Several values may be entered if desired (if several \code{Polys} are used), e.g.:
+Several values may be entered if several \code{Polys} are used, e.g.:
 
 \code{c('GAR_Short_Label','GAR_Name')}, in which case \code{AreaNameFormat} must be given in the same order as \code{Polys}.}
 
-\item{Buffer}{distance in nautical miles to be added around the \code{Polys} of interest.
-Can be specified for each of the spatial objects named in \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
+\item{Buffer}{numeric, distance in nautical miles to be added around the \code{Polys} of interest.
+Can be specified for each of the \code{Polys} (e.g., \code{Buffer=c(2,5)}). Useful to determine whether locations are within
 \code{Buffer} nautical miles of a polygon.}
-
-\item{NamesOut}{names of the resulting area columns in the output dataframe,
-with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
-If not provided will be set as equal to \code{Polys}.}
 
 \item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
 the \code{Input}. \strong{Latitudes name must be given first, e.g.:
 
 \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+
+\item{NamesOut}{character, names of the resulting column names in the output dataframe,
+with order matching that of \code{Polys} (e.g., \code{NamesOut=c('Recapture_ASD','Recapture_RB')}).
+If not provided will be set as equal to \code{Polys}.}
 }
 \value{
 dataframe with the same structure as the \code{Input}, with additional columns corresponding
@@ -56,7 +56,7 @@ to the \code{Polys} used and named after \code{NamesOut}.
 \description{
 Given a set of polygons and a set of point locations (given in decimal degrees),
 finds in which polygon those locations fall.
-Finds, for example, in which ASD the given fishing locations occurred.
+Finds, for example, in which Subarea the given fishing locations occurred.
 }
 \examples{
 \donttest{

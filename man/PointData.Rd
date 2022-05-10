@@ -5,7 +5,7 @@
 \alias{PointData}
 \title{Example dataset for create_Points}
 \format{
-DataFrame
+data.frame
 }
 \usage{
 data(PointData)
@@ -17,9 +17,9 @@ To be used in conjunction with \link{create_Points}.
 #View(PointData)
 
 MyPoints=create_Points(PointData)
-plot(MyPoints)
+plot(st_geometry(MyPoints))
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
-plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
+plot(st_geometry(MyPoints[MyPoints$name=='four',]),bg='red',pch=21,cex=1.5,add=TRUE)
 }
 \seealso{
 \code{\link{create_Points}}.

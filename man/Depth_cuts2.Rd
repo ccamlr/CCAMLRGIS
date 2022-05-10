@@ -5,13 +5,13 @@
 \alias{Depth_cuts2}
 \title{Bathymetry depth classes with Fishable Depth range}
 \format{
-Numeric vector
+numeric vector
 }
 \usage{
 data(Depth_cuts2)
 }
 \description{
-Set of depth classes to plot bathymetry and highlight Fishable Depth range, to be used in conjunction with \link{Depth_cols2}.
+Set of depth classes to plot bathymetry and highlight Fishable Depth range (600-1800), to be used in conjunction with \link{Depth_cols2}.
 }
 \examples{
 plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)

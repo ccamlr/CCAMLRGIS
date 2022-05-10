@@ -11,9 +11,8 @@ raster
 data(SmallBathy)
 }
 \description{
-Bathymetry dataset derived from the \href{https://www.gebco.net/}{GEBCO 2020} dataset.
-Subsampled using raster's \link[raster]{resample} function, using the nearest neighbor method
-at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
+Bathymetry dataset derived from the GEBCO 2021 (see \url{https://www.gebco.net/}) dataset.
+Subsampled at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 \strong{To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
 to get higher resolution data.}
@@ -22,7 +21,7 @@ to get higher resolution data.}
 plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 }
 \references{
-GEBCO Compilation Group (2020) GEBCO 2020 Grid (doi:10.5285/a29c5465-b138-234d-e053-6c86abc040b9)
+GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f)
 }
 \seealso{
 \code{\link{load_Bathy}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}},

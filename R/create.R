@@ -2,9 +2,7 @@
 #'
 #' Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 #'
-#' @param Input  the name of the \code{Input} data as a .csv file or an R dataframe.
-#' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
-#' e.g. "DataFile.csv".
+#' @param Input input dataframe.
 #' 
 #' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
@@ -19,26 +17,21 @@
 #' 
 #' \code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.
 #' 
-#' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-#' "ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
-#' if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-#' your working directory. 
-#' @param OutputName if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-#' shapefile in quotes (e.g. "MyPolygons") must be provided.
-#' @param Buffer Distance in nautical miles by which to expand the polygons. Can be specified for
+#' @param Buffer numeric, distance in nautical miles by which to expand the polygons. Can be specified for
 #' each polygon (as a numeric vector).
-#' @param SeparateBuf If set to FALSE when adding a \code{Buffer},
+#' @param SeparateBuf logical, if set to FALSE when adding a \code{Buffer},
 #' all spatial objects are merged, resulting in a single spatial object.
-#' @param Densify If set to TRUE, additional points between points of equal latitude are added
-#' prior to projection (see examples). 
-#' @param Clip if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).
+#' @param Densify logical, if set to TRUE, additional points between points of equal latitude are added
+#' prior to projection (compare examples 1 and 2 below). 
+#' @param Clip logical, if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).
 #' 
-#' @return Spatial object in your environment or ESRI shapefile in your working directory.
-#' Data within the resulting spatial object contains the data provided in the \code{Input} plus
-#' an additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
-#' Also, columns "Labx" and "Laby" which may be used to add labels to polygons.
+#' @return Spatial object in your environment.
+#' Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
+#' within polygons. For each numeric variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
+#' median of values in each polygon is returned. In addition, for each polygon, its area (AreaKm2) and projected 
+#' centroid (Labx, Laby) are given (which may be used to add labels to polygons).
 #' 
-#' To see the data contained in your spatial object, type: \code{View(MyPolygons@@data)}.
+#' To see the data contained in your spatial object, type: \code{View(MyPolygons)}.
 #'
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_PolyGrids}},
@@ -51,40 +44,40 @@
 #' #Example 1: Simple and non-densified polygons
 #' 
 #' MyPolys=create_Polys(Input=PolyData,Densify=FALSE)
-#' plot(MyPolys,col='blue')
+#' plot(st_geometry(MyPolys),col='blue',main="Example 1")
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
 #' #Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 #' 
 #' MyPolys=create_Polys(Input=PolyData)
-#' plot(MyPolys,col='red')
+#' plot(st_geometry(MyPolys),col='red',main="Example 2")
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
 #' #Example 3: Buffered and clipped polygons
 #' 
 #' MyPolysBefore=create_Polys(Input=PolyData,Buffer=c(10,-15,120))
 #' MyPolysAfter=create_Polys(Input=PolyData,Buffer=c(10,-15,120),Clip=TRUE)
-#' plot(MyPolysBefore,col='green')
-#' plot(Coast[Coast$ID=='All',],add=TRUE)
-#' plot(MyPolysAfter,col='red',add=TRUE)
+#' plot(st_geometry(MyPolysBefore),col='green',main="Example 3")
+#' plot(st_geometry(Coast[Coast$ID=='All',]),add=TRUE)
+#' plot(st_geometry(MyPolysAfter),col='red',add=TRUE)
 #' text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 #' 
 #' #Example 4: Buffered and grouped polygons
 #' MyPolys=create_Polys(Input=PolyData,Buffer=80,SeparateBuf=FALSE)
-#' plot(MyPolys,border='blue',lwd=3)
+#' plot(st_geometry(MyPolys),border='blue',lwd=3,main="Example 4")
 #' 
 #' 
 #' }
 #' 
 #' @export
 
-create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
+create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE){
   # Load data
-  if (class(Input)=="character"){Input=read.csv(Input)}
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
-  if(is.null(NamesIn)==F){
+  if(is.null(NamesIn)==FALSE){
     if(length(NamesIn)!=3){stop("'NamesIn' should be a character vector of length 3")}
-    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   # Run cPolys
@@ -97,11 +90,7 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
   }
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-  # Export to shapefile if desired
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")}else{
-    return(Output)
-  }
+  return(Output)
 }
 
 #' Create a Polygon Grid 
@@ -110,9 +99,7 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' Cell size may be specified in degrees or as a desired area in square kilometers
 #' (in which case cells are of equal area).
 #'
-#' @param Input the name of the \code{Input} data as a .csv file or an R dataframe.
-#' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
-#' e.g. "DataFile.csv".
+#' @param Input input dataframe.
 #' 
 #' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
@@ -123,34 +110,28 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
-#' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-#' "ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
-#' if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-#' your working directory. 
-#' @param OutputName if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-#' shapefile in quotes (e.g. "MyGrid") must be provided.
-#' @param dlon width of the grid cells in decimal degrees of longitude.
-#' @param dlat height of the grid cells in decimal degrees of latitude.
-#' @param Area area, in square kilometers, of the grid cells.
-#' @param cuts Number of desired color classes.
-#' @param cols Desired colors. If more that one color is provided, a linear color gradient is generated.
-#' @return Spatial object in your environment or ESRI shapefile in your working directory.
+#' @param dlon numeric, width of the grid cells in decimal degrees of longitude.
+#' @param dlat numeric, height of the grid cells in decimal degrees of latitude.
+#' @param Area numeric, area in square kilometers of the grid cells. The smaller the \code{Area}, the longer it will take.
+#' @param cuts numeric, number of desired color classes.
+#' @param cols character, desired colors. If more that one color is provided, a linear color gradient is generated.
+#' @return Spatial object in your environment.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 #' within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
 #' median of values in each cell is returned. In addition, for each cell, its area (AreaKm2), projected 
 #' centroid (Centrex, Centrey) and unprojected centroid (Centrelon, Centrelat) is given.
 #' 
-#' To see the data contained in your spatial object, type: \code{View(MyGrid@@data)}.
+#' To see the data contained in your spatial object, type: \code{View(MyGrid)}.
 #' 
-#' Finally, colors are generated for each aggregated values according to the chosen \code{cuts} 
-#' (numerical classes) and \code{cols} (colors).
+#' Also, colors are generated for each aggregated values according to the chosen \code{cuts} 
+#' and \code{cols}.
 #' 
 #' To generate a custom color scale after the grid creation, refer to \code{\link{add_col}} and 
 #' \code{\link{add_Cscale}}. See Example 4 below.
 #' 
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
-#' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_col}}, \code{\link{add_Cscale}}.
+#' \code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_col}}, \code{\link{add_Cscale}}.
 #' 
 #' @examples
 #' \donttest{
@@ -159,20 +140,20 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' #Example 1: Simple grid, using automatic colors
 #' 
 #' MyGrid=create_PolyGrids(Input=GridData,dlon=2,dlat=1)
-#' #View(MyGrid@@data)
-#' plot(MyGrid,col=MyGrid$Col_Catch_sum)
+#' #View(MyGrid)
+#' plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum,main="Example 1")
 #' 
 #' #Example 2: Equal area grid, using automatic colors
 #' 
 #' MyGrid=create_PolyGrids(Input=GridData,Area=10000)
-#' plot(MyGrid,col=MyGrid$Col_Catch_sum)
+#' plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum,main="Example 2")
 #' 
 #' #Example 3: Equal area grid, using custom cuts and colors
 #' 
 #' MyGrid=create_PolyGrids(Input=GridData,
 #'        Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
 #' 
-#' plot(MyGrid,col=MyGrid$Col_Catch_sum)
+#' plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum,main="Example 3")
 #' 
 #' #Example 4: Equal area grid, using custom cuts and colors, and adding a color scale (add_Cscale)
 #' 
@@ -189,7 +170,7 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' #Step 4: Plot result and add color scale
 #' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-#' plot(MyGrid,col=Gridcol$varcol) #Use the colors generated by add_col
+#' plot(st_geometry(MyGrid),col=Gridcol$varcol,main="Example 4") #Use the colors generated by add_col
 #' #Add color scale using cuts and cols generated by add_col
 #' add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=24) 
 #' par(Mypar)
@@ -198,30 +179,24 @@ create_Polys=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' @export
 
-create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red'),NamesIn=NULL){
-  if (class(Input)=="character"){Input=read.csv(Input)}
+create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red')){
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
-  if(is.null(NamesIn)==F){
+  if(is.null(NamesIn)==FALSE){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
-    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   #Run cGrid
   Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols)
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")
-  }else{
-    return(Output)
-  }
+  return(Output)
 }
 
 #' Create Lines 
 #'
-#' Create Lines to display, for example, fishing line locations or tagging data.
+#' Create lines to display, for example, fishing line locations or tagging data.
 #'
-#' @param Input  the name of the \code{Input} data as a .csv file or an R dataframe.
-#' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
-#' e.g. "DataFile.csv".
+#' @param Input input dataframe.
 #' 
 #' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
@@ -237,30 +212,25 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' 
 #' \code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.
 #' 
-#' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-#' "ROBJECT" (the default), a spatial object is created in your R environment.
-#' if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-#' your working directory. 
-#' @param OutputName if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-#' shapefile in quotes (e.g. "MyLines") must be provided.
-#' @param Buffer Distance in nautical miles by which to expand the lines. Can be specified for
+#' @param Buffer numeric, distance in nautical miles by which to expand the lines. Can be specified for
 #' each line (as a numeric vector).
-#' @param Densify If set to TRUE, additional points between points of equal latitude are added
+#' @param Densify logical, if set to TRUE, additional points between points of equal latitude are added
 #' prior to projection (see examples). 
-#' @param Clip if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).
-#' @param SeparateBuf If set to FALSE when adding a \code{Buffer},
+#' @param Clip logical, if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).
+#' @param SeparateBuf logical, if set to FALSE when adding a \code{Buffer},
 #' all spatial objects are merged, resulting in a single spatial object.
 #' 
-#' @return Spatial object in your environment or ESRI shapefile in your working directory.
+#' @return Spatial object in your environment.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} plus
 #' additional "LengthKm" and "LengthNm" columns which corresponds to the lines lengths,
-#' in kilometers and nautical miles respectively.
+#' in kilometers and nautical miles respectively. If additional data was included in the \code{Input},
+#' any numerical values are summarized for each line (min, max, mean, median, sum, count and sd).
 #' 
-#' To see the data contained in your spatial object, type: \code{View(MyLines@@data)}.
+#' To see the data contained in your spatial object, type: \code{View(MyLines)}.
 #'
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-#' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
+#' \code{\link{create_Stations}}, \code{\link{create_Pies}}.
 #' 
 #' @examples
 #' \donttest{
@@ -285,41 +255,41 @@ create_PolyGrids=function(Input,OutputFormat="ROBJECT",OutputName=NULL,dlon=NA,d
 #' )
 #' 
 #' #Create lines and plot them
-#' plot(create_Lines(Input=Input))
+#' plot(st_geometry(create_Lines(Input=Input)))
 #' 
 #' 
 #' #Example 1: Simple and non-densified lines
 #' 
 #' MyLines=create_Lines(Input=LineData)
-#' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
+#' plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 1")
 #'
 #' #Example 2: Simple and densified lines (note the curvature of the purple line)
 #' 
 #' MyLines=create_Lines(Input=LineData,Densify=TRUE)
-#' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
+#' plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 2")
 #'
 #' #Example 3: Densified, buffered and clipped lines
 #' 
 #' MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
 #' 
-#' plot(MyLines,lwd=2,col=rainbow(length(MyLines)))
-#' plot(Coast[Coast$ID=='All',],col='grey',add=TRUE)
+#' plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 3")
+#' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 #' 
 #' #Example 4: Buffered and grouped lines
 #' MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
-#' plot(MyLines,lwd=2,border='blue')
+#' plot(st_geometry(MyLines),lwd=2,border='blue',main="Example 4")
 #' 
 #' }
 #' 
 #' @export
 
-create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
+create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE){
   # Load data
-  if (class(Input)=="character"){Input=read.csv(Input)}
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
-  if(is.null(NamesIn)==F){
+  if(is.null(NamesIn)==FALSE){
     if(length(NamesIn)!=3){stop("'NamesIn' should be a character vector of length 3")}
-    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   # Run cLines
@@ -332,20 +302,16 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
   }
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-  # Export to shapefile if desired
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")}else{
-      return(Output)
-    }
+
+  return(Output)
+  
 }
 
 #' Create Points
 #'
 #' Create Points to display point locations. Buffering points may be used to produce bubble charts.
 #'
-#' @param Input the name of the \code{Input} data as a .csv file or an R dataframe.
-#' If a .csv file is used as input, this file must be in your working directory and its name given in quotes
-#' e.g. "DataFile.csv".
+#' @param Input input dataframe.
 #' 
 #' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
@@ -356,28 +322,22 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' 
 #' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
 #' 
-#' @param OutputFormat can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-#' "ROBJECT" (the default), a spatial object is created in your R environment.
-#' if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-#' your working directory. 
-#' @param OutputName if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-#' shapefile in quotes (e.g. "MyPoints") must be provided.
-#' @param Buffer Radius in nautical miles by which to expand the points. Can be specified for
+#' @param Buffer numeric, radius in nautical miles by which to expand the points. Can be specified for
 #' each point (as a numeric vector).
-#' @param Clip if set to TRUE, polygon parts (from buffered points) that fall on land are removed (see \link{Clip2Coast}).
-#' @param SeparateBuf If set to FALSE when adding a \code{Buffer},
+#' @param Clip logical, if set to TRUE, polygon parts (from buffered points) that fall on land are removed (see \link{Clip2Coast}).
+#' @param SeparateBuf logical, if set to FALSE when adding a \code{Buffer},
 #' all spatial objects are merged, resulting in a single spatial object.
 #' 
-#' @return Spatial object in your environment or ESRI shapefile in your working directory.
+#' @return Spatial object in your environment.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} plus
 #' additional "x" and "y" columns which corresponds to the projected points locations 
 #' and may be used to label points (see examples).
 #' 
-#' To see the data contained in your spatial object, type: \code{View(MyPoints@@data)}.
+#' To see the data contained in your spatial object, type: \code{View(MyPoints)}.
 #'
 #' @seealso 
 #' \code{\link{create_Lines}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-#' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
+#' \code{\link{create_Stations}}, \code{\link{create_Pies}}.
 #' 
 #' @examples
 #' \donttest{
@@ -386,57 +346,50 @@ create_Lines=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Dens
 #' #Example 1: Simple points with labels
 #' 
 #' MyPoints=create_Points(Input=PointData)
-#' plot(MyPoints)
+#' plot(st_geometry(MyPoints),main="Example 1")
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 #' 
 #' #Example 2: Simple points with labels, highlighting one group of points with the same name
 #' 
 #' MyPoints=create_Points(Input=PointData)
-#' plot(MyPoints)
+#' plot(st_geometry(MyPoints),main="Example 2")
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
-#' plot(MyPoints[MyPoints$name=='four',],bg='red',pch=21,cex=1.5,add=TRUE)
+#' plot(st_geometry(MyPoints[MyPoints$name=='four',]),bg='red',pch=21,cex=1.5,add=TRUE)
 #' 
 #' #Example 3: Buffered points with radius proportional to catch
 #' 
 #' MyPoints=create_Points(Input=PointData,Buffer=0.5*PointData$Catch)
-#' plot(MyPoints,col='green')
+#' plot(st_geometry(MyPoints),col='green',main="Example 3")
 #' text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
 #' 
 #' #Example 4: Buffered points with radius proportional to catch and clipped to the Coast
 #' 
 #' MyPoints=create_Points(Input=PointData,Buffer=2*PointData$Catch,Clip=TRUE)
-#' plot(MyPoints,col='cyan')
-#' plot(Coast[Coast$ID=='All',],add=TRUE,col='grey')
+#' plot(st_geometry(MyPoints),col='cyan',main="Example 4")
+#' plot(st_geometry(Coast[Coast$ID=='All',]),add=TRUE,col='grey')
 #' 
 #' 
 #' }
 #' 
 #' @export
 
-create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE,NamesIn=NULL){
+create_Points=function(Input,NamesIn=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE){
   # Load data
-  if (class(Input)=="character"){Input=read.csv(Input)}
+  Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
-  if(is.null(NamesIn)==F){
+  if(is.null(NamesIn)==FALSE){
     if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
-    if(any(NamesIn%in%colnames(Input)==F)){stop("'NamesIn' do not match column names in 'Input'")}
+    if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   # Run cPoints
   Output=cPoints(Input)
   # Run add_buffer
-  if(length(Buffer)==1){
-    if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
-  }else{
-    Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)
-  }
+  if(all(Buffer>0)){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
+  if(any(Buffer<0)){stop("'Buffer' should be positive")}
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-  # Export to shapefile if desired
-  if(OutputFormat=="SHAPEFILE"){
-    writeOGR(Output,".",OutputName,driver="ESRI Shapefile")}else{
-      return(Output)
-    }
+  return(Output)
 }
 
 #' Create Stations
@@ -446,81 +399,92 @@ create_Points=function(Input,OutputFormat="ROBJECT",OutputName=NULL,Buffer=0,Cli
 #'
 #' @param Poly single polygon inside which stations will be generated. May be created using \code{\link{create_Polys}}.
 #' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}}, such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}.
-#' @param Depths vector of depths. For example, if the depth strata required are 600 to 1000 and 1000 to 2000,
+#' @param Depths numeric, vector of depths. For example, if the depth strata required are 600 to 1000 and 1000 to 2000,
 #' \code{Depths=c(-600,-1000,-2000)}.
-#' @param N vector of number of stations required in each depth strata,
+#' @param N numeric, vector of number of stations required in each depth strata,
 #' therefore \code{length(N)} must equal \code{length(Depths)-1}.
-#' @param Nauto instead of specifying \code{N}, a number of stations proportional to the areas of the depth strata
+#' @param Nauto numeric, instead of specifying \code{N}, a number of stations proportional to the areas of the depth strata
 #' may be created. \code{Nauto} is the maximum number of stations required in any depth stratum.
-#' @param dist if desired, a distance constraint in nautical miles may be applied. For example, if \code{dist=2},
+#' @param dist numeric, if desired, a distance constraint in nautical miles may be applied. For example, if \code{dist=2},
 #' stations will be at least 2 nautical miles apart.
-#' @param Buf distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.
-#' @param ShowProgress if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).
+#' @param Buf numeric, distance in meters from isobaths. Useful to avoid stations falling on strata boundaries.
+#' @param ShowProgress logical, if set to \code{TRUE}, a progress bar is shown (\code{create_Stations} may take a while).
 #' @return Spatial object in your environment. Data within the resulting object contains the strata and stations
-#' locations in both projected space ("x" and "y") and degrees of Latitude/Longitude.
+#' locations in both projected space ("x" and "y") and decimal degrees of Latitude/Longitude.
 #' 
-#' To see the data contained in your spatial object, type: \code{View(MyStations@@data)}.
+#' To see the data contained in your spatial object, type: \code{View(MyStations)}.
 #'
 #' @seealso 
-#' \code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{add_RefGrid}}.
+#' \code{\link{create_Polys}}, \code{\link{SmallBathy}}.
 #' 
 #' @examples
 #' \donttest{
 #' 
-#'
 #' #First, create a polygon within which stations will be created
-#' 
-#' MyPolys=create_Polys(Input=PolyData,Densify=TRUE)
-#' plot(MyPolys)
-#' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
-#' #Subsample MyPolys to only keep the polygon with ID 'one'
-#' MyPoly=MyPolys[MyPolys$ID=='one',]
-#' plot(MyPoly,col='green',add=TRUE)
-#' 
-#' #Second (optional), crop your bathymetry raster to match the extent of your polygon
-#' 
-#' BathyCroped=raster::crop(SmallBathy,MyPoly)
-#' 
-#' 
-#' #Example 1: Set numbers of stations, no distance constraint
-#' 
-#' MyStations=create_Stations(Poly=MyPoly,
-#'            Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10))
-#' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-#' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-#' add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-#' plot(MyPoly,add=TRUE,border='red',lwd=2)
-#' raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
-#' plot(MyStations,add=TRUE,col='orange')
-#' par(Mypar)
-#' 
-#' #Example 2: Set numbers of stations, with distance constraint
+#' MyPoly=create_Polys(
+#'  data.frame(Name="mypol",
+#'             Latitude=c(-75,-75,-70,-70),
+#'             Longitude=c(-170,-180,-180,-170))
+#'  ,Densify=TRUE)
+#'
+#' par(mai=c(0,0,0,0))
+#' plot(st_geometry(Coast[Coast$ID=='88.1',]),col='grey')
+#' plot(st_geometry(MyPoly),col='green',add=TRUE)
+#' text(MyPoly$Labx,MyPoly$Laby,MyPoly$ID)
+#'
+#' #Example 1. Set numbers of stations, no distance constraint:
+#' library(terra)
+#' #optional: crop your bathymetry raster to match the extent of your polygon
+#' BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
+#'
+#' #Create stations
+#' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
+#'
+#' #add custom colors to the bathymetry to indicate the strata of interest
+#' MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
+#' plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 1")
+#' add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
+#' offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
+#' plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
+#' plot(st_geometry(MyStations),add=TRUE,col='orange',cex=0.75,lwd=1.5,pch=3)
+#'
+#' #Example 2. Set numbers of stations, with distance constraint:
 #'  
-#' MyStations=create_Stations(Poly=MyPoly,
-#'            Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),N=c(20,15,10),dist=10)
-#' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-#' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-#' add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-#' plot(MyPoly,add=TRUE,border='red',lwd=2)
-#' raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
-#' plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
-#' plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
-#' plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
-#' par(Mypar)
+#' #Create Stations
+#' MyStations=create_Stations(MyPoly,BathyCroped,
+#'                             Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
+#'
+#' #add custom colors to the bathymetry to indicate the strata of interest
+#' MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
+#' plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 2")
+#' add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
+#' offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
+#' plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
+#' plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),
+#' pch=21,bg='yellow',add=TRUE,cex=0.75,lwd=0.1)
+#' plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),
+#' pch=21,bg='orange',add=TRUE,cex=0.75,lwd=0.1)
+#' plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),
+#' pch=21,bg='red',add=TRUE,cex=0.75,lwd=0.1)
+#'
+#' #Example 3. Automatic numbers of stations, with distance constraint:
+#'  
+#' #Create Stations
+#' MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
+#'
+#' #add custom colors to the bathymetry to indicate the strata of interest
+#' MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
+#' plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 3")
+#' add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
+#' offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
+#' plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
+#' plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),
+#' pch=21,bg='yellow',add=TRUE,cex=0.75,lwd=0.1)
+#' plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),
+#' pch=21,bg='orange',add=TRUE,cex=0.75,lwd=0.1)
+#' plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),
+#' pch=21,bg='red',add=TRUE,cex=0.75,lwd=0.1)
 #' 
-#' #Example 3: Automatic numbers of stations, with distance constraint
-#' 
-#' MyStations=create_Stations(Poly=MyPoly,
-#'            Bathy=BathyCroped,Depths=c(-550,-1000,-1500,-2000),Nauto=30,dist=10)
-#' Mypar=par(mai=c(0,0,0,2)) #Figure margins as c(bottom, left, top, right)
-#' plot(BathyCroped,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-#' add_Cscale(offset = 50,height = 90,fontsize = 0.8,width=25)
-#' plot(MyPoly,add=TRUE,border='red',lwd=2)
-#' raster::contour(BathyCroped,levels=c(-550,-1000,-1500,-2000),add=TRUE)
-#' plot(MyStations[MyStations$Stratum=='550-1000',],pch=21,bg='yellow',add=TRUE)
-#' plot(MyStations[MyStations$Stratum=='1000-1500',],pch=21,bg='orange',add=TRUE)
-#' plot(MyStations[MyStations$Stratum=='1500-2000',],pch=21,bg='red',add=TRUE)
-#' par(Mypar)
 #' 
 #' }
 #' 
@@ -533,9 +497,16 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
   if(is.na(sum(N))==FALSE & length(N)!=length(Depths)-1){
     stop('Incorrect number of stations specified.')
   }
+  if(class(Poly)[1]!="sf"){
+    stop("'Poly' must be an sf object")
+  }
+  if(class(Bathy)[1]!="SpatRaster"){
+    Bathy=terra::rast(Bathy)
+  }
 
   #Crop Bathy
-  Bathy=raster::crop(Bathy,extend(extent(Poly),10000))
+  Bathy=terra::crop(Bathy,terra::extend(ext(Poly),10000))
+  
   #Generate Isobaths polygons
   IsoDs=data.frame(top=Depths[1:(length(Depths)-1)],
                    bot=Depths[2:length(Depths)])
@@ -545,17 +516,20 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     message('Depth strata creation started',sep='\n')
     pb=txtProgressBar(min=0,max=dim(IsoDs)[1],style=3,char=" )>(((*> ")
   }
-  Biso=cut(Bathy,breaks=c(IsoDs$top[1],IsoDs$bot[1]))
-  Isos=suppressWarnings(rasterToPolygons(Biso,dissolve=TRUE))
+  Biso=terra::clamp(Bathy,lower=IsoDs$top[1], upper=IsoDs$bot[1],values=FALSE)
+  Biso=terra::classify(Biso,cbind(IsoDs$top[1],IsoDs$bot[1],1),include.lowest=TRUE)
+  Isos=terra::as.polygons(Biso,values=FALSE)
+  
   Isos$Stratum=IsoNames[1]
   if(ShowProgress==TRUE){setTxtProgressBar(pb, 1)}
   if(dim(IsoDs)[1]>1){
     for(i in seq(2,dim(IsoDs)[1])){
-      Biso=cut(Bathy,breaks=c(IsoDs$top[i],IsoDs$bot[i]))
-      Isotmp=suppressWarnings(rasterToPolygons(Biso,dissolve=TRUE))
-      Isotmp$layer=i
+      Biso=terra::clamp(Bathy,lower=IsoDs$top[i], upper=IsoDs$bot[i],values=FALSE)
+      Biso=terra::classify(Biso,cbind(IsoDs$top[i],IsoDs$bot[i],1),include.lowest=TRUE)
+      Isotmp=terra::as.polygons(Biso,values=FALSE)
       Isotmp$Stratum=IsoNames[i]
       Isos=rbind(Isos,Isotmp)
+      
       if(ShowProgress==TRUE){setTxtProgressBar(pb, i)}
     }
   }
@@ -565,14 +539,19 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     close(pb)
   }
   #crop Isos by Poly
-  Isos=suppressWarnings(raster::crop(Isos,Poly))
+  Isos=sf::st_as_sf(Isos)
+  Poly=sf::st_as_sf(Poly)
+  st_crs(Isos)=6932
+  Poly=st_transform(Poly,crs=6932)
+  Isos=st_make_valid(Isos)
+  Isos=sf::st_intersection(st_geometry(Poly),Isos)
   
   #Get number of stations per strata
   if(is.na(Nauto)==TRUE){
     IsoDs$n=N
   }else{
     #Get area of strata
-    ar=suppressWarnings(area(Isos))
+    ar=as.numeric(st_area(Isos))
     ar=ar/max(ar)
     IsoDs$n=round(ar*Nauto)
   }
@@ -582,68 +561,68 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
     message('Station creation started',sep='\n')
     pb=txtProgressBar(min=0,max=dim(IsoDs)[1],style=3,char=" )>(((*> ")
   }
-  Grid=suppressWarnings(raster(extent(Isos),res=1000,crs=crs(Isos)))
-  Grid=SpatialPoints(coordinates(Grid),proj4string=crs(Grid))
+  Grid=st_make_grid(x=Isos,cellsize = 1000,what="centers")
+  
   #Remove points outside of strata
-  Locs=NULL
+  Gridtmp=NULL
   for(i in seq(1,dim(IsoDs)[1])){
-    GridL=over(Grid,gBuffer(Isos[i,],width=-Buf))
-    GridL=Grid[is.na(GridL)==FALSE]
-    Locs=rbind(Locs,cbind(coordinates(GridL),i))
+    tmp=st_buffer(Isos[[i]],dist=-Buf)
+    tmp=st_sfc(tmp, crs = 6932)
+    GridL=unlist(sf::st_intersects(tmp,Grid))
+    Gridtmp=rbind(Gridtmp,cbind(st_coordinates(Grid)[GridL,],i))
   }
-  Grid=SpatialPointsDataFrame(cbind(Locs[,1],Locs[,2]),data.frame(layer=Locs[,3]),proj4string=CRS("+init=epsg:6932"))
+  Grid=as.data.frame(Gridtmp)
+  Grid=st_as_sf(x=Grid,coords=c(1,2),crs=6932,remove=FALSE)
   
   if(is.na(dist)==TRUE){ #Random locations
     Locs=NULL
     for(i in seq(1,dim(IsoDs)[1])){
-      Locs=rbind(Locs,cbind(coordinates(Grid[Grid$layer==i,])[sample(seq(1,length(which(Grid$layer==i))),IsoDs$n[i]),],i))
+      Locs=rbind(Locs,cbind(Grid[Grid$i==i,][sample(seq(1,length(which(Grid$i==i))),IsoDs$n[i]),]))
       if(ShowProgress==TRUE){setTxtProgressBar(pb, i)}
     }
-    Locs=data.frame(layer=Locs[,3],
-                    Stratum=IsoNames[Locs[,3]],
-                    x=Locs[,1],
-                    y=Locs[,2])
-    #Add Lat/Lon
-    Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    Locs$Stratum=IsoNames[Locs$i]
     
-    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS("+init=epsg:6932"))
+    #Add Lat/Lon
+    Locs=project_data(Input=Locs,NamesIn = c('Y','X'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
+    
+    Stations=st_as_sf(x=Locs,coords=c('X','Y'),crs=6932,remove=FALSE)
     if(ShowProgress==TRUE){
       message('\n')
       message('Station creation ended',sep='\n')
       close(pb)
     }
-  }else{ #Pseudo-random locations
+  }else{ #Pseudo-random locations      
     #Get starting point
     indx=floor(dim(Grid)[1]/2)
-    tmp=coordinates(Grid)
-    tmpx=tmp[indx,1]
-    tmpy=tmp[indx,2]
-    lay=Grid$layer[indx]
+    tmpx=Grid$X[indx]
+    tmpy=Grid$Y[indx]
+    lay=Grid$i[indx]
+    
     #Set buffer width
     wdth=100*ceiling(1852*dist/100)
+    
     Locs=NULL
-    while(length(Grid)>0){
-      smallB=gBuffer(SpatialPoints(cbind(tmpx,tmpy),proj4string=CRS("+init=epsg:6932")),width=wdth,quadsegs=25)
-      smallBi=over(Grid,smallB)
-      smallBi=which(is.na(smallBi)==FALSE)
+    while(nrow(Grid)>0){
+      smallB=st_buffer(st_as_sf(x=data.frame(tmpx,tmpy),coords=c(1,2),crs=6932),dist = wdth,nQuadSegs=25)
+      smallBi=unlist(st_intersects(smallB,Grid))
       #Save central point locations
       Locs=rbind(Locs,cbind(tmpx,tmpy,lay))
       #Remove points within buffer
       Grid=Grid[-smallBi,]
       #Get new point
-      if(length(Grid)>0){
-        indx=as.numeric(sample(seq(1,length(Grid)),1))
-        tmp=coordinates(Grid)
-        tmpx=tmp[indx,1]
-        tmpy=tmp[indx,2]
-        lay=Grid$layer[indx]}
+      if(nrow(Grid)>0){
+        indx=as.numeric(sample(seq(1,nrow(Grid)),1))
+        tmpx=Grid$X[indx]
+        tmpy=Grid$Y[indx]
+        lay=Grid$i[indx]
+        }
     }
     Locs=data.frame(layer=Locs[,3],
                     Stratum=IsoNames[Locs[,3]],
                     x=Locs[,1],
                     y=Locs[,2])
     Locs$Stratum=as.character(Locs$Stratum)
-    #Report results
+    #Report results 
     message('\n')
     for(s in sort(unique(Locs$layer))){
       ns=length(which(Locs$layer==s))
@@ -656,16 +635,17 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
         stop('Cannot generate stations given the constraints. Reduce dist and/or number of stations and/or Buf.')
       }
     }
-    #Randomize locs within constraints
+    
+    #Sample locs within constraints 
     indx=NULL
     for(i in sort(unique(Locs$layer))){
       indx=c(indx,sample(which(Locs$layer==i),IsoDs$n[i]))
     }
     Locs=Locs[indx,]    
     #Add Lat/Lon
-    Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = T,inv=T)
+    Locs=project_data(Input=Locs,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
+    Stations=st_as_sf(x=Locs,coords=c('x','y'),crs=6932,remove=FALSE)
     
-    Stations=SpatialPointsDataFrame(Locs[,c('x','y')],Locs,proj4string=CRS("+init=epsg:6932"))
     if(ShowProgress==TRUE){
       message('\n')
       message('Station creation ended',sep='\n')

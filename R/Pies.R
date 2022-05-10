@@ -1,14 +1,14 @@
 #' Create Pies
 #'
 #' Generates pie charts that can be overlaid on maps. The \code{Input} data must be a dataframe with, at least,
-#'  columns for latitude, longitude, class and value. For each location, a pie is created with pieces for each class,
-#'  and the size of each piece depends on the proportion of each class (the value of each class divided by the sum of values).
-#'  Optionally, the area of each pie can be proportional to a chosen variable (if that variable is different than the 
-#'  value mentioned above, the \code{Input} data must have a fifth column and that variable must be unique to each location).
-#'   If the \code{Input} data contains locations that are too close together, the data can be gridded by setting \code{GridKm}
-#'   Once pie charts have been created, the function \link{add_PieLegend} may be used to add a legend to the figure.
+#' columns for latitude, longitude, class and value. For each location, a pie is created with pieces for each class,
+#' and the size of each piece depends on the proportion of each class (the value of each class divided by the sum of values).
+#' Optionally, the area of each pie can be proportional to a chosen variable (if that variable is different than the 
+#' value mentioned above, the \code{Input} data must have a fifth column and that variable must be unique to each location).
+#' If the \code{Input} data contains locations that are too close together, the data can be gridded by setting \code{GridKm}.
+#' Once pie charts have been created, the function \link{add_PieLegend} may be used to add a legend to the figure.
 #'
-#' @param Input  the name of the \code{Input} data as an R dataframe.
+#' @param Input input dataframe.
 #' 
 #' @param NamesIn character vector of length 4 specifying the column names of Latitude, Longitude,
 #' Class and value fields in the \code{Input}.
@@ -17,22 +17,22 @@
 #' 
 #' \code{NamesIn=c('Latitude','Longitude','Class','Value')}}.
 #' 
-#' @param Classes optional character vector of classes to be displayed. If this excludes classes that are in the \code{Input},
-#' those excluded classes will be polled in a 'Other' class.
+#' @param Classes character, optional vector of classes to be displayed. If this excludes classes that are in the \code{Input},
+#' those excluded classes will be pooled in a 'Other' class.
 #' 
-#' @param cols vector of two or more color names to colorize pie pieces.
+#' @param cols character, vector of two or more color names to colorize pie pieces.
 #' 
-#' @param Size numeric value controlling the size of pies.
+#' @param Size numeric, value controlling the size of pies.
 #' 
-#' @param SizeVar optional, name of the field in the \code{Input} that should be used to scale the area of pies.
-#' Must be unique to locations.
+#' @param SizeVar numeric, optional, name of the field in the \code{Input} that should be used to scale the area of pies.
+#' Must be unique to locations in the input.
 #' 
-#' @param GridKm optional, cell size of the grid in kilometers, if gridding is desired (in which case locations a pooled by grid
-#' cell and values are summed for each class).
+#' @param GridKm numeric, optional, cell size of the grid in kilometers. If provided, locations are pooled by grid
+#' cell and values are summed for each class.
 #'  
-#' @param Other optional, percentage threshold below which classes are pooled in a 'Other' class.
+#' @param Other numeric, optional, percentage threshold below which classes are pooled in a 'Other' class.
 #' 
-#' @param Othercol optional, color of the pie piece for the 'Other' class.
+#' @param Othercol character, optional, color of the pie piece for the 'Other' class.
 #' 
 #' @return Spatial object in your environment, ready to be plotted.
 #'
@@ -45,7 +45,7 @@
 #' #Create pies
 #' MyPies=create_Pies(Input=PieData,NamesIn=c("Lat","Lon","Sp","N"),Size=50)
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 1")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.5,0.45,0.12,0.45),
 #'              PieTitle="Species")
@@ -59,14 +59,14 @@
 #'                    Classes=c("TOP","TOA","ANI")
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 2")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.6,0.6,0.12,0.55),
 #'               PieTitle="Selected species")
 #' 
 #' 
 #' #Example 3. Pies of constant size, proportions below 25% are grouped in a 'Other' class
-#' #(N.B.: unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
+#' #(unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
 #' #Please compare Example 1 and Example 3)
 #' #Create pies
 #' MyPies=create_Pies(Input=PieData,
@@ -75,7 +75,7 @@
 #'                    Other=25
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 3")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.55,0.55,0.12,0.45),
 #'               PieTitle="Other (%) class")
@@ -90,7 +90,7 @@
 #'                    SizeVar="Catch"
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 4")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.3,PosY=-0.8,Boxexp=c(0.16,0.1,0.1,0.4),
 #'               PieTitle="Species",SizeTitle="Catch (t.)")
@@ -105,7 +105,7 @@
 #'                    SizeVar="Catch"
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 5")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-1.7,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
 #'               PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
@@ -119,14 +119,14 @@
 #'                    Size=5
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 6")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
 #'               PieTitle="Species")
 #'
 #'
-#' #Example 7. Pies of constant size, all classes displayed. Gridded locations (in which case numerical
-#' #variables in the 'Input' are summed for each grid point):
+#' #Example 7. Pies of constant size, all classes displayed. Gridded locations
+#' #(in which case numerical variables in the 'Input' are summed for each grid point):
 #' #Create pies
 #' MyPies=create_Pies(Input=PieData2,
 #'                    NamesIn=c("Lat","Lon","Sp","N"),
@@ -134,7 +134,7 @@
 #'                    GridKm=250
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 7")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
 #'               PieTitle="Species")
@@ -150,7 +150,7 @@
 #'                    SizeVar='Catch'
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 8")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-1.2,PosY=0.3,Boxexp=c(0.38,0.32,0.08,0.18),
 #'               PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",
@@ -229,7 +229,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
   #Compute sum(N) and append to D
   C=dplyr::summarise(group_by(D,Lat,Lon),Tot=sum(N,na.rm=TRUE),.groups = 'drop')
   C$ID=seq(1,nrow(C))
-  D=left_join(D,C, by = c("Lat", "Lon"))
+  D=dplyr::left_join(D,C, by = c("Lat", "Lon"))
   if(is.null(SizeVar)==FALSE){
     if(SizeVar==NamesIn[4]){
       D$SizeVar=D$Tot
@@ -307,17 +307,16 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
         X=Cx+R*sin(A)
         Y=Cy+R*cos(A)
       }
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
     }
   }
-  Pols=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-  row.names(D)=D$PolID
-  Pols=SpatialPolygonsDataFrame(Pols,D)
+  Pols=st_sfc(Pl, crs = 6932)
+  Pols=st_set_geometry(D,Pols)
   #Re-order polys if needed
   if(length(unique(Pols$R))>1){
     Pols=Pols[order(Pols$R,decreasing = TRUE),]
   }
-  Pols@plotOrder=seq(1,length(Pols))
+  # Pols@plotOrder=seq(1,length(Pols))
   return(Pols)
 }
 
@@ -332,44 +331,44 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #' 
 #' @param PosY numeric, vertical adjustment of legend.
 #' 
-#' @param Size numeric value controlling the size of pies.
+#' @param Size numeric, controls the size of pies.
 #' 
-#' @param lwd numeric value controlling the line thickness of pies.
+#' @param lwd numeric, line thickness of pies.
 #' 
-#' @param Boxexp numeric vector of length 4 controlling the expansion of the legend box, given
+#' @param Boxexp numeric, vector of length 4 controls the expansion of the legend box, given
 #' as \code{c(xmin,xmax,ymin,ymax)}.
 #' 
-#' @param Boxbd color of the background of the legend box.
+#' @param Boxbd character, color of the background of the legend box.
 #' 
-#' @param Boxlwd numeric value controlling the line thickness of the legend box.
+#' @param Boxlwd numeric, line thickness of the legend box.
 #'  
-#' @param Labexp numeric value controlling the distance of the pie labels to the center of the pie.
+#' @param Labexp numeric, controls the distance of the pie labels to the center of the pie.
 #' 
-#' @param fontsize Size of the legend font.
+#' @param fontsize numeric, size of the legend font.
 #' 
-#' @param LegSp Numeric, spacing between the pie and the size chart (only used if \code{SizeVar}
+#' @param LegSp numeric, spacing between the pie and the size chart (only used if \code{SizeVar}
 #'  was specified in \link{create_Pies}).
 #' 
-#' @param Horiz Logical. Set to FALSE if vertical layout is desired (only used if \code{SizeVar}
+#' @param Horiz logical. Set to FALSE for vertical layout (only used if \code{SizeVar}
 #'  was specified in \link{create_Pies}).
 #' 
-#' @param PieTitle Character, title of the pie chart.
+#' @param PieTitle character, title of the pie chart.
 #' 
-#' @param SizeTitle Character, title of the size chart (only used if \code{SizeVar}
+#' @param SizeTitle character, title of the size chart (only used if \code{SizeVar}
 #'  was specified in \link{create_Pies}).
 #' 
-#' @param PieTitleVadj numeric value controlling the vertical adjustment of the title of the pie chart.
+#' @param PieTitleVadj numeric, vertical adjustment of the title of the pie chart.
 #' 
-#' @param SizeTitleVadj numeric value controlling the vertical adjustment of the title of the size chart (only used if \code{SizeVar}
+#' @param SizeTitleVadj numeric, vertical adjustment of the title of the size chart (only used if \code{SizeVar}
 #'  was specified in \link{create_Pies}).
 #' 
 #' @param nSizes integer, number of size classes to display in the size chart. Minimum and maximum sizes are
 #' displayed by default. (only used if \code{SizeVar} was specified in \link{create_Pies}).
 #' 
-#' @param SizeClasses numeric vector (e.g. c(1,10,100)) to select the size classes to display in the size chart
+#' @param SizeClasses numeric, vector (e.g. c(1,10,100)) of size classes to display in the size chart
 #' (only used if \code{SizeVar} was specified in \link{create_Pies}). If set, overrides \code{nSizes}.
 #' 
-#' @return Adds a legend to a pre-existing plot.
+#' @return Adds a legend to a pre-existing pie plot.
 #'
 #' @seealso 
 #' \code{\link{create_Pies}}, \code{\link{PieData}}, \code{\link{PieData2}}.
@@ -382,7 +381,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    Size=50
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 1")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.5,0.45,0.12,0.45),
 #'              PieTitle="Species")
@@ -396,14 +395,14 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    Classes=c("TOP","TOA","ANI")
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 2")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.6,0.6,0.12,0.55),
 #'               PieTitle="Selected species")
 #' 
 #' 
 #' #Example 3. Pies of constant size, proportions below 25% are grouped in a 'Other' class
-#' #(N.B.: unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
+#' #(unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
 #' #Please compare Example 1 and Example 3)
 #' #Create pies
 #' MyPies=create_Pies(Input=PieData,
@@ -412,7 +411,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    Other=25
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 3")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.55,0.55,0.12,0.45),
 #'               PieTitle="Other (%) class")
@@ -427,7 +426,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    SizeVar="Catch"
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 4")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.3,PosY=-0.8,Boxexp=c(0.16,0.1,0.1,0.4),
 #'               PieTitle="Species",SizeTitle="Catch (t.)")
@@ -442,7 +441,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    SizeVar="Catch"
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 5")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-1.7,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
 #'               PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
@@ -456,14 +455,14 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    Size=5
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 6")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
 #'               PieTitle="Species")
 #'
 #'
-#' #Example 7. Pies of constant size, all classes displayed. Gridded locations (in which case numerical
-#' #variables in the 'Input' are summed for each grid point):
+#' #Example 7. Pies of constant size, all classes displayed. Gridded locations
+#' #(in which case numerical variables in the 'Input' are summed for each grid point):
 #' #Create pies
 #' MyPies=create_Pies(Input=PieData2,
 #'                    NamesIn=c("Lat","Lon","Sp","N"),
@@ -471,7 +470,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    GridKm=250
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 7")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
 #'               PieTitle="Species")
@@ -487,7 +486,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'                    SizeVar='Catch'
 #'                    )
 #' #Plot Pies
-#' plot(MyPies,col=MyPies$col)
+#' plot(st_geometry(MyPies),col=MyPies$col,main="Example 8")
 #' #Add Pies legend
 #' add_PieLegend(Pies=MyPies,PosX=-1.2,PosY=0.3,Boxexp=c(0.38,0.32,0.08,0.18),
 #'               PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",
@@ -502,11 +501,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
                        PieTitle="Pie chart",SizeTitle="Size chart",
                        PieTitleVadj=0.5,SizeTitleVadj=0.3,nSizes=3,SizeClasses=NULL){
   
-  if(class(Pies)[1]!="SpatialPolygonsDataFrame"){
-    stop("'Pies' must be a SpatialPolygonsDataFrame generated using create_Pies()")
+  if(class(Pies)[1]!="sf"){
+    stop("'Pies' must be generated using create_Pies()")
   }
-  if("LegT"%in%colnames(Pies@data)==FALSE){
-    stop("'Pies' must be a SpatialPolygonsDataFrame generated using create_Pies()")
+  if("LegT"%in%colnames(Pies)==FALSE){
+    stop("'Pies' must be generated using create_Pies()")
   }
   if(is.null(PosX)==TRUE){
     stop("Argument 'PosX' is missing")
@@ -521,7 +520,7 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     nSizes=NULL
   }
   
-  Pdata=Pies@data
+  Pdata=st_drop_geometry(Pies)
   Classes=Pdata$Leg[which(Pdata$LegT=="Classes")]
   cols=Pdata$Leg[which(Pdata$LegT=="cols")]
   Classes=strsplit(Classes,";")[[1]]
@@ -566,13 +565,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       if(diff(A)>0.1){A=sort(unique(c(A,seq(A[1],A[2],by=0.1))))} #Densify
       X=c(Cx,Cx+R*sin(A),Cx)
       Y=c(Cy,Cy+R*cos(A),Cy)
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
     }
-    Pols=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-    row.names(dat)=dat$PolID
-    Pols=SpatialPolygonsDataFrame(Pols,dat)
-    Pols@plotOrder=seq(1,length(Pols))
-    
+    Pols=st_sfc(Pl, crs = 6932)
+    Pols=st_set_geometry(dat,Pols)
+     
     PieTitlex=Cx
     PieTitley=Cy+(R+R*PieTitleVadj)
     
@@ -582,11 +579,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     dat$Ladjx[dat$LabA>pi & dat$LabA<2*pi]=1
     
     if(is.null(Boxexp)==FALSE){
-      bb=bbox(Pols)
-      Xmin=bb['x','min']
-      Ymin=bb['y','min']
-      Xmax=bb['x','max']
-      Ymax=bb['y','max']
+      bb=st_bbox(Pols)
+      Xmin=bb['xmin']
+      Ymin=bb['ymin']
+      Xmax=bb['xmax']
+      Ymax=bb['ymax']
       
       dX=abs(Xmax-Xmin)
       dY=abs(Ymax-Ymin)
@@ -603,14 +600,15 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      Bpol=SpatialPolygons(list(Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),"box")), proj4string=CRS("+init=epsg:6932"))
-      
-      plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
+      plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      # plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE) #Should work with sf 1.0-8
     }
     for(i in seq(1,nrow(dat))){
       text(dat$Labx[i],dat$Laby[i],dat$Cl[i],adj=c(dat$Ladjx[i],0.5),xpd=TRUE,cex=fontsize)
     }
-    plot(Pols,col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    plot(as_Spatial(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    # plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd) #Should work with sf 1.0-8
     text(PieTitlex,PieTitley,PieTitle,adj=c(0.5,0),cex=fontsize*1.2,xpd=TRUE)
     
   }else{ #With SizeVar
@@ -659,12 +657,10 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       if(diff(A)>0.1){A=sort(unique(c(A,seq(A[1],A[2],by=0.1))))} #Densify
       X=c(Cx,Cx+R*sin(A),Cx)
       Y=c(Cy,Cy+R*cos(A),Cy)
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
     }
-    Pols=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-    row.names(dat)=dat$PolID
-    Pols=SpatialPolygonsDataFrame(Pols,dat)
-    Pols@plotOrder=seq(1,length(Pols))
+    Pols=st_sfc(Pl, crs = 6932)
+    Pols=st_set_geometry(dat,Pols)
     
     PieTitlex=Cx
     PieTitley=Cy+(R+R*PieTitleVadj)
@@ -695,28 +691,26 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       A=c(seq(0,2*pi,length.out=50),0) #angles
       X=SvarX+Sdat$R[j]*sin(A)
       Y=SvarY+Sdat$R[j]*cos(A)
-      Pl[[PolID]]=Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),as.character(PolID))
+      Pl[[PolID]]=st_polygon(list(cbind(X,Y)))
       Sdat$Xs[j]=X[1]
       Sdat$Ys[j]=Y[1]
       Sdat$Xe[j]=SvarX+Sdat$R[1]+(Sdat$R[1]-Sdat$R[2])/10
       Sdat$Ye[j]=Y[1]
     }
-    Polsvar=SpatialPolygons(Pl, proj4string=CRS("+init=epsg:6932"))
-    row.names(Sdat)=Sdat$ID
-    Polsvar=SpatialPolygonsDataFrame(Polsvar,Sdat)
-    Polsvar@plotOrder=seq(1,length(Polsvar))
+    Polsvar=st_sfc(Pl, crs = 6932)
+    Polsvar=st_set_geometry(Sdat,Polsvar)
     
     SizeTitlex=SvarX
     SizeTitley=SvarY+(Sdat$R[1]+Sdat$R[1]*SizeTitleVadj)
     
     #Do box
     if(is.null(Boxexp)==FALSE){
-      bb=bbox(Polsvar)
-      Xmin=bb['x','min']
-      Ymin=bb['y','min']
-      Xmax=bb['x','max']
-      Ymax=bb['y','max']
-      
+      bb=st_bbox(Polsvar)
+      Xmin=bb['xmin']
+      Ymin=bb['ymin']
+      Xmax=bb['xmax']
+      Ymax=bb['ymax']
+
       Xmin=min(c(Xmin,dat$Labx))
       Ymin=min(c(Ymin,dat$Laby))
       Xmax=max(c(Xmax,dat$Labx,Sdat$Xe))
@@ -732,13 +726,17 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      Bpol=SpatialPolygons(list(Polygons(list(Polygon(cbind(X,Y),hole=FALSE)),"box")), proj4string=CRS("+init=epsg:6932"))
+      Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
       
-      plot(Bpol,col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      # plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE) #Should work with sf 1.0-8
     }
     #Plot Pols
-    plot(Pols,col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
-    plot(Polsvar,add=TRUE,xpd=TRUE,col='white',lwd=lwd)
+    plot(as_Spatial(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
+    # plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd) #Should work with sf 1.0-8
+    plot(as_Spatial(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd)
+    # plot(st_geometry(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd) #Should work with sf 1.0-8
+    
     #Add Pie labels
     for(i in seq(1,nrow(dat))){
       text(dat$Labx[i],dat$Laby[i],dat$Cl[i],adj=c(dat$Ladjx[i],0.5),xpd=TRUE,cex=fontsize)

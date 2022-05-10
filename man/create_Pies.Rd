@@ -17,7 +17,7 @@ create_Pies(
 )
 }
 \arguments{
-\item{Input}{the name of the \code{Input} data as an R dataframe.}
+\item{Input}{input dataframe.}
 
 \item{NamesIn}{character vector of length 4 specifying the column names of Latitude, Longitude,
 Class and value fields in the \code{Input}.
@@ -26,34 +26,34 @@ Class and value fields in the \code{Input}.
 
 \code{NamesIn=c('Latitude','Longitude','Class','Value')}}.}
 
-\item{Classes}{optional character vector of classes to be displayed. If this excludes classes that are in the \code{Input},
-those excluded classes will be polled in a 'Other' class.}
+\item{Classes}{character, optional vector of classes to be displayed. If this excludes classes that are in the \code{Input},
+those excluded classes will be pooled in a 'Other' class.}
 
-\item{cols}{vector of two or more color names to colorize pie pieces.}
+\item{cols}{character, vector of two or more color names to colorize pie pieces.}
 
-\item{Size}{numeric value controlling the size of pies.}
+\item{Size}{numeric, value controlling the size of pies.}
 
-\item{SizeVar}{optional, name of the field in the \code{Input} that should be used to scale the area of pies.
-Must be unique to locations.}
+\item{SizeVar}{numeric, optional, name of the field in the \code{Input} that should be used to scale the area of pies.
+Must be unique to locations in the input.}
 
-\item{GridKm}{optional, cell size of the grid in kilometers, if gridding is desired (in which case locations a pooled by grid
-cell and values are summed for each class).}
+\item{GridKm}{numeric, optional, cell size of the grid in kilometers. If provided, locations are pooled by grid
+cell and values are summed for each class.}
 
-\item{Other}{optional, percentage threshold below which classes are pooled in a 'Other' class.}
+\item{Other}{numeric, optional, percentage threshold below which classes are pooled in a 'Other' class.}
 
-\item{Othercol}{optional, color of the pie piece for the 'Other' class.}
+\item{Othercol}{character, optional, color of the pie piece for the 'Other' class.}
 }
 \value{
 Spatial object in your environment, ready to be plotted.
 }
 \description{
 Generates pie charts that can be overlaid on maps. The \code{Input} data must be a dataframe with, at least,
- columns for latitude, longitude, class and value. For each location, a pie is created with pieces for each class,
- and the size of each piece depends on the proportion of each class (the value of each class divided by the sum of values).
- Optionally, the area of each pie can be proportional to a chosen variable (if that variable is different than the 
- value mentioned above, the \code{Input} data must have a fifth column and that variable must be unique to each location).
-  If the \code{Input} data contains locations that are too close together, the data can be gridded by setting \code{GridKm}
-  Once pie charts have been created, the function \link{add_PieLegend} may be used to add a legend to the figure.
+columns for latitude, longitude, class and value. For each location, a pie is created with pieces for each class,
+and the size of each piece depends on the proportion of each class (the value of each class divided by the sum of values).
+Optionally, the area of each pie can be proportional to a chosen variable (if that variable is different than the 
+value mentioned above, the \code{Input} data must have a fifth column and that variable must be unique to each location).
+If the \code{Input} data contains locations that are too close together, the data can be gridded by setting \code{GridKm}.
+Once pie charts have been created, the function \link{add_PieLegend} may be used to add a legend to the figure.
 }
 \examples{
  
@@ -61,7 +61,7 @@ Generates pie charts that can be overlaid on maps. The \code{Input} data must be
 #Create pies
 MyPies=create_Pies(Input=PieData,NamesIn=c("Lat","Lon","Sp","N"),Size=50)
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 1")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.5,0.45,0.12,0.45),
              PieTitle="Species")
@@ -75,14 +75,14 @@ MyPies=create_Pies(Input=PieData,
                    Classes=c("TOP","TOA","ANI")
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 2")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.6,0.6,0.12,0.55),
               PieTitle="Selected species")
 
 
 #Example 3. Pies of constant size, proportions below 25\% are grouped in a 'Other' class
-#(N.B.: unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
+#(unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
 #Please compare Example 1 and Example 3)
 #Create pies
 MyPies=create_Pies(Input=PieData,
@@ -91,7 +91,7 @@ MyPies=create_Pies(Input=PieData,
                    Other=25
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 3")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.55,0.55,0.12,0.45),
               PieTitle="Other (\%) class")
@@ -106,7 +106,7 @@ MyPies=create_Pies(Input=PieData,
                    SizeVar="Catch"
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 4")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.3,PosY=-0.8,Boxexp=c(0.16,0.1,0.1,0.4),
               PieTitle="Species",SizeTitle="Catch (t.)")
@@ -121,7 +121,7 @@ MyPies=create_Pies(Input=PieData,
                    SizeVar="Catch"
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 5")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-1.7,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
               PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
@@ -135,14 +135,14 @@ MyPies=create_Pies(Input=PieData2,
                    Size=5
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 6")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
               PieTitle="Species")
 
 
-#Example 7. Pies of constant size, all classes displayed. Gridded locations (in which case numerical
-#variables in the 'Input' are summed for each grid point):
+#Example 7. Pies of constant size, all classes displayed. Gridded locations
+#(in which case numerical variables in the 'Input' are summed for each grid point):
 #Create pies
 MyPies=create_Pies(Input=PieData2,
                    NamesIn=c("Lat","Lon","Sp","N"),
@@ -150,7 +150,7 @@ MyPies=create_Pies(Input=PieData2,
                    GridKm=250
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 7")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
               PieTitle="Species")
@@ -166,7 +166,7 @@ MyPies=create_Pies(Input=PieData2,
                    SizeVar='Catch'
                    )
 #Plot Pies
-plot(MyPies,col=MyPies$col)
+plot(st_geometry(MyPies),col=MyPies$col,main="Example 8")
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-1.2,PosY=0.3,Boxexp=c(0.38,0.32,0.08,0.18),
               PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",

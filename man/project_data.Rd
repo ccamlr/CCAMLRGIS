@@ -20,19 +20,19 @@ the \code{Input}. \strong{Latitudes (or Y) name must be given first, e.g.:
 
 \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
 
-\item{NamesOut}{optional. Names of the resulting columns in the output dataframe,
+\item{NamesOut}{character vector of length 2, optional. Names of the resulting columns in the output dataframe,
 with order matching that of \code{NamesIn} (e.g., \code{NamesOut=c('Y','X')}).}
 
-\item{append}{TRUE or FALSE. Should the projected locations be appended to the \code{Input}?}
+\item{append}{logical (T/F). Should the projected locations be appended to the \code{Input}?}
 
-\item{inv}{TRUE or FALSE. Should a back-projection be performed? In such case, locations must be given in meters
-and have been projected using a Lambert azimuthal equal-area projection.}
+\item{inv}{logical (T/F). Should a back-projection be performed? In such case, locations must be given in meters
+and have been projected using a Lambert azimuthal equal-area projection (\code{\link{CCAMLRp}}).}
 }
 \description{
-Given an input dataframe containing locations (given in decimal degrees or meters),
-projects these locations and, if desired, appends them to the dataframe.
+Given an input dataframe containing locations given in decimal degrees or meters (if projected),
+projects these locations and, if desired, appends them to the input dataframe.
 May also be used to back-project to Latitudes/Longitudes provided the input was projected
-using a Lambert azimuthal equal-area projection.
+using a Lambert azimuthal equal-area projection (\code{\link{CCAMLRp}}).
 }
 \examples{
 
@@ -43,7 +43,7 @@ MyData=data.frame(Lat=runif(100,min=-65,max=-50),
 
 #Project data using a Lambert azimuthal equal-area projection
 MyData=project_data(Input=MyData,NamesIn=c("Lat","Lon"))
-
+#View(MyData)
 
 }
 \seealso{

@@ -7,9 +7,9 @@
 load_Coastline()
 }
 \description{
-Download the up-to-date spatial layer from the \href{http://gis.ccamlr.org/}{online CCAMLRGIS} and load it to your environment.
+Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 See examples for offline use. All layers use the Lambert azimuthal equal-area projection
- (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs)
+ (\code{\link{CCAMLRp}})
 Note that this coastline expands further north than \link{Coast}.
 }
 \examples{
@@ -18,12 +18,13 @@ Note that this coastline expands further north than \link{Coast}.
 
 #When online:
 Coastline=load_Coastline()
-plot(Coastline)
+plot(st_geometry(Coastline))
 
 #If going offline in the future: load and save as RData when online,
-# then reload RData when offline:
+#then reload RData when offline:
 Coastline=load_Coastline()
 EEZs=load_EEZs()
+#N.B.: replace tempdir() with folder location of your choice
 save(list=c('Coastline','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
 rm(Coastline,EEZs)
 load(file.path(tempdir(), "CCAMLRLayers.RData"))

@@ -5,7 +5,7 @@
 \alias{Labels}
 \title{Polygon labels}
 \format{
-dataframe
+data.frame
 }
 \usage{
 data(Labels)
@@ -20,9 +20,15 @@ of polygon parts. Can be used in conjunction with \code{\link{add_labels}}.
 
 #View(Labels)
 
+#Example 1
 ASDs=load_ASDs()
-plot(ASDs)
+plot(st_geometry(ASDs),main="Example 1")
 add_labels(mode='auto',layer='ASDs',fontsize=1,fonttype=2)
+
+#Example 2
+SSRUs=load_SSRUs()
+plot(st_geometry(SSRUs),main="Example 2")
+add_labels(mode='auto',layer='SSRUs',fontsize=0.5,fonttype=1)
 
 }
 

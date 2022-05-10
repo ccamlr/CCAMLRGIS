@@ -5,7 +5,7 @@
 \alias{Depth_cols}
 \title{Bathymetry colors}
 \format{
-Character vector
+character vector
 }
 \usage{
 data(Depth_cols)
@@ -14,7 +14,7 @@ data(Depth_cols)
 Set of standard colors to plot bathymetry, to be used in conjunction with \link{Depth_cuts}.
 }
 \examples{
-plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
+plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 }
 \seealso{
 \code{\link{Depth_cols2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.

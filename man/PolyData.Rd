@@ -5,7 +5,7 @@
 \alias{PolyData}
 \title{Example dataset for create_Polys}
 \format{
-DataFrame
+data.frame
 }
 \usage{
 data(PolyData)
@@ -17,9 +17,9 @@ To be used in conjunction with \link{create_Polys}.
 #View(PolyData)
 
 MyPolys=create_Polys(PolyData,Densify=TRUE)
-plot(MyPolys,col='green',add=TRUE)
+plot(st_geometry(MyPolys),col='green')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID)
-plot(MyPolys[MyPolys$ID=='three',],border='red',lwd=3,add=TRUE)
+plot(st_geometry(MyPolys[MyPolys$ID=='three',]),border='red',lwd=3,add=TRUE)
 }
 \seealso{
 \code{\link{create_Polys}}.

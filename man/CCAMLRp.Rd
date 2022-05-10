@@ -5,7 +5,7 @@
 \alias{CCAMLRp}
 \title{CCAMLRGIS Projection}
 \format{
-Character string
+character string
 }
 \usage{
 data(CCAMLRp)
@@ -14,8 +14,8 @@ data(CCAMLRp)
 "+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
 }
 \description{
-The CCAMLRGIS package uses the \href{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}{Lambert azimuthal equal-area projection}.
+The CCAMLRGIS package uses the Lambert azimuthal equal-area projection (see \url{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}).
 Source: \url{http://gis.ccamlr.org/}.
 In order to align with recent developments within Geographic Information Software, this projection
-will be accessed via EPSG code 6932 (see: epsg dot org).
+will be accessed via EPSG code 6932 (see \url{https://epsg.org/crs_6932/WGS-84-NSIDC-EASE-Grid-2-0-South.html}).
 }

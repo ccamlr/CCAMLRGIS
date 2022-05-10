@@ -6,19 +6,15 @@
 \usage{
 create_Polys(
   Input,
-  OutputFormat = "ROBJECT",
-  OutputName = NULL,
+  NamesIn = NULL,
   Buffer = 0,
   Densify = TRUE,
   Clip = FALSE,
-  SeparateBuf = TRUE,
-  NamesIn = NULL
+  SeparateBuf = TRUE
 )
 }
 \arguments{
-\item{Input}{the name of the \code{Input} data as a .csv file or an R dataframe.
-If a .csv file is used as input, this file must be in your working directory and its name given in quotes
-e.g. "DataFile.csv".
+\item{Input}{input dataframe.
 
 \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
@@ -26,39 +22,32 @@ Polygon name, Latitude, Longitude.
 
 Latitudes and Longitudes must be given clockwise.}}
 
-\item{OutputFormat}{can be an R object or an ESRI Shapefile. if \code{OutputFormat} is specified as
-"ROBJECT" (the default), a SpatialPolygonDataFrame is created in your R environment.
-if \code{OutputFormat} is specified as "SHAPEFILE", an ESRI Shapefile is exported in
-your working directory.}
-
-\item{OutputName}{if \code{OutputFormat} is specified as "SHAPEFILE", the name of the output
-shapefile in quotes (e.g. "MyPolygons") must be provided.}
-
-\item{Buffer}{Distance in nautical miles by which to expand the polygons. Can be specified for
-each polygon (as a numeric vector).}
-
-\item{Densify}{If set to TRUE, additional points between points of equal latitude are added
-prior to projection (see examples).}
-
-\item{Clip}{if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).}
-
-\item{SeparateBuf}{If set to FALSE when adding a \code{Buffer},
-all spatial objects are merged, resulting in a single spatial object.}
-
 \item{NamesIn}{character vector of length 3 specifying the column names of polygon identifier, Latitude
 and Longitude fields in the \code{Input}.
 
 \strong{Names must be given in that order, e.g.:
 
 \code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.}
+
+\item{Buffer}{numeric, distance in nautical miles by which to expand the polygons. Can be specified for
+each polygon (as a numeric vector).}
+
+\item{Densify}{logical, if set to TRUE, additional points between points of equal latitude are added
+prior to projection (compare examples 1 and 2 below).}
+
+\item{Clip}{logical, if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).}
+
+\item{SeparateBuf}{logical, if set to FALSE when adding a \code{Buffer},
+all spatial objects are merged, resulting in a single spatial object.}
 }
 \value{
-Spatial object in your environment or ESRI shapefile in your working directory.
-Data within the resulting spatial object contains the data provided in the \code{Input} plus
-an additional "AreaKm2" column which corresponds to the areas, in square kilometers, of your polygons.
-Also, columns "Labx" and "Laby" which may be used to add labels to polygons.
+Spatial object in your environment.
+Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
+within polygons. For each numeric variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
+median of values in each polygon is returned. In addition, for each polygon, its area (AreaKm2) and projected 
+centroid (Labx, Laby) are given (which may be used to add labels to polygons).
 
-To see the data contained in your spatial object, type: \code{View(MyPolygons@data)}.
+To see the data contained in your spatial object, type: \code{View(MyPolygons)}.
 }
 \description{
 Create Polygons such as proposed Research Blocks or Marine Protected Areas.
@@ -70,27 +59,27 @@ Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 #Example 1: Simple and non-densified polygons
 
 MyPolys=create_Polys(Input=PolyData,Densify=FALSE)
-plot(MyPolys,col='blue')
+plot(st_geometry(MyPolys),col='blue',main="Example 1")
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
 #Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
 
 MyPolys=create_Polys(Input=PolyData)
-plot(MyPolys,col='red')
+plot(st_geometry(MyPolys),col='red',main="Example 2")
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 
 #Example 3: Buffered and clipped polygons
 
 MyPolysBefore=create_Polys(Input=PolyData,Buffer=c(10,-15,120))
 MyPolysAfter=create_Polys(Input=PolyData,Buffer=c(10,-15,120),Clip=TRUE)
-plot(MyPolysBefore,col='green')
-plot(Coast[Coast$ID=='All',],add=TRUE)
-plot(MyPolysAfter,col='red',add=TRUE)
+plot(st_geometry(MyPolysBefore),col='green',main="Example 3")
+plot(st_geometry(Coast[Coast$ID=='All',]),add=TRUE)
+plot(st_geometry(MyPolysAfter),col='red',add=TRUE)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
 
 #Example 4: Buffered and grouped polygons
 MyPolys=create_Polys(Input=PolyData,Buffer=80,SeparateBuf=FALSE)
-plot(MyPolys,border='blue',lwd=3)
+plot(st_geometry(MyPolys),border='blue',lwd=3,main="Example 4")
 
 
 }

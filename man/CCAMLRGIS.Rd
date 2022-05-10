@@ -4,7 +4,7 @@
 \name{CCAMLRGIS}
 \alias{CCAMLRGIS}
 \title{Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
-All operations use the Lambert azimuthal equal-area projection (EPSG:6932; CRS:+proj=laea +lat_0=-90 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs).}
+All operations use the Lambert azimuthal equal-area projection (via EPSG:6932).}
 \description{
 This package provides two broad categories of functions: load functions and create functions.
 }
@@ -39,14 +39,11 @@ Create functions are used to create geo-referenced layers from user-generated da
 
 \section{Vignette}{
 
-To learn more about CCAMLRGIS, start with the vignette:
-\code{browseVignettes(package = "CCAMLRGIS")}
+To learn more about CCAMLRGIS, start with the GitHub ReadMe (see \url{https://github.com/ccamlr/CCAMLRGIS#table-of-contents}).
 }
 
 \seealso{
 The CCAMLRGIS package relies on several other package which users may want to familiarize themselves with,
-namely \href{https://CRAN.R-project.org/package=sp}{sp},
-\href{https://CRAN.R-project.org/package=raster}{raster},
-\href{https://CRAN.R-project.org/package=rgeos}{rgeos} and
-\href{https://CRAN.R-project.org/package=rgdal}{rgdal}.
+namely sf (\url{https://CRAN.R-project.org/package=sf}) and 
+terra (\url{https://CRAN.R-project.org/package=terra}).
 }

@@ -15,25 +15,26 @@ add_labels(
 )
 }
 \arguments{
-\item{mode}{either \code{'auto'}, \code{'manual'} or \code{'input'}. See Description above.}
+\item{mode}{character, either \code{'auto'}, \code{'manual'} or \code{'input'}. See Description above.}
 
-\item{layer}{in \code{'auto'} mode, single or vector of characters, may only be one, some or all of: 
-\code{c("ASDs","SSRUs","RBs","SSMUs","MAs","RefAreas","MPAs","EEZs")}.}
+\item{layer}{character, in \code{'auto'} mode, single or vector of characters, may only be one, some or all of: 
+\code{c("ASDs","SSRUs","RBs","SSMUs","MAs","MPAs","EEZs")}.}
 
-\item{fontsize}{in \code{'auto'} mode, size of the text.}
+\item{fontsize}{numeric, in \code{'auto'} mode, size of the text.}
 
-\item{fonttype}{in \code{'auto'} mode, type of the text (1 to 4), where 1 corresponds to plain text, 
+\item{fonttype}{numeric, in \code{'auto'} mode, type of the text (1 to 4), where 1 corresponds to plain text, 
 2 to bold face, 3 to italic and 4 to bold italic.}
 
-\item{angle}{in \code{'auto'} mode, rotation of the text in degrees.}
+\item{angle}{numeric, in \code{'auto'} mode, rotation of the text in degrees.}
 
-\item{col}{in \code{'auto'} mode, color of the text.}
+\item{col}{character, in \code{'auto'} mode, color of the text.}
 
-\item{LabelTable}{in \code{'input'} mode, a label table that was generated in \code{'manual'} mode.}
+\item{LabelTable}{in \code{'input'} mode, name of the label table that was generated in \code{'manual'} mode.}
 }
 \value{
 Adds labels to plot. To save a label table generated in \code{'manual'} mode, use:
-\code{MyLabelTable=add_labels(mode='auto')}. To re-use that label table, use: 
+\code{MyLabelTable=add_labels(mode='auto')}. 
+To re-use that label table, use: 
 \code{add_labels(mode='input',LabelTable=MyLabelTable)}.
 }
 \description{
@@ -51,13 +52,13 @@ In \code{'input'} mode, a label table that was generated in \code{'manual'} mode
 #Example 1: 'auto' mode
 #label ASDs in bold and red
 ASDs=load_ASDs()
-plot(ASDs)
+plot(st_geometry(ASDs))
 add_labels(mode='auto',layer='ASDs',fontsize=1,fonttype=2,col='red')
 #add MPAs and EEZs and their labels in large, green and vertical text
 MPAs=load_MPAs()
 EEZs=load_EEZs()
-plot(MPAs,add=TRUE,border='green')
-plot(EEZs,add=TRUE,border='green')
+plot(st_geometry(MPAs),add=TRUE,border='green')
+plot(st_geometry(EEZs),add=TRUE,border='green')
 add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=2,col='green',angle=90)
 
 
@@ -65,13 +66,13 @@ add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=2,col='green',angle=90)
 #Examples 2 and 3 below are commented (remove the # to test)
 #plot(SmallBathy)
 #ASDs=load_ASDs()
-#plot(ASDs,add=TRUE)
+#plot(st_geometry(ASDs),add=TRUE)
 #MyLabels=add_labels(mode='manual')
 
 
 #Example 3: Re-use the label table generated in Example 2
 #plot(SmallBathy)
-#plot(ASDs,add=TRUE)
+#plot(st_geometry(ASDs),add=TRUE)
 #add_labels(mode='input',LabelTable=MyLabels)
 
 

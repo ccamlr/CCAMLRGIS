@@ -1,3 +1,23 @@
+# CCAMLRGIS 4.0.0
+
+Due to the incoming retirement of packages rgdal and rgeos, the CCAMLRGIS package has been recoded to use the packages sf and terra. The main difference to users is that in order to plot objects, one must replace:
+
+plot(MyObject)
+
+with:
+
+plot(st_geometry(MyObject))
+
+Also, to access the data inside objects, instead of MyObject@data, type MyObject directly.
+
+Convert sf objects to sp objects using as_Spatial() if preferred.
+
+Simplified create_X() functions to only use dataframe input.
+
+Added get_C_intersection() function.
+
+Removed distance to isobath calculations in get_depths().
+
 # CCAMLRGIS 3.2.0
 
 Added the create_Pies and add_PieLegend functions.
@@ -26,7 +46,7 @@ assign_areas doesn't re-order columns of the input dataframe any more (when usin
 
 Changed how other packages and functions are loaded when CCAMLRGIS is loaded. Now, only sp is loaded (unavoidable) which removes some past package conflicts (e.g., masking of dplyr functions when raster was loaded).
 
-Added 'NamesIn' parameter to assing_areas, get_depths and create_x functions. See help on these functions for details.
+Added 'NamesIn' parameter to assign_areas, get_depths and create_x functions. See help on these functions for details.
 
 Added a warning in assign_areas when 'Input' locations are impossible (Latitudes not within -90 to 90 and Longitudes not within -180 to 180).
 

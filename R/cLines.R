@@ -16,11 +16,11 @@ cLines=function(Input,Densify=FALSE){
       lons=tmp[,1]
       lats=tmp[,2]
     }
-    Ll[[i]]=Lines(list(Line(cbind(lons,lats))),as.character(ids[i]))
+    Ll[[i]]=st_linestring(cbind(lons,lats))
     Llengths=rbind(Llengths,cbind(id=as.character(ids[i]),
-                                  L=LinesLength(Ll[[i]],longlat=TRUE)))
+                                  L=as.numeric(st_length(st_sfc(Ll[[i]], crs = 4326)))/1000))
   }
-  Locs=SpatialLines(Ll, proj4string=CRS("+init=epsg:4326"))
+  Locs=st_sfc(Ll, crs = 4326)
   #Format lengths
   Llengths=as.data.frame(Llengths)
   Llengths$id=as.character(Llengths$id)
@@ -32,25 +32,28 @@ cLines=function(Input,Densify=FALSE){
   colnames(Input)[1]='ID'
   nums = which(unlist(lapply(Input, is.numeric))==TRUE)
   if(length(nums)>0){
-  Input=Input[,c(1,nums)]
-  Sdata=Input%>%
-    group_by(ID)%>%
-    summarise_all(list(min=~min(.,na.rm=TRUE),
-                       max=~max(.,na.rm=TRUE),
-                       mean=~mean(.,na.rm=TRUE),
-                       sum=~sum(.,na.rm=TRUE),
-                       count=~length(.),
-                       sd=~sd(.,na.rm=TRUE),
-                       median=~median(.,na.rm=TRUE)))
-  #add line lengths
-  Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(Input$ID)))}
+    Input=Input[,c(1,nums)]
+    Sdata=Input%>%
+      group_by(ID)%>%
+      summarise_all(list(min=~min(.,na.rm=TRUE),
+                         max=~max(.,na.rm=TRUE),
+                         mean=~mean(.,na.rm=TRUE),
+                         sum=~sum(.,na.rm=TRUE),
+                         count=~length(.),
+                         sd=~sd(.,na.rm=TRUE),
+                         median=~median(.,na.rm=TRUE)))
+    #add line lengths
+    Sdata=as.data.frame(Sdata)}else{Sdata=data.frame(ID=as.character(unique(Input$ID)))}
+  if(length(ids)>1 & ncol(Sdata)>1){
+    Sdata=Sdata[match(ids,Sdata$ID),]
+  }
   indx=match(Sdata$ID,Llengths$id)
   Sdata$LengthKm=Llengths$LengthKm[indx]
   Sdata$LengthNm=Llengths$LengthNm[indx]
   #Merge data to SpatialLines
   row.names(Sdata)=Sdata$ID
-  Locs=SpatialLinesDataFrame(Locs,Sdata)
+  Locs=st_set_geometry(Sdata,Locs)
   #Project
-  Locs=spTransform(Locs,CRS("+init=epsg:6932"))
+  Locs=st_transform(x=Locs,crs=6932)
   return(Locs)
 }
