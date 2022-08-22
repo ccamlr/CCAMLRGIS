@@ -22,7 +22,6 @@
 #' To re-use that label table, use: 
 #' \code{add_labels(mode='input',LabelTable=MyLabelTable)}.
 #' 
-#' @seealso 
 #' @seealso \code{\link{Labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
 #' \code{\link{load_MPAs}},

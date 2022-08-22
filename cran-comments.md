@@ -7,9 +7,7 @@
 
 ## R CMD check results
 
-* There were no ERRORS, or NOTES on Windows OS. 
-* 1 WARNING on Windows: 'qpdf' is needed for checks on size reduction of PDFs.
-* 1 NOTE on Windows Server 2022, R-devel, 64 bit: checking for detritus in the temp directory ... NOTE Found the following files/directories: 'lastMiKTeXException' - I don't know what it is about.
+* There were no ERRORS, WARNINGS, or NOTES on Windows OS. 
 
 
 ## Notes about CRAN edits
