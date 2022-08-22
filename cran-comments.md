@@ -7,8 +7,9 @@
 
 ## R CMD check results
 
-* There were no ERRORS, WARNINGS, or NOTES on Windows OS. 
-
+* There were no ERRORS, WARNINGS, or NOTES. Except for:
+* On Windows Server 2022, R-devel, 64 bit:
+NOTE: Found the following files/directories: 'lastMiKTeXException'
 
 ## Notes about CRAN edits
 

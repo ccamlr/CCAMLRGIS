@@ -6,17 +6,17 @@
 #' 
 #' @param Input dataframe containing - at the minimum - Latitudes and Longitudes to be assigned to polygons.
 #' 
-#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
-#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x.}.
+#' If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x..
 #' 
 #' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
-#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' the \code{Input}. Latitudes name must be given first, e.g.:
 #' 
-#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}.
 #' 
 #' @param Polys character vector of polygon names (e.g., \code{Polys=c('ASDs','RBs')}).
 #' 
-#' \strong{Must be matching the names of the pre-loaded spatial objects (loaded via e.g., \code{ASDs=load_ASDs()})}
+#' Must be matching the names of the pre-loaded spatial objects (loaded via e.g., \code{ASDs=load_ASDs()}).
 #' 
 #' @param AreaNameFormat dependent on the polygons loaded. For the Secretariat's spatial objects loaded via 'load_' functions,
 #' we have the following:

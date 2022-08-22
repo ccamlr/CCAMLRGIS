@@ -17,14 +17,14 @@ create_PolyGrids(
 \arguments{
 \item{Input}{input dataframe.
 
-\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
-Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}}
+Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}
 
 \item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
-the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+the \code{Input}. Latitudes name must be given first, e.g.:
 
-\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}.}
 
 \item{dlon}{numeric, width of the grid cells in decimal degrees of longitude.}
 

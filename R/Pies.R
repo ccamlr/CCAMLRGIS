@@ -13,9 +13,9 @@
 #' @param NamesIn character vector of length 4 specifying the column names of Latitude, Longitude,
 #' Class and value fields in the \code{Input}.
 #' 
-#' \strong{Names must be given in that order, e.g.:
+#' Names must be given in that order, e.g.:
 #' 
-#' \code{NamesIn=c('Latitude','Longitude','Class','Value')}}.
+#' \code{NamesIn=c('Latitude','Longitude','Class','Value')}.
 #' 
 #' @param Classes character, optional vector of classes to be displayed. If this excludes classes that are in the \code{Input},
 #' those excluded classes will be pooled in a 'Other' class.

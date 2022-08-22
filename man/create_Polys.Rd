@@ -16,18 +16,18 @@ create_Polys(
 \arguments{
 \item{Input}{input dataframe.
 
-\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Polygon name, Latitude, Longitude.
 
-Latitudes and Longitudes must be given clockwise.}}
+Latitudes and Longitudes must be given clockwise.}
 
 \item{NamesIn}{character vector of length 3 specifying the column names of polygon identifier, Latitude
 and Longitude fields in the \code{Input}.
 
-\strong{Names must be given in that order, e.g.:
+Names must be given in that order, e.g.:
 
-\code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.}
+\code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}.}
 
 \item{Buffer}{numeric, distance in nautical miles by which to expand the polygons. Can be specified for
 each polygon (as a numeric vector).}

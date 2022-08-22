@@ -4,18 +4,18 @@
 #'
 #' @param Input input dataframe.
 #' 
-#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+#' If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Polygon name, Latitude, Longitude.
 #' 
-#' Latitudes and Longitudes must be given clockwise.}
+#' Latitudes and Longitudes must be given clockwise.
 #' 
 #' @param NamesIn character vector of length 3 specifying the column names of polygon identifier, Latitude
 #' and Longitude fields in the \code{Input}.
 #' 
-#' \strong{Names must be given in that order, e.g.:
+#' Names must be given in that order, e.g.:
 #' 
-#' \code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}}.
+#' \code{NamesIn=c('Polygon ID','Poly Latitudes','Poly Longitudes')}.
 #' 
 #' @param Buffer numeric, distance in nautical miles by which to expand the polygons. Can be specified for
 #' each polygon (as a numeric vector).
@@ -101,14 +101,14 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #'
 #' @param Input input dataframe.
 #' 
-#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+#' If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
-#' Latitude, Longitude, Variable 1, Variable 2 ... Variable x.}
+#' Latitude, Longitude, Variable 1, Variable 2 ... Variable x.
 #' 
 #' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
-#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' the \code{Input}. Latitudes name must be given first, e.g.:
 #' 
-#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}.
 #' 
 #' @param dlon numeric, width of the grid cells in decimal degrees of longitude.
 #' @param dlat numeric, height of the grid cells in decimal degrees of latitude.
@@ -198,19 +198,19 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
 #'
 #' @param Input input dataframe.
 #' 
-#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+#' If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
 #' Line name, Latitude, Longitude.
 #' 
 #' If a given line is made of more than two points, the locations of points
-#' must be given in order, from one end of the line to the other.}
+#' must be given in order, from one end of the line to the other.
 #' 
 #' @param NamesIn character vector of length 3 specifying the column names of line identifier, Latitude
 #' and Longitude fields in the \code{Input}.
 #' 
-#' \strong{Names must be given in that order, e.g.:
+#' Names must be given in that order, e.g.:
 #' 
-#' \code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.
+#' \code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}.
 #' 
 #' @param Buffer numeric, distance in nautical miles by which to expand the lines. Can be specified for
 #' each line (as a numeric vector).
@@ -313,14 +313,14 @@ create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,Separ
 #'
 #' @param Input input dataframe.
 #' 
-#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+#' If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
-#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x}
+#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x.
 #' 
 #' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
-#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' the \code{Input}. Latitudes name must be given first, e.g.:
 #' 
-#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}.
 #' 
 #' @param Buffer numeric, radius in nautical miles by which to expand the points. Can be specified for
 #' each point (as a numeric vector).

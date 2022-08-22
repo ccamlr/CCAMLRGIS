@@ -152,8 +152,8 @@ NULL
 #' Bathymetry dataset derived from the GEBCO 2021 (see \url{https://www.gebco.net/}) dataset.
 #' Subsampled at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 #' To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
-#' \strong{To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
-#' to get higher resolution data.}
+#' To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
+#' to get higher resolution data.
 #' 
 #' 
 #' @docType data

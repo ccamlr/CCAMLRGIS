@@ -16,19 +16,19 @@ create_Lines(
 \arguments{
 \item{Input}{input dataframe.
 
-\strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 
 Line name, Latitude, Longitude.
 
 If a given line is made of more than two points, the locations of points
-must be given in order, from one end of the line to the other.}}
+must be given in order, from one end of the line to the other.}
 
 \item{NamesIn}{character vector of length 3 specifying the column names of line identifier, Latitude
 and Longitude fields in the \code{Input}.
 
-\strong{Names must be given in that order, e.g.:
+Names must be given in that order, e.g.:
 
-\code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}}.}
+\code{NamesIn=c('Line ID','Line Latitudes','Line Longitudes')}.}
 
 \item{Buffer}{numeric, distance in nautical miles by which to expand the lines. Can be specified for
 each line (as a numeric vector).}

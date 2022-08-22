@@ -1,6 +1,6 @@
 # CCAMLRGIS 4.0.1
 
-Re-built manual as per CRAN instructions (switch to HTML5)
+Re-built manual as per CRAN instructions (switch to HTML5): Removed bold emphasis on text.
 
 # CCAMLRGIS 4.0.0
 
