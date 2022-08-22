@@ -7,7 +7,7 @@
 
 ## R CMD check results
 
-* There were no ERRORS, or NOTES on Windows OS. 
+* There were no ERRORS, WARNINGS, or NOTES on Windows OS. 
 
 
 ## Notes about CRAN edits
