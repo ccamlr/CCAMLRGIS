@@ -1,3 +1,7 @@
+# CCAMLRGIS 4.0.1
+
+Re-built manual as per CRAN instructions (switch to HTML5)
+
 # CCAMLRGIS 4.0.0
 
 Due to the incoming retirement of packages rgdal and rgeos, the CCAMLRGIS package has been recoded to use the packages sf and terra. The main difference to users is that in order to plot objects, one must replace:
