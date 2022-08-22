@@ -16,9 +16,9 @@ project_data(
 \item{Input}{dataframe containing - at the minimum - Latitudes and Longitudes to be projected (or Y and X to be back-projected).}
 
 \item{NamesIn}{character vector of length 2 specifying the column names of Latitude and Longitude fields in
-the \code{Input}. \strong{Latitudes (or Y) name must be given first, e.g.:
+the \code{Input}. Latitudes (or Y) name must be given first, e.g.:
 
-\code{NamesIn=c('MyLatitudes','MyLongitudes')}}.}
+\code{NamesIn=c('MyLatitudes','MyLongitudes')}.}
 
 \item{NamesOut}{character vector of length 2, optional. Names of the resulting columns in the output dataframe,
 with order matching that of \code{NamesIn} (e.g., \code{NamesOut=c('Y','X')}).}

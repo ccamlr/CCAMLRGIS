@@ -314,7 +314,7 @@ load_EEZs=function(){
 #' To download the data, you must either have set your working directory using \code{\link[base]{setwd}}, or be working within an Rproject.
 #' In any case, your file will be downloaded to the folder path given by \code{\link[base]{getwd}}.
 #' 
-#' \strong{It is strongly recommended to first download the lowest resolution data (set \code{Res=5000}) to ensure it is working as expected.}
+#' It is strongly recommended to first download the lowest resolution data (set \code{Res=5000}) to ensure it is working as expected.
 #' 
 #' To re-use the downloaded data, you must provide the full path to that file, for example:
 #' 

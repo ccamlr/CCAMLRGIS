@@ -5,14 +5,14 @@
 #' dependent on the resolution of the bathymetry raster (see \code{\link{load_Bathy}} to get high resolution data).
 #' 
 #' @param Input dataframe with, at least, Latitudes and Longitudes.
-#' \strong{If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
+#' If \code{NamesIn} is not provided, the columns in the \code{Input} must be in the following order:
 #' 
-#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x}
+#' Latitude, Longitude, Variable 1, Variable 2, ... Variable x.
 #' 
 #' @param NamesIn character vector of length 2 specifying the column names of Latitude and Longitude fields in
-#' the \code{Input}. \strong{Latitudes name must be given first, e.g.:
+#' the \code{Input}. Latitudes name must be given first, e.g.:
 #' 
-#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}}.
+#' \code{NamesIn=c('MyLatitudes','MyLongitudes')}.
 #' 
 #' @param Bathy bathymetry raster with the appropriate \code{\link[CCAMLRGIS:CCAMLRp]{projection}},
 #' such as \code{\link[CCAMLRGIS:SmallBathy]{this one}}. It is highly recommended to use a raster of higher
