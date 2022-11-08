@@ -332,7 +332,7 @@ load_EEZs=function(){
 #' @seealso
 #' \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},
 #' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}},
-#' \code{\link{create_Stations}},
+#' \code{\link{create_Stations}}, \code{\link{get_iso_polys}},
 #' \code{\link{SmallBathy}}.
 #' 
 #' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f) 

@@ -32,7 +32,7 @@ plot(st_geometry(MyObject))
 
 Also, to access the data inside spatial objects, instead of
 <MyObject@data>, type MyObject directly. You can revert to *sp* objects
-with as_Spatial(MyObject) if preferred.
+with sf::as_Spatial(MyObject) if preferred.
 
 Using *sf* objects has advantages such as the ability to use [Tidyverse
 methods](https://r-spatial.github.io/sf/reference/tidyverse.html).
@@ -87,6 +87,7 @@ install.packages("CCAMLRGIS")
 -   4.3. [assign_areas](#43-assign_areas)
 -   4.4. [project_data](#44-project_data)
 -   4.5. [get_C\_intersection](#45-get_c_intersection)
+-   4.6. [get_iso_polys](#46-get_iso_polys)
 
 5.  Adding colors, legends and labels
 
@@ -171,6 +172,7 @@ plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,legend=FALSE,mar=c(0,0,0
 
 ``` r
 
+
 #Please refer to ?load_Bathy for more details, including how to save the bathymetry data so that you
 #do not have to re-download it every time you need it.
 ```
@@ -245,6 +247,7 @@ For details, type:
 ```
 
 ``` r
+
 #Prepare layout for 4 sub-plots
 par(mfrow=c(2,2),mai=c(0,0.01,0.2,0.01))
 
@@ -305,6 +308,7 @@ Input=data.frame(
 ```
 
 ``` r
+
 #Prepare layout for 3 sub-plots
 par(mai=c(0,0.01,0.2,0.01),mfrow=c(1,3))
 
@@ -331,6 +335,7 @@ Adding a buffer with the argument *SeparateBuf* set to FALSE results in
 a single polygon which may be viewed as a footprint:
 
 ``` r
+
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0.01,0.01,0.01,0.01))
 
@@ -355,6 +360,7 @@ For details, type:
 ```
 
 ``` r
+
 #Prepare layout for 3 sub-plots
 par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
@@ -416,6 +422,7 @@ For details, type:
 ```
 
 ``` r
+
 #Prepare layout for 3 sub-plots
 par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
@@ -440,6 +447,7 @@ box()
 Customizing a grid and adding a color scale:
 
 ``` r
+
 #Prepare layout for 2 sub-plots
 par(mfrow=c(2,1),mai=c(0.2,0.05,0.1,1.3))
 
@@ -509,6 +517,7 @@ box()
 Example 1. Set numbers of stations, no distance constraint:
 
 ``` r
+
 #optional: crop your bathymetry raster to match the extent of your polygon
 BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
 
@@ -528,6 +537,7 @@ plot(st_geometry(MyStations),add=T,col='orange',cex=0.75,lwd=1.5,pch=3)
 Example 2. Set numbers of stations, with distance constraint:
 
 ``` r
+
 #Create Stations
 MyStations=create_Stations(MyPoly,BathyCroped,
                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
@@ -547,6 +557,7 @@ plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),pch=21,bg='red',a
 Example 3. Automatic numbers of stations, with distance constraint:
 
 ``` r
+
 #Create Stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
 
@@ -808,6 +819,7 @@ For details, type:
 ```
 
 ``` r
+
 #Load ASDs, EEZs, and Coastline
 ASDs=load_ASDs()
 EEZs=load_EEZs()
@@ -832,6 +844,7 @@ desire to save layers on their hard drive for offline use. This may be
 done, at the risk of not having the most up-to-date layers, as follows:
 
 ``` r
+
 #Load all layers
 ASDs=load_ASDs()
 EEZs=load_EEZs()
@@ -870,6 +883,7 @@ For details, type:
 ```
 
 ``` r
+
 #Generate a dataframe
 MyData=data.frame(Lat=PointData$Lat,
                   Lon=PointData$Lon,
@@ -997,6 +1011,7 @@ For details, type:
 ```
 
 ``` r
+
 #The input data looks like this:
 head(PointData)
 #>         Lat       Lon  name    Catch Nfishes n
@@ -1033,6 +1048,7 @@ For details, type:
 ```
 
 ``` r
+
 #Prepare layout for 4 sub-plots
 par(mfrow=c(2,2),mai=c(0.8,0.8,0.2,0.05))
 
@@ -1066,6 +1082,58 @@ box()
 ```
 
 <img src="README-Fig16b-1.png" width="100%" style="display: block; margin: auto;" />
+
+### 4.6. get_iso_polys
+
+From an input bathymetry and chosen depths, turns areas between isobaths
+into polygons. An input polygon may optionally be given to constrain
+boundaries. The accuracy is dependent on the resolution of the
+bathymetry raster (see *load_Bathy()* to get high resolution data). The
+function also groups touching polygons to identify bathymetric features
+such as seamounts.
+
+For details, type:
+
+``` r
+?get_iso_polys
+```
+
+``` r
+
+#Prepare layout for 4 sub-plots
+par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
+
+#Example 1 - Whole Convention Area 
+
+IsoPols=get_iso_polys(Bathy=SmallBathy,Depths=c(-10000,-4000,-2000,0))
+
+plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="blue",main="Example 1")
+plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="white",add=TRUE)
+plot(st_geometry(IsoPols[IsoPols$Iso==3,]),col="red",add=TRUE)
+box()
+
+#Example 2 - SSRU 882H seamounts
+SSRUs=load_SSRUs()
+Poly=SSRUs[SSRUs$GAR_Short_Label=="882H",]
+IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=c(-2500,-1800,-600))
+
+plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="cyan",main="Example 2")
+plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="green",add=TRUE)
+text(IsoPols$Labx,IsoPols$Laby,IsoPols$Grp,col="red",font=2,xpd=TRUE,cex=1.25, adj=c(-.5,-.5))
+box()
+
+#Example 3 - Custom polygon
+Poly=create_Polys(Input=data.frame(ID=1,Lat=c(-55,-55,-61,-61),Lon=c(-30,-25,-25,-30)))
+IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=seq(-8000,0,length.out=10))
+
+plot(st_geometry(Poly),main="Example 3")
+for(i in unique(IsoPols$Iso)){
+  plot(st_geometry(IsoPols[IsoPols$Iso==i,]),col=rainbow(9)[i],add=TRUE)
+}
+box()
+```
+
+<img src="README-Figgip1-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## 5. Adding colors, legends and labels
 
@@ -1125,6 +1193,7 @@ colors in R would be useful here
 (<http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf>).
 
 ``` r
+
 #Adding color to points
 
 #Prepare layout for 3 sub-plots
@@ -1160,6 +1229,7 @@ box()
 <img src="README-Fig19-1.png" width="80%" style="display: block; margin: auto;" />
 
 ``` r
+
 #Adding colors to a grid with custom cuts (see also the last example in section 2.1.)
 
 #Step 1: Generate your grid
@@ -1300,6 +1370,7 @@ with each polygon. The *sf* package has some useful plotting methods,
 some of which are shown below.
 
 ``` r
+
 #First, let's create some example polygons
 MyPolys=create_Polys(PolyData)
 

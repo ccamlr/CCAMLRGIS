@@ -1,3 +1,7 @@
+# CCAMLRGIS 4.0.2
+
+Added get_iso_polys function.
+
 # CCAMLRGIS 4.0.1
 
 Re-built manual as per CRAN instructions (switch to HTML5): Removed bold emphasis on text.

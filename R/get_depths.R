@@ -21,7 +21,7 @@
 #' 
 #' @seealso 
 #' \code{\link{load_Bathy}}, \code{\link{create_Points}},
-#'  \code{\link{create_Stations}}.
+#'  \code{\link{create_Stations}}, \code{\link{get_iso_polys}}.
 #' 
 #' @examples
 #' 
