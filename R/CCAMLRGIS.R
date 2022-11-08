@@ -1,6 +1,6 @@
 utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols2','Depth_cuts2',
 'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID','PieData','PieData2',
-'Lat','Lon','N','Tot','p','Ass_Ar_Key'))
+'Lat','Lon','N','Tot','p','Ass_Ar_Key','Min','Max','Iso','AreaKm2'))
 #' 
 #' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
 #' All operations use the Lambert azimuthal equal-area projection (via EPSG:6932).
@@ -53,5 +53,6 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @importFrom magrittr %>%
 #' @importFrom terra rast crop ext mask vect classify expanse extract extend clamp as.polygons plot click
 #' @importFrom raster raster plot
+#' @importFrom stars st_as_stars st_contour
 #' @name CCAMLRGIS
 NULL

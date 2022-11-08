@@ -13,6 +13,7 @@ NOTE: Found the following files/directories: 'lastMiKTeXException'
 
 ## Notes about CRAN edits
 
+* Added get_iso_polys function.
 * Moved all operations from sp/raster to sf/terra. Added get_C_intersection() function.
 * Now the vignette links to the GitHub README to avoid CRAN Checks issues
 * Added create_Pies() and add_PieLegend() functions
