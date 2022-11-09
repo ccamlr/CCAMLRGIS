@@ -57,120 +57,17 @@ Once pie charts have been created, the function \link{add_PieLegend} may be used
 }
 \examples{
  
-#Example 1. Pies of constant size, all classes displayed:
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#23-create-pies
+  
+#Pies of constant size, all classes displayed:
 #Create pies
 MyPies=create_Pies(Input=PieData,NamesIn=c("Lat","Lon","Sp","N"),Size=50)
 #Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 1")
+plot(st_geometry(MyPies),col=MyPies$col)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.5,0.45,0.12,0.45),
              PieTitle="Species")
-
-
-#Example 2. Pies of constant size, selected classes displayed:
-#Create pies
-MyPies=create_Pies(Input=PieData,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=50,
-                   Classes=c("TOP","TOA","ANI")
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 2")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.6,0.6,0.12,0.55),
-              PieTitle="Selected species")
-
-
-#Example 3. Pies of constant size, proportions below 25\% are grouped in a 'Other' class
-#(unlike Example 2, the 'Other' class may contain classes that are displayed in the legend.
-#Please compare Example 1 and Example 3)
-#Create pies
-MyPies=create_Pies(Input=PieData,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=50,
-                   Other=25
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 3")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1,Boxexp=c(0.55,0.55,0.12,0.45),
-              PieTitle="Other (\%) class")
-
-
-#Example 4. Pies of variable size (here, their area is proportional to 'Catch'),
-#all classes displayed, horizontal legend:
-#Create pies
-MyPies=create_Pies(Input=PieData,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=18,
-                   SizeVar="Catch"
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 4")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-0.3,PosY=-0.8,Boxexp=c(0.16,0.1,0.1,0.4),
-              PieTitle="Species",SizeTitle="Catch (t.)")
-
-
-#Example 5. Pies of variable size (here, their area is proportional to 'Catch'),
-#all classes displayed, vertical legend:
-#Create pies
-MyPies=create_Pies(Input=PieData,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=18,
-                   SizeVar="Catch"
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 5")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-1.7,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
-              PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
-
-
-#Example 6. Pies of constant size, all classes displayed.
-#Too many pies (see next example for solution):
-#Create pies
-MyPies=create_Pies(Input=PieData2,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=5
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 6")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
-              PieTitle="Species")
-
-
-#Example 7. Pies of constant size, all classes displayed. Gridded locations
-#(in which case numerical variables in the 'Input' are summed for each grid point):
-#Create pies
-MyPies=create_Pies(Input=PieData2,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=5,
-                   GridKm=250
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 7")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-0.8,PosY=-0.1,Boxexp=c(0.5,0.45,0.12,0.45),
-              PieTitle="Species")
-
-
-#Example 8. Pies of variable size (here, their area is proportional to 'Catch'),
-#all classes displayed, vertical legend, gridded locations (in which case numerical
-#variables in the 'Input' are summed for each grid point):
-MyPies=create_Pies(Input=PieData2,
-                   NamesIn=c("Lat","Lon","Sp","N"),
-                   Size=3,
-                   GridKm=250,
-                   SizeVar='Catch'
-                   )
-#Plot Pies
-plot(st_geometry(MyPies),col=MyPies$col,main="Example 8")
-#Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=-1.2,PosY=0.3,Boxexp=c(0.38,0.32,0.08,0.18),
-              PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",
-              SizeTitleVadj=0.8,nSizes=2)
 
 
 

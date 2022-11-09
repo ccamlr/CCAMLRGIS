@@ -19,14 +19,8 @@ See examples for offline use. All layers use the Lambert azimuthal equal-area pr
 EEZs=load_EEZs()
 plot(st_geometry(EEZs))
 
-#If going offline in the future: load and save as RData when online,
-#then reload RData when offline:
-MPAs=load_MPAs()
-EEZs=load_EEZs()
-#N.B.: replace tempdir() with folder location of your choice
-save(list=c('MPAs','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
-rm(MPAs,EEZs)
-load(file.path(tempdir(), "CCAMLRLayers.RData"))
+#For offline use, see:
+#https://github.com/ccamlr/CCAMLRGIS#32-offline-use
 
 }
 

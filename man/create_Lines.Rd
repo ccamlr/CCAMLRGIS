@@ -56,49 +56,13 @@ Create lines to display, for example, fishing line locations or tagging data.
 \examples{
 \donttest{
 
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#create-lines
 
-#If your data contains line end locations in separate columns, you may reformat it as follows:
-
-#Example data:
-MyData=data.frame(
-  Line=c(1,2),
-  Lat_Start=c(-60,-65),
-  Lon_Start=c(-10,5),
-  Lat_End=c(-61,-66),
-  Lon_End=c(-2,2)
-)
-
-#Reformat to us as input as:
-Input=data.frame(
-  Line=c(MyData$Line,MyData$Line),
-  Lat=c(MyData$Lat_Start,MyData$Lat_End),
-  Lon=c(MyData$Lon_Start,MyData$Lon_End)
-)
-
-#Create lines and plot them
-plot(st_geometry(create_Lines(Input=Input)))
-
-
-#Example 1: Simple and non-densified lines
-
-MyLines=create_Lines(Input=LineData)
-plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 1")
-
-#Example 2: Simple and densified lines (note the curvature of the purple line)
+#Densified lines (note the curvature of the purple line)
 
 MyLines=create_Lines(Input=LineData,Densify=TRUE)
-plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 2")
-
-#Example 3: Densified, buffered and clipped lines
-
-MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=c(10,40,50,80,100),Clip=TRUE)
-
-plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)),main="Example 3")
-plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
-
-#Example 4: Buffered and grouped lines
-MyLines=create_Lines(Input=LineData,Densify=TRUE,Buffer=30,SeparateBuf=FALSE)
-plot(st_geometry(MyLines),lwd=2,border='blue',main="Example 4")
+plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)))
 
 }
 
