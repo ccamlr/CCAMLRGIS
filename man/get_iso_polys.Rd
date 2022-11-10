@@ -34,26 +34,9 @@ The accuracy is dependent on the resolution of the bathymetry raster
 }
 \examples{
 
-#Example 1 - Whole Convention Area 
-#Uncomment to test (slow)
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#46-get_iso_polys
 
-#IsoPols=get_iso_polys(Bathy=SmallBathy,Depths=c(-10000,-4000,-2000,0))
-
-#plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="blue")
-#plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="white",add=TRUE)
-#plot(st_geometry(IsoPols[IsoPols$Iso==3,]),col="red",add=TRUE)
-
-#Example 2 - SSRU 882H seamounts
-
-SSRUs=load_SSRUs()
-Poly=SSRUs[SSRUs$GAR_Short_Label=="882H",]
-IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=c(-2500,-1800,-600))
-
-plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="cyan")
-plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="green",add=TRUE)
-text(IsoPols$Labx,IsoPols$Laby,IsoPols$Grp,col="red",font=2,xpd=TRUE,cex=1.25, adj=c(-.5,-.5))
-
-#Example 3 - Custom polygon
 
 Poly=create_Polys(Input=data.frame(ID=1,Lat=c(-55,-55,-61,-61),Lon=c(-30,-25,-25,-30)))
 IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=seq(-8000,0,length.out=10))

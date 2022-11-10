@@ -46,31 +46,15 @@ Create Points to display point locations. Buffering points may be used to produc
 \examples{
 \donttest{
 
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#create-points
 
-#Example 1: Simple points with labels
-
-MyPoints=create_Points(Input=PointData)
-plot(st_geometry(MyPoints),main="Example 1")
-text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
-
-#Example 2: Simple points with labels, highlighting one group of points with the same name
+#Simple points with labels
 
 MyPoints=create_Points(Input=PointData)
-plot(st_geometry(MyPoints),main="Example 2")
+plot(st_geometry(MyPoints))
 text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
-plot(st_geometry(MyPoints[MyPoints$name=='four',]),bg='red',pch=21,cex=1.5,add=TRUE)
 
-#Example 3: Buffered points with radius proportional to catch
-
-MyPoints=create_Points(Input=PointData,Buffer=0.5*PointData$Catch)
-plot(st_geometry(MyPoints),col='green',main="Example 3")
-text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,0.5),xpd=TRUE)
-
-#Example 4: Buffered points with radius proportional to catch and clipped to the Coast
-
-MyPoints=create_Points(Input=PointData,Buffer=2*PointData$Catch,Clip=TRUE)
-plot(st_geometry(MyPoints),col='cyan',main="Example 4")
-plot(st_geometry(Coast[Coast$ID=='All',]),add=TRUE,col='grey')
 
 
 }

@@ -7,7 +7,7 @@
 
 ## R CMD check results
 
-* There were no ERRORS, WARNINGS, or NOTES.
+* There were no ERRORS, WARNINGS, or NOTES, except for a NOTE under Fedora Linux, R-devel, clang, gfortran: Skipping checking HTML validation: no command 'tidy' found.
 
 ## Notes about CRAN edits
 

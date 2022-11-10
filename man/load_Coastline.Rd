@@ -20,14 +20,8 @@ Note that this coastline expands further north than \link{Coast}.
 Coastline=load_Coastline()
 plot(st_geometry(Coastline))
 
-#If going offline in the future: load and save as RData when online,
-#then reload RData when offline:
-Coastline=load_Coastline()
-EEZs=load_EEZs()
-#N.B.: replace tempdir() with folder location of your choice
-save(list=c('Coastline','EEZs'), file = file.path(tempdir(), "CCAMLRLayers.RData"))
-rm(Coastline,EEZs)
-load(file.path(tempdir(), "CCAMLRLayers.RData"))
+#For offline use, see:
+#https://github.com/ccamlr/CCAMLRGIS#32-offline-use
 
 }
 

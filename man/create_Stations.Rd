@@ -49,6 +49,9 @@ A distance constraint between stations may also be used if desired.
 \examples{
 \donttest{
 
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#22-create-stations
+
 #First, create a polygon within which stations will be created
 MyPoly=create_Polys(
  data.frame(Name="mypol",
@@ -61,7 +64,7 @@ plot(st_geometry(Coast[Coast$ID=='88.1',]),col='grey')
 plot(st_geometry(MyPoly),col='green',add=TRUE)
 text(MyPoly$Labx,MyPoly$Laby,MyPoly$ID)
 
-#Example 1. Set numbers of stations, no distance constraint:
+#Create a set numbers of stations, without distance constraint:
 library(terra)
 #optional: crop your bathymetry raster to match the extent of your polygon
 BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
@@ -71,48 +74,11 @@ MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 1")
+plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE)
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
 offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
 plot(st_geometry(MyStations),add=TRUE,col='orange',cex=0.75,lwd=1.5,pch=3)
-
-#Example 2. Set numbers of stations, with distance constraint:
- 
-#Create Stations
-MyStations=create_Stations(MyPoly,BathyCroped,
-                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
-
-#add custom colors to the bathymetry to indicate the strata of interest
-MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 2")
-add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
-offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
-plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
-plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),
-pch=21,bg='yellow',add=TRUE,cex=0.75,lwd=0.1)
-plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),
-pch=21,bg='orange',add=TRUE,cex=0.75,lwd=0.1)
-plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),
-pch=21,bg='red',add=TRUE,cex=0.75,lwd=0.1)
-
-#Example 3. Automatic numbers of stations, with distance constraint:
- 
-#Create Stations
-MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
-
-#add custom colors to the bathymetry to indicate the strata of interest
-MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
-plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=FALSE,axes=FALSE,main="Example 3")
-add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,
-offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
-plot(st_geometry(MyPoly),add=TRUE,border='red',lwd=2,xpd=TRUE)
-plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),
-pch=21,bg='yellow',add=TRUE,cex=0.75,lwd=0.1)
-plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),
-pch=21,bg='orange',add=TRUE,cex=0.75,lwd=0.1)
-plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),
-pch=21,bg='red',add=TRUE,cex=0.75,lwd=0.1)
 
 
 }

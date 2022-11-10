@@ -54,12 +54,10 @@ In \code{'input'} mode, a label table that was generated in \code{'manual'} mode
 ASDs=load_ASDs()
 plot(st_geometry(ASDs))
 add_labels(mode='auto',layer='ASDs',fontsize=1,fonttype=2,col='red')
-#add MPAs and EEZs and their labels in large, green and vertical text
-MPAs=load_MPAs()
+#add EEZs and their labels in large, green and vertical text
 EEZs=load_EEZs()
-plot(st_geometry(MPAs),add=TRUE,border='green')
 plot(st_geometry(EEZs),add=TRUE,border='green')
-add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=2,col='green',angle=90)
+add_labels(mode='auto',layer='EEZs',fontsize=2,col='green',angle=90)
 
 
 #Example 2: 'manual' mode (you will have to do it yourself)

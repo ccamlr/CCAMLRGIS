@@ -55,31 +55,15 @@ Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 \examples{
 \donttest{
 
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#create-polygons
 
-#Example 1: Simple and non-densified polygons
 
-MyPolys=create_Polys(Input=PolyData,Densify=FALSE)
-plot(st_geometry(MyPolys),col='blue',main="Example 1")
-text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
-
-#Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
+#Densified polygons (note the curvature of iso-latitude lines)
 
 MyPolys=create_Polys(Input=PolyData)
-plot(st_geometry(MyPolys),col='red',main="Example 2")
+plot(st_geometry(MyPolys),col='red')
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
-
-#Example 3: Buffered and clipped polygons
-
-MyPolysBefore=create_Polys(Input=PolyData,Buffer=c(10,-15,120))
-MyPolysAfter=create_Polys(Input=PolyData,Buffer=c(10,-15,120),Clip=TRUE)
-plot(st_geometry(MyPolysBefore),col='green',main="Example 3")
-plot(st_geometry(Coast[Coast$ID=='All',]),add=TRUE)
-plot(st_geometry(MyPolysAfter),col='red',add=TRUE)
-text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white')
-
-#Example 4: Buffered and grouped polygons
-MyPolys=create_Polys(Input=PolyData,Buffer=80,SeparateBuf=FALSE)
-plot(st_geometry(MyPolys),border='blue',lwd=3,main="Example 4")
 
 
 }

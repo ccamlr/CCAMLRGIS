@@ -55,23 +55,11 @@ place a \code{\link[graphics]{legend}}.
 }
 \examples{
 
-#Example 1: simple bathymetry plot with color scale
-plot(SmallBathy, breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(height=55)
+# For more examples, see:
+# https://github.com/ccamlr/CCAMLRGIS#5-adding-colors-legends-and-labels
 
-#Example 2: simple bathymetry plot with Fishable Depth range highlight and color scale
-plot(SmallBathy, breaks=Depth_cuts2, col=Depth_cols2, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(height=55,cuts=Depth_cuts2,cols=Depth_cols2)
 
-#Example 3: Show only values greater than 'minVal'
-plot(SmallBathy, breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(minVal=-3200)
-
-#Example 4: Show only values between 'minVal' and 'maxVal'
-plot(SmallBathy, breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_Cscale(minVal=-3200,maxVal=-400)
-
-#Example 5: Adding two color scales
+#Example 1: Adding two color scales
 
 plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
 add_Cscale(pos='1/2',height=45,maxVal=0,minVal=-4000,fontsize=0.8)
@@ -83,7 +71,7 @@ plot(st_geometry(MyGrid),col=Gridcol$varcol,add=TRUE)
 add_Cscale(pos='2/2',height=45,title='Catch (t)',
            cuts=round(Gridcol$cuts,1),cols=Gridcol$cols,fontsize=0.8)
 
-#Example 6: Adding a color scale and a legend
+#Example 2: Adding a color scale and a legend
 
 #Create some point data
 MyPoints=create_Points(PointData)

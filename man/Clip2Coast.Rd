@@ -18,7 +18,6 @@ Uses an sf object as input which may be user-generated or created via buffered p
 buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}).
 }
 \examples{
-#Example 1: Use Clip2Coast on a pre-generated polygon
 
 MyPolys=create_Polys(PolyData,Densify=TRUE,Buffer=c(10,-15,120))
 plot(st_geometry(MyPolys),col='red')
@@ -27,13 +26,6 @@ MyPolysClipped=Clip2Coast(MyPolys)
 plot(st_geometry(MyPolysClipped),col='blue',add=TRUE)
 #View(MyPolysClipped)
 
-#Example 2: Use Clip2Coast while creating a polygon, with Clip=TRUE in create_Polys().
-
-MyPolysBefore=create_Polys(PolyData,Buffer=c(10,-15,120))
-MyPolysAfter=create_Polys(PolyData,Buffer=c(10,-15,120),Clip=TRUE)
-plot(st_geometry(MyPolysBefore),col='green')
-plot(st_geometry(Coast[Coast$ID=='All',]),add=TRUE)
-plot(st_geometry(MyPolysAfter),col='red',add=TRUE)
 
 }
 \seealso{
