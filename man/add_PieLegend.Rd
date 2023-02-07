@@ -6,6 +6,7 @@
 \usage{
 add_PieLegend(
   Pies = NULL,
+  bb = NULL,
   PosX = 0,
   PosY = 0,
   Size = 25,
@@ -28,6 +29,10 @@ add_PieLegend(
 \arguments{
 \item{Pies}{Spatial object created using \link{create_Pies}.}
 
+\item{bb}{Spatial object, sf bounding box created with \code{st_bbox()}. If provided,
+the legend will be centered in that bb. Otherwise it is centered on the \code{min(Latitudes)}
+and \code{median(Longitudes)} of coordinates found in the input \code{Pies}.}
+
 \item{PosX}{numeric, horizontal adjustment of legend.}
 
 \item{PosY}{numeric, vertical adjustment of legend.}
@@ -41,7 +46,7 @@ as \code{c(xmin,xmax,ymin,ymax)}.}
 
 \item{Boxbd}{character, color of the background of the legend box.}
 
-\item{Boxlwd}{numeric, line thickness of the legend box.}
+\item{Boxlwd}{numeric, line thickness of the legend box. Set to zero if no box is desired.}
 
 \item{Labexp}{numeric, controls the distance of the pie labels to the center of the pie.}
 

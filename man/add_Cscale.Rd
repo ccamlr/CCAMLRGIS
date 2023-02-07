@@ -16,6 +16,11 @@ add_Cscale(
   fontsize = 1,
   offset = 100,
   lwd = 1,
+  Titlefontsize = 1.2 * fontsize,
+  TitleVAdj = 0,
+  BoxAdj = c(0, 0, 0, 0),
+  BoxCol = "black",
+  BoxBG = "white",
   mode = "Cscale"
 )
 }
@@ -44,6 +49,16 @@ if \code{pos="2/2"}, the color scale will be centered on the bottom half of the 
 \item{offset}{numeric, controls the horizontal position of the color scale.}
 
 \item{lwd}{numeric, thickness of lines.}
+
+\item{Titlefontsize}{numeric, size of the title text.}
+
+\item{TitleVAdj}{numeric, vertical adjustment of the title.}
+
+\item{BoxAdj}{numeric vector of 4 values to adjust the sides of the box, given as \code{c(bottom,left,top,right)}.}
+
+\item{BoxCol}{Color of the legend box frame.}
+
+\item{BoxBG}{Color of the legend box background.}
 
 \item{mode}{character, if 'Cscale', the default, the function builds a color scale. if 'Legend', the function
 gives you the location of a \code{\link[graphics]{legend}}, arguments \code{pos}, \code{offset} and \code{height}

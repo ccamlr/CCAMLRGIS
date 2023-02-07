@@ -9,7 +9,7 @@ cPolys=function(Input,Densify=FALSE){
     lons=Input[indx,3]
     lats=Input[indx,2]
     diflons=abs(diff(lons))
-    if(length(diflons)>1){diflons=min(abs(diflons[diflons!=0]))}
+    if(length(diflons)>1){diflons=max(abs(diflons[diflons!=0]))}
     if(length(diflons)==0){diflons=0}
     if(diflons>0.1 & Densify==TRUE){
       tmp=DensifyData(lons,lats)

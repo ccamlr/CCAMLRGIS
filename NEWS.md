@@ -1,3 +1,13 @@
+# CCAMLRGIS 4.0.4
+
+Improved create_Pies() when gridding is required. Added finer controls of color legend in add_Cscale().
+Updated SmallBathy to GEBCO 2022.
+
+
+# CCAMLRGIS 4.0.3
+
+New implementation of line densification. Now all lines than span more than 0.1 degree longitude are densified (before, only isolatitude lines were densified).
+
 # CCAMLRGIS 4.0.2
 
 Added get_iso_polys function.

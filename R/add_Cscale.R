@@ -17,6 +17,11 @@
 #' @param fontsize numeric, size of the text in the color scale.
 #' @param offset numeric, controls the horizontal position of the color scale.
 #' @param lwd numeric, thickness of lines.
+#' @param Titlefontsize numeric, size of the title text.
+#' @param TitleVAdj numeric, vertical adjustment of the title.
+#' @param BoxAdj numeric vector of 4 values to adjust the sides of the box, given as \code{c(bottom,left,top,right)}.
+#' @param BoxCol Color of the legend box frame.
+#' @param BoxBG Color of the legend box background.
 #' @param mode character, if 'Cscale', the default, the function builds a color scale. if 'Legend', the function
 #' gives you the location of a \code{\link[graphics]{legend}}, arguments \code{pos}, \code{offset} and \code{height}
 #' may be used for adjustments. See examples.
@@ -72,7 +77,10 @@
 
 add_Cscale=function(pos='1/1',title='Depth (m)',width=18,height=70,
               cuts=Depth_cuts,cols=Depth_cols,
-              minVal=NA,maxVal=NA,fontsize=1,offset=100,lwd=1,mode="Cscale"){
+              minVal=NA,maxVal=NA,fontsize=1,offset=100,lwd=1,
+              Titlefontsize=1.2*fontsize,TitleVAdj=0,BoxAdj=c(0,0,0,0),
+              BoxCol="black",BoxBG="white",
+              mode="Cscale"){
   offset=offset*1000
   #Get plot boundaries
   ls=par("usr")
@@ -124,10 +132,11 @@ add_Cscale=function(pos='1/1',title='Depth (m)',width=18,height=70,
     }
 
   #plot Overall box
-  rect(xleft=bxmin,
-       ybottom=bymin,
-       xright=bxmax,
-       ytop=bymax,xpd=TRUE,lwd=lwd,col='white')
+  rect(xleft=bxmin+BoxAdj[2]*xdist,
+       ybottom=bymin+BoxAdj[1]*ydist,
+       xright=bxmax+BoxAdj[4]*xdist,
+       ytop=bymax+BoxAdj[3]*ydist,
+       xpd=TRUE,lwd=lwd,col=BoxBG,border=BoxCol)
   #Col box
   cxmin=bxmin+0.01*xdist
   cxmax=bxmin+0.05*xdist
@@ -150,7 +159,7 @@ add_Cscale=function(pos='1/1',title='Depth (m)',width=18,height=70,
   text(cxmax+0.02*xdist,Ys,
        cutsTo,adj=c(0,0.5),xpd=TRUE,cex=fontsize)
   #Title
-  text(cxmin,cymax+0.04*ydist,title,
-       cex=1.2*fontsize,adj=c(0,0.5),xpd=TRUE)
+  text(cxmin,cymax+0.04*ydist+TitleVAdj*ydist,title,
+       cex=Titlefontsize,adj=c(0,0.5),xpd=TRUE)
   }
 }

@@ -7,10 +7,15 @@
 
 ## R CMD check results
 
-* There were no ERRORS, WARNINGS, or NOTES, except for a NOTE under Fedora Linux, R-devel, clang, gfortran: Skipping checking HTML validation: no command 'tidy' found.
+* There were no ERRORS, WARNINGS, or NOTES, except for a NOTE under Windows Server 2022, R-devel, 64 bit: 
+
+Found the following files/directories:'lastMiKTeXException'
 
 ## Notes about CRAN edits
 
+* Improved add_Cscale() and updated SmallBathy.
+* Improved create_Pies().
+* Improved DensifyData().
 * Added get_iso_polys function.
 * Moved all operations from sp/raster to sf/terra. Added get_C_intersection() function.
 * Now the vignette links to the GitHub README to avoid CRAN Checks issues
