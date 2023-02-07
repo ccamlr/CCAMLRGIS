@@ -70,32 +70,32 @@ install.packages("CCAMLRGIS")
 1.  [Basemaps](#1-basemaps)
 2.  [Create functions](#2-create-functions)
 
--   2.1. [Points](#create-points), [lines](#create-lines),
-    [polygons](#create-polygons) and [grids](#create-grids)
--   2.2. [Create Stations](#22-create-stations)
--   2.3. [Create Pies](#23-create-pies)
+- 2.1. [Points](#create-points), [lines](#create-lines),
+  [polygons](#create-polygons) and [grids](#create-grids)
+- 2.2. [Create Stations](#22-create-stations)
+- 2.3. [Create Pies](#23-create-pies)
 
 3.  [Load functions](#3-load-functions)
 
--   3.1. Online use
--   3.2. Offline use
+- 3.1. Online use
+- 3.2. Offline use
 
 4.  Other functions
 
--   4.1. [get_depths](#41-get_depths)
--   4.2. [seabed_area](#42-seabed_area)
--   4.3. [assign_areas](#43-assign_areas)
--   4.4. [project_data](#44-project_data)
--   4.5. [get_C\_intersection](#45-get_c_intersection)
--   4.6. [get_iso_polys](#46-get_iso_polys)
+- 4.1. [get_depths](#41-get_depths)
+- 4.2. [seabed_area](#42-seabed_area)
+- 4.3. [assign_areas](#43-assign_areas)
+- 4.4. [project_data](#44-project_data)
+- 4.5. [get_C\_intersection](#45-get_c_intersection)
+- 4.6. [get_iso_polys](#46-get_iso_polys)
 
 5.  Adding colors, legends and labels
 
--   5.1. [Bathymetry colors](#51-bathymetry-colors)
--   5.2. [Adding colors to data](#52-adding-colors-to-data)
--   5.3. [Adding legends](#53-adding-legends)
--   5.4. [Adding labels](#54-adding-labels)
--   5.5. [Using sf](#55-using-sf)
+- 5.1. [Bathymetry colors](#51-bathymetry-colors)
+- 5.2. [Adding colors to data](#52-adding-colors-to-data)
+- 5.3. [Adding legends](#53-adding-legends)
+- 5.4. [Adding labels](#54-adding-labels)
+- 5.5. [Using sf](#55-using-sf)
 
 ------------------------------------------------------------------------
 
@@ -317,7 +317,7 @@ MyLines=create_Lines(LineData)
 plot(st_geometry(MyLines),col=rainbow(nrow(MyLines)),main='Example 1',cex.main=0.75,lwd=2)
 box()
 
-#Example 2: Simple and densified lines (note the curvature of the purple line)
+#Example 2: Simple and densified lines (note the curvature of the lines)
 MyLines=create_Lines(LineData,Densify=T)
 plot(st_geometry(MyLines),col=rainbow(nrow(MyLines)),main='Example 2',cex.main=0.75,lwd=2)
 box()
@@ -370,7 +370,7 @@ plot(st_geometry(MyPolys),col='blue',main='Example 1',cex.main=0.75,lwd=0.5)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white',cex=0.75)
 box()
 
-#Example 2: Simple and densified polygons (note the curvature of iso-latitude lines)
+#Example 2: Simple and densified polygons (note the curvature of lines)
 MyPolys=create_Polys(PolyData)
 plot(st_geometry(MyPolys),col='red',main='Example 2',cex.main=0.75,lwd=0.5)
 text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white',cex=0.75)
@@ -903,12 +903,12 @@ MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
 #The resulting data looks like this (where 'd' is the depth):
 head(MyDataD)
 #>         Lat       Lon    Catch          d
-#> 1 -68.63966 -175.0078 53.33002 -3790.7695
-#> 2 -67.03475 -178.0322 38.66385 -3959.3145
-#> 3 -65.44164 -170.1656 20.32608 -3014.6553
-#> 4 -68.36806  151.0247 69.81201  -336.2152
-#> 5 -63.89171  154.4327 52.32101 -3234.9985
-#> 6 -66.35370  153.6906 78.65576 -1955.7587
+#> 1 -68.63966 -175.0078 53.33002 -3794.5967
+#> 2 -67.03475 -178.0322 38.66385 -3960.4861
+#> 3 -65.44164 -170.1656 20.32608 -3014.1326
+#> 4 -68.36806  151.0247 69.81201  -336.2198
+#> 5 -63.89171  154.4327 52.32101 -3234.9846
+#> 6 -66.35370  153.6906 78.65576 -1962.6782
 
 #Plot Catch vs Depth
 plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='red')
@@ -939,9 +939,9 @@ FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",depth_classes=c(0,-200,-
 #Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 head(FishDepth)
 #>      ID 0|-200 -200|-600 Fishable_area -1800|-3000 -3000|-5000
-#> 1   one      0  19100.01      41400.01    40500.01    92700.03
-#> 2   two      0    200.00       1800.00     9300.00    93300.03
-#> 3 three    700   1600.00       8100.00   229400.07   138000.04
+#> 1   one      0  19300.01      41400.01    40200.01    92800.03
+#> 2   two      0    200.00       1900.00     9100.00    93400.03
+#> 3 three    800   1300.00       7600.00   229700.07   138200.04
 ```
 
 ### 4.3. assign_areas
@@ -963,12 +963,12 @@ MyData=data.frame(Lat=runif(100,min=-65,max=-50),
 #The input data looks like this:
 head(MyData)
 #>         Lat      Lon
-#> 1 -53.11870 34.20721
-#> 2 -55.81513 25.69306
-#> 3 -61.87161 29.29898
-#> 4 -64.10882 34.58778
-#> 5 -55.62069 22.56286
-#> 6 -52.94103 38.68591
+#> 1 -52.54421 38.74173
+#> 2 -62.66283 32.30073
+#> 3 -50.14694 38.99038
+#> 4 -54.78676 36.31189
+#> 5 -52.02953 20.98631
+#> 6 -61.37509 26.03940
 
 #load ASDs and SSRUs
 ASDs=load_ASDs()
@@ -979,24 +979,24 @@ MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'
 #The output data looks like this:
 head(MyData)
 #>         Lat      Lon  MyASDs   MySSRUs
-#> 1 -53.11870 34.20721 58.4.4a 58.4.4a D
-#> 2 -55.81513 25.69306    48.6    48.6 G
-#> 3 -61.87161 29.29898    48.6    48.6 F
-#> 4 -64.10882 34.58778  58.4.2  58.4.2 A
-#> 5 -55.62069 22.56286    48.6    48.6 G
-#> 6 -52.94103 38.68591 58.4.4a 58.4.4a D
+#> 1 -52.54421 38.74173 58.4.4a 58.4.4a D
+#> 2 -62.66283 32.30073  58.4.2  58.4.2 A
+#> 3 -50.14694 38.99038 58.4.4a 58.4.4a D
+#> 4 -54.78676 36.31189 58.4.4a 58.4.4a D
+#> 5 -52.02953 20.98631    48.6    48.6 G
+#> 6 -61.37509 26.03940    48.6    48.6 F
 
 #count of locations per ASD
 table(MyData$MyASDs) 
 #> 
 #>    48.6  58.4.2 58.4.4a 
-#>      53       7      40
+#>      52       7      41
 
 #count of locations per SSRU
 table(MyData$MySSRUs) 
 #> 
 #>    48.6 F    48.6 G  58.4.2 A 58.4.4a D 
-#>        17        36         7        40
+#>        17        35         7        41
 ```
 
 ### 4.4. project_data
@@ -1072,8 +1072,8 @@ text(-38,-41,"Example 3",xpd=T)
 box()
 #Example 4 (Antimeridian crossed)
 get_C_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
-#> Warning in get_C_intersection(Line1 = c(-179, -60, -150, -50), Line2 =
-#> c(-120, : Antimeridian crossed. Find where your line crosses it first, using
+#> Warning in get_C_intersection(Line1 = c(-179, -60, -150, -50), Line2 = c(-120,
+#> : Antimeridian crossed. Find where your line crosses it first, using
 #> Line=c(180,-90,180,0) or Line=c(-180,-90,-180,0).
 #>        Lon        Lat 
 #> -260.47619  -88.09524
@@ -1312,15 +1312,15 @@ To add labels, use the *add_labels()* function:
 
 Three modes are available within the *add_labels()* function:
 
--   In ‘auto’ mode, labels are placed at the centres of polygon parts of
-    spatial objects loaded via the *load\_* functions.
--   In ‘manual’ mode, users may click on their plot to position labels.
-    An editable label table is generated to allow fine-tuning of labels
-    appearance, and may be saved for later use. To edit the label table,
-    double-click inside one of its cells, edit the value, then close the
-    table.
--   In ‘input’ mode, a label table that was generated in ‘manual’ mode
-    is re-used.
+- In ‘auto’ mode, labels are placed at the centres of polygon parts of
+  spatial objects loaded via the *load\_* functions.
+- In ‘manual’ mode, users may click on their plot to position labels. An
+  editable label table is generated to allow fine-tuning of labels
+  appearance, and may be saved for later use. To edit the label table,
+  double-click inside one of its cells, edit the value, then close the
+  table.
+- In ‘input’ mode, a label table that was generated in ‘manual’ mode is
+  re-used.
 
 ``` r
 #Example 1: 'auto' mode
@@ -1742,14 +1742,14 @@ plot(MyPolys["Catch_mean"],
 
 Where:
 
--   *key.pos* controls the color legend position as 1=below, 2=left,
-    3=above and 4=right,
+- *key.pos* controls the color legend position as 1=below, 2=left,
+  3=above and 4=right,
 
--   *key.width* and *key.length* control the size of the color legend,
+- *key.width* and *key.length* control the size of the color legend,
 
--   *breaks* controls the classes,
+- *breaks* controls the classes,
 
--   The function *st_graticule* generates a Lat/Lon grid.
+- The function *st_graticule* generates a Lat/Lon grid.
 
 Additionally, *sf* objects can be plotted using *ggplot2*. For example:
 

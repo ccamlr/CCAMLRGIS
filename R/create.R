@@ -21,8 +21,9 @@
 #' each polygon (as a numeric vector).
 #' @param SeparateBuf logical, if set to FALSE when adding a \code{Buffer},
 #' all spatial objects are merged, resulting in a single spatial object.
-#' @param Densify logical, if set to TRUE, additional points between points of equal latitude are added
-#' prior to projection (compare examples 1 and 2 below). 
+#' @param Densify logical, if set to TRUE, additional points between extremities of lines spanning more
+#' than 0.1 degree longitude are added at every 0.1 degree of longitude prior to projection
+#' (compare examples 1 and 2 below). 
 #' @param Clip logical, if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).
 #' 
 #' @return Spatial object in your environment.
@@ -44,7 +45,7 @@
 #' # https://github.com/ccamlr/CCAMLRGIS#create-polygons
 #' 
 #'
-#' #Densified polygons (note the curvature of iso-latitude lines)
+#' #Densified polygons (note the curvature of lines)
 #' 
 #' MyPolys=create_Polys(Input=PolyData)
 #' plot(st_geometry(MyPolys),col='red')
@@ -169,8 +170,8 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
 #' 
 #' @param Buffer numeric, distance in nautical miles by which to expand the lines. Can be specified for
 #' each line (as a numeric vector).
-#' @param Densify logical, if set to TRUE, additional points between points of equal latitude are added
-#' prior to projection (see examples). 
+#' @param Densify logical, if set to TRUE, additional points between extremities of lines spanning more
+#' than 0.1 degree longitude are added at every 0.1 degree of longitude prior to projection (see examples). 
 #' @param Clip logical, if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).
 #' @param SeparateBuf logical, if set to FALSE when adding a \code{Buffer},
 #' all spatial objects are merged, resulting in a single spatial object.
@@ -193,7 +194,7 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
 #' # For more examples, see:
 #' # https://github.com/ccamlr/CCAMLRGIS#create-lines
 #' 
-#' #Densified lines (note the curvature of the purple line)
+#' #Densified lines (note the curvature of the lines)
 #' 
 #' MyLines=create_Lines(Input=LineData,Densify=TRUE)
 #' plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)))

@@ -32,8 +32,9 @@ Names must be given in that order, e.g.:
 \item{Buffer}{numeric, distance in nautical miles by which to expand the polygons. Can be specified for
 each polygon (as a numeric vector).}
 
-\item{Densify}{logical, if set to TRUE, additional points between points of equal latitude are added
-prior to projection (compare examples 1 and 2 below).}
+\item{Densify}{logical, if set to TRUE, additional points between extremities of lines spanning more
+than 0.1 degree longitude are added at every 0.1 degree of longitude prior to projection
+(compare examples 1 and 2 below).}
 
 \item{Clip}{logical, if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).}
 
@@ -59,7 +60,7 @@ Create Polygons such as proposed Research Blocks or Marine Protected Areas.
 # https://github.com/ccamlr/CCAMLRGIS#create-polygons
 
 
-#Densified polygons (note the curvature of iso-latitude lines)
+#Densified polygons (note the curvature of lines)
 
 MyPolys=create_Polys(Input=PolyData)
 plot(st_geometry(MyPolys),col='red')

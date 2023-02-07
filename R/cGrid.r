@@ -166,11 +166,11 @@ if(is.na(Area)==TRUE){
   
   #Look for un-assigned data points (falling on an edge between cells)
   Iout=which(is.na(tmp)==TRUE) #Index of those falling out
+  DegDev=0
   while(length(Iout)>0){
-    tmp=tmp[-Iout,]
+    tmp=tmp[-Iout]
     datatmp=data[Iout,]
     data=data[-Iout,]
-    DegDev=0
     Mov=c(-(0.0001+DegDev),0.0001+DegDev)
     MovLat=Mov[sample(c(1,2),length(Iout),replace = TRUE)]
     MovLon=Mov[sample(c(1,2),length(Iout),replace = TRUE)]
@@ -180,8 +180,7 @@ if(is.na(Area)==TRUE){
     tmptmp_p=project_data(Input=datatmp,NamesIn=c('lat','lon'),NamesOut = c('y','x'),append = FALSE,inv=FALSE)
     tmptmp_p=st_as_sf(x=tmptmp_p,coords=c(2,1),crs=6932,remove=TRUE)
     tmptmp=sapply(st_intersects(tmptmp_p,Group), function(z) if (length(z)==0) NA_integer_ else z[1]) #sp::over replacement
-
-    tmp=rbind(tmp,tmptmp)
+    tmp=c(tmp,tmptmp)
     rm(datatmp,tmptmp)
     DegDev=DegDev+0.0001
     Iout=which(is.na(tmp)==TRUE) #Index of those falling out

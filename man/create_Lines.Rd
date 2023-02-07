@@ -33,8 +33,8 @@ Names must be given in that order, e.g.:
 \item{Buffer}{numeric, distance in nautical miles by which to expand the lines. Can be specified for
 each line (as a numeric vector).}
 
-\item{Densify}{logical, if set to TRUE, additional points between points of equal latitude are added
-prior to projection (see examples).}
+\item{Densify}{logical, if set to TRUE, additional points between extremities of lines spanning more
+than 0.1 degree longitude are added at every 0.1 degree of longitude prior to projection (see examples).}
 
 \item{Clip}{logical, if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).}
 
@@ -59,7 +59,7 @@ Create lines to display, for example, fishing line locations or tagging data.
 # For more examples, see:
 # https://github.com/ccamlr/CCAMLRGIS#create-lines
 
-#Densified lines (note the curvature of the purple line)
+#Densified lines (note the curvature of the lines)
 
 MyLines=create_Lines(Input=LineData,Densify=TRUE)
 plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)))

@@ -84,7 +84,9 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
     colnames(D)=c("Lat","Lon","Cl","N")
   }else{
     colnames(D)=c("Lat","Lon","Cl","N","SizeVar")  
-    Chck=dplyr::summarise(group_by(D,Lat,Lon),n=length(unique(SizeVar)),.groups = 'drop')
+    Chck=dplyr::summarise(group_by(D,Lat,Lon),
+                          n=length(unique(SizeVar)),
+                          Svar=unique(SizeVar)[1],.groups = 'drop')
     if(max(Chck$n)!=1){
       stop("Some location(s) have more than one 'SizeVar'")
     }
@@ -102,7 +104,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
   
   if(is.null(GridKm)==FALSE){
     Gr=GridKm*1000
-    Locs=project_data(D,NamesIn = c("Lat","Lon"),append = FALSE)
+    Locs=project_data(D,NamesIn = c("Lat","Lon"),append = TRUE)
     #X
     Cl=seq(Gr*floor((min(Locs$X)-Gr)/Gr),Gr*ceiling((max(Locs$X)+Gr)/Gr),by=Gr)
     Locs$Xc=Cl[cut(Locs$X,Cl,include.lowest=TRUE,right=FALSE)]+Gr/2
@@ -113,12 +115,19 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
     D$Lat=Locs$Latitude
     D$Lon=Locs$Longitude
     
+    
     if(ncol(D)==4){
       D=dplyr::summarise(group_by(D,Lat,Lon,Cl),N=sum(N,na.rm=TRUE),.groups = 'drop')
       D=as.data.frame(D)
     }
     if(ncol(D)==5){
-      D=dplyr::summarise(group_by(D,Lat,Lon,Cl),N=sum(N,na.rm=TRUE),SizeVar=sum(SizeVar,na.rm = TRUE),.groups = 'drop')
+      #Append gridded Lat/Lon to Chck (contains SizeVar per unique locations)
+      Locs=Locs%>%dplyr::select(Lat,Lon,Latitude,Longitude)%>%distinct()
+      Chck=dplyr::left_join(Chck,Locs,by = c("Lat", "Lon"))
+      #Summarize per location
+      D=dplyr::summarise(group_by(D,Lat,Lon,Cl),N=sum(N,na.rm=TRUE),.groups = 'drop')
+      Svar=dplyr::summarise(group_by(Chck,Lat=Latitude,Lon=Longitude),SizeVar=sum(Svar,na.rm = TRUE),.groups = 'drop')
+      D=dplyr::left_join(D,Svar,by = c("Lat", "Lon"))
       D=as.data.frame(D)
     }
   }
@@ -142,12 +151,12 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
   #Re-group if some Cl have become 'Other'
   if(is.null(SizeVar)==FALSE){
     D=dplyr::summarise(group_by(D,ID,Lat,Lon,Cl),
-                N=sum(N,na.rm=TRUE),SizeVar=unique(SizeVar),
-                Tot=unique(Tot),p=sum(p,na.rm=TRUE),.groups = 'drop')
+                       N=sum(N,na.rm=TRUE),SizeVar=unique(SizeVar),
+                       Tot=unique(Tot),p=sum(p,na.rm=TRUE),.groups = 'drop')
   }else{
     D=dplyr::summarise(group_by(D,ID,Lat,Lon,Cl),
-                N=sum(N,na.rm=TRUE),
-                Tot=unique(Tot),p=sum(p,na.rm=TRUE),.groups = 'drop')
+                       N=sum(N,na.rm=TRUE),
+                       Tot=unique(Tot),p=sum(p,na.rm=TRUE),.groups = 'drop')
     
   }
   D=as.data.frame(D)
@@ -155,7 +164,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
   pal=colorRampPalette(cols)
   cols=pal(length(Classes))
   
-  if("Other"%in%D$Cl){
+  if("Other"%in%D$Cl & "Other"%in%Classes==F){
     Classes=c(Classes,"Other")
     cols=c(cols,colorRampPalette(Othercol)(1))
   }
@@ -224,6 +233,10 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #'
 #' @param Pies Spatial object created using \link{create_Pies}.
 #' 
+#' @param bb Spatial object, sf bounding box created with \code{st_bbox()}. If provided,
+#' the legend will be centered in that bb. Otherwise it is centered on the \code{min(Latitudes)}
+#' and \code{median(Longitudes)} of coordinates found in the input \code{Pies}.
+#' 
 #' @param PosX numeric, horizontal adjustment of legend.
 #' 
 #' @param PosY numeric, vertical adjustment of legend.
@@ -237,7 +250,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #' 
 #' @param Boxbd character, color of the background of the legend box.
 #' 
-#' @param Boxlwd numeric, line thickness of the legend box.
+#' @param Boxlwd numeric, line thickness of the legend box. Set to zero if no box is desired.
 #'  
 #' @param Labexp numeric, controls the distance of the pie labels to the center of the pie.
 #' 
@@ -291,7 +304,7 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
 #' 
 #' @export
 
-add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.12,0.3), #xmin,xmax,ymin,ymax
+add_PieLegend=function(Pies=NULL,bb=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.12,0.3), #xmin,xmax,ymin,ymax
                        Boxbd='white',Boxlwd=1,Labexp=0.3,fontsize=1,LegSp=0.5,Horiz=TRUE,
                        PieTitle="Pie chart",SizeTitle="Size chart",
                        PieTitleVadj=0.5,SizeTitleVadj=0.3,nSizes=3,SizeClasses=NULL){
@@ -322,8 +335,17 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
   cols=strsplit(cols,";")[[1]]
   dat=data.frame(Cl=Classes,col=cols)
   
+  if(is.null(bb)){
   Lat=min(Pdata$Lat)
   Lon=median(Pdata$Lon)
+  }else{
+    if(inherits(bb,"bbox")==FALSE){stop("bb is not an sf bounding box, use st_bbox() to create bb.")}
+  Lat=mean(bb[c('ymin','ymax')])
+  Lon=mean(bb[c('xmin','xmax')])
+  Lat=project_data(data.frame(La=Lat,Lo=Lon),NamesIn=c("La","Lo"),inv=TRUE,append=FALSE)
+  Lon=Lat$Longitude
+  Lat=Lat$Latitude
+  }
   
   if(length(unique(Pdata$R))==1){ #No SizeVar
     dat$Lat=Lat
@@ -364,7 +386,7 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     }
     Pols=st_sfc(Pl, crs = 6932)
     Pols=st_set_geometry(dat,Pols)
-     
+    
     PieTitlex=Cx
     PieTitley=Cy+(R+R*PieTitleVadj)
     
@@ -395,8 +417,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
-      plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      
+      if(Boxlwd>0){
+        Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
+        plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      }
       # plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE) #Should work with sf 1.0-8
     }
     for(i in seq(1,nrow(dat))){
@@ -478,7 +503,7 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
     Ssize=Pdata$Area[1]/(1e10*Pdata$SizeVar[1]/mean(unique(Pdata$SizeVar))) #Get back to Size
     Rs=sqrt((Ssize* 1e10* Svars / mean(unique(Pdata$SizeVar)) )/pi)
     
-    Sdat=data.frame(ID=seq(1,length(Svars)),vals=Svars,R=Rs,X=SvarX,Y=SvarY,Xs=NA,Xe=NA,Ys=NA,Ye=NA)
+    Sdat=data.frame(ID=seq(1,length(Svars)),vals=Svars,R=Rs,X=SvarX,Y=SvarY,Xs=NA,Xe=NA,Ys=NA,Ye=NA,row.names=NULL)
     
     Pl=list()
     for(j in seq(1,dim(Sdat)[1])){
@@ -505,7 +530,7 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       Ymin=bb['ymin']
       Xmax=bb['xmax']
       Ymax=bb['ymax']
-
+      
       Xmin=min(c(Xmin,dat$Labx))
       Ymin=min(c(Ymin,dat$Laby))
       Xmax=max(c(Xmax,dat$Labx,Sdat$Xe))
@@ -521,9 +546,11 @@ add_PieLegend=function(Pies=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.2,0.2,0.
       
       X=c(Xmin,Xmin,Xmax,Xmax,Xmin)
       Y=c(Ymin,Ymax,Ymax,Ymin,Ymin)
-      Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
       
-      plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      if(Boxlwd>0){
+        Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
+        plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+      }
       # plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE) #Should work with sf 1.0-8
     }
     #Plot Pols
