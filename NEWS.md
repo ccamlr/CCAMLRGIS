@@ -1,3 +1,7 @@
+# CCAMLRGIS 4.0.5
+
+Fixed bug in seabed_area caused by change in terra::expanse.
+
 # CCAMLRGIS 4.0.4
 
 Improved create_Pies() when gridding is required. Added finer controls of color legend in add_Cscale().

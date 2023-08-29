@@ -53,18 +53,18 @@ seabed_area=function (Bathy, Poly, PolyNames=NULL, depth_classes=c(-600,-1800)){
     poly=Poly[i,]
     OUT[i,1]=as.character(st_drop_geometry(poly[,PolyNames]))
     #crop bathymetry data to the extent of the polygon
-    CrB=terra::crop(Bathy,ext(poly))
+    CrB=terra::crop(Bathy,terra::ext(poly))
     #Turn bathy cells that are not inside the polygon into NAs
-    CrB=terra::mask(CrB,vect(poly))
+    CrB=terra::mask(CrB,terra::vect(poly))
     
     for(j in seq(1,(length(depth_classes)-1))){
       dtop=depth_classes[j]
       dbot=depth_classes[j+1]
       #Turn cells outside depth classes into NAs
-      Btmp = classify(CrB, cbind(-100000, dbot, NA), right=TRUE)
-      Btmp = classify(Btmp, cbind(dtop, 100000, NA), right=FALSE)
+      Btmp = terra::classify(CrB, cbind(-100000, dbot, NA), right=TRUE)
+      Btmp = terra::classify(Btmp, cbind(dtop, 100000, NA), right=FALSE)
       #Compute the area covered by cells that are not NA
-      Ar=round(expanse(Btmp, unit="km"),2)
+      Ar=round(terra::expanse(Btmp, unit="km"),2)$area
       OUT[i,j+1]=Ar
     }
   }
