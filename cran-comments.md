@@ -7,7 +7,16 @@
 
 ## R CMD check results
 
-* There were no ERRORS, WARNINGS, or NOTES.
+* There were no ERRORS, WARNINGS, or NOTES except for:
+
+2 Notes on Windows Server 2022, R-devel, 64 bit: 
+
+- Found the following files/directories: ''NULL''
+- checking for detritus in the temp directory: 'lastMiKTeXException'
+
+1 Note on Fedora Linux, R-devel, clang, gfortran; and on Ubuntu Linux 20.04.1 LTS, R-release, GCC:
+
+- Skipping checking HTML validation: no command 'tidy' found
 
 ## Notes about CRAN edits
 
