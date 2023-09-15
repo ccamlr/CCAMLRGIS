@@ -14,7 +14,7 @@ data(Depth_cuts)
 Set of depth classes to plot bathymetry, to be used in conjunction with \link{Depth_cols}.
 }
 \examples{
-plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
+terra::plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 }
 \seealso{
 \code{\link{Depth_cuts2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.

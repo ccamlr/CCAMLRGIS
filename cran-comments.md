@@ -7,12 +7,11 @@
 
 ## R CMD check results
 
-* There were no ERRORS, WARNINGS, or NOTES, except for a NOTE under Windows Server 2022, R-devel, 64 bit: 
-
-Found the following files/directories:'lastMiKTeXException'
+* There were no ERRORS, WARNINGS, or NOTES.
 
 ## Notes about CRAN edits
 
+* Added create_Arrow() function. Fixed bug in seabed_area. SmallBathy is now a function, not an object.
 * Improved add_Cscale() and updated SmallBathy.
 * Improved create_Pies().
 * Improved DensifyData().

@@ -1,6 +1,6 @@
 utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols2','Depth_cuts2',
-'GridData','Labels','LineData','PointData','PolyData','SmallBathy','ID','PieData','PieData2',
-'Lat','Lon','N','Tot','p','Ass_Ar_Key','Min','Max','Iso','AreaKm2','Latitude','Longitude'))
+'GridData','Labels','LineData','PointData','PolyData','ID','PieData','PieData2',
+'Lat','Lon','N','Tot','p','Ass_Ar_Key','Min','Max','Iso','AreaKm2','Latitude','Longitude','Pwidth'))
 #' 
 #' Loads and creates spatial data, including layers and tools that are relevant to CCAMLR activities.
 #' All operations use the Lambert azimuthal equal-area projection (via EPSG:6932).
@@ -30,6 +30,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #'   \item \link{create_PolyGrids}
 #'   \item \link{create_Stations}
 #'   \item \link{create_Pies}
+#'   \item \link{create_Arrow}
 #' }
 #' 
 #' @section Vignette:
@@ -41,18 +42,19 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' terra (\url{https://CRAN.R-project.org/package=terra}).
 #' 
 #'  
-#' @docType package
-#' @import sp
+#' @keywords internal 
+"_PACKAGE"
+
+## usethis namespace: start
 #' @import sf
-#' @import geosphere
-#' @importFrom dplyr distinct group_by summarise_all left_join
-#' @importFrom grDevices colorRampPalette recordPlot replayPlot
-#' @importFrom graphics par rect segments text lines abline legend
-#' @importFrom stats quantile median
-#' @importFrom utils read.csv setTxtProgressBar txtProgressBar edit menu download.file
+#' @importFrom dplyr distinct filter group_by left_join select summarise summarise_all 
+#' @importFrom grDevices colorRampPalette recordPlot replayPlot chull col2rgb rgb
+#' @importFrom graphics abline legend lines par plot rect segments text  
+#' @importFrom stats median quantile sd
+#' @importFrom terra as.polygons clamp classify click crop expanse ext extend extract mask plot rast vect
+#' @importFrom utils download.file edit globalVariables menu read.csv setTxtProgressBar txtProgressBar   
 #' @importFrom magrittr %>%
-#' @importFrom terra rast crop ext mask vect classify expanse extract extend clamp as.polygons plot click
-#' @importFrom raster raster plot
 #' @importFrom stars st_as_stars st_contour
-#' @name CCAMLRGIS
+#' @importFrom bezier bezier
+## usethis namespace: end
 NULL

@@ -2,7 +2,7 @@
 #'
 #' Add a Latitude/Longitude reference grid to maps.
 #'
-#' @param bb bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy)} or \code{bb=st_bbox(MyPolys)}.
+#' @param bb bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy())} or \code{bb=st_bbox(MyPolys)}.
 #' @param ResLat numeric, latitude resolution in decimal degrees.
 #' @param ResLon numeric, longitude resolution in decimal degrees.
 #' @param LabLon numeric, longitude at which Latitude labels should appear. if set, the resulting Reference grid will be circumpolar.
@@ -16,16 +16,17 @@
 #' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}.
 #' 
 #' @examples
-#'
+#' library(terra)
+#' 
 #' #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 #' 
-#' plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-#' add_RefGrid(bb=st_bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
+#' plot(SmallBathy(),breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
+#' add_RefGrid(bb=st_bbox(SmallBathy()),ResLat=10,ResLon=20,LabLon = 0)
 #' 
 #' #Example 2: Local grid around created polygons
 #' 
 #' MyPolys=create_Polys(PolyData,Densify=TRUE)
-#' BathyC=raster::crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
+#' BathyC=crop(SmallBathy(),ext(MyPolys))#crop the bathymetry to match the extent of MyPolys
 #' Mypar=par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
 #' par(Mypar)
 #' plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
@@ -189,7 +190,7 @@ LonLabs$Lon[indxE]=paste0(LonLabs$Lon[indxE],'E')
 LonLabs$Lon[LonLabs$Lon%in%c('180','-180')]='180'
 
 Mypar=par(xpd=TRUE)
-plot(gr,lty=3,add=TRUE,lwd=lwd,col=lcol)
+graphics::plot(gr,lty=3,add=TRUE,lwd=lwd,col=lcol)
 par(Mypar)
 if(0.5%in%LatLabs$xadj){
   text(LatLabs$x[LatLabs$xadj==0.5],LatLabs$y[LatLabs$xadj==0.5],LatLabs$Lat[LatLabs$xadj==0.5],

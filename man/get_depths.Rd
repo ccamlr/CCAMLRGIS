@@ -38,7 +38,7 @@ Lon=PointData$Lon,
 Catch=PointData$Catch)
 
 #get depths of locations
-MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy())
 #View(MyDataD)
 plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='blue')
 

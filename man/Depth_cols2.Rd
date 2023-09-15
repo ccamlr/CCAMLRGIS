@@ -14,7 +14,7 @@ data(Depth_cols2)
 Set of colors to plot bathymetry and highlight Fishable Depth range (600-1800), to be used in conjunction with \link{Depth_cuts2}.
 }
 \examples{
-plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
+terra::plot(SmallBathy(),breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
 }
 \seealso{
 \code{\link{Depth_cols}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.

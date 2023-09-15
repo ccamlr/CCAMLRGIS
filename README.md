@@ -74,6 +74,7 @@ install.packages("CCAMLRGIS")
   [polygons](#create-polygons) and [grids](#create-grids)
 - 2.2. [Create Stations](#22-create-stations)
 - 2.3. [Create Pies](#23-create-pies)
+- 2.4. [Create Arrow](#24-create-arrow)
 
 3.  [Load functions](#3-load-functions)
 
@@ -86,7 +87,7 @@ install.packages("CCAMLRGIS")
 - 4.2. [seabed_area](#42-seabed_area)
 - 4.3. [assign_areas](#43-assign_areas)
 - 4.4. [project_data](#44-project_data)
-- 4.5. [get_C\_intersection](#45-get_c_intersection)
+- 4.5. [get_C_intersection](#45-get_c_intersection)
 - 4.6. [get_iso_polys](#46-get_iso_polys)
 
 5.  Adding colors, legends and labels
@@ -183,14 +184,12 @@ plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,legend=FALSE,mar=c(0,0,0
 #Load ASDs and EEZs
 ASDs=load_ASDs()
 EEZs=load_EEZs()
-#Set the figure margins as c(bottom, left, top, right)
-par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
-plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F,mar=c(0,0.4,0,0))
+plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F,mar=c(0,0,0,2))
 #Add reference grid
-add_RefGrid(bb=st_bbox(SmallBathy),ResLat=10,ResLon=20,LabLon=0,fontsize=0.75,lwd=0.75,offset = 4)
+add_RefGrid(bb=st_bbox(SmallBathy()),ResLat=10,ResLon=20,LabLon=0,fontsize=0.75,lwd=0.75,offset = 4)
 #Add color scale
-add_Cscale(height=90,fontsize=0.75,offset=-500,width=15,maxVal=-1,lwd=0.5)
+add_Cscale(height=90,fontsize=0.75,offset=-1500,width=15,maxVal=-1,lwd=0.5)
 #Add ASD and EEZ boundaries
 plot(st_geometry(ASDs),add=T,lwd=0.75,border='red')
 plot(st_geometry(EEZs),add=T,lwd=0.75,border='red')
@@ -210,7 +209,7 @@ ASDs=load_ASDs()
 #Subsample ASDs to only keep Subarea 48.6
 S486=ASDs[ASDs$GAR_Short_Label=='486',]
 #Crop bathymetry to match the extent of S486
-B486=crop(rast(SmallBathy),ext(S486))
+B486=crop(SmallBathy(),ext(S486))
 #Plot the bathymetry
 plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(1.4,2,1.4,7))
 #Add color scale
@@ -519,7 +518,7 @@ Example 1. Set numbers of stations, no distance constraint:
 ``` r
 
 #optional: crop your bathymetry raster to match the extent of your polygon
-BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
+BathyCroped=crop(SmallBathy(),ext(MyPoly))
 
 #Create stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
@@ -802,6 +801,202 @@ add_PieLegend(Pies=MyPies,PosX=2.8,PosY=0.15,Boxexp=c(0.38,0.32,0.08,0.18),
 
 <img src="README-FigP08-1.png" width="100%" style="display: block; margin: auto;" />
 
+### 2.4. Create Arrow
+
+This function creates an arrow, which can be curved and/or segmented.
+Input is a dataframe with columns Latitude, Longitude, Weight
+(optional). First row is start, last row is end (where the arrow will
+point to), and intermediate rows are points towards which the arrow’s
+path will bend. A weight can be added to the intermediate points to make
+the arrow’s path bend more towards them. The arrow’s path is a curve
+along *Np* points, if it appears too segmented, increase *Np*. The
+arrow’s path width is controlled by *Pwidth*. The arrow’s head length
+and width are controlled by *Hlength* and *Hwidth* respectively. Two
+types of arrows (*Atype*) can be created: ‘normal’ or ‘dashed’. A normal
+arrow is a single polygon, with a single color (set by *Acol*) and
+transparency (set by *Atrans*). A dashed arrow is a series of polygons
+which can be colored separately by setting two or more values as
+*Acol=c(“color start”,“color end”)* and two or more transparency values
+as *Atrans=c(“transparency start”,“transparency end”)*. The length of
+dashes is controlled by *dlength*.
+
+For details, type:
+
+``` r
+?create_Arrow
+```
+
+Examples 1-4:
+
+``` r
+ASDs=load_ASDs()
+ASDs=ASDs[ASDs$GAR_Short_Label%in%c("481","482","483"),]
+
+# Example 1: straight green arrow.
+myInput=data.frame(lat=c(-61,-52),
+                 lon=c(-60,-40))
+
+Arrow=create_Arrow(Input=myInput)
+
+par(mai=c(0,0,0.5,0),mfrow=c(2,2))
+plot(st_geometry(ASDs),main="Example 1")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE)
+
+# Example 2: blue arrow with one bend.
+myInput=data.frame(lat=c(-61,-65,-52),
+                   lon=c(-60,-45,-40))
+
+Arrow=create_Arrow(Input=myInput,Acol="lightblue")
+
+plot(st_geometry(ASDs),main="Example 2")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE)
+
+#Example 3: blue arrow with two bends
+myInput=data.frame(lat=c(-61,-60,-65,-52),
+                   lon=c(-60,-50,-45,-40))
+
+Arrow=create_Arrow(Input=myInput,Acol="lightblue")
+
+plot(st_geometry(ASDs),main="Example 3")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE)
+
+
+#Example 4: blue arrow with two bends, with more weight on the second bend and a big head
+myInput=data.frame(lat=c(-61,-60,-65,-52),
+                   lon=c(-60,-50,-45,-40),
+                   w=c(1,1,2,1))
+
+Arrow=create_Arrow(Input=myInput,Acol="lightblue",Hlength=20,Hwidth=20)
+
+plot(st_geometry(ASDs),main="Example 4")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE)
+```
+
+<img src="README-FigArr01-1.png" width="100%" style="display: block; margin: auto;" />
+
+Examples 5-8:
+
+``` r
+#Example 5: Dashed arrow, small dashes
+myInput=data.frame(lat=c(-61,-60,-65,-52),
+                   lon=c(-60,-50,-45,-40),
+                   w=c(1,1,2,1))
+
+Arrow=create_Arrow(Input=myInput,Acol="blue",Atype = "dashed",dlength = 1)
+
+par(mai=c(0,0,0.5,0),mfrow=c(2,2))
+plot(st_geometry(ASDs),main="Example 5")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE,border=NA)
+
+
+#Example 6: Dashed arrow, big dashes
+myInput=data.frame(lat=c(-61,-60,-65,-52),
+                   lon=c(-60,-50,-45,-40),
+                   w=c(1,1,2,1))
+
+Arrow=create_Arrow(Input=myInput,Acol="blue",Atype = "dashed",dlength = 2)
+
+plot(st_geometry(ASDs),main="Example 6")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE,border=NA)
+
+#Example 7: Dashed arrow, no dashes, 3 colors and transparency gradient
+myInput=data.frame(lat=c(-61,-60,-65,-52),
+                   lon=c(-60,-50,-45,-40),
+                   w=c(1,1,2,1))
+
+Arrow=create_Arrow(Input=myInput,Acol=c("red","green","blue"),Atrans = c(0,0.9,0),Atype = "dashed",dlength = 0)
+
+plot(st_geometry(ASDs),main="Example 7")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE,border=NA)
+
+#Example 8: Same as example 7 but with more points, so smoother
+myInput=data.frame(lat=c(-61,-60,-65,-52),
+                   lon=c(-60,-50,-45,-40),
+                   w=c(1,1,2,1))
+
+Arrow=create_Arrow(Input=myInput,Np=200,Acol=c("red","green","blue"),
+                   Atrans = c(0,0.9,0),Atype = "dashed",dlength = 0)
+
+plot(st_geometry(ASDs),main="Example 8")
+plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
+plot(st_geometry(Arrow),col=Arrow$col,add=TRUE,border=NA)
+```
+
+<img src="README-FigArr02-1.png" width="100%" style="display: block; margin: auto;" />
+
+Example 9:
+
+``` r
+#Example 9
+#Prepare mapping elements
+ASDs=ASDs[ASDs$GAR_Short_Label=="481",]
+bb=st_bbox(st_buffer(ASDs,20000)) #Get bounding box (x/y limits) +20,000m buffer
+bx=st_as_sfc(bb) #Build spatial box to plot
+coast=load_Coastline()
+C481=st_intersection(st_union(coast),bx) #Crop coastline to box limits
+B481=crop(SmallBathy(),ext(bb))
+
+#Create arrows
+
+myInput=data.frame(lat=c(-68,-65,-64,-61,-61,-60),
+                   lon=c(-75,-70,-65,-60,-55,-50),
+                   w=c(1,3,3,3,3,1))
+Arrow1=create_Arrow(Input=myInput,Acol="orange",Atrans=0.3,Pwidth=3,Hlength=10,Hwidth=6)
+
+myInput=data.frame(lat=c(-66,-65,-66),
+                   lon=c(-71,-70,-67))
+Arrow2=create_Arrow(Input=myInput,Acol="orange",Atrans=0.3,Pwidth=1,Hlength=5,Hwidth=2.5)
+
+myInput=data.frame(lat=c(-63.8,-63,-63),
+                   lon=c(-65,-62,-60))
+Arrow3=create_Arrow(Input=myInput,Acol="orange",Atrans=0.3,Pwidth=1,Hlength=5,Hwidth=2.5)
+
+myInput=data.frame(lat=c(-61,-62,-63,-64.5),
+                   lon=c(-55,-52,-53,-55))
+Arrow4=create_Arrow(Input=myInput,Acol="orange",Atrans=0.3,Pwidth=1,Hlength=5,Hwidth=2.5)
+
+#Merge arrows 1 to 4
+Arrow1_4=suppressWarnings(st_union(Arrow1,Arrow2))
+Arrow1_4=suppressWarnings(st_union(Arrow1_4,Arrow3))
+Arrow1_4=suppressWarnings(st_union(Arrow1_4,Arrow4))
+
+myInput=data.frame(lat=c(-71,-67,-65),
+                   lon=c(-57,-60,-55))
+Arrow5=create_Arrow(Input=myInput,Acol=c("white","red"),Atrans = c(1,0),Pwidth=5,
+                    Hlength=10,Hwidth=10,Atype = "dashed",Np=100)
+
+myInput=data.frame(lat=c(-59,-60,-62,-63,-65),
+                   lon=c(-52,-60,-65,-70,-75))
+Arrow6=create_Arrow(Input=myInput,Acol=c("purple","cyan","black"),Pwidth=2,
+                    Hlength=10,Hwidth=5,Atype = "dashed",dlength = 1)
+
+
+#Plot the bathymetry
+plot(B481,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=rep(1.5,4))
+text(-2050000,2070000,"Example 9",font=2,xpd=TRUE,cex=2)
+#Plot border
+plot(bx,border='black',lwd=1,xpd=TRUE,add=TRUE)
+#Add coastline (for Subarea 48.6 only)
+plot(C481,col="grey",add=TRUE)
+#Add reference grid
+add_RefGrid(bb=bb,ResLat=2,ResLon=5,fontsize=1,lwd=0.75,offset = c(20000,30000))
+#Add Subarea 48.1 boundaries
+plot(st_geometry(ASDs),add=TRUE,lwd=3,border='black')
+#Add Arrows
+plot(st_geometry(Arrow1_4),col=Arrow1_4$col,add=TRUE,border="orange",lwd=2)
+plot(st_geometry(Arrow5),col=Arrow5$col,add=TRUE,border=NA)
+plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white')
+```
+
+<img src="README-FigArr03-1.png" width="100%" style="display: block; margin: auto;" />
+
 <br>
 
 ## 3. Load functions
@@ -899,16 +1094,16 @@ head(MyData)
 #> 6 -66.35370  153.6906 78.65576
 
 #Get depths of locations
-MyDataD=get_depths(Input=MyData,Bathy=SmallBathy)
+MyDataD=get_depths(Input=MyData,Bathy=SmallBathy())
 #The resulting data looks like this (where 'd' is the depth):
 head(MyDataD)
 #>         Lat       Lon    Catch          d
-#> 1 -68.63966 -175.0078 53.33002 -3794.5967
-#> 2 -67.03475 -178.0322 38.66385 -3960.4861
-#> 3 -65.44164 -170.1656 20.32608 -3014.1326
-#> 4 -68.36806  151.0247 69.81201  -336.2198
-#> 5 -63.89171  154.4327 52.32101 -3234.9846
-#> 6 -66.35370  153.6906 78.65576 -1962.6782
+#> 1 -68.63966 -175.0078 53.33002 -3794.5107
+#> 2 -67.03475 -178.0322 38.66385 -3960.5574
+#> 3 -65.44164 -170.1656 20.32608 -3016.5554
+#> 4 -68.36806  151.0247 69.81201  -335.0405
+#> 5 -63.89171  154.4327 52.32101 -3235.2156
+#> 6 -66.35370  153.6906 78.65576 -1961.1792
 
 #Plot Catch vs Depth
 plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='red')
@@ -935,13 +1130,13 @@ For details, type:
 #create some polygons
 MyPolys=create_Polys(PolyData,Densify=T)
 #compute the seabed areas
-FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",depth_classes=c(0,-200,-600,-1800,-3000,-5000))
+FishDepth=seabed_area(SmallBathy(),MyPolys,PolyNames="ID",depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 head(FishDepth)
 #>      ID 0|-200 -200|-600 Fishable_area -1800|-3000 -3000|-5000
 #> 1   one      0  19300.01      41400.01    40200.01    92800.03
 #> 2   two      0    200.00       1900.00     9100.00    93400.03
-#> 3 three    800   1300.00       7600.00   229700.07   138200.04
+#> 3 three    800   1300.00       7600.00   229600.07   138300.04
 ```
 
 ### 4.3. assign_areas
@@ -1035,7 +1230,7 @@ head(MyData)
 #> 6 -66.35370  153.6906  four 78.65576      22 6    -2349505  1161675.96
 ```
 
-### 4.5. get_C\_intersection
+### 4.5. get_C_intersection
 
 Get Cartesian coordinates of lines intersection in Euclidean space. This
 may have several uses, including when creating polygons with shared
@@ -1105,7 +1300,7 @@ par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1 - Whole Convention Area 
 
-IsoPols=get_iso_polys(Bathy=SmallBathy,Depths=c(-10000,-4000,-2000,0))
+IsoPols=get_iso_polys(Bathy=SmallBathy(),Depths=c(-10000,-4000,-2000,0))
 
 plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="blue",main="Example 1")
 plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="white",add=TRUE)
@@ -1115,7 +1310,7 @@ box()
 #Example 2 - SSRU 882H seamounts
 SSRUs=load_SSRUs()
 Poly=SSRUs[SSRUs$GAR_Short_Label=="882H",]
-IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=c(-2500,-1800,-600))
+IsoPols=get_iso_polys(Bathy=SmallBathy(),Poly=Poly,Depths=c(-2500,-1800,-600))
 
 plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="cyan",main="Example 2")
 plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="green",add=TRUE)
@@ -1124,7 +1319,7 @@ box()
 
 #Example 3 - Custom polygon
 Poly=create_Polys(Input=data.frame(ID=1,Lat=c(-55,-55,-61,-61),Lon=c(-30,-25,-25,-30)))
-IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=seq(-8000,0,length.out=10))
+IsoPols=get_iso_polys(Bathy=SmallBathy(),Poly=Poly,Depths=seq(-8000,0,length.out=10))
 
 plot(st_geometry(Poly),main="Example 3")
 for(i in unique(IsoPols$Iso)){
@@ -1152,12 +1347,10 @@ dataset instead, as obtained via the *load_Bathy()* function.
 #### Simple set of colors:
 
 ``` r
-#Set the figure margins as c(bottom, left, top, right)
-par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
-plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
+plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,mar=c(0,0,0,2))
 #Add color scale
-add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-500,width=16,maxVal=-1)
+add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-1500,width=16,maxVal=-1)
 ```
 
 <img src="README-Fig17-1.png" width="100%" style="display: block; margin: auto;" />
@@ -1165,12 +1358,10 @@ add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-500,w
 #### Highlighting the Fishable Depth range:
 
 ``` r
-#Set the figure margins as c(bottom, left, top, right)
-par(mai=c(0,0.4,0,0))
 #Plot the bathymetry
-plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE)
+plot(SmallBathy(),breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE,mar=c(0,0,0,2))
 #Add color scale
-add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=-500,width=16,maxVal=-1)
+add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=-1500,width=16,maxVal=-1)
 ```
 
 <img src="README-Fig18-1.png" width="100%" style="display: block; margin: auto;" />
@@ -1279,7 +1470,7 @@ Legend_Coordinates=add_Cscale(pos='2/3',offset=1000,height=40,mode="Legend")
 MyPoints=create_Points(PointData)
 
 #Crop the bathymetry to match the extent of MyPoints (extended extent)
-BathyCr=crop(rast(SmallBathy),extend(ext(MyPoints),100000))
+BathyCr=crop(SmallBathy(),extend(ext(MyPoints),100000))
 #Plot the bathymetry
 plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(0,0,0,7))
 #Add a color scale
@@ -1346,7 +1537,7 @@ add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
 #Please copy and paste it in the Console to see how it works.
 
 #Prepare a basemap
-plot(SmallBathy)
+plot(SmallBathy())
 ASDs=load_ASDs()
 plot(st_geometry(ASDs),add=T)
 
@@ -1354,7 +1545,7 @@ plot(st_geometry(ASDs),add=T)
 MyLabels=add_labels(mode='manual') 
 
 #Re-use the label table generated (if desired)
-plot(SmallBathy)
+plot(SmallBathy())
 plot(st_geometry(ASDs),add=T)
 add_labels(mode='input',LabelTable=MyLabels)
 ```

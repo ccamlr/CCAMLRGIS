@@ -30,7 +30,7 @@ Calculate planimetric seabed area within polygons and depth strata in square kil
 #create some polygons
 MyPolys=create_Polys(PolyData,Densify=TRUE)
 #compute the seabed areas
-FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",
+FishDepth=seabed_area(SmallBathy(),MyPolys,PolyNames="ID",
 depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 #View(FishDepth)
