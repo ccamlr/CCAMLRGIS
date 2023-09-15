@@ -79,7 +79,11 @@ if(is.na(Area)==TRUE){
     #Prepare cell boundaries
     Lons=seq(-180,180,length.out=N)
     LatN=StartP[1,2]
-    LatS=as.numeric(geosphere::destPoint(cbind(Lons[1],LatN), 180, d=ly)[,2])
+    #Get preliminary LatS by buffering point
+    LatSpoint=create_Points(Input=data.frame(Lat=LatN,Lon=Lons[1]),Buffer = ly/1852)
+    LatSpoint=sf::st_transform(LatSpoint,4326)
+    LatS=as.numeric(sf::st_bbox(LatSpoint)$ymin)
+    # LatS=as.numeric(geosphere::destPoint(cbind(Lons[1],LatN), 180, d=ly)[,2]) #old method
     #Refine LatS
     lons=unique(c(Lons[1],seq(Lons[1],Lons[2],by=0.1),Lons[2]))
     PLon=c(lons,rev(lons),lons[1])

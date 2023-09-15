@@ -67,7 +67,7 @@ text(MyPoly$Labx,MyPoly$Laby,MyPoly$ID)
 #Create a set numbers of stations, without distance constraint:
 library(terra)
 #optional: crop your bathymetry raster to match the extent of your polygon
-BathyCroped=crop(rast(SmallBathy),ext(MyPoly))
+BathyCroped=crop(SmallBathy(),ext(MyPoly))
 
 #Create stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))

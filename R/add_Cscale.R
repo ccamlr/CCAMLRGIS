@@ -36,10 +36,11 @@
 #' # For more examples, see:
 #' # https://github.com/ccamlr/CCAMLRGIS#5-adding-colors-legends-and-labels
 #' 
+#' library(terra)
 #' 
 #' #Example 1: Adding two color scales
 #' 
-#' plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
+#' plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,box=FALSE)
 #' add_Cscale(pos='1/2',height=45,maxVal=0,minVal=-4000,fontsize=0.8)
 #' #Some gridded data
 #' MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
@@ -55,8 +56,8 @@
 #' MyPoints=create_Points(PointData)
 #' 
 #' #Crop the bathymetry to match the extent of MyPoints 
-#' library(terra)
-#' BathyCr=crop(rast(SmallBathy),extend(ext(MyPoints),100000))
+#' 
+#' BathyCr=crop(SmallBathy(),extend(ext(MyPoints),100000))
 #' plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0,0,0,7))
 #' add_Cscale(pos='1/2',height=45,maxVal=0,minVal=-4000,fontsize=0.8)
 #' 

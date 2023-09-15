@@ -18,7 +18,7 @@ add_RefGrid(
 )
 }
 \arguments{
-\item{bb}{bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy)} or \code{bb=st_bbox(MyPolys)}.}
+\item{bb}{bounding box of the first plotted object. for example, \code{bb=st_bbox(SmallBathy())} or \code{bb=st_bbox(MyPolys)}.}
 
 \item{ResLat}{numeric, latitude resolution in decimal degrees.}
 
@@ -42,16 +42,17 @@ add_RefGrid(
 Add a Latitude/Longitude reference grid to maps.
 }
 \examples{
+library(terra)
 
 #Example 1: Circumpolar grid with Latitude labels at Longitude 0
 
-plot(SmallBathy,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
-add_RefGrid(bb=st_bbox(SmallBathy),ResLat=10,ResLon=20,LabLon = 0)
+plot(SmallBathy(),breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)
+add_RefGrid(bb=st_bbox(SmallBathy()),ResLat=10,ResLon=20,LabLon = 0)
 
 #Example 2: Local grid around created polygons
 
 MyPolys=create_Polys(PolyData,Densify=TRUE)
-BathyC=raster::crop(SmallBathy,MyPolys) #crop the bathymetry to match the extent of MyPolys
+BathyC=crop(SmallBathy(),ext(MyPolys))#crop the bathymetry to match the extent of MyPolys
 Mypar=par(mai=c(0.5,0.5,0.5,0.5)) #Figure margins as c(bottom, left, top, right)
 par(Mypar)
 plot(BathyC,breaks=Depth_cuts, col=Depth_cols, legend=FALSE,axes=FALSE,box=FALSE)

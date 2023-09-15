@@ -39,7 +39,7 @@ The accuracy is dependent on the resolution of the bathymetry raster
 
 
 Poly=create_Polys(Input=data.frame(ID=1,Lat=c(-55,-55,-61,-61),Lon=c(-30,-25,-25,-30)))
-IsoPols=get_iso_polys(Bathy=SmallBathy,Poly=Poly,Depths=seq(-8000,0,length.out=10))
+IsoPols=get_iso_polys(Bathy=SmallBathy(),Poly=Poly,Depths=seq(-8000,0,length.out=10))
 
 plot(st_geometry(Poly))
 for(i in unique(IsoPols$Iso)){

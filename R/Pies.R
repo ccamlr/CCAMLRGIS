@@ -222,7 +222,6 @@ create_Pies=function(Input,NamesIn=NULL,Classes=NULL,cols=c("green","red"),Size=
   if(length(unique(Pols$R))>1){
     Pols=Pols[order(Pols$R,decreasing = TRUE),]
   }
-  # Pols@plotOrder=seq(1,length(Pols))
   return(Pols)
 }
 
@@ -420,15 +419,13 @@ add_PieLegend=function(Pies=NULL,bb=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.
       
       if(Boxlwd>0){
         Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
-        plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+        plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
       }
-      # plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE) #Should work with sf 1.0-8
     }
     for(i in seq(1,nrow(dat))){
       text(dat$Labx[i],dat$Laby[i],dat$Cl[i],adj=c(dat$Ladjx[i],0.5),xpd=TRUE,cex=fontsize)
     }
-    plot(as_Spatial(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
-    # plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd) #Should work with sf 1.0-8
+    plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd) 
     text(PieTitlex,PieTitley,PieTitle,adj=c(0.5,0),cex=fontsize*1.2,xpd=TRUE)
     
   }else{ #With SizeVar
@@ -549,15 +546,12 @@ add_PieLegend=function(Pies=NULL,bb=NULL,PosX=0,PosY=0,Size=25,lwd=1,Boxexp=c(0.
       
       if(Boxlwd>0){
         Bpol=st_sfc(st_polygon(list(cbind(X,Y))), crs = 6932)
-        plot(as_Spatial(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
+        plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE)
       }
-      # plot(st_geometry(Bpol),col=Boxbd,lwd=Boxlwd,add=TRUE,xpd=TRUE) #Should work with sf 1.0-8
     }
     #Plot Pols
-    plot(as_Spatial(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd)
-    # plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd) #Should work with sf 1.0-8
-    plot(as_Spatial(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd)
-    # plot(st_geometry(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd) #Should work with sf 1.0-8
+    plot(st_geometry(Pols),col=Pols$col,add=TRUE,xpd=TRUE,lwd=lwd) 
+    plot(st_geometry(Polsvar),add=TRUE,xpd=TRUE,col='white',lwd=lwd)
     
     #Add Pie labels
     for(i in seq(1,nrow(dat))){

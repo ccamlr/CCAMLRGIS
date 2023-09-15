@@ -38,7 +38,7 @@ NULL
 #' @docType data
 #' @usage data(Depth_cols)
 #' @format character vector
-#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
+#' @examples terra::plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 #' @seealso \code{\link{Depth_cols2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols
 NULL
@@ -50,7 +50,7 @@ NULL
 #' @docType data
 #' @usage data(Depth_cuts)
 #' @format numeric vector
-#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
+#' @examples terra::plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 #' @seealso  \code{\link{Depth_cuts2}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts
 NULL
@@ -62,7 +62,7 @@ NULL
 #' @docType data
 #' @usage data(Depth_cols2)
 #' @format character vector
-#' @examples plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
+#' @examples terra::plot(SmallBathy(),breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
 #' @seealso \code{\link{Depth_cols}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cols2
 NULL
@@ -74,7 +74,7 @@ NULL
 #' @docType data
 #' @usage data(Depth_cuts2)
 #' @format numeric vector
-#' @examples plot(SmallBathy,breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
+#' @examples terra::plot(SmallBathy(),breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE)
 #' @seealso  \code{\link{Depth_cuts}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{SmallBathy}}.
 #' @name Depth_cuts2
 NULL
@@ -145,26 +145,6 @@ NULL
 #' plot(st_geometry(MyPolys[MyPolys$ID=='three',]),border='red',lwd=3,add=TRUE)
 #' @seealso \code{\link{create_Polys}}.  
 #' @name PolyData
-NULL
-
-#' Small bathymetry dataset
-#'
-#' Bathymetry dataset derived from the GEBCO 2021 (see \url{https://www.gebco.net/}) dataset.
-#' Subsampled at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
-#' To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
-#' To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
-#' to get higher resolution data.
-#' 
-#' 
-#' @docType data
-#' @usage data(SmallBathy)
-#' @format raster
-#' @examples plot(SmallBathy,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
-#' @seealso \code{\link{load_Bathy}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}},
-#' \code{\link{Depth_cuts}},
-#' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}}, \code{\link{create_Stations}}.
-#' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f)
-#' @name SmallBathy
 NULL
 
 #' Polygon labels

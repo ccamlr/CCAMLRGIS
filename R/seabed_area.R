@@ -20,7 +20,7 @@
 #'#create some polygons
 #'MyPolys=create_Polys(PolyData,Densify=TRUE)
 #'#compute the seabed areas
-#'FishDepth=seabed_area(SmallBathy,MyPolys,PolyNames="ID",
+#'FishDepth=seabed_area(SmallBathy(),MyPolys,PolyNames="ID",
 #'depth_classes=c(0,-200,-600,-1800,-3000,-5000))
 #'#Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 #'#View(FishDepth)
@@ -64,7 +64,7 @@ seabed_area=function (Bathy, Poly, PolyNames=NULL, depth_classes=c(-600,-1800)){
       Btmp = terra::classify(CrB, cbind(-100000, dbot, NA), right=TRUE)
       Btmp = terra::classify(Btmp, cbind(dtop, 100000, NA), right=FALSE)
       #Compute the area covered by cells that are not NA
-      Ar=round(terra::expanse(Btmp, unit="km"),2)$area
+      Ar=round(terra::expanse(Btmp, unit="km"),2)[2]
       OUT[i,j+1]=Ar
     }
   }

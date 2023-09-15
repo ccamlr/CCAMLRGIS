@@ -1,6 +1,9 @@
 # CCAMLRGIS 4.0.5
 
+Added create_Arrow() function.
 Fixed bug in seabed_area caused by change in terra::expanse.
+Changed SmallBathy, now requires parentheses eg: plot(SmallBathy()).
+Fixed some dependencies issues.
 
 # CCAMLRGIS 4.0.4
 

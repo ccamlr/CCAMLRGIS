@@ -53,7 +53,7 @@ get_C_intersection=function(Line1,Line2,Plot=TRUE){
   #Compute intersection:
   D=(x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)
   if(D==0){
-    if(Plot==TRUE){plot(1,1);text(1,1,"Parallel lines",col="red")}
+    if(Plot==TRUE){graphics::plot(1,1);text(1,1,"Parallel lines",col="red")}
     stop("Parallel lines.")
   }
   Px=((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/D
@@ -67,9 +67,9 @@ get_C_intersection=function(Line1,Line2,Plot=TRUE){
     XL=c(XL[1]-0.1*abs(mean(XL)),XL[2]+0.1*abs(mean(XL)))
     YL=range(c(y1,y2,y3,y4,Py))
     YL=c(YL[1]-0.1*abs(mean(YL)),YL[2]+0.1*abs(mean(YL)))
-    plot(c(x1,x2,x3,x4),c(y1,y2,y3,y4),xlim=XL,ylim=YL,pch=21,bg=c("green","green","blue","blue"),xlab="Longitude",ylab="Latitude")
+    graphics::plot(c(x1,x2,x3,x4),c(y1,y2,y3,y4),xlim=XL,ylim=YL,pch=21,bg=c("green","green","blue","blue"),xlab="Longitude",ylab="Latitude")
     par(new=TRUE)
-    plot(Px,Py,xlim=XL,ylim=YL,pch=4,col="red",xlab="Longitude",ylab="Latitude",lwd=2)
+    graphics::plot(Px,Py,xlim=XL,ylim=YL,pch=4,col="red",xlab="Longitude",ylab="Latitude",lwd=2)
     lines(c(x1,x2),c(y1,y2),col="green",lwd=2)
     lines(c(x3,x4),c(y3,y4),col="blue",lwd=2)
     lines(c(x1,x2,Px),c(y1,y2,Py),col="green",lty=2)

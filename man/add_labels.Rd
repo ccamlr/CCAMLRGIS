@@ -62,14 +62,15 @@ add_labels(mode='auto',layer='EEZs',fontsize=2,col='green',angle=90)
 
 #Example 2: 'manual' mode (you will have to do it yourself)
 #Examples 2 and 3 below are commented (remove the # to test)
-#plot(SmallBathy)
+#library(terra)
+#plot(SmallBathy())
 #ASDs=load_ASDs()
 #plot(st_geometry(ASDs),add=TRUE)
 #MyLabels=add_labels(mode='manual')
 
 
 #Example 3: Re-use the label table generated in Example 2
-#plot(SmallBathy)
+#plot(SmallBathy())
 #plot(st_geometry(ASDs),add=TRUE)
 #add_labels(mode='input',LabelTable=MyLabels)
 
