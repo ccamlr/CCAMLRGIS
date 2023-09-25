@@ -89,6 +89,7 @@ install.packages("CCAMLRGIS")
 - 4.4. [project_data](#44-project_data)
 - 4.5. [get_C_intersection](#45-get_c_intersection)
 - 4.6. [get_iso_polys](#46-get_iso_polys)
+- 4.7. [Rotate_obj](#47-rotate_obj)
 
 5.  Adding colors, legends and labels
 
@@ -154,6 +155,9 @@ text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 </center>
 
 ## 1. Basemaps
+
+Additional basemaps are available
+[here](https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps.md).
 
 #### Bathymetry:
 
@@ -1329,6 +1333,33 @@ box()
 ```
 
 <img src="README-Figgip1-1.png" width="100%" style="display: block; margin: auto;" />
+
+### 4.7. Rotate_obj
+
+Rotate an *sf* or *SpatRaster* object by setting the longitude that
+should point up. The output should **only** be used for plotting, not
+analysis (as the projection is modified to a non-standard EPSG
+projection). See also
+[here](https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps.md) for
+more examples.
+
+``` r
+library(gifski)
+gif_file = "Weeee.gif"
+
+save_gif(
+for(Lonzero in c(seq(0,180,by=20),seq(-160,-20,by=20))){
+Rot_SmallBathy=Rotate_obj(SmallBathy(),Lon0=Lonzero)
+terra::plot(Rot_SmallBathy,breaks=Depth_cuts, col=Depth_cols,
+            legend=FALSE,axes=FALSE,box=FALSE,ext=ext(SmallBathy()),
+            mar=rep(0,4))
+add_RefGrid(bb=st_bbox(Rot_SmallBathy),ResLat=10,ResLon=20,LabLon = Lonzero,offset = 3)
+}
+, gif_file, 720, 720, res = 150,delay = 0.1,progress = F)
+#> [1] "C:\\Users\\stephane\\Desktop\\CCAMLR\\CODES\\72 - CCAMLRGIS\\CCAMLRGIS\\Weeee.gif"
+```
+
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="300" height="300" />
 
 ## 5. Adding colors, legends and labels
 
