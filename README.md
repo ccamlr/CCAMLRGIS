@@ -157,7 +157,7 @@ text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 ## 1. Basemaps
 
 Additional basemaps are available
-[here](https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps.md).
+[here](https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps/Basemaps.md).
 
 #### Bathymetry:
 
@@ -1340,8 +1340,8 @@ Rotate an *sf* or *SpatRaster* object by setting the longitude that
 should point up. The output should **only** be used for plotting, not
 analysis (as the projection is modified to a non-standard EPSG
 projection). See also
-[here](https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps.md) for
-more examples.
+[here](https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps/Basemaps.md)
+for more examples.
 
 ``` r
 library(gifski)
@@ -1359,7 +1359,7 @@ add_RefGrid(bb=st_bbox(Rot_SmallBathy),ResLat=10,ResLon=20,LabLon = Lonzero,offs
 #> [1] "C:\\Users\\stephane\\Desktop\\CCAMLR\\CODES\\72 - CCAMLRGIS\\CCAMLRGIS\\Weeee.gif"
 ```
 
-<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="300" height="300" />
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="700" height="700" />
 
 ## 5. Adding colors, legends and labels
 
