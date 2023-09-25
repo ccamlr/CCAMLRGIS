@@ -21,6 +21,8 @@ Rotate a spatial object by setting the longitude that should point up.
 
 # For more examples, see:
 # https://github.com/ccamlr/CCAMLRGIS#47-rotate_obj
+# and:
+# https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps/Basemaps.md
 
 RotB=Rotate_obj(SmallBathy(),Lon0=-180)
 terra::plot(RotB,breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)

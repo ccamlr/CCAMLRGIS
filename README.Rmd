@@ -150,7 +150,7 @@ text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 
 ## 1. Basemaps
 
-[here]:https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps.md
+[here]:https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps/Basemaps.md
 
 Additional basemaps are available [here].
 
@@ -1182,7 +1182,7 @@ add_RefGrid(bb=st_bbox(Rot_SmallBathy),ResLat=10,ResLon=20,LabLon = Lonzero,offs
 , gif_file, 720, 720, res = 150,delay = 0.1,progress = F)
 ```
 
-<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="300" height="300" />
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="700" height="700" />
 
 ## 5. Adding colors, legends and labels
 
