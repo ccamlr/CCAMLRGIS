@@ -20,6 +20,7 @@
 
 ## Notes about CRAN edits
 
+* Added Rotate_obj() function.
 * Added create_Arrow() function. Fixed bug in seabed_area. SmallBathy is now a function, not an object.
 * Improved add_Cscale() and updated SmallBathy.
 * Improved create_Pies().
