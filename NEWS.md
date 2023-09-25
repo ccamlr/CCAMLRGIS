@@ -1,3 +1,8 @@
+# CCAMLRGIS 4.0.6
+
+Added Rotate_obj() function.
+Created a separate document with base maps, available on GitHub (Basemaps.md)
+
 # CCAMLRGIS 4.0.5
 
 Added create_Arrow() function.

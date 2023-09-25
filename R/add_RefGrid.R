@@ -77,16 +77,15 @@ for(i in seq(1,length(Lons))){
 LLons=st_sfc(LLons, crs = 4326)
 
 gr=c(LLats,LLons)
-gr=st_transform(gr,6932)
+gr=st_transform(gr,st_crs(bb))
 
 #Create Lat/Lon points
 Ps=expand.grid(Lon=Lons,Lat=Lats)
 grP=st_as_sf(x=Ps,coords=c(1,2),crs=4326,remove=FALSE)
-grP=st_transform(grP,6932)
+grP=st_transform(grP,st_crs(bb))
 
 #Create box
-LocsP=st_sfc(st_polygon(list(Locs)), crs = 6932)
-
+LocsP=st_sfc(st_polygon(list(Locs)), crs = st_crs(bb))
 
 #Get labels
 #Circumpolar
@@ -99,7 +98,7 @@ if(is.na(LabLon)==FALSE){
   LonLabs=Labs[Labs$Lat==max(Labs$Lat),]
   #Offset Longitude labels
   Lps=st_as_sf(x=data.frame(Lon=Lons,Lat=max(Lats)+2+offsetx),coords=c(1,2),crs=4326)
-  Lps=st_transform(Lps,6932)
+  Lps=st_transform(Lps,st_crs(bb))
   Lps=st_coordinates(Lps)
   LonLabs$x=Lps[,1]
   LonLabs$y=Lps[,2]
@@ -109,8 +108,8 @@ if(is.na(LabLon)==FALSE){
   #Remove one of the antimeridians
   LonLabs=LonLabs[-which(LonLabs$Lon==-180),]
 }else{
-  grlat=st_transform(LLats,6932)
-  grlon=st_transform(LLons,6932)
+  grlat=st_transform(LLats,st_crs(bb))
+  grlon=st_transform(LLons,st_crs(bb))
   
   grlat=sf::st_intersection(LocsP,grlat)
   grlon=sf::st_intersection(LocsP,grlon)
@@ -143,8 +142,16 @@ if(is.na(LabLon)==FALSE){
   if((dim(LabslatH)[1]+dim(LabslonV)[1])>(dim(LabslatV)[1]+dim(LabslonH)[1])){
     #go with LabslatH and LabslonV
     #Get Lat/Lon
-    LabslatH=project_data(Input=LabslatH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
-    LabslonV=project_data(Input=LabslonV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
+    Locs=st_as_sf(x=LabslatH,coords=c(2,1),crs=st_crs(bb),remove=FALSE)
+    Locs=lwgeom::st_transform_proj(Locs,st_crs(LLons))
+    Locs=as.data.frame(st_coordinates(Locs))
+    colnames(Locs)=c('Lon','Lat')
+    LabslatH=cbind(LabslatH,Locs)
+    Locs=st_as_sf(x=LabslonV,coords=c(2,1),crs=st_crs(bb),remove=FALSE)
+    Locs=lwgeom::st_transform_proj(Locs,st_crs(LLons))
+    Locs=as.data.frame(st_coordinates(Locs))
+    colnames(Locs)=c('Lon','Lat')
+    LabslonV=cbind(LabslonV,Locs)
     #Add offset
     LabslatH$y[LabslatH$y==max(LabslatH$y)]=LabslatH$y[LabslatH$y==max(LabslatH$y)]+offsety
     LabslatH$y[LabslatH$y==min(LabslatH$y)]=LabslatH$y[LabslatH$y==min(LabslatH$y)]-offsety
@@ -159,8 +166,16 @@ if(is.na(LabLon)==FALSE){
   }else{
     #go with LabslatV and LabslonH
     #Get Lat/Lon
-    LabslatV=project_data(Input=LabslatV,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
-    LabslonH=project_data(Input=LabslonH,NamesIn = c('y','x'),NamesOut = c('Lat','Lon'),append = TRUE,inv=TRUE)
+    Locs=st_as_sf(x=LabslatV,coords=c(2,1),crs=st_crs(bb),remove=FALSE)
+    Locs=lwgeom::st_transform_proj(Locs,st_crs(LLons))
+    Locs=as.data.frame(st_coordinates(Locs))
+    colnames(Locs)=c('Lon','Lat')
+    LabslatV=cbind(LabslatV,Locs)
+    Locs=st_as_sf(x=LabslonH,coords=c(2,1),crs=st_crs(bb),remove=FALSE)
+    Locs=lwgeom::st_transform_proj(Locs,st_crs(LLons))
+    Locs=as.data.frame(st_coordinates(Locs))
+    colnames(Locs)=c('Lon','Lat')
+    LabslonH=cbind(LabslonH,Locs)
     #Add offset
     LabslonH$xadj=0.5
     LabslatV$xadj=1

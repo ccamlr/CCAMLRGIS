@@ -57,7 +57,6 @@ Create an arrow which can be curved and/or segmented.
 # For more examples, see:
 # https://github.com/ccamlr/CCAMLRGIS#24-create-arrow
 
-#Manual examples
 #Example 1: straight green arrow
 myInput=data.frame(lat=c(-61,-52),
                    lon=c(-60,-40))
