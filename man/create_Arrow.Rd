@@ -55,7 +55,7 @@ Create an arrow which can be curved and/or segmented.
 \examples{
 
 # For more examples, see:
-# https://github.com/ccamlr/CCAMLRGIS#create-arrow
+# https://github.com/ccamlr/CCAMLRGIS#24-create-arrow
 
 #Manual examples
 #Example 1: straight green arrow
