@@ -7,7 +7,7 @@
 Rotate_obj(Input, Lon0 = NULL)
 }
 \arguments{
-\item{Input}{\code{sf} or \code{SpatRaster (terra)} spatial object.}
+\item{Input}{Spatial object of class \code{sf}, \code{sfc} or \code{SpatRaster (terra)}.}
 
 \item{Lon0}{numeric, longitude that will point up in the resulting map.}
 }
