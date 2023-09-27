@@ -1179,10 +1179,10 @@ terra::plot(Rot_SmallBathy,breaks=Depth_cuts, col=Depth_cols,
             mar=rep(0,4))
 add_RefGrid(bb=st_bbox(Rot_SmallBathy),ResLat=10,ResLon=20,LabLon = Lonzero,offset = 3)
 }
-, gif_file, 720, 720, res = 150,delay = 0.1,progress = F)
+, gif_file, 800, 800, res = 150,delay = 0.1,progress = F)
 ```
 
-<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="700" height="700" />
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="800" height="800" />
 
 ## 5. Adding colors, legends and labels
 
