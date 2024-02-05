@@ -1,8 +1,8 @@
 Type: Package
 Package: CCAMLRGIS
 Title: Antarctic Spatial Data Manipulation
-Version: 4.0.6
-Date: 2023-09-27
+Version: 4.0.7
+Date: 2024-02-05
 Authors@R:
     c(person("Stephane","Thanassekos",role = c("aut", "cre"), email = "stephane.thanassekos@ccamlr.org"),
     person("Keith", "Reid", role = "aut"),
@@ -29,7 +29,7 @@ Imports:
     stars,
     bezier,
     lwgeom
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: 
     knitr,
     rmarkdown,

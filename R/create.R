@@ -123,6 +123,8 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #' 
 #' # For more examples, see:
 #' # https://github.com/ccamlr/CCAMLRGIS#create-grids
+#' # And:
+#' # https://github.com/ccamlr/CCAMLRGIS/blob/master/Advanced_Grids/Advanced_Grids.md
 #' 
 #' #Simple grid, using automatic colors
 #' 

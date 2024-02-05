@@ -10,7 +10,7 @@ raster
 SmallBathy()
 }
 \description{
-Bathymetry dataset derived from the GEBCO 2021 (see \url{https://www.gebco.net/}) dataset.
+Bathymetry dataset derived from the GEBCO 2023 (see \url{https://www.gebco.net/}) dataset.
 Subsampled at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
@@ -20,7 +20,7 @@ to get higher resolution data.
 terra::plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE)
 }
 \references{
-GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f)
+GEBCO Compilation Group (2023) GEBCO 2023 Grid (doi:10.5285/f98b053b-0cbc-6c23-e053-6c86abc0af7b)
 }
 \seealso{
 \code{\link{load_Bathy}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}},

@@ -67,13 +67,17 @@ load_SSRUs=function(){
 #' 
 #' Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 #' See examples for offline use. All layers use the Lambert azimuthal equal-area projection
-#'  (\code{\link{CCAMLRp}})
+#'  (\code{\link{CCAMLRp}}).
 #' Note that this coastline expands further north than \link{Coast}.
+#' Sources: UK Polar Data Centre/BAS and Natural Earth. Projection: EPSG 6932.
+#' More details here: \url{http://github.com/ccamlr/geospatial_operations}
 #'
 #' @seealso 
 #' \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}},
 #' \code{\link{load_MPAs}}, \code{\link{load_EEZs}}.
+#' 
+#' @references UK Polar Data Centre/BAS and Natural Earth.
 #' 
 #' @export
 #' @examples  
@@ -90,9 +94,8 @@ load_SSRUs=function(){
 #' 
 load_Coastline=function(){
   #NB: use http not https
-  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline_6932&outputFormat=json"
+  ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline_v1_6932&outputFormat=json"
   CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
-  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 
@@ -271,14 +274,14 @@ load_EEZs=function(){
 #' 
 #' To re-use the downloaded data, you must provide the full path to that file, for example:
 #' 
-#' \code{LocalFile="C:/Desktop/GEBCO2021_5000.tif"}.
+#' \code{LocalFile="C:/Desktop/GEBCO2023_5000.tif"}.
 #' 
 #' This data was reprojected from the original GEBCO Grid after cropping at 40 degrees South. Projection was made using the Lambert
 #' azimuthal equal-area projection (\code{\link{CCAMLRp}}),
 #' and the data was aggregated at several resolutions.
 #' 
 #' @param LocalFile To download the data, set to \code{FALSE}. To re-use a downloaded file, set to the full path of the file 
-#' (e.g., \code{LocalFile="C:/Desktop/GEBCO2021_5000.tif"}).
+#' (e.g., \code{LocalFile="C:/Desktop/GEBCO2023_5000.tif"}).
 #' @param Res Desired resolution in meters. May only be one of: 500, 1000, 2500 or 5000.
 #' @return Bathymetry raster.
 #' 
@@ -288,7 +291,7 @@ load_EEZs=function(){
 #' \code{\link{create_Stations}}, \code{\link{get_iso_polys}},
 #' \code{\link{SmallBathy}}.
 #' 
-#' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f) 
+#' @references GEBCO Compilation Group (2023) GEBCO 2023 Grid (doi:10.5285/f98b053b-0cbc-6c23-e053-6c86abc0af7b)
 #' 
 #' @export
 #' @examples  
@@ -300,8 +303,8 @@ load_EEZs=function(){
 #' #Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
 #' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 #' 
-#' ##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2021_5000.tif"):
-#' #Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2021_5000.tif")
+#' ##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2023_5000.tif"):
+#' #Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2023_5000.tif")
 #' #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 #' 
 #' }
@@ -310,7 +313,7 @@ load_EEZs=function(){
 load_Bathy=function(LocalFile,Res=5000){
   if(LocalFile==FALSE){
     if(Res%in%c(500,1000,2500,5000)==FALSE){stop("'Res' should be one of: 500, 1000, 2500 or 5000")}
-    Fname=paste0("GEBCO2021_",Res,".tif")
+    Fname=paste0("GEBCO2023_",Res,".tif")
     url=paste0("https://gis.ccamlr.org/geoserver/www/",Fname)
     download.file(url, destfile=paste0(getwd(),"/",Fname),mode="wb")
     Bathy=terra::rast(paste0(getwd(),"/",Fname))
@@ -323,7 +326,7 @@ load_Bathy=function(LocalFile,Res=5000){
 
 #' Small bathymetry dataset
 #'
-#' Bathymetry dataset derived from the GEBCO 2021 (see \url{https://www.gebco.net/}) dataset.
+#' Bathymetry dataset derived from the GEBCO 2023 (see \url{https://www.gebco.net/}) dataset.
 #' Subsampled at a 10,000m resolution. Projected using the CCAMLR standard projection (\code{\link{CCAMLRp}}).
 #' To highlight the Fishable Depth range, use \code{\link{Depth_cols2}} and \code{\link{Depth_cuts2}}.
 #' To be only used for large scale illustrative purposes. Please refer to \code{\link{load_Bathy}}
@@ -337,7 +340,7 @@ load_Bathy=function(LocalFile,Res=5000){
 #' @seealso \code{\link{load_Bathy}}, \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}},
 #' \code{\link{Depth_cuts}},
 #' \code{\link{Depth_cols2}}, \code{\link{Depth_cuts2}}, \code{\link{get_depths}}, \code{\link{create_Stations}}.
-#' @references GEBCO Compilation Group (2021) GEBCO 2021 Grid (doi:10.5285/c6612cbe-50b3-0cff-e053-6c86abc09f8f)
+#' @references GEBCO Compilation Group (2023) GEBCO 2023 Grid (doi:10.5285/f98b053b-0cbc-6c23-e053-6c86abc0af7b)
 #' 
 
 SmallBathy=function(){

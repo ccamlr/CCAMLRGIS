@@ -119,7 +119,9 @@ In order to plot bathymetry data, you will also need to load [terra](https://CRA
 library(terra)
 ```
 
-All spatial manipulations are made using the South Pole Lambert Azimuthal Equal Area projection (type ?CCAMLRp for more details).
+[geospatial rules]:https://github.com/ccamlr/geospatial_operations#1-geospatial-rules
+
+All spatial manipulations are made using the South Pole Lambert Azimuthal Equal Area projection (type ?CCAMLRp for more details), and follow CCAMLR's [geospatial rules].
 
 ```{r Fig01,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Map with axes, to illustrate projection
@@ -188,10 +190,10 @@ add_RefGrid(bb=st_bbox(SmallBathy()),ResLat=10,ResLon=20,LabLon=0,fontsize=0.75,
 #Add color scale
 add_Cscale(height=90,fontsize=0.75,offset=-1500,width=15,maxVal=-1,lwd=0.5)
 #Add ASD and EEZ boundaries
-plot(st_geometry(ASDs),add=T,lwd=0.75,border='red')
-plot(st_geometry(EEZs),add=T,lwd=0.75,border='red')
+plot(st_geometry(ASDs),add=T,lwd=0.75,border='red',xpd=T)
+plot(st_geometry(EEZs),add=T,lwd=0.75,border='red',xpd=T)
 #Add coastline (for all ASDs)
-plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',lwd=0.01,add=T)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',lwd=0.01,add=T,xpd=T)
 #Add ASD labels
 add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
 
@@ -211,13 +213,13 @@ plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(1.4,2,1.4,7))
 #Add color scale
 add_Cscale(height=80,fontsize=0.7,offset=300,width=15,lwd=0.5,maxVal=-1)
 #Add coastline (for Subarea 48.6 only)
-plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
+plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T,xpd=T)
 #Add reference grid
 add_RefGrid(bb=st_bbox(B486),ResLat=5,ResLon=10,fontsize=0.75,lwd=0.75,offset = 100000)
 #Add Subarea 48.6 boundaries
-plot(st_geometry(S486),add=T,lwd=1,border='red')
+plot(st_geometry(S486),add=T,lwd=1,border='red',xpd=T)
 #Add a -2000m contour
-contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
+contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3,xpd=T)
 #Add single label at the centre of the polygon (see ?Labels)
 text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red',cex=1.5)
 
@@ -398,6 +400,11 @@ box()
 ```
 
 #### Create grids:
+
+[tutorial]:https://github.com/ccamlr/CCAMLRGIS/blob/master/Advanced_Grids/Advanced_Grids.md
+
+An advanced demo is given in this [tutorial].
+
 
 For details, type:
 
@@ -860,7 +867,7 @@ ASDs=ASDs[ASDs$GAR_Short_Label=="481",]
 bb=st_bbox(st_buffer(ASDs,20000)) #Get bounding box (x/y limits) +20,000m buffer
 bx=st_as_sfc(bb) #Build spatial box to plot
 coast=load_Coastline()
-C481=st_intersection(st_union(coast),bx) #Crop coastline to box limits
+C481=st_intersection(st_union(coast[coast$surface=="Land",]),bx) #Crop coastline to box limits
 B481=crop(SmallBathy(),ext(bb))
 
 #Create arrows
@@ -904,15 +911,15 @@ text(-2050000,2070000,"Example 9",font=2,xpd=TRUE,cex=2)
 #Plot border
 plot(bx,border='black',lwd=1,xpd=TRUE,add=TRUE)
 #Add coastline (for Subarea 48.6 only)
-plot(C481,col="grey",add=TRUE)
+plot(C481,col="grey",add=TRUE,xpd=T)
 #Add reference grid
 add_RefGrid(bb=bb,ResLat=2,ResLon=5,fontsize=1,lwd=0.75,offset = c(20000,30000))
 #Add Subarea 48.1 boundaries
-plot(st_geometry(ASDs),add=TRUE,lwd=3,border='black')
+plot(st_geometry(ASDs),add=TRUE,lwd=3,border='black',xpd=T)
 #Add Arrows
-plot(st_geometry(Arrow1_4),col=Arrow1_4$col,add=TRUE,border="orange",lwd=2)
-plot(st_geometry(Arrow5),col=Arrow5$col,add=TRUE,border=NA)
-plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white')
+plot(st_geometry(Arrow1_4),col=Arrow1_4$col,add=TRUE,border="orange",lwd=2,xpd=T)
+plot(st_geometry(Arrow5),col=Arrow5$col,add=TRUE,border=NA,xpd=T)
+plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white',xpd=T)
 ```
 
 
@@ -937,6 +944,7 @@ For details, type:
 ASDs=load_ASDs()
 EEZs=load_EEZs()
 Coastline=load_Coastline()
+Coastline=Coastline[Coastline$surface=="Land",]
 
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0,0,0,0))
@@ -1313,16 +1321,16 @@ add_Cscale(pos='3/8',height=50,maxVal=-1,minVal=-4000,fontsize=0.75,lwd=1,width=
 #Plot points with different symbols and colors (see ?points)
 Psymbols=c(21,22,23,24)
 Pcolors=c('red','green','blue','yellow')
-plot(st_geometry(MyPoints[MyPoints$name=='one',]),pch=Psymbols[1],bg=Pcolors[1],add=T)
-plot(st_geometry(MyPoints[MyPoints$name=='two',]),pch=Psymbols[2],bg=Pcolors[2],add=T)
-plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3],add=T)
-plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T)
+plot(st_geometry(MyPoints[MyPoints$name=='one',]),pch=Psymbols[1],bg=Pcolors[1],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='two',]),pch=Psymbols[2],bg=Pcolors[2],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T,xpd=T)
 
 #Add legend with position determined by add_Cscale
 Loc=add_Cscale(pos='7/8',height=40,mode='Legend')
 legend(Loc,legend=c('one','two','three','four'),
        title='Vessel',pch=Psymbols,pt.bg=Pcolors,xpd=T,
-       box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.5)
+       box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.2)
 
 ```
 

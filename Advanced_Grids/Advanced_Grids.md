@@ -18,7 +18,7 @@ the simulated data (same column names, in particular).
 ``` r
 library(CCAMLRGIS)
 library(dplyr)
-#Use simplified coastline
+#Use simplified coastline (for hi-res, use load_Coastline() instead)
 coast=st_union(Coast[Coast$ID=="All",]) 
 #Get ASDs
 ASDs=load_ASDs()

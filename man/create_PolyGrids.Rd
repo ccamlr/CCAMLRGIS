@@ -61,6 +61,8 @@ Cell size may be specified in degrees or as a desired area in square kilometers
 
 # For more examples, see:
 # https://github.com/ccamlr/CCAMLRGIS#create-grids
+# And:
+# https://github.com/ccamlr/CCAMLRGIS/blob/master/Advanced_Grids/Advanced_Grids.md
 
 #Simple grid, using automatic colors
 

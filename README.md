@@ -123,7 +123,9 @@ library(terra)
 ```
 
 All spatial manipulations are made using the South Pole Lambert
-Azimuthal Equal Area projection (type ?CCAMLRp for more details).
+Azimuthal Equal Area projection (type ?CCAMLRp for more details), and
+follow CCAMLR’s [geospatial
+rules](https://github.com/ccamlr/geospatial_operations#1-geospatial-rules).
 
 ``` r
 #Map with axes, to illustrate projection
@@ -195,10 +197,10 @@ add_RefGrid(bb=st_bbox(SmallBathy()),ResLat=10,ResLon=20,LabLon=0,fontsize=0.75,
 #Add color scale
 add_Cscale(height=90,fontsize=0.75,offset=-1500,width=15,maxVal=-1,lwd=0.5)
 #Add ASD and EEZ boundaries
-plot(st_geometry(ASDs),add=T,lwd=0.75,border='red')
-plot(st_geometry(EEZs),add=T,lwd=0.75,border='red')
+plot(st_geometry(ASDs),add=T,lwd=0.75,border='red',xpd=T)
+plot(st_geometry(EEZs),add=T,lwd=0.75,border='red',xpd=T)
 #Add coastline (for all ASDs)
-plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',lwd=0.01,add=T)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',lwd=0.01,add=T,xpd=T)
 #Add ASD labels
 add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
 ```
@@ -219,13 +221,13 @@ plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(1.4,2,1.4,7))
 #Add color scale
 add_Cscale(height=80,fontsize=0.7,offset=300,width=15,lwd=0.5,maxVal=-1)
 #Add coastline (for Subarea 48.6 only)
-plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
+plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T,xpd=T)
 #Add reference grid
 add_RefGrid(bb=st_bbox(B486),ResLat=5,ResLon=10,fontsize=0.75,lwd=0.75,offset = 100000)
 #Add Subarea 48.6 boundaries
-plot(st_geometry(S486),add=T,lwd=1,border='red')
+plot(st_geometry(S486),add=T,lwd=1,border='red',xpd=T)
 #Add a -2000m contour
-contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3)
+contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3,xpd=T)
 #Add single label at the centre of the polygon (see ?Labels)
 text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red',cex=1.5)
 ```
@@ -417,6 +419,9 @@ box()
 <img src="README-Fig08b-1.png" width="100%" style="display: block; margin: auto;" />
 
 #### Create grids:
+
+An advanced demo is given in this
+[tutorial](https://github.com/ccamlr/CCAMLRGIS/blob/master/Advanced_Grids/Advanced_Grids.md).
 
 For details, type:
 
@@ -944,7 +949,7 @@ ASDs=ASDs[ASDs$GAR_Short_Label=="481",]
 bb=st_bbox(st_buffer(ASDs,20000)) #Get bounding box (x/y limits) +20,000m buffer
 bx=st_as_sfc(bb) #Build spatial box to plot
 coast=load_Coastline()
-C481=st_intersection(st_union(coast),bx) #Crop coastline to box limits
+C481=st_intersection(st_union(coast[coast$surface=="Land",]),bx) #Crop coastline to box limits
 B481=crop(SmallBathy(),ext(bb))
 
 #Create arrows
@@ -988,15 +993,15 @@ text(-2050000,2070000,"Example 9",font=2,xpd=TRUE,cex=2)
 #Plot border
 plot(bx,border='black',lwd=1,xpd=TRUE,add=TRUE)
 #Add coastline (for Subarea 48.6 only)
-plot(C481,col="grey",add=TRUE)
+plot(C481,col="grey",add=TRUE,xpd=T)
 #Add reference grid
 add_RefGrid(bb=bb,ResLat=2,ResLon=5,fontsize=1,lwd=0.75,offset = c(20000,30000))
 #Add Subarea 48.1 boundaries
-plot(st_geometry(ASDs),add=TRUE,lwd=3,border='black')
+plot(st_geometry(ASDs),add=TRUE,lwd=3,border='black',xpd=T)
 #Add Arrows
-plot(st_geometry(Arrow1_4),col=Arrow1_4$col,add=TRUE,border="orange",lwd=2)
-plot(st_geometry(Arrow5),col=Arrow5$col,add=TRUE,border=NA)
-plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white')
+plot(st_geometry(Arrow1_4),col=Arrow1_4$col,add=TRUE,border="orange",lwd=2,xpd=T)
+plot(st_geometry(Arrow5),col=Arrow5$col,add=TRUE,border=NA,xpd=T)
+plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white',xpd=T)
 ```
 
 <img src="README-FigArr03-1.png" width="100%" style="display: block; margin: auto;" />
@@ -1023,6 +1028,7 @@ For details, type:
 ASDs=load_ASDs()
 EEZs=load_EEZs()
 Coastline=load_Coastline()
+Coastline=Coastline[Coastline$surface=="Land",]
 
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0,0,0,0))
@@ -1355,11 +1361,11 @@ terra::plot(Rot_SmallBathy,breaks=Depth_cuts, col=Depth_cols,
             mar=rep(0,4))
 add_RefGrid(bb=st_bbox(Rot_SmallBathy),ResLat=10,ResLon=20,LabLon = Lonzero,offset = 3)
 }
-, gif_file, 720, 720, res = 150,delay = 0.1,progress = F)
+, gif_file, 800, 800, res = 150,delay = 0.1,progress = F)
 #> [1] "C:\\Users\\stephane\\Desktop\\CCAMLR\\CODES\\72 - CCAMLRGIS\\CCAMLRGIS\\Weeee.gif"
 ```
 
-<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="700" height="700" />
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="800" height="800" />
 
 ## 5. Adding colors, legends and labels
 
@@ -1510,16 +1516,16 @@ add_Cscale(pos='3/8',height=50,maxVal=-1,minVal=-4000,fontsize=0.75,lwd=1,width=
 #Plot points with different symbols and colors (see ?points)
 Psymbols=c(21,22,23,24)
 Pcolors=c('red','green','blue','yellow')
-plot(st_geometry(MyPoints[MyPoints$name=='one',]),pch=Psymbols[1],bg=Pcolors[1],add=T)
-plot(st_geometry(MyPoints[MyPoints$name=='two',]),pch=Psymbols[2],bg=Pcolors[2],add=T)
-plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3],add=T)
-plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T)
+plot(st_geometry(MyPoints[MyPoints$name=='one',]),pch=Psymbols[1],bg=Pcolors[1],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='two',]),pch=Psymbols[2],bg=Pcolors[2],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T,xpd=T)
 
 #Add legend with position determined by add_Cscale
 Loc=add_Cscale(pos='7/8',height=40,mode='Legend')
 legend(Loc,legend=c('one','two','three','four'),
        title='Vessel',pch=Psymbols,pt.bg=Pcolors,xpd=T,
-       box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.5)
+       box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.2)
 ```
 
 <img src="README-Fig21-1.png" width="100%" style="display: block; margin: auto;" />
@@ -1600,332 +1606,11 @@ MyPolys=create_Polys(PolyData)
 kableExtra::kable(MyPolys,row.names = F)
 ```
 
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-ID
-</th>
-<th style="text-align:right;">
-Catch_min
-</th>
-<th style="text-align:right;">
-Nfishes_min
-</th>
-<th style="text-align:right;">
-n_min
-</th>
-<th style="text-align:right;">
-Catch_max
-</th>
-<th style="text-align:right;">
-Nfishes_max
-</th>
-<th style="text-align:right;">
-n_max
-</th>
-<th style="text-align:right;">
-Catch_mean
-</th>
-<th style="text-align:right;">
-Nfishes_mean
-</th>
-<th style="text-align:right;">
-n_mean
-</th>
-<th style="text-align:right;">
-Catch_sum
-</th>
-<th style="text-align:right;">
-Nfishes_sum
-</th>
-<th style="text-align:right;">
-n_sum
-</th>
-<th style="text-align:right;">
-Catch_count
-</th>
-<th style="text-align:right;">
-Nfishes_count
-</th>
-<th style="text-align:right;">
-n_count
-</th>
-<th style="text-align:right;">
-Catch_sd
-</th>
-<th style="text-align:right;">
-Nfishes_sd
-</th>
-<th style="text-align:right;">
-n_sd
-</th>
-<th style="text-align:right;">
-Catch_median
-</th>
-<th style="text-align:right;">
-Nfishes_median
-</th>
-<th style="text-align:right;">
-n_median
-</th>
-<th style="text-align:left;">
-geometry
-</th>
-<th style="text-align:right;">
-AreaKm2
-</th>
-<th style="text-align:right;">
-Labx
-</th>
-<th style="text-align:right;">
-Laby
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-one
-</td>
-<td style="text-align:right;">
-52.61262
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-71.65909
-</td>
-<td style="text-align:right;">
-329
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-64.17380
-</td>
-<td style="text-align:right;">
-172.5000
-</td>
-<td style="text-align:right;">
-2.5
-</td>
-<td style="text-align:right;">
-256.6952
-</td>
-<td style="text-align:right;">
-690
-</td>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-9.084736
-</td>
-<td style="text-align:right;">
-153.3917
-</td>
-<td style="text-align:right;">
-1.290994
-</td>
-<td style="text-align:right;">
-66.21175
-</td>
-<td style="text-align:right;">
-175.0
-</td>
-<td style="text-align:right;">
-2.5
-</td>
-<td style="text-align:left;">
-POLYGON ((-290035.9 -164487…
-</td>
-<td style="text-align:right;">
-187281.3
-</td>
-<td style="text-align:right;">
--170519.8
-</td>
-<td style="text-align:right;">
--1949051
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-two
-</td>
-<td style="text-align:right;">
-23.12032
-</td>
-<td style="text-align:right;">
-116
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-73.49383
-</td>
-<td style="text-align:right;">
-954
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-51.94951
-</td>
-<td style="text-align:right;">
-505.0000
-</td>
-<td style="text-align:right;">
-6.5
-</td>
-<td style="text-align:right;">
-207.7980
-</td>
-<td style="text-align:right;">
-2020
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-22.264999
-</td>
-<td style="text-align:right;">
-428.9188
-</td>
-<td style="text-align:right;">
-1.290994
-</td>
-<td style="text-align:right;">
-55.59195
-</td>
-<td style="text-align:right;">
-475.0
-</td>
-<td style="text-align:right;">
-6.5
-</td>
-<td style="text-align:left;">
-POLYGON ((-423880.7 -240394…
-</td>
-<td style="text-align:right;">
-95294.2
-</td>
-<td style="text-align:right;">
-0.0
-</td>
-<td style="text-align:right;">
--2483470
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-three
-</td>
-<td style="text-align:right;">
-10.23393
-</td>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-9
-</td>
-<td style="text-align:right;">
-95.57774
-</td>
-<td style="text-align:right;">
-988
-</td>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-52.50313
-</td>
-<td style="text-align:right;">
-412.3333
-</td>
-<td style="text-align:right;">
-11.5
-</td>
-<td style="text-align:right;">
-315.0188
-</td>
-<td style="text-align:right;">
-2474
-</td>
-<td style="text-align:right;">
-69
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-32.152675
-</td>
-<td style="text-align:right;">
-382.8685
-</td>
-<td style="text-align:right;">
-1.870829
-</td>
-<td style="text-align:right;">
-54.15367
-</td>
-<td style="text-align:right;">
-341.5
-</td>
-<td style="text-align:right;">
-11.5
-</td>
-<td style="text-align:left;">
-POLYGON ((480755.1 -2726497…
-</td>
-<td style="text-align:right;">
-361556.2
-</td>
-<td style="text-align:right;">
-786933.1
-</td>
-<td style="text-align:right;">
--2846388
-</td>
-</tr>
-</tbody>
-</table>
+| ID    | Catch_min | Nfishes_min | n_min | Catch_max | Nfishes_max | n_max | Catch_mean | Nfishes_mean | n_mean | Catch_sum | Nfishes_sum | n_sum | Catch_count | Nfishes_count | n_count |  Catch_sd | Nfishes_sd |     n_sd | Catch_median | Nfishes_median | n_median | geometry                     |  AreaKm2 |      Labx |     Laby |
+|:------|----------:|------------:|------:|----------:|------------:|------:|-----------:|-------------:|-------:|----------:|------------:|------:|------------:|--------------:|--------:|----------:|-----------:|---------:|-------------:|---------------:|---------:|:-----------------------------|---------:|----------:|---------:|
+| one   |  52.61262 |          11 |     1 |  71.65909 |         329 |     4 |   64.17380 |     172.5000 |    2.5 |  256.6952 |         690 |    10 |           4 |             4 |       4 |  9.084736 |   153.3917 | 1.290994 |     66.21175 |          175.0 |      2.5 | POLYGON ((-290035.9 -164487… | 187281.3 | -170519.8 | -1949051 |
+| two   |  23.12032 |         116 |     5 |  73.49383 |         954 |     8 |   51.94951 |     505.0000 |    6.5 |  207.7980 |        2020 |    26 |           4 |             4 |       4 | 22.264999 |   428.9188 | 1.290994 |     55.59195 |          475.0 |      6.5 | POLYGON ((-423880.7 -240394… |  95294.2 |       0.0 | -2483470 |
+| three |  10.23393 |          13 |     9 |  95.57774 |         988 |    14 |   52.50313 |     412.3333 |   11.5 |  315.0188 |        2474 |    69 |           6 |             6 |       6 | 32.152675 |   382.8685 | 1.870829 |     54.15367 |          341.5 |     11.5 | POLYGON ((480755.1 -2726497… | 361556.2 |  786933.1 | -2846388 |
 
 The ‘geometry’ column contains the locations of each point of a given
 polygon (each row), and can be plotted using

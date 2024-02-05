@@ -9,8 +9,10 @@ load_Coastline()
 \description{
 Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
 See examples for offline use. All layers use the Lambert azimuthal equal-area projection
- (\code{\link{CCAMLRp}})
+ (\code{\link{CCAMLRp}}).
 Note that this coastline expands further north than \link{Coast}.
+Sources: UK Polar Data Centre/BAS and Natural Earth. Projection: EPSG 6932.
+More details here: \url{http://github.com/ccamlr/geospatial_operations}
 }
 \examples{
  
@@ -25,6 +27,9 @@ plot(st_geometry(Coastline))
 
 }
 
+}
+\references{
+UK Polar Data Centre/BAS and Natural Earth.
 }
 \seealso{
 \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
