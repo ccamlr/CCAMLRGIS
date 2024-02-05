@@ -2,7 +2,7 @@
 % Please edit documentation in R/Clip2Coast.R
 \name{Clip2Coast}
 \alias{Clip2Coast}
-\title{Clip Polygons to the Antarctic coastline}
+\title{Clip Polygons to a simplified Antarctic coastline}
 \usage{
 Clip2Coast(Input)
 }
@@ -15,7 +15,9 @@ sf polygon carrying the same data as the \code{Input}.
 \description{
 Clip Polygons to the \link{Coast} (removes polygon parts that fall on land) and computes the area of the resulting polygon.
 Uses an sf object as input which may be user-generated or created via buffered points (see \link{create_Points}),
-buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}).
+buffered lines (see \link{create_Lines}) or polygons (see \link{create_Polys}). N.B.: this function uses a
+simplified coastline. For more accurate results, load the high resolution coastline (see \link{load_Coastline}), and
+use sf::st_difference().
 }
 \examples{
 

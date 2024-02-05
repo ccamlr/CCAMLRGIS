@@ -64,7 +64,7 @@
 add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='black',LabelTable=NULL){
  if(mode=='auto'){
   for(l in layer){
-   text(Labels[Labels$p==l,1:2],Labels$t[Labels$p==l],cex=fontsize,font=fonttype,srt=angle,col=col)
+   text(Labels[Labels$p==l,1:2],Labels$t[Labels$p==l],cex=fontsize,font=fonttype,srt=angle,col=col,xpd=TRUE)
   }
  }
   if(mode=='manual'){
@@ -104,7 +104,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
       text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
            Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
            font=Lab$fonttype[Lab$angle==ang],srt=ang,
-           col=Lab$col[Lab$angle==ang])
+           col=Lab$col[Lab$angle==ang],xpd=TRUE)
     }
     Lab=suppressWarnings(edit(Lab))
     replayPlot(P)
@@ -112,7 +112,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
       text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
            Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
            font=Lab$fonttype[Lab$angle==ang],srt=ang,
-           col=Lab$col[Lab$angle==ang])
+           col=Lab$col[Lab$angle==ang],xpd=TRUE)
     }
     #Next labels
     xx=menu(c('Add a new label','Edit the label table'),title = 'What would you like to do?')
@@ -141,7 +141,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
           text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
                Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
                font=Lab$fonttype[Lab$angle==ang],srt=ang,
-               col=Lab$col[Lab$angle==ang])
+               col=Lab$col[Lab$angle==ang],xpd=TRUE)
         }
         Lab=suppressWarnings(edit(Lab))
         replayPlot(P)
@@ -149,7 +149,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
           text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
                Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
                font=Lab$fonttype[Lab$angle==ang],srt=ang,
-               col=Lab$col[Lab$angle==ang])
+               col=Lab$col[Lab$angle==ang],xpd=TRUE)
         }
       
     }
@@ -162,7 +162,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
           text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
                Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
                font=Lab$fonttype[Lab$angle==ang],srt=ang,
-               col=Lab$col[Lab$angle==ang])
+               col=Lab$col[Lab$angle==ang],xpd=TRUE)
         }
       }
       xx=menu(c('Add a new label','Edit the label table','Exit'),title = 'What would you like to do?')
@@ -177,7 +177,7 @@ add_labels=function(mode=NULL,layer=NULL,fontsize=1,fonttype=1,angle=0,col='blac
       text(Lab$x[Lab$angle==ang],Lab$y[Lab$angle==ang],
            Lab$text[Lab$angle==ang],cex=Lab$fontsize[Lab$angle==ang],
            font=Lab$fonttype[Lab$angle==ang],srt=ang,
-           col=Lab$col[Lab$angle==ang])
+           col=Lab$col[Lab$angle==ang],xpd=TRUE)
     }
   }
 }

@@ -27,7 +27,6 @@ Bathy=load_Bathy(LocalFile=F,Res=1000) #Once downloaded, re-use it. See help(loa
 # Bathy=SmallBathy() #Use this for testing purposes first
 #Get coastline
 coast=load_Coastline()
-coast=st_union(coast)
 #Get ASDs
 ASDs=load_ASDs()
 #Get Labels
@@ -94,7 +93,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -109,9 +108,10 @@ inset=readPNG("Insets/Map_Cover_48.png",native = T)
 png(filename='Map_Area_48.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.6,1.5,0.6,11),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssmus),border="orange",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -180,7 +180,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -195,9 +195,10 @@ inset=readPNG("Insets/Map_Cover_481.png",native = T)
 png(filename='Map_Area_481.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,1.9,0.6,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -267,7 +268,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -282,9 +283,10 @@ inset=readPNG("Insets/Map_Cover_482.png",native = T)
 png(filename='Map_Area_482.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,2.0,0.6,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -301,9 +303,9 @@ Loc=add_Cscale(pos='14/20',height=43,mode='Legend',offset = Off)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Research Blocks'),
        border=c('black','darkgreen'),
        fill='white',
-       seg.len=0,cex=0.68,
+       cex=0.6,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.7,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='100/100',height=0,mode='Legend',offset = Off)
@@ -355,7 +357,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -370,9 +372,10 @@ inset=readPNG("Insets/Map_Cover_483.png",native = T)
 png(filename='Map_Area_483.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.6,2.0,0.6,11.5),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -385,20 +388,20 @@ add_Cscale(pos='5/20',height=42,maxVal=-1,offset = Off,fontsize=0.65,width=15,lw
 
 #Legend
 Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+# par(lwd=1.5)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Management Areas'),
        border=c('black','darkred'),
        fill='white',
-       seg.len=0,cex=0.65,
+       cex=0.6,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.7,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4,
-            ytop=Loc[2]+Lx/4,
+            xright=Loc[1]+Lx/4.6,
+            ytop=Loc[2]+Lx/4.6,
             xpd=T)
 
 #Add labels
@@ -450,7 +453,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -465,9 +468,10 @@ inset=readPNG("Insets/Map_Cover_484.png",native = T)
 png(filename='Map_Area_484.png',width=2600,height=1500*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(2,2,2,15),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -541,7 +545,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -556,10 +560,11 @@ inset=readPNG("Insets/Map_Cover_486.png",native = T)
 png(filename='Map_Area_486.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,2.0,0.6,11.5),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.7)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -641,7 +646,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -656,10 +661,11 @@ inset=readPNG("Insets/Map_Cover_5841.png",native = T)
 png(filename='Map_Area_5841.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,1.5,0.6,9.5),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.7)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -676,12 +682,13 @@ Loc=add_Cscale(pos='52/80',height=43,mode='Legend',offset = Off)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
        border=c('black','gray40','darkgreen'),
        fill='white',
-       seg.len=0,cex=0.55,
+       cex=0.5,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=add_Cscale(pos='500/500',height=-12,mode='Legend',offset = Off)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
             xright=Loc[1]+Lx/5,
@@ -718,6 +725,7 @@ SSRUs=SSRUs[grep("5842",SSRUs$GAR_Short_Label),]
 Lonzero=55 #This longitude will point up
 R_rbs=Rotate_obj(RBs,Lonzero)
 R_bathy=Rotate_obj(Bathy,Lonzero)
+#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -732,7 +740,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 
 #Use bounding box to crop elements
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -747,10 +755,11 @@ inset=readPNG("Insets/Map_Cover_5842.png",native = T)
 png(filename='Map_Area_5842.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,1.5,0.6,9.5),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.7)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -769,10 +778,10 @@ legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units'
        fill='white',
        seg.len=0,cex=0.55,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=add_Cscale(pos='500/500',height=-11,mode='Legend',offset = Off)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
             xright=Loc[1]+Lx/4.5,
@@ -823,7 +832,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -838,10 +847,11 @@ inset=readPNG("Insets/Map_Cover_5843a.png",native = T)
 png(filename='Map_Area_5843a.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(1,2.5,1,11),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -914,7 +924,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -929,10 +939,11 @@ inset=readPNG("Insets/Map_Cover_5843b.png",native = T)
 png(filename='Map_Area_5843b.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.5,2.5,0.5,14),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1010,7 +1021,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1025,11 +1036,12 @@ inset=readPNG("Insets/Map_Cover_5844.png",native = T)
 png(filename='Map_Area_5844.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1041,17 +1053,17 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
            cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
+# par(lwd=1.5,xpd=T)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Small Scale Research Units','Research Blocks'),
        border=c('black','purple','gray40','darkgreen'),
        fill='white',
-       seg.len=0,cex=0.6,
+       cex=0.6,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=add_Cscale(pos='500/500',height=-2,mode='Legend',offset = Off)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
             xright=Loc[1]+Lx/4,
@@ -1107,7 +1119,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1122,9 +1134,10 @@ inset=readPNG("Insets/Map_Cover_5851.png",native = T)
 png(filename='Map_Area_5851.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1136,17 +1149,17 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
+par(lwd=1.5,xpd=T)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
        border=c('black','purple'),
        fill='white',
-       seg.len=0,cex=0.6,
+       cex=0.6,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=add_Cscale(pos='500/500',height=-2,mode='Legend',offset = Off)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
             xright=Loc[1]+Lx/4,
@@ -1194,7 +1207,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1209,9 +1222,10 @@ inset=readPNG("Insets/Map_Cover_5852.png",native = T)
 png(filename='Map_Area_5852.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1223,17 +1237,17 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
+# par(lwd=1.5,xpd=T)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
        border=c('black','purple'),
        fill='white',
-       seg.len=0,cex=0.6,
+       cex=0.6,
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=add_Cscale(pos='500/500',height=-4,mode='Legend',offset = Off)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
             xright=Loc[1]+Lx/4.5,
@@ -1291,7 +1305,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1306,9 +1320,10 @@ inset=readPNG("Insets/Map_Cover_586.png",native = T)
 png(filename='Map_Area_586.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1380,7 +1395,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_eezs=suppressWarnings(st_intersection(R_eezs,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1395,9 +1410,10 @@ inset=readPNG("Insets/Map_Cover_587.png",native = T)
 png(filename='Map_Area_587.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1471,7 +1487,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_ssrus=suppressWarnings(st_intersection(R_ssrus,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1486,12 +1502,12 @@ inset=readPNG("Insets/Map_Cover_RSr.png",native = T)
 png(filename='Map_Area_RSr.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_mpas),border="red",col=rgb(1,0.5,0,0.4),lwd=3,lty=3,add=T)
-
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.9,offset = c(10000,60000),LatR = c(-85, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1507,10 +1523,10 @@ Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
 # par(lwd=2)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Area of directed fishing','Marine Protected Area'),
        border=c('black','gray40','darkred','red'),
-       seg.len=0,cex=0.65,
+       cex=0.65,
        fill=c('white','white','white',rgb(1,0.5,0,0.4)),
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
@@ -1576,7 +1592,7 @@ R_ssrus=suppressWarnings(st_intersection(R_ssrus,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
 R_mpas=suppressWarnings(st_intersection(R_mpas,bx))
 R_mas=suppressWarnings(st_intersection(R_mas,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1591,12 +1607,13 @@ inset=readPNG("Insets/Map_Cover_882.png",native = T)
 png(filename='Map_Area_882.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_mpas),border="red",col=rgb(1,0.5,0,0.4),lwd=3,lty=3,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.9,offset = c(10000,60000),LatR = c(-85, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
@@ -1612,10 +1629,10 @@ Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
 # par(lwd=2)
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks','Area of directed fishing','Marine Protected Area'),
        border=c('black','gray40','darkgreen','darkred','red'),
-       seg.len=0,cex=0.65,
+       cex=0.65,
        fill=c('white','white','white','white',rgb(1,0.5,0,0.4)),
        bg='white',
-       xpd=TRUE)
+       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
@@ -1668,7 +1685,7 @@ bx=st_as_sfc(bb) #Build spatial box to plot
 #Use bounding box to crop elements
 R_ssrus=suppressWarnings(st_intersection(R_ssrus,bx))
 R_asds=suppressWarnings(st_intersection(R_asds,bx))
-R_coast=st_intersection(R_coast,bx)
+R_coast=suppressWarnings(st_intersection(R_coast,bx))
 R_bathy=crop(R_bathy,ext(bb))
 
 #Get height and width of bounding box
@@ -1683,10 +1700,11 @@ inset=readPNG("Insets/Map_Cover_883.png",native = T)
 png(filename='Map_Area_883.png',width=2600,height=2000*(Ly/Lx),res=300)
 
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
-plot(R_coast,col="grey",add=T)
+plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.9,offset = c(10000,60000),LatR = c(-85, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 

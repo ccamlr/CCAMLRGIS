@@ -1,3 +1,10 @@
+# CCAMLRGIS 4.0.7
+
+Updated SmallBathy() to the 2023 version of GEBCO.
+Updated coastline as obtained through load_Coastline(),
+see: (https://github.com/ccamlr/geospatial_operations).
+Created a separate document with advanced grids, available on GitHub (https://github.com/ccamlr/CCAMLRGIS/blob/master/Advanced_Grids/Advanced_Grids.md)
+
 # CCAMLRGIS 4.0.6
 
 Added Rotate_obj() function.
