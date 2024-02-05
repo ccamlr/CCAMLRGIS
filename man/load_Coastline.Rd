@@ -12,7 +12,7 @@ See examples for offline use. All layers use the Lambert azimuthal equal-area pr
  (\code{\link{CCAMLRp}}).
 Note that this coastline expands further north than \link{Coast}.
 Sources: UK Polar Data Centre/BAS and Natural Earth. Projection: EPSG 6932.
-More details here: \url{http://github.com/ccamlr/geospatial_operations}
+More details here: \url{https://github.com/ccamlr/geospatial_operations}
 }
 \examples{
  
