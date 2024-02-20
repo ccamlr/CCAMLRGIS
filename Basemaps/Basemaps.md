@@ -79,7 +79,6 @@ SSMUs=load_SSMUs()
 Lonzero=-45 #This longitude will point up
 R_ssmus=Rotate_obj(SSMUs,Lonzero)
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -254,7 +253,6 @@ RBs=RBs[grep("482",RBs$GAR_Short_Label),]
 Lonzero=-40 #This longitude will point up
 R_rbs=Rotate_obj(RBs,Lonzero)
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -342,7 +340,6 @@ MAs=MAs[grep("483",MAs$GAR_Short_Label),]
 Lonzero=-40 #This longitude will point up
 R_mas=Rotate_obj(MAs,Lonzero)
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_labsl=Rotate_obj(Labs_l,Lonzero)
@@ -725,7 +722,6 @@ SSRUs=SSRUs[grep("5842",SSRUs$GAR_Short_Label),]
 Lonzero=55 #This longitude will point up
 R_rbs=Rotate_obj(RBs,Lonzero)
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1288,7 +1284,6 @@ EEZs=load_EEZs()
 #Rotate objects
 Lonzero=52 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1377,7 +1372,6 @@ EEZs=load_EEZs()
 #Rotate objects
 Lonzero=37 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1571,7 +1565,6 @@ RBs=RBs[grep("882",RBs$GAR_Short_Label),]
 #Rotate objects
 Lonzero=-137.5 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
