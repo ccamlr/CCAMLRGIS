@@ -105,8 +105,8 @@ inset=readPNG("Insets/Map_Cover_48.png",native = T)
 
 #Plot
 png(filename='Map_Area_48.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.6,1.5,0.6,11),maxcell=5e6)
+par(mar=c(0.6,1.5,0.6,11)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssmus),border="orange",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -123,7 +123,7 @@ add_Cscale(pos='3/10',height=40,maxVal=-1,offset = Off,fontsize=0.68,width=15,lw
 
 #Legend
 Loc=add_Cscale(pos='15/20',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Management Units'),
        border=c('black','orange'),
        fill='white',
@@ -192,8 +192,8 @@ inset=readPNG("Insets/Map_Cover_481.png",native = T)
 
 #Plot
 png(filename='Map_Area_481.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,1.9,0.6,12),maxcell=5e6)
+par(mar=c(0.6,1.9,0.6,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -210,7 +210,7 @@ add_Cscale(pos='3/10',height=40,maxVal=-1,offset = Off,fontsize=0.68,width=15,lw
 
 #Legend
 Loc=add_Cscale(pos='15/20',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Research Blocks'),
        border=c('black','darkgreen'),
        fill='white',
@@ -279,8 +279,8 @@ inset=readPNG("Insets/Map_Cover_482.png",native = T)
 
 #Plot
 png(filename='Map_Area_482.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,2.0,0.6,12),maxcell=5e6)
+par(mar=c(0.6,2.0,0.6,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -297,7 +297,7 @@ add_Cscale(pos='3/10',height=40,maxVal=-1,offset = Off,fontsize=0.68,width=15,lw
 
 #Legend
 Loc=add_Cscale(pos='14/20',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Research Blocks'),
        border=c('black','darkgreen'),
        fill='white',
@@ -367,8 +367,8 @@ inset=readPNG("Insets/Map_Cover_483.png",native = T)
 
 #Plot
 png(filename='Map_Area_483.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.6,2.0,0.6,11.5),maxcell=5e6)
+par(mar=c(0.6,2.0,0.6,11.5)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -385,13 +385,13 @@ add_Cscale(pos='5/20',height=42,maxVal=-1,offset = Off,fontsize=0.65,width=15,lw
 
 #Legend
 Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-# par(lwd=1.5)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Management Areas'),
        border=c('black','darkred'),
        fill='white',
        cex=0.6,
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.7,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
@@ -463,8 +463,8 @@ inset=readPNG("Insets/Map_Cover_484.png",native = T)
 
 #Plot
 png(filename='Map_Area_484.png',width=2600,height=1500*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(2,2,2,15),maxcell=5e6)
+par(mar=c(2,2,2,15)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -481,7 +481,7 @@ add_Cscale(pos='5/20',height=40,maxVal=-1,offset = Off,fontsize=0.8,width=17,lwd
 
 #Legend
 Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Management Areas'),
        border=c('black','darkred'),
        fill='white',
@@ -555,8 +555,8 @@ inset=readPNG("Insets/Map_Cover_486.png",native = T)
 
 #Plot
 png(filename='Map_Area_486.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,2.0,0.6,11.5),maxcell=5e6)
+par(mar=c(0.6,2.0,0.6,11.5)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
@@ -574,7 +574,7 @@ add_Cscale(pos='5/20',height=42,maxVal=-1,offset = Off,fontsize=0.65,width=15,lw
 
 #Legend
 Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
        border=c('black','gray40','darkgreen'),
        fill='white',
@@ -656,8 +656,8 @@ inset=readPNG("Insets/Map_Cover_5841.png",native = T)
 
 #Plot
 png(filename='Map_Area_5841.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,1.5,0.6,9.5),maxcell=5e6)
+par(mar=c(0.6,1.5,0.6,9.5)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
@@ -675,13 +675,13 @@ add_Cscale(pos='9/40',height=42,maxVal=-1,offset = Off,fontsize=0.55,width=13,lw
 
 #Legend
 Loc=add_Cscale(pos='52/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
        border=c('black','gray40','darkgreen'),
        fill='white',
        cex=0.5,
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 
 #Add inset map
@@ -749,8 +749,8 @@ inset=readPNG("Insets/Map_Cover_5842.png",native = T)
 
 #Plot
 png(filename='Map_Area_5842.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.6,1.5,0.6,9.5),maxcell=5e6)
+par(mar=c(0.6,1.5,0.6,9.5)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
@@ -768,13 +768,13 @@ add_Cscale(pos='9/40',height=42,maxVal=-1,offset = Off,fontsize=0.55,width=13,lw
 
 #Legend
 Loc=add_Cscale(pos='52/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
        border=c('black','gray40','darkgreen'),
        fill='white',
        seg.len=0,cex=0.55,
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=-11,mode='Legend',offset = Off)
@@ -841,8 +841,8 @@ inset=readPNG("Insets/Map_Cover_5843a.png",native = T)
 
 #Plot
 png(filename='Map_Area_5843a.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(1,2.5,1,11),maxcell=5e6)
+par(mar=c(1,2.5,1,11)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
@@ -860,7 +860,7 @@ add_Cscale(pos='9/40',height=42,maxVal=-1,offset = Off,fontsize=0.55,width=13,lw
 
 #Legend
 Loc=add_Cscale(pos='53/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Research Blocks'),
        border=c('black','purple','darkgreen'),
        fill='white',
@@ -933,8 +933,8 @@ inset=readPNG("Insets/Map_Cover_5843b.png",native = T)
 
 #Plot
 png(filename='Map_Area_5843b.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.5,2.5,0.5,14),maxcell=5e6)
+par(mar=c(0.5,2.5,0.5,14)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
@@ -952,7 +952,7 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.8,width=16,lw
 
 #Legend
 Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Small Scale Research Units'),
        border=c('black','purple','gray40'),
        fill='white',
@@ -1030,8 +1030,8 @@ inset=readPNG("Insets/Map_Cover_5844.png",native = T)
 
 #Plot
 png(filename='Map_Area_5844.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
@@ -1050,13 +1050,13 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
 
 #Legend
 Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
-# par(lwd=1.5,xpd=T)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Small Scale Research Units','Research Blocks'),
        border=c('black','purple','gray40','darkgreen'),
        fill='white',
        cex=0.6,
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=-2,mode='Legend',offset = Off)
@@ -1128,8 +1128,8 @@ inset=readPNG("Insets/Map_Cover_5851.png",native = T)
 
 #Plot
 png(filename='Map_Area_5851.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1146,13 +1146,13 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
 
 #Legend
 Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
-par(lwd=1.5,xpd=T)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
        border=c('black','purple'),
        fill='white',
        cex=0.6,
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=-2,mode='Legend',offset = Off)
@@ -1216,8 +1216,8 @@ inset=readPNG("Insets/Map_Cover_5852.png",native = T)
 
 #Plot
 png(filename='Map_Area_5852.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1234,13 +1234,13 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
 
 #Legend
 Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
-# par(lwd=1.5,xpd=T)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
        border=c('black','purple'),
        fill='white',
        cex=0.6,
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=-4,mode='Legend',offset = Off)
@@ -1284,6 +1284,7 @@ EEZs=load_EEZs()
 #Rotate objects
 Lonzero=52 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
+#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1313,8 +1314,8 @@ inset=readPNG("Insets/Map_Cover_586.png",native = T)
 
 #Plot
 png(filename='Map_Area_586.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1331,7 +1332,7 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
 
 #Legend
 Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
        border=c('black','purple'),
        fill='white',
@@ -1372,6 +1373,7 @@ EEZs=load_EEZs()
 #Rotate objects
 Lonzero=37 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
+#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1402,8 +1404,8 @@ inset=readPNG("Insets/Map_Cover_587.png",native = T)
 
 #Plot
 png(filename='Map_Area_587.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1420,7 +1422,7 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lw
 
 #Legend
 Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
        border=c('black','purple'),
        fill='white',
@@ -1494,8 +1496,8 @@ inset=readPNG("Insets/Map_Cover_RSr.png",native = T)
 
 #Plot
 png(filename='Map_Area_RSr.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1514,13 +1516,13 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.65,width=14,l
 
 #Legend
 Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Area of directed fishing','Marine Protected Area'),
        border=c('black','gray40','darkred','red'),
        cex=0.65,
        fill=c('white','white','white',rgb(1,0.5,0,0.4)),
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
@@ -1598,8 +1600,8 @@ inset=readPNG("Insets/Map_Cover_882.png",native = T)
 
 #Plot
 png(filename='Map_Area_882.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1619,13 +1621,13 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.65,width=14,l
 
 #Legend
 Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks','Area of directed fishing','Marine Protected Area'),
        border=c('black','gray40','darkgreen','darkred','red'),
        cex=0.65,
        fill=c('white','white','white','white',rgb(1,0.5,0,0.4)),
        bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.6,box.lwd=1)
+       xpd=TRUE,box.lwd=1)
 
 #Add inset map
 Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
@@ -1691,8 +1693,8 @@ inset=readPNG("Insets/Map_Cover_883.png",native = T)
 
 #Plot
 png(filename='Map_Area_883.png',width=2600,height=2000*(Ly/Lx),res=300)
-
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0.1,2.5,0.1,12),maxcell=5e6)
+par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
@@ -1710,7 +1712,7 @@ add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.65,width=14,l
 
 #Legend
 Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-# par(lwd=2)
+
 legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
        border=c('black','gray40','darkgreen'),
        seg.len=0,cex=0.65,
