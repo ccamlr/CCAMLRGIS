@@ -1,11 +1,28 @@
 
 ## Test environments
 
-* win-builder (devel and release, 64 and 32bit)
-* Rhub
+win-builder (devel and release, 64 and 32bit), and Rhubv2, as follows:
+
+* 1 [VM] linux          R-* (any version)              ubuntu-latest on GitHub
+* 2 [VM] macos          R-* (any version)              macos-latest on GitHub
+* 3 [VM] macos-arm64    R-* (any version)              macos-14 on GitHub
+* 4 [VM] windows        R-* (any version)              windows-latest on GitHub
+* 5 [CT] atlas          R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
+* 7 [CT] clang16        R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
+* 8 [CT] clang17        R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
+* 9 [CT] clang18        R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
+* 10 [CT] donttest       R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
+* 11 [CT] gcc13          R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
+* 12 [CT] intel          R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
+* 13 [CT] mkl            R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
+* 14 [CT] nold           R-devel (2024-04-21 r86458)    Ubuntu 22.04.4 LTS
+* 16 [CT] ubuntu-clang   R-devel (2024-04-21 r86458)    Ubuntu 22.04.4 LTS
+* 17 [CT] ubuntu-gcc12   R-devel (2024-04-21 r86458)    Ubuntu 22.04.4 LTS
+* 18 [CT] ubuntu-next    R-4.4.0 RC (2024-04-16 r86458) Ubuntu 22.04.4 LTS
+* 19 [CT] ubuntu-release R-4.3.3 (2024-02-29)           Ubuntu 22.04.4 LTS
 
 
-## R CMD check results
+## Check results
 
 * There were no ERRORS, WARNINGS, or NOTES except for:
 
