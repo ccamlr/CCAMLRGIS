@@ -189,7 +189,7 @@ add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
 ```{r Fig04,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
 #Load ASDs
 ASDs=load_ASDs()
-#Subsample ASDs to only keep Subarea 48.6
+#Sub-sample ASDs to only keep Subarea 48.6
 S486=ASDs[ASDs$GAR_Short_Label=='486',]
 #Crop bathymetry to match the extent of S486
 B486=crop(SmallBathy(),ext(S486))
