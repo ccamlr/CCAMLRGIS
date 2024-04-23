@@ -1,7 +1,7 @@
 
 ## Test environments
 
-win-builder (devel and release, 64 and 32bit), and Rhubv2, as follows:
+win-builder (devel and release, 64 and 32bit), and Rhubv2 as follows:
 
 * 1 [VM] linux          R-* (any version)              ubuntu-latest on GitHub
 * 2 [VM] macos          R-* (any version)              macos-latest on GitHub
@@ -24,16 +24,7 @@ win-builder (devel and release, 64 and 32bit), and Rhubv2, as follows:
 
 ## Check results
 
-* There were no ERRORS, WARNINGS, or NOTES except for:
-
-2 Notes on Windows Server 2022, R-devel, 64 bit: 
-
-- Found the following files/directories: ''NULL''
-- checking for detritus in the temp directory: 'lastMiKTeXException'
-
-1 Note on Fedora Linux, R-devel, clang, gfortran; and on Ubuntu Linux 20.04.1 LTS, R-release, GCC:
-
-- Skipping checking HTML validation: no command 'tidy' found
+* There were no ERRORS, WARNINGS, or NOTES.
 
 ## Notes about CRAN edits
 

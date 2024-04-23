@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![R-hub](https://github.com/ccamlr/CCAMLRGIS/actions/workflows/rhub.yaml/badge.svg?branch=master)](https://github.com/ccamlr/CCAMLRGIS/actions/workflows/rhub.yaml)
+
 # CCAMLRGIS R package
 
 This package was developed to simplify the production of maps in the
