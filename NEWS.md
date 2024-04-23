@@ -1,3 +1,8 @@
+# CCAMLRGIS 4.0.8
+
+Added add_Legend() and create_Hashes() functions.
+Updated get_iso_polys() for more flexibility.
+
 # CCAMLRGIS 4.0.7
 
 Updated SmallBathy() to the 2023 version of GEBCO.

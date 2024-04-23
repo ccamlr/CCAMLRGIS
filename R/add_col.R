@@ -16,7 +16,8 @@
 #' well as the single \code{cols} and \code{cuts}, to be used as inputs in \code{\link{add_Cscale}}.
 #'
 #' @seealso 
-#' \code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
+#' \code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \code{\link{add_Legend}},
+#'  \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
 #' 
 #' @examples
 #' 

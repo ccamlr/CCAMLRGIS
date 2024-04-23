@@ -39,5 +39,6 @@ plot(st_geometry(MyPoints),pch=21,bg=MyCols$varcol,cex=2)
 
 }
 \seealso{
-\code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
+\code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \code{\link{add_Legend}},
+ \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
 }

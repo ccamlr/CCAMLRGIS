@@ -76,5 +76,6 @@ plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum)
 }
 \seealso{
 \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
-\code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_col}}, \code{\link{add_Cscale}}.
+\code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_col}},
+ \code{\link{add_Cscale}}, \code{\link{add_Legend}}.
 }

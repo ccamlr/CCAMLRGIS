@@ -35,7 +35,8 @@
 #' 
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
-#' \code{\link{create_PolyGrids}}, \code{\link{create_Stations}}, \code{\link{create_Pies}}.
+#' \code{\link{create_PolyGrids}}, \code{\link{create_Stations}}, \code{\link{create_Pies}}, 
+#' \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' 

@@ -10,37 +10,6 @@ spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such
 as the ASD boundaries. Create functions are used to create layers from
 user data such as polygons and grids.
 
-## Note on V4 update:
-
-Due to the retirement of some packages that the CCAMLRGIS package use to
-rely on, since CCAMLRGIS V4.0.0 the package relies on the [sf
-package](https://CRAN.R-project.org/package=sf), users may need to
-familiarize themselves with it. For those that were using older
-versions, the main difference is in plotting commands.
-
-Plotting a spatial object *MyObject* used to be:
-
-``` r
-plot(MyObject)
-```
-
-Since V4, it will be:
-
-``` r
-plot(st_geometry(MyObject))
-```
-
-Also, to access the data inside spatial objects, instead of
-<MyObject@data>, type MyObject directly. You can revert to *sp* objects
-with sf::as_Spatial(MyObject) if preferred.
-
-Using *sf* objects has advantages such as the ability to use [Tidyverse
-methods](https://r-spatial.github.io/sf/reference/tidyverse.html).
-Further, additional [plotting
-methods](https://r-spatial.github.io/sf/articles/sf5.html) are
-available, some of which are described in section 5.5. [Using
-sf](#55-using-sf).
-
 ## Installation
 
 You can install the CCAMLRGIS R package from CRAN with:
@@ -75,6 +44,7 @@ install.packages("CCAMLRGIS")
 - 2.2. [Create Stations](#22-create-stations)
 - 2.3. [Create Pies](#23-create-pies)
 - 2.4. [Create Arrow](#24-create-arrow)
+- 2.5. [Create Hashes](#25-create-hashes)
 
 3.  [Load functions](#3-load-functions)
 
@@ -1006,6 +976,43 @@ plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white',xpd=T)
 
 <img src="README-FigArr03-1.png" width="100%" style="display: block; margin: auto;" />
 
+### 2.5. Create Hashes
+
+This function creates hashed lines to fill a polygon. Its output is a
+spatial object in your environment, to be added to your plot.
+
+For details, type:
+
+``` r
+?create_Hashes
+```
+
+Example:
+
+``` r
+
+#load ASDs
+ASDs=load_ASDs()
+#Generate colors, angles, spacings and widths of hashes, one per ASD
+Colors=rainbow(nrow(ASDs))
+angles=seq(10,355,length.out=nrow(ASDs))
+spacings=seq(3,10,length.out=nrow(ASDs))
+widths=seq(3,10,length.out=nrow(ASDs))
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(st_geometry(ASDs))
+for(i in seq(1,nrow(ASDs))){
+  H=create_Hashes(pol=ASDs[i,],angle=angles[i],spacing=spacings[i],width=widths[i])
+  plot(st_geometry(H),col=Colors[i],add=T)
+
+}
+plot(st_geometry(ASDs),lwd=2,add=T)
+```
+
+<img src="README-FigHash01-1.png" width="100%" style="display: block; margin: auto;" />
+
 <br>
 
 ## 3. Load functions
@@ -1290,12 +1297,14 @@ box()
 
 ### 4.6. get_iso_polys
 
-From an input bathymetry and chosen depths, turns areas between isobaths
-into polygons. An input polygon may optionally be given to constrain
-boundaries. The accuracy is dependent on the resolution of the
-bathymetry raster (see *load_Bathy()* to get high resolution data). The
-function also groups touching polygons to identify bathymetric features
-such as seamounts.
+From an input raster and chosen cuts (classes), turns areas between
+contours into polygons. An input polygon may optionally be given to
+constrain boundaries. The accuracy is dependent on the resolution of the
+raster (e.g., see *load_Bathy()* to get high resolution bathymetry). if
+*Grp* is set to TRUE (slower), contour polygons that touch each other
+are identified and grouped (a Grp column is added to the object). This
+can be used, for example, to identify seamounts that are constituted of
+several isobaths (see example 2 below).
 
 For details, type:
 
@@ -1309,32 +1318,26 @@ For details, type:
 par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1 - Whole Convention Area 
+IsoPols=get_iso_polys(Rast=SmallBathy(),Cuts=c(-10000,-4000,-2000,0),Cols=c("blue","white","red"))
 
-IsoPols=get_iso_polys(Bathy=SmallBathy(),Depths=c(-10000,-4000,-2000,0))
-
-plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="blue",main="Example 1")
-plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="white",add=TRUE)
-plot(st_geometry(IsoPols[IsoPols$Iso==3,]),col="red",add=TRUE)
+plot(st_geometry(IsoPols),col=IsoPols$c,main="Example 1")
 box()
 
 #Example 2 - SSRU 882H seamounts
 SSRUs=load_SSRUs()
 Poly=SSRUs[SSRUs$GAR_Short_Label=="882H",]
-IsoPols=get_iso_polys(Bathy=SmallBathy(),Poly=Poly,Depths=c(-2500,-1800,-600))
+IsoPols=get_iso_polys(Rast=SmallBathy(),Poly=Poly,Cuts=c(-2500,-1800,-600),Cols=c("cyan","green"),Grp=TRUE)
 
-plot(st_geometry(IsoPols[IsoPols$Iso==1,]),col="cyan",main="Example 2")
-plot(st_geometry(IsoPols[IsoPols$Iso==2,]),col="green",add=TRUE)
+plot(st_geometry(IsoPols),col=IsoPols$c,main="Example 2")
 text(IsoPols$Labx,IsoPols$Laby,IsoPols$Grp,col="red",font=2,xpd=TRUE,cex=1.25, adj=c(-.5,-.5))
 box()
 
 #Example 3 - Custom polygon
 Poly=create_Polys(Input=data.frame(ID=1,Lat=c(-55,-55,-61,-61),Lon=c(-30,-25,-25,-30)))
-IsoPols=get_iso_polys(Bathy=SmallBathy(),Poly=Poly,Depths=seq(-8000,0,length.out=10))
+IsoPols=get_iso_polys(Rast=SmallBathy(),Poly=Poly,Cuts=seq(-8000,0,length.out=10),Cols=rainbow(9))
 
 plot(st_geometry(Poly),main="Example 3")
-for(i in unique(IsoPols$Iso)){
-  plot(st_geometry(IsoPols[IsoPols$Iso==i,]),col=rainbow(9)[i],add=TRUE)
-}
+plot(st_geometry(IsoPols),col=IsoPols$c,add=TRUE)
 box()
 ```
 
@@ -1485,7 +1488,8 @@ add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22
 
 ### 5.3. Adding legends
 
-To add a legend, use the base *legend()* function:
+A simple way to quickly add a legend, is by using the base *legend()*
+function:
 
 ``` r
 ?legend
@@ -1529,6 +1533,200 @@ legend(Loc,legend=c('one','two','three','four'),
 ```
 
 <img src="README-Fig21-1.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+For a more complete and customizable approach, use the *add_Legend()*
+function. It uses the bounding box of your plot and lists of parameters
+as inputs. The help given in the R package contains all the details:
+
+``` r
+?add_Legend
+```
+
+Below is an example showing its capabilities:
+
+``` r
+#load ASDs to get their bounding box
+ASDs=load_ASDs()
+bb=st_bbox(ASDs) #Get bounding box
+bx=st_as_sfc(bb) #Convert to polygon to plot it
+
+# Set general options:
+LegOpt=list( 
+Title= "Title",
+Subtitle="(Subtitle)",
+Pos = "bottomright",
+BoxW= 80,
+BoxH= 140,
+Boxexp = c(5,-2,-4,-4),
+Titlefontsize = 2
+)
+
+#Create separate legend items, each with their own options:
+Rectangle1=list(
+  Text="Rectangle 1", 
+  Shape="rectangle",
+  ShpFill="cyan",
+  ShpBord="blue",
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  RectW=10,
+  RectH=7
+)
+
+Rectangle2=list(
+  Text="Rectangle 2", 
+  Shape="rectangle",
+  ShpFill="red",
+  ShpBord="orange",
+  ShpHash=TRUE,
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  RectW=10,
+  RectH=7,
+  Hashcol="white",
+  Hashangle=45,
+  Hashspacing=1,
+  Hashwidth=1
+)
+
+Circle1=list(
+  Text="Circle 1", 
+  Shape="circle",
+  ShpFill="grey",
+  ShpBord="yellow",
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  CircD=10
+)
+
+Circle2=list(
+  Text="Circle 2", 
+  Shape="circle",
+  ShpFill="white",
+  ShpBord="red",
+  ShpHash=TRUE,
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  CircD=10,
+  Hashcol="black",
+  Hashangle=0,
+  Hashspacing=2,
+  Hashwidth=2
+)
+
+Line1=list(
+  Text="Line 1", 
+  Shape="line",
+  ShpFill="black",
+  Shplwd=5,
+  fontsize=1.2,
+  STSpace=3,
+  LineL=10
+)
+
+Line2=list(
+  Text="Line 2", 
+  Shape="line",
+  Shplwd=5,
+  ShpFill="green",
+  Shplwd=5,
+  fontsize=1.2,
+  STSpace=3,
+  LineTyp=6, 
+  LineL=10
+)
+
+Arrow1=list(
+  Text="Arrow 1", 
+  Shape="arrow",
+  ShpBord="green",
+  Shplwd=1,
+  ArrL=10,
+  ArrPwidth=5,
+  ArrHlength=15, 
+  ArrHwidth=10, 
+  Arrcol="orange",
+  fontsize=1.2,
+  STSpace=3
+)
+
+Arrow2=list(
+  Text="Arrow 2", 
+  Shape="arrow",
+  ShpBord=NA,
+  ArrL=10,
+  ArrPwidth=5,
+  ArrHlength=15, 
+  ArrHwidth=10, 
+  Arrdlength=0, 
+  Arrtype="dashed",
+  Arrcol=c("red","green","blue"),
+  fontsize=1.2,
+  STSpace=3
+)
+
+Arrow3=list(
+  Text="Arrow 3", 
+  Shape="arrow",
+  ShpBord=NA,
+  ArrL=10,
+  ArrPwidth=5,
+  ArrHlength=15, 
+  ArrHwidth=10, 
+  Arrdlength=5, 
+  Arrtype="dashed",
+  Arrcol="darkgreen",
+  fontsize=1.2,
+  STSpace=3
+)
+
+Arrow4=list(
+  Text="Arrow 4", 
+  Shape="arrow",
+  ShpBord="black",
+  Shplwd=0.1,
+  ArrL=10,
+  ArrPwidth=5,
+  ArrHlength=15, 
+  ArrHwidth=10, 
+  Arrcol="pink",
+  ShpHash=TRUE,
+  Hashcol="blue",
+  Hashangle=-45,
+  Hashspacing=1,
+  Hashwidth=1,
+  fontsize=1.2,
+  STSpace=3
+)
+
+None=list(
+  Text="None", 
+  Shape="none",
+  fontsize=1.2,
+  STSpace=3,
+  ShiftX=10
+)
+
+
+#Combine all items into a single list:
+
+Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+#Plot and add legend
+plot(bx,col="grey")
+plot(st_geometry(ASDs),add=TRUE)
+add_Legend(bb,LegOpt,Items)
+```
+
+<img src="README-AddLeg1-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### 5.4. Adding labels
 
@@ -1588,6 +1786,16 @@ add_labels(mode='input',LabelTable=MyLabels)
 ```
 
 ### 5.5. Using sf
+
+Due to the retirement of some packages that the CCAMLRGIS package used
+to rely on, since CCAMLRGIS V4.0.0 the package relies on the [sf
+package](https://CRAN.R-project.org/package=sf), users may need to
+familiarize themselves with it. Using *sf* objects has advantages such
+as the ability to use [Tidyverse
+methods](https://r-spatial.github.io/sf/reference/tidyverse.html).
+Further, additional [plotting
+methods](https://r-spatial.github.io/sf/articles/sf5.html) are
+available, some of which are described in this section.
 
 Depending on the function used, the CCAMLRGIS package computes data
 summaries and includes them in the resulting spatial object. For

@@ -20,12 +20,13 @@
 
 ## Notes about CRAN edits
 
-### V4.0.7
+### V4.0.8
 
-Updated SmallBathy() and coastline accessed by load_Coastline().
+Added create_Hashes() and add_Legend() functions. Modified get_iso_polys().
 
 ### Previous versions
 
+* Updated SmallBathy() and coastline accessed by load_Coastline().
 * Added Rotate_obj() function.
 * Added create_Arrow() function. Fixed bug in seabed_area(). SmallBathy is now a function, not an object.
 * Improved add_Cscale() and updated SmallBathy.

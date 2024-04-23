@@ -72,5 +72,5 @@ text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 }
 \seealso{
 \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_PolyGrids}},
-\code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
+\code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_Legend}}.
 }

@@ -36,6 +36,7 @@ Create functions are used to create geo-referenced layers from user-generated da
   \item \link{create_Stations}
   \item \link{create_Pies}
   \item \link{create_Arrow}
+  \item \link{create_Hashes}
 }
 }
 

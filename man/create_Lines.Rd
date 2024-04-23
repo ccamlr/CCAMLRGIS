@@ -69,5 +69,5 @@ plot(st_geometry(MyLines),lwd=2,col=rainbow(nrow(MyLines)))
 }
 \seealso{
 \code{\link{create_Points}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-\code{\link{create_Stations}}, \code{\link{create_Pies}}.
+\code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_Legend}}.
 }
