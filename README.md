@@ -3,6 +3,13 @@
 
 # CCAMLRGIS R package
 
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/CCAMLRGIS)](https://cran.r-project.org/package=CCAMLRGIS)
+[![R-hub](https://github.com/ccamlr/CCAMLRGIS/actions/workflows/rhub.yaml/badge.svg)](https://github.com/ccamlr/CCAMLRGIS/actions/workflows/rhub.yaml)
+<!-- badges: end -->
+
 This package was developed to simplify the production of maps in the
 CAMLR Convention Area. It provides two main categories of functions:
 load functions and create functions. Load functions are used to import
