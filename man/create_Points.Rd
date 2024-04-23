@@ -62,5 +62,5 @@ text(MyPoints$x,MyPoints$y,MyPoints$name,adj=c(0.5,-0.5),xpd=TRUE)
 }
 \seealso{
 \code{\link{create_Lines}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-\code{\link{create_Stations}}, \code{\link{create_Pies}}.
+\code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_Legend}}.
 }

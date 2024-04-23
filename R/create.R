@@ -36,7 +36,7 @@
 #'
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_PolyGrids}},
-#' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}.
+#' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' \donttest{
@@ -116,7 +116,8 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #' 
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
-#' \code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_col}}, \code{\link{add_Cscale}}.
+#' \code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_col}},
+#'  \code{\link{add_Cscale}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' \donttest{
@@ -188,7 +189,7 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
 #'
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-#' \code{\link{create_Stations}}, \code{\link{create_Pies}}.
+#' \code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' \donttest{
@@ -259,7 +260,7 @@ create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,Separ
 #'
 #' @seealso 
 #' \code{\link{create_Lines}}, \code{\link{create_Polys}}, \code{\link{create_PolyGrids}},
-#' \code{\link{create_Stations}}, \code{\link{create_Pies}}.
+#' \code{\link{create_Stations}}, \code{\link{create_Pies}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' \donttest{
@@ -321,7 +322,7 @@ create_Points=function(Input,NamesIn=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE){
 #' To see the data contained in your spatial object, type: \code{View(MyStations)}.
 #'
 #' @seealso 
-#' \code{\link{create_Polys}}, \code{\link{SmallBathy}}.
+#' \code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' \donttest{

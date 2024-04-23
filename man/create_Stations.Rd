@@ -85,5 +85,5 @@ plot(st_geometry(MyStations),add=TRUE,col='orange',cex=0.75,lwd=1.5,pch=3)
 
 }
 \seealso{
-\code{\link{create_Polys}}, \code{\link{SmallBathy}}.
+\code{\link{create_Polys}}, \code{\link{SmallBathy}}, \code{\link{add_Legend}}.
 }

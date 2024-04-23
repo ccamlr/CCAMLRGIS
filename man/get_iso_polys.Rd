@@ -2,49 +2,59 @@
 % Please edit documentation in R/get_iso_polys.R
 \name{get_iso_polys}
 \alias{get_iso_polys}
-\title{Generate Polygons from Isobaths}
+\title{Generate contour polygons from raster}
 \usage{
-get_iso_polys(Bathy, Poly = NULL, Depths)
+get_iso_polys(
+  Rast,
+  Poly = NULL,
+  Cuts,
+  Cols = c("green", "yellow", "red"),
+  Grp = FALSE
+)
 }
 \arguments{
-\item{Bathy}{bathymetry raster with the appropriate projection, such as
+\item{Rast}{raster with the appropriate projection, such as
 \code{\link[CCAMLRGIS:SmallBathy]{SmallBathy}}.
-It is highly recommended to use a raster of higher resolution (see \code{\link{load_Bathy}}).}
+It is recommended to use a raster of higher resolution (see \code{\link{load_Bathy}}).}
 
-\item{Poly}{optional, single polygon inside which isobaths will be computed.
+\item{Poly}{optional, single polygon inside which contour polygons will be generated.
 May be created using \code{\link{create_Polys}} or by subsetting an object obtained
-using one of the \code{load_} functions (see examples).}
+using one of the \code{load_} functions.}
 
-\item{Depths}{numeric, vector of desired isobaths. For example,
-\code{Depths=c(-2000,-1000,-500)}.}
+\item{Cuts}{numeric, vector of desired contours. For example,
+\code{Cuts=c(-2000,-1000,-500)}.}
+
+\item{Cols}{character, vector of desired colors (see \code{\link{add_col}}).}
+
+\item{Grp}{logical (TRUE/FALSE), if set to TRUE (slower), contour polygons that touch each other are
+identified and grouped (a Grp column is added to the object). This can be used, for example, to
+identify seamounts that are constituted of several isobaths.}
 }
 \value{
 Spatial object in your environment. Data within the resulting object contains
 a polygon in each row. Columns are as follows: \code{ID} is a unique polygon identifier;
-\code{Iso} is an isobath identifier; \code{Min} and \code{Max} is the depth range of isobaths;
+\code{Iso} is a contour polygon identifier; \code{Min} and \code{Max} are the range of contour values;
+\code{c} is the color of each contour polygon; if \code{Grp} was set to TRUE, additional columns are:
 \code{Grp} is a group identifier (e.g., a seamount constituted of several isobaths); 
 \code{AreaKm2} is the polygon area in square kilometers; \code{Labx} and \code{Laby} can be used
-to label groups (see examples).
+to label groups (see GitHub example).
 }
 \description{
-From an input bathymetry and chosen depths, turns areas between isobaths into polygons.
+From an input raster and chosen cuts (classes), turns areas between contours into polygons.
 An input polygon may optionally be given to constrain boundaries.
-The accuracy is dependent on the resolution of the bathymetry raster
-(see \code{\link{load_Bathy}} to get high resolution data).
+The accuracy is dependent on the resolution of the raster
+(e.g., see \code{\link{load_Bathy}} to get high resolution bathymetry).
 }
 \examples{
 
 # For more examples, see:
 # https://github.com/ccamlr/CCAMLRGIS#46-get_iso_polys
 
-
 Poly=create_Polys(Input=data.frame(ID=1,Lat=c(-55,-55,-61,-61),Lon=c(-30,-25,-25,-30)))
-IsoPols=get_iso_polys(Bathy=SmallBathy(),Poly=Poly,Depths=seq(-8000,0,length.out=10))
+IsoPols=get_iso_polys(Rast=SmallBathy(),Poly=Poly,Cuts=seq(-8000,0,length.out=10),Cols=rainbow(9))
 
 plot(st_geometry(Poly))
-for(i in unique(IsoPols$Iso)){
-  plot(st_geometry(IsoPols[IsoPols$Iso==i,]),col=rainbow(9)[i],add=TRUE)
-}
+plot(st_geometry(IsoPols),col=IsoPols$c,add=TRUE) 
 
 
 }

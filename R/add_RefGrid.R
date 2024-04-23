@@ -13,7 +13,7 @@
 #' @param fontcol character, font color of the Reference grid's labels.
 #' @param offset numeric, offset of the Reference grid's labels (distance to plot border).
 #' @seealso 
-#' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}.
+#' \code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
 #' library(terra)

@@ -61,5 +61,5 @@ plot(st_geometry(MyPolys),add=TRUE,col='orange',border='brown',lwd=2)
 
 }
 \seealso{
-\code{\link{load_Bathy}}, \code{\link{SmallBathy}}.
+\code{\link{load_Bathy}}, \code{\link{SmallBathy}}, \code{\link{add_Legend}}.
 }

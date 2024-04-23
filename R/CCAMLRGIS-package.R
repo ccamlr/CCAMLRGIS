@@ -31,6 +31,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #'   \item \link{create_Stations}
 #'   \item \link{create_Pies}
 #'   \item \link{create_Arrow}
+#'   \item \link{create_Hashes}
 #' }
 #' 
 #' @section Vignette:
