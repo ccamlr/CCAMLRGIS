@@ -1,26 +1,31 @@
 
 ## Test environments
 
-win-builder (devel and release, 64 and 32bit), and Rhubv2 as follows:
+win-builder (devel and release, 64 and 32bit).
+devtools::check_win_devel() OK - see: https://win-builder.r-project.org/lHuIE6fVZ5nV/00check.log
 
-* 1 [VM] linux          R-* (any version)              ubuntu-latest on GitHub
-* 2 [VM] macos          R-* (any version)              macos-latest on GitHub
-* 3 [VM] macos-arm64    R-* (any version)              macos-14 on GitHub
-* 4 [VM] windows        R-* (any version)              windows-latest on GitHub
-* 5 [CT] atlas          R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
-* 7 [CT] clang16        R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
-* 8 [CT] clang17        R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
-* 9 [CT] clang18        R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
-* 10 [CT] donttest       R-devel (2024-04-20 r86457)    Ubuntu 22.04.4 LTS
-* 11 [CT] gcc13          R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
-* 12 [CT] intel          R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
-* 13 [CT] mkl            R-devel (2024-04-21 r86458)    Fedora Linux 38 (Container Image)
-* 14 [CT] nold           R-devel (2024-04-21 r86458)    Ubuntu 22.04.4 LTS
-* 16 [CT] ubuntu-clang   R-devel (2024-04-21 r86458)    Ubuntu 22.04.4 LTS
-* 17 [CT] ubuntu-gcc12   R-devel (2024-04-21 r86458)    Ubuntu 22.04.4 LTS
-* 18 [CT] ubuntu-next    R-4.4.0 RC (2024-04-16 r86458) Ubuntu 22.04.4 LTS
-* 19 [CT] ubuntu-release R-4.3.3 (2024-02-29)           Ubuntu 22.04.4 LTS
+Failed win-devel on Rhubv2 because library(terra) failed to install.
+OK on Rhubv2 for platfroms as follows:
 
+* 1 [VM] linux          R-* (any version)                     ubuntu-latest on GitHub
+* 2 [VM] macos          R-* (any version)                     macos-13 on GitHub
+* 3 [VM] macos-arm64    R-* (any version)                     macos-latest on GitHub
+* 5 [CT] atlas          R-devel (2024-05-04 r86521)           Fedora Linux 38 (Container Image)
+* 7 [CT] clang16        R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 8 [CT] clang17        R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 9 [CT] clang18        R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 10 [CT] donttest       R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 11 [CT] gcc13          R-devel (2024-05-04 r86521)           Fedora Linux 38 (Container Image)
+* 12 [CT] intel          R-devel (2024-05-04 r86521)           Fedora Linux 38 (Container Image)
+* 13 [CT] mkl            R-devel (2024-05-04 r86521)           Fedora Linux 38 (Container Image)
+* 14 [CT] nold           R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 16 [CT] ubuntu-clang   R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 17 [CT] ubuntu-gcc12   R-devel (2024-05-04 r86521)           Ubuntu 22.04.4 LTS
+* 18 [CT] ubuntu-next    R-4.4.0 (patched) (2024-05-03 r86521) Ubuntu 22.04.4 LTS
+* 19 [CT] ubuntu-release R-4.4.0 (2024-04-24)                  Ubuntu 22.04.4 LTS
+
+
+See https://github.com/ccamlr/CCAMLRGIS/actions/runs/8977042238
 
 ## Check results
 
