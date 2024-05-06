@@ -484,7 +484,7 @@ add_Legend=function(bb,LegOpt,Items){
   if(is.null(LegOpt$Subtitle)==FALSE){Nr=Nr+1}
   Nr=Nr+length(Items)
   #Get Ys of rows
-  Ys=seq(ytl-LegOpt$Boxexp[4],ybl+LegOpt$Boxexp[3],length.out=Nr+2)
+  Ys=seq(ytl-LegOpt$Boxexp[4]*d,ybl+LegOpt$Boxexp[3]*d,length.out=Nr+2)
   Ys=Ys[2:(Nr+1)]+LegOpt$PosY*d
   X=xbl+LegOpt$Boxexp[1]*d+LegOpt$PosX*d
   

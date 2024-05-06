@@ -17,6 +17,12 @@
 #' @param fontsize numeric, size of the text in the color scale.
 #' @param offset numeric, controls the horizontal position of the color scale.
 #' @param lwd numeric, thickness of lines.
+#' @param Clwd numeric, thickness of lines of cells.
+#' @param Ccol character, color of lines of cells, set to NA for no border.
+#' @param Cwdth numeric, positive factor to adjust the width of cells.
+#' @param TckL numeric, positive factor to adjust the length of tick lines.
+#' @param Tcklwd numeric, thickness of tick lines.
+#' @param Tdist numeric, horizontal adjustment of labels text.
 #' @param Titlefontsize numeric, size of the title text.
 #' @param TitleVAdj numeric, vertical adjustment of the title.
 #' @param BoxAdj numeric vector of 4 values to adjust the sides of the box, given as \code{c(bottom,left,top,right)}.
@@ -80,7 +86,7 @@ add_Cscale=function(pos='1/1',title='Depth (m)',width=18,height=70,
               cuts=Depth_cuts,cols=Depth_cols,
               minVal=NA,maxVal=NA,fontsize=1,offset=100,lwd=1,
               Titlefontsize=1.2*fontsize,TitleVAdj=0,BoxAdj=c(0,0,0,0),
-              BoxCol="black",BoxBG="white",
+              BoxCol="black",BoxBG="white",Clwd=0,Ccol="black",Cwdth=1,TckL=1,Tcklwd=1,Tdist=1,
               mode="Cscale"){
   offset=offset*1000
   #Get plot boundaries
@@ -140,24 +146,25 @@ add_Cscale=function(pos='1/1',title='Depth (m)',width=18,height=70,
        xpd=TRUE,lwd=lwd,col=BoxBG,border=BoxCol)
   #Col box
   cxmin=bxmin+0.01*xdist
-  cxmax=bxmin+0.05*xdist
+  cxmax=bxmin+0.05*xdist*Cwdth
   cymin=bymin+0.02*ydist
   cymax=bymax-0.07*ydist
   Ys=seq(cymin,cymax,length.out=length(colsTo)+1)
   rect(xleft=cxmin,
        ybottom=Ys[1:(length(Ys)-1)],
        xright=cxmax,
-       ytop=Ys[2:length(Ys)],xpd=TRUE,lwd=0,col=colsTo)
+       ytop=Ys[2:length(Ys)],xpd=TRUE,lwd=Clwd,col=colsTo,border=Ccol)
   rect(xleft=cxmin,
        ybottom=cymin,
        xright=cxmax,
        ytop=cymax,xpd=TRUE,lwd=lwd)
   #Ticks
+  if(TckL>0){
   segments(x0=cxmax,
            y0=Ys,
-           x1=cxmax+0.01*xdist,
-           y1=Ys,lwd=lwd,xpd=TRUE,lend=1)
-  text(cxmax+0.02*xdist,Ys,
+           x1=cxmax+0.01*xdist*TckL,
+           y1=Ys,lwd=Tcklwd,xpd=TRUE,lend=1)}
+  text(cxmax+0.02*xdist*Tdist,Ys,
        cutsTo,adj=c(0,0.5),xpd=TRUE,cex=fontsize)
   #Title
   text(cxmin,cymax+0.04*ydist+TitleVAdj*ydist,title,

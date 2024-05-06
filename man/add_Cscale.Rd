@@ -21,6 +21,12 @@ add_Cscale(
   BoxAdj = c(0, 0, 0, 0),
   BoxCol = "black",
   BoxBG = "white",
+  Clwd = 0,
+  Ccol = "black",
+  Cwdth = 1,
+  TckL = 1,
+  Tcklwd = 1,
+  Tdist = 1,
   mode = "Cscale"
 )
 }
@@ -59,6 +65,18 @@ if \code{pos="2/2"}, the color scale will be centered on the bottom half of the 
 \item{BoxCol}{Color of the legend box frame.}
 
 \item{BoxBG}{Color of the legend box background.}
+
+\item{Clwd}{numeric, thickness of lines of cells.}
+
+\item{Ccol}{character, color of lines of cells, set to NA for no border.}
+
+\item{Cwdth}{numeric, positive factor to adjust the width of cells.}
+
+\item{TckL}{numeric, positive factor to adjust the length of tick lines.}
+
+\item{Tcklwd}{numeric, thickness of tick lines.}
+
+\item{Tdist}{numeric, horizontal adjustment of labels text.}
 
 \item{mode}{character, if 'Cscale', the default, the function builds a color scale. if 'Legend', the function
 gives you the location of a \code{\link[graphics]{legend}}, arguments \code{pos}, \code{offset} and \code{height}

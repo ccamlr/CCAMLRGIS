@@ -9,7 +9,8 @@ get_iso_polys(
   Poly = NULL,
   Cuts,
   Cols = c("green", "yellow", "red"),
-  Grp = FALSE
+  Grp = FALSE,
+  strict = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ using one of the \code{load_} functions.}
 \item{Grp}{logical (TRUE/FALSE), if set to TRUE (slower), contour polygons that touch each other are
 identified and grouped (a Grp column is added to the object). This can be used, for example, to
 identify seamounts that are constituted of several isobaths.}
+
+\item{strict}{logical (TRUE/FALSE), if set to TRUE (default) polygons are created only between the
+chosen \code{Cuts}. If set to FALSE, extra polygons are created beyond the bounds of \code{Cuts}.}
 }
 \value{
 Spatial object in your environment. Data within the resulting object contains
