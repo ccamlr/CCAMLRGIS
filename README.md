@@ -8,6 +8,10 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/CCAMLRGIS)](https://cran.r-project.org/package=CCAMLRGIS)
 [![R-hub](https://github.com/ccamlr/CCAMLRGIS/actions/workflows/rhub.yaml/badge.svg)](https://github.com/ccamlr/CCAMLRGIS/actions/workflows/rhub.yaml)
+[![All
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/CCAMLRGIS)](https://cran.r-project.org/package=CCAMLRGIS)
+[![Monthly
+downloads](https://cranlogs.r-pkg.org/badges/CCAMLRGIS)](https://cran.r-project.org/package=CCAMLRGIS)
 <!-- badges: end -->
 
 This package was developed to simplify the production of maps in the
