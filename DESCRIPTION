@@ -1,8 +1,8 @@
 Type: Package
 Package: CCAMLRGIS
 Title: Antarctic Spatial Data Manipulation
-Version: 4.0.8
-Date: 2024-04-23
+Version: 4.1.0
+Date: 2024-05-06
 Authors@R:
     c(person("Stephane","Thanassekos",role = c("aut", "cre"), email = "stephane.thanassekos@ccamlr.org"),
     person("Keith", "Reid", role = "aut"),
@@ -17,7 +17,7 @@ Description: Loads and creates spatial data, including layers and tools that are
     such as polygons and grids.
 Depends: R (>= 4.0), sf
 License: GPL-3
-URL: https://github.com/ccamlr/CCAMLRGIS#table-of-contents
+URL: https://github.com/ccamlr/CCAMLRGIS#ccamlrgis-r-package
 Encoding: UTF-8
 LazyData: true
 Imports:

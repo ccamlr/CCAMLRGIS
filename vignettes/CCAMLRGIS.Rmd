@@ -14,6 +14,6 @@ vignette: >
 </center>
 ___
 
-[here]:https://github.com/ccamlr/CCAMLRGIS#table-of-contents
+[here]:https://github.com/ccamlr/CCAMLRGIS#ccamlrgis-r-package
 
 All contents of the vignette have been moved [here].

@@ -35,7 +35,7 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' }
 #' 
 #' @section Vignette:
-#' To learn more about CCAMLRGIS, start with the GitHub ReadMe (see \url{https://github.com/ccamlr/CCAMLRGIS#table-of-contents}).
+#' To learn more about CCAMLRGIS, start with the GitHub ReadMe (see \url{https://github.com/ccamlr/CCAMLRGIS#ccamlrgis-r-package}).
 #' Some basemaps are given here \url{https://github.com/ccamlr/CCAMLRGIS/blob/master/Basemaps/Basemaps.md}
 #' 
 #' @seealso 

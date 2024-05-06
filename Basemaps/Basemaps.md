@@ -11,12 +11,13 @@
 Each of the following sections contain code to produce maps
 corresponding to the areas shown in the [Fishery
 Reports](https://fisheryreports.ccamlr.org./). To produce any of these
-maps, one must download the entire *Basemaps* folder and run the code
-given in the *Initialization* section first.
+maps, download the entire *Basemaps* folder and run the code given in
+the *Initialization* section first. These scripts will only work
+properly if CCAMLRGIS Version 4.1.0 or above is installed.
 
 ## Initialization
 
-### This code must be executed first, then each section can be executed independently.
+### This code must be executed first, then each following section can be executed independently.
 
 ``` r
 library(CCAMLRGIS)
@@ -36,6 +37,8 @@ Labs_p=create_Points(Labs,NamesIn =  c("Lat","Lon"))
 #Build pointers
 Labs=Labs_all[Labs_all$Type!="L",]
 Labs_l=create_Points(Labs,NamesIn =  c("Lat","Lon"))
+#Load Legend Items
+source("Insets/LegendItems.R")
 ```
 
 <center>
@@ -102,41 +105,42 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_48.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_48.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,1.5,0.6,11)) #Adjust margins
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
+par(mar=c(1,1.8,1,10))
+plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,maxcell=5e6,mar=NA)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssmus),border="orange",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=150 #Offset legends
-
 #Colorscale
-add_Cscale(pos='3/10',height=40,maxVal=-1,offset = Off,fontsize=0.68,width=15,lwd=1,
+add_Cscale(pos='3/10',height=40,maxVal=-1,offset=135,fontsize=0.75,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.7,TckL=0.7,Tdist=0.7,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='15/20',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Management Units'),
-       border=c('black','orange'),
-       fill='white',
-       seg.len=0,cex=0.68,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 55,
+  BoxH= 45,
+  Boxexp = c(3,0,-5,75),
+  PosX=71,
+  PosY=-6
+)
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSMUs))
 
 #Add inset map
-Loc=add_Cscale(pos='100/100',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+135000,bb['ymin']-50000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3.2,
-            ytop=Loc[2]+Lx/3.2,
+            xright=Loc[1]+Lx/3.8,
+            ytop=Loc[2]+Lx/3.8,
             xpd=T)
 
 #Add labels
@@ -144,6 +148,7 @@ R_labsp=R_labsp[R_labsp$Area=="48",]
 R_labsp$x=st_coordinates(R_labsp)[,1]
 R_labsp$y=st_coordinates(R_labsp)[,2]
 R_labsp=st_drop_geometry(R_labsp)
+par(xpd=T)
 add_labels(mode='input',LabelTable=R_labsp[,c("x","y","text","fontsize","fonttype","angle","col")])
 
 dev.off()
@@ -189,41 +194,41 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_481.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_481.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,1.9,0.6,12)) #Adjust margins
+par(mar=c(0.1,1.95,0.1,12))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=80 #Offset legends
-
 #Colorscale
-add_Cscale(pos='3/10',height=40,maxVal=-1,offset = Off,fontsize=0.68,width=15,lwd=1,
+add_Cscale(pos='3/10',height=35,maxVal=-1,offset=79,fontsize=0.75,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.85,TckL=0.8,Tdist=0.8,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='15/20',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Research Blocks'),
-       border=c('black','darkgreen'),
-       fill='white',
-       seg.len=0,cex=0.68,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 50,
+  BoxH= 30,
+  Boxexp = c(3,0,-5,100),
+  PosX=67
+)
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='100/100',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+80000,bb['ymin']-50000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3.2,
-            ytop=Loc[2]+Lx/3.2,
+            xright=Loc[1]+Lx/3,
+            ytop=Loc[2]+Lx/3,
             xpd=T)
 
 #Add labels
@@ -231,6 +236,7 @@ R_labsp=R_labsp[R_labsp$Area=="481",]
 R_labsp$x=st_coordinates(R_labsp)[,1]
 R_labsp$y=st_coordinates(R_labsp)[,2]
 R_labsp=st_drop_geometry(R_labsp)
+par(xpd=T)
 add_labels(mode='input',LabelTable=R_labsp[,c("x","y","text","fontsize","fonttype","angle","col")])
 
 dev.off()
@@ -276,41 +282,45 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_482.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_482.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,2.0,0.6,12)) #Adjust margins
+par(mar=c(0.5,2.0,0.5,10))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=80 #Offset legends
-
 #Colorscale
-add_Cscale(pos='3/10',height=40,maxVal=-1,offset = Off,fontsize=0.68,width=15,lwd=1,
+add_Cscale(pos='3/10',height=45,maxVal=-1,offset=80,fontsize=0.7,
+           BoxCol=NA,TitleVAdj=0,Cwdth=0.65,TckL=0.7,Tdist=0.7,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='14/20',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Research Blocks'),
-       border=c('black','darkgreen'),
-       fill='white',
-       cex=0.6,
-       bg='white',
-       xpd=TRUE,x.intersp=0.6,y.intersp=0.7,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 65,
+  BoxH= 45,
+  Boxexp = c(3,0,-5,90),
+  PosX=90,
+  PosY=-12
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.7
+L_RBs$fontsize=0.7
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='100/100',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+80000,bb['ymin']-30000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3.4,
-            ytop=Loc[2]+Lx/3.4,
+            xright=Loc[1]+Lx/4.4,
+            ytop=Loc[2]+Lx/4.4,
             xpd=T)
 
 #Add labels
@@ -318,6 +328,7 @@ R_labsp=R_labsp[R_labsp$Area=="482",]
 R_labsp$x=st_coordinates(R_labsp)[,1]
 R_labsp$y=st_coordinates(R_labsp)[,2]
 R_labsp=st_drop_geometry(R_labsp)
+par(xpd=T)
 add_labels(mode='input',LabelTable=R_labsp[,c("x","y","text","fontsize","fonttype","angle","col")])
 
 dev.off()
@@ -364,41 +375,45 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_483.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_483.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,2.0,0.6,11.5)) #Adjust margins
+par(mar=c(0.8,1.5,0.8,8))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.75)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=100 #Offset legends
-
 #Colorscale
-add_Cscale(pos='5/20',height=42,maxVal=-1,offset = Off,fontsize=0.65,width=15,lwd=1,
+add_Cscale(pos='5/20',height=45,maxVal=-1,offset=5,fontsize=0.7,
+           BoxCol=NA,TitleVAdj=0,Cwdth=0.65,TckL=0.7,Tdist=0.7,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Management Areas'),
-       border=c('black','darkred'),
-       fill='white',
-       cex=0.6,
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 80,
+  BoxH= 45,
+  Boxexp = c(3,0,-5,92),
+  PosX=110,
+  PosY=-12
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.7
+L_MAs$fontsize=0.7
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_MAs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+80000,bb['ymin']-50000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4.6,
-            ytop=Loc[2]+Lx/4.6,
+            xright=Loc[1]+Lx/4.4,
+            ytop=Loc[2]+Lx/4.4,
             xpd=T)
 
 #Add labels
@@ -407,16 +422,7 @@ R_labsp$x=st_coordinates(R_labsp)[,1]
 R_labsp$y=st_coordinates(R_labsp)[,2]
 R_labsp=st_drop_geometry(R_labsp)
 add_labels(mode='input',LabelTable=R_labsp[,c("x","y","text","fontsize","fonttype","angle","col")])
-#Add pointers
-R_labsl=R_labsl[R_labsl$Area=="483",]
-R_labsl$x=st_coordinates(R_labsl)[,1]
-R_labsl$y=st_coordinates(R_labsl)[,2]
-R_labsl=st_drop_geometry(R_labsl)
-segments(x0=R_labsl$x[R_labsl$Type=="S"],
-           y0=R_labsl$y[R_labsl$Type=="S"],
-           x1=R_labsl$x[R_labsl$Type=="E"],
-           y1=R_labsl$y[R_labsl$Type=="E"],
-           lwd=2,lend=1)
+
 dev.off()
 #> png 
 #>   2
@@ -460,37 +466,41 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_484.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_484.png',width=2600,height=1500*(Ly/Lx),res=300)
-par(mar=c(2,2,2,15)) #Adjust margins
+par(mar=c(2,2,2,12))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=70 #Offset legends
-
 #Colorscale
-add_Cscale(pos='5/20',height=40,maxVal=-1,offset = Off,fontsize=0.8,width=17,lwd=1,
+add_Cscale(pos='5/20',height=35,maxVal=-1,offset=0,fontsize=1,
+           BoxCol=NA,TitleVAdj=-0.02,Cwdth=0.8,TckL=0.9,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Management Areas'),
-       border=c('black','darkred'),
-       fill='white',
-       seg.len=0,cex=0.8,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 75,
+  BoxH= 45,
+  Boxexp = c(3,0,-5,130),
+  PosX=107,
+  PosY=10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=1
+L_MAs$fontsize=1
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_MAs))
 
 #Add inset map
-Loc=add_Cscale(pos='90/100',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+80000,bb['ymin']-50000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
             xright=Loc[1]+Lx/2,
@@ -552,42 +562,46 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_486.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_486.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,2.0,0.6,11.5)) #Adjust margins
+par(mar=c(0.6,2.0,0.6,10.5))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.7)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=170 #Offset legends
-
 #Colorscale
-add_Cscale(pos='5/20',height=42,maxVal=-1,offset = Off,fontsize=0.65,width=15,lwd=1,
+add_Cscale(pos='5/20',height=40,maxVal=-1,offset=170,fontsize=0.7,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.8,TckL=0.9,Tdist=0.8,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
-
 #Legend
-Loc=add_Cscale(pos='27/40',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
-       border=c('black','gray40','darkgreen'),
-       fill='white',
-       seg.len=0,cex=0.65,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 55,
+  BoxH= 60,
+  Boxexp = c(3,0,-5,75),
+  PosX=70,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.7
+L_SSRUs$fontsize=0.7
+L_RBs$fontsize=0.7
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSRUs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+180000,bb['ymin']-120000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3,
-            ytop=Loc[2]+Lx/3,
+            xright=Loc[1]+Lx/4,
+            ytop=Loc[2]+Lx/4,
             xpd=T)
 
 #Add labels
@@ -602,10 +616,10 @@ R_labsl$x=st_coordinates(R_labsl)[,1]
 R_labsl$y=st_coordinates(R_labsl)[,2]
 R_labsl=st_drop_geometry(R_labsl)
 segments(x0=R_labsl$x[R_labsl$Type=="S"],
-           y0=R_labsl$y[R_labsl$Type=="S"],
-           x1=R_labsl$x[R_labsl$Type=="E"],
-           y1=R_labsl$y[R_labsl$Type=="E"],
-           lwd=2,lend=1)
+         y0=R_labsl$y[R_labsl$Type=="S"],
+         x1=R_labsl$x[R_labsl$Type=="E"],
+         y1=R_labsl$y[R_labsl$Type=="E"],
+         lwd=2,lend=1)
 dev.off()
 #> png 
 #>   2
@@ -653,43 +667,47 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5841.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5841.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,1.5,0.6,9.5)) #Adjust margins
+par(mar=c(0.6,1.5,0.6,8))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.7)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=180 #Offset legends
-
 #Colorscale
-add_Cscale(pos='9/40',height=42,maxVal=-1,offset = Off,fontsize=0.55,width=13,lwd=1,
+add_Cscale(pos='8/40',height=45,maxVal=-1,offset=-30,fontsize=0.6,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.5,TckL=0.5,Tdist=0.5,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
-
 #Legend
-Loc=add_Cscale(pos='52/80',height=43,mode='Legend',offset = Off)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 65,
+  BoxH= 65,
+  Boxexp = c(3,0,-5,82),
+  PosX=90,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.6
+L_SSRUs$fontsize=0.6
+L_RBs$fontsize=0.6
 
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
-       border=c('black','gray40','darkgreen'),
-       fill='white',
-       cex=0.5,
-       bg='white',
-       xpd=TRUE,box.lwd=1)
-
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSRUs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=-12,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+180000,bb['ymin']-100000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/5,
-            ytop=Loc[2]+Lx/5,
+            xright=Loc[1]+Lx/6,
+            ytop=Loc[2]+Lx/6,
             xpd=T)
 
 #Add labels
@@ -746,42 +764,47 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5842.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5842.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.6,1.5,0.6,9.5)) #Adjust margins
+par(mar=c(0.6,1.5,0.6,8))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.7)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=120 #Offset legends
-
 #Colorscale
-add_Cscale(pos='9/40',height=42,maxVal=-1,offset = Off,fontsize=0.55,width=13,lwd=1,
+add_Cscale(pos='8/40',height=45,maxVal=-1,offset=-20,fontsize=0.6,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.6,TckL=0.6,Tdist=0.6,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='52/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
-       border=c('black','gray40','darkgreen'),
-       fill='white',
-       seg.len=0,cex=0.55,
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 65,
+  BoxH= 65,
+  Boxexp = c(3,0,-5,82),
+  PosX=88,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.6
+L_SSRUs$fontsize=0.6
+L_RBs$fontsize=0.6
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSRUs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=-11,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+120000,bb['ymin']-60000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4.5,
-            ytop=Loc[2]+Lx/4.5,
+            xright=Loc[1]+Lx/5.3,
+            ytop=Loc[2]+Lx/5.3,
             xpd=T)
 
 #Add labels
@@ -838,42 +861,47 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5843a.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5843a.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(1,2.5,1,11)) #Adjust margins
+par(mar=c(1,2.5,1,11))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=70 #Offset legends
-
 #Colorscale
-add_Cscale(pos='9/40',height=42,maxVal=-1,offset = Off,fontsize=0.55,width=13,lwd=1,
+add_Cscale(pos='8/40',height=45,maxVal=-1,offset=75,fontsize=0.6,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.8,TckL=0.8,Tdist=0.8,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
-
 #Legend
-Loc=add_Cscale(pos='53/80',height=43,mode='Legend',offset = Off)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 60,
+  BoxH= 65,
+  Boxexp = c(3,0,-5,84),
+  PosX=86,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.7
+L_EEZs$fontsize=0.7
+L_RBs$fontsize=0.7
 
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Research Blocks'),
-       border=c('black','purple','darkgreen'),
-       fill='white',
-       seg.len=0,cex=0.55,
-       bg='white',
-       xpd=TRUE)
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+60000,bb['ymin']-20000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3.5,
-            ytop=Loc[2]+Lx/3.5,
+            xright=Loc[1]+Lx/3.8,
+            ytop=Loc[2]+Lx/3.8,
             xpd=T)
 
 #Add labels
@@ -930,42 +958,47 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5843b.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5843b.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.5,2.5,0.5,14)) #Adjust margins
+par(mar=c(0.2,2.5,0.2,12))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=85 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.8,width=16,lwd=1,
+add_Cscale(pos='11/40',height=40,maxVal=-1,offset=85,fontsize=0.7,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.9,TckL=0.9,Tdist=0.9,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Small Scale Research Units'),
-       border=c('black','purple','gray40'),
-       fill='white',
-       seg.len=0,cex=0.8,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 50,
+  BoxH= 55,
+  Boxexp = c(3,0,-5,92),
+  PosX=73,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.7
+L_EEZs$fontsize=0.7
+L_SSRUs$fontsize=0.7
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs,L_SSRUs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+60000,bb['ymin']-20000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/2.5,
-            ytop=Loc[2]+Lx/2.5,
+            xright=Loc[1]+Lx/2.8,
+            ytop=Loc[2]+Lx/2.8,
             xpd=T)
 
 #Add labels
@@ -1027,10 +1060,9 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5844.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5844.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+par(mar=c(0.1,2.5,0.1,10))
 plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
@@ -1038,32 +1070,39 @@ plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
+
 add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9)
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=210 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lwd=1,
+add_Cscale(pos='8/40',height=40,maxVal=-1,offset=175,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.65,TckL=0.65,Tdist=0.65,
            cuts = Depth_cuts2,
            cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones','Small Scale Research Units','Research Blocks'),
-       border=c('black','purple','gray40','darkgreen'),
-       fill='white',
-       cex=0.6,
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 62,
+  BoxH= 75,
+  Boxexp = c(3,0,-5,79),
+  PosX=92,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_EEZs$fontsize=0.65
+L_SSRUs$fontsize=0.65
+L_RBs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs,L_SSRUs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=-2,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+150000,bb['ymin']-70000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4,
-            ytop=Loc[2]+Lx/4,
+            xright=Loc[1]+Lx/4.9,
+            ytop=Loc[2]+Lx/4.9,
             xpd=T)
 
 #Add labels
@@ -1078,10 +1117,10 @@ R_labsl$x=st_coordinates(R_labsl)[,1]
 R_labsl$y=st_coordinates(R_labsl)[,2]
 R_labsl=st_drop_geometry(R_labsl)
 segments(x0=R_labsl$x[R_labsl$Type=="S"],
-           y0=R_labsl$y[R_labsl$Type=="S"],
-           x1=R_labsl$x[R_labsl$Type=="E"],
-           y1=R_labsl$y[R_labsl$Type=="E"],
-           lwd=2,lend=1)
+         y0=R_labsl$y[R_labsl$Type=="S"],
+         x1=R_labsl$x[R_labsl$Type=="E"],
+         y1=R_labsl$y[R_labsl$Type=="E"],
+         lwd=2,lend=1)
 dev.off()
 #> png 
 #>   2
@@ -1125,41 +1164,45 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5851.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5851.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+par(mar=c(1,2.5,1,10))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
+
+add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.8,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=210 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lwd=1,
+add_Cscale(pos='8/40',height=45,maxVal=-1,offset=100,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=0,Cwdth=0.65,TckL=0.65,Tdist=0.65,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
-       border=c('black','purple'),
-       fill='white',
-       cex=0.6,
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 70,
+  BoxH= 65,
+  Boxexp = c(3,0,-5,79),
+  PosX=105,
+  PosY=-3
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_EEZs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=-2,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+130000,bb['ymin']-50000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4,
-            ytop=Loc[2]+Lx/4,
+            xright=Loc[1]+Lx/4.5,
+            ytop=Loc[2]+Lx/4.5,
             xpd=T)
 
 #Add labels
@@ -1213,41 +1256,45 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_5852.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_5852.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+par(mar=c(1,2.5,1,10))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
+
+add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.8,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=150 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lwd=1,
+add_Cscale(pos='8/40',height=45,maxVal=-1,offset=68,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=0,Cwdth=0.65,TckL=0.65,Tdist=0.65,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='56/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
-       border=c('black','purple'),
-       fill='white',
-       cex=0.6,
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 77,
+  BoxH= 65,
+  Boxexp = c(3,0,-5,79),
+  PosX=110,
+  PosY=-5
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_EEZs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=-4,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+110000,bb['ymin']-60000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4.5,
-            ytop=Loc[2]+Lx/4.5,
+            xright=Loc[1]+Lx/4.7,
+            ytop=Loc[2]+Lx/4.7,
             xpd=T)
 
 #Add labels
@@ -1262,10 +1309,10 @@ R_labsl$x=st_coordinates(R_labsl)[,1]
 R_labsl$y=st_coordinates(R_labsl)[,2]
 R_labsl=st_drop_geometry(R_labsl)
 segments(x0=R_labsl$x[R_labsl$Type=="S"],
-           y0=R_labsl$y[R_labsl$Type=="S"],
-           x1=R_labsl$x[R_labsl$Type=="E"],
-           y1=R_labsl$y[R_labsl$Type=="E"],
-           lwd=2,lend=1)
+         y0=R_labsl$y[R_labsl$Type=="S"],
+         x1=R_labsl$x[R_labsl$Type=="E"],
+         y1=R_labsl$y[R_labsl$Type=="E"],
+         lwd=2,lend=1)
 dev.off()
 #> png 
 #>   2
@@ -1284,7 +1331,6 @@ EEZs=load_EEZs()
 #Rotate objects
 Lonzero=52 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1311,41 +1357,45 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_586.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_586.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+par(mar=c(1,2.5,1,10))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
+
+add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.8,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=120 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lwd=1,
+add_Cscale(pos='8/40',height=45,maxVal=-1,offset=98,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=0,Cwdth=0.65,TckL=0.65,Tdist=0.65,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
-       border=c('black','purple'),
-       fill='white',
-       seg.len=0,cex=0.6,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 64,
+  BoxH= 60,
+  Boxexp = c(3,0,-5,82),
+  PosX=95,
+  PosY=-5
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_EEZs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+110000,bb['ymin']-40000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/4,
-            ytop=Loc[2]+Lx/4,
+            xright=Loc[1]+Lx/4.3,
+            ytop=Loc[2]+Lx/4.3,
             xpd=T)
 
 #Add labels
@@ -1373,7 +1423,6 @@ EEZs=load_EEZs()
 #Rotate objects
 Lonzero=37 #This longitude will point up
 R_bathy=Rotate_obj(Bathy,Lonzero)
-#> |---------|---------|---------|---------|=========================================                                          
 R_asds=Rotate_obj(ASDs,Lonzero)
 R_labsp=Rotate_obj(Labs_p,Lonzero)
 R_coast=Rotate_obj(coast,Lonzero)
@@ -1401,41 +1450,45 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_587.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_587.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+par(mar=c(1,2.5,1,10))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_eezs),border="purple",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.9,offset = c(10000,30000),LatR = c(-80, -40))
+
+add_RefGrid(bb=bb,ResLat = 2.5,ResLon = 5,lwd=1,fontsize = 0.8,offset = c(10000,30000),LatR = c(-80, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=120 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.6,width=14,lwd=1,
+add_Cscale(pos='9/40',height=45,maxVal=-1,offset=92,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=0,Cwdth=0.7,TckL=0.7,Tdist=0.7,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Exclusive Economic Zones'),
-       border=c('black','purple'),
-       fill='white',
-       seg.len=0,cex=0.6,
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 55,
+  BoxH= 50,
+  Boxexp = c(3,0,-5,82),
+  PosX=80,
+  PosY=-5
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_EEZs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_EEZs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+70000,bb['ymin']-40000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3.5,
-            ytop=Loc[2]+Lx/3.5,
+            xright=Loc[1]+Lx/3.9,
+            ytop=Loc[2]+Lx/3.9,
             xpd=T)
 
 #Add labels
@@ -1493,43 +1546,57 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_RSr.png",native = T)
 
+#create hashed lines for GPZ
+GPZh=create_Hashes(pol=suppressWarnings(st_union(R_mpas[grep("GPZ",R_mpas$GAR_Short_Label),])),
+                   angle = 45, spacing = 0.5, width = 0.25)
 
 #Plot
 png(filename='Map_Area_RSr.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
+par(mar=c(0.1,2.5,0.1,10))
 plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
-plot(st_geometry(R_mpas),border="red",col=rgb(1,0.5,0,0.4),lwd=3,lty=3,add=T)
+plot(st_geometry(R_mpas),border="red",col=rgb(1,0.5,0,0.4),lwd=2,add=T)
+plot(GPZh,border=NA,col="grey30",add=T)
+plot(st_geometry(R_mpas),border="red",lwd=2,add=T)
+
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.9,offset = c(10000,60000),LatR = c(-85, -40))
+
+add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.8,offset = c(10000,60000),LatR = c(-85, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=180 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.65,width=14,lwd=1,
+add_Cscale(pos='9/40',height=40,maxVal=-1,offset=190,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.8,TckL=0.8,Tdist=0.8,
            cuts = Depth_cuts,
            cols = Depth_cols)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Area of directed fishing','Marine Protected Area'),
-       border=c('black','gray40','darkred','red'),
-       cex=0.65,
-       fill=c('white','white','white',rgb(1,0.5,0,0.4)),
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 55,
+  BoxH= 55,
+  Boxexp = c(3,0,-5,90),
+  PosX=72,
+  PosY=-15
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_SSRUs$fontsize=0.65
+L_ADFs$fontsize=0.65
+L_MPAs$fontsize=0.65
+L_GPZs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSRUs,L_ADFs,L_MPAs,L_GPZs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+150000,bb['ymin']-120000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/2.9,
-            ytop=Loc[2]+Lx/2.9,
+            xright=Loc[1]+Lx/3.7,
+            ytop=Loc[2]+Lx/3.7,
             xpd=T)
 
 #Add labels
@@ -1597,44 +1664,58 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_882.png",native = T)
 
+#create hashed lines for GPZ
+GPZh=create_Hashes(pol=suppressWarnings(st_union(R_mpas[grep("GPZ",R_mpas$GAR_Short_Label),])),
+                   angle = 45, spacing = 0.5, width = 0.25)
 
 #Plot
 png(filename='Map_Area_882.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
+par(mar=c(1,2.5,1,10))
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_mas),border="darkred",lwd=2,add=T)
-plot(st_geometry(R_mpas),border="red",col=rgb(1,0.5,0,0.4),lwd=3,lty=3,add=T)
+plot(st_geometry(R_mpas),border="red",col=rgb(1,0.5,0,0.4),lwd=2,add=T)
+plot(GPZh,border=NA,col="grey30",add=T)
+plot(st_geometry(R_mpas),border="red",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.9,offset = c(10000,60000),LatR = c(-85, -40))
+
+add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.65,offset = c(10000,60000),LatR = c(-85, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=180 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.65,width=14,lwd=1,
-           cuts = Depth_cuts,
-           cols = Depth_cols)
+add_Cscale(pos='8/40',height=40,maxVal=-1,offset=185,fontsize=0.65,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.8,TckL=0.8,Tdist=0.8,
+           cuts = Depth_cuts2,
+           cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks','Area of directed fishing','Marine Protected Area'),
-       border=c('black','gray40','darkgreen','darkred','red'),
-       cex=0.65,
-       fill=c('white','white','white','white',rgb(1,0.5,0,0.4)),
-       bg='white',
-       xpd=TRUE,box.lwd=1)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 60,
+  BoxH= 70,
+  Boxexp = c(3,0,-5,75),
+  PosX=77,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.65
+L_SSRUs$fontsize=0.65
+L_RBs$fontsize=0.65
+L_ADFs$fontsize=0.65
+L_MPAs$fontsize=0.65
+L_GPZs$fontsize=0.65
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSRUs,L_RBs,L_ADFs,L_MPAs,L_GPZs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+150000,bb['ymin']-140000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3.2,
-            ytop=Loc[2]+Lx/3.2,
+            xright=Loc[1]+Lx/3.8,
+            ytop=Loc[2]+Lx/3.8,
             xpd=T)
 
 #Add labels
@@ -1690,42 +1771,47 @@ Ly=bb['ymax']-bb['ymin']
 #Get inset map
 inset=readPNG("Insets/Map_Cover_883.png",native = T)
 
-
 #Plot
 png(filename='Map_Area_883.png',width=2600,height=2000*(Ly/Lx),res=300)
-par(mar=c(0.1,2.5,0.1,12)) #Adjust margins
-plot(R_bathy,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
+par(mar=c(1,2.5,1,10))
+plot(R_bathy,breaks=Depth_cuts2,col=Depth_cols2,legend=FALSE,axes=FALSE,mar=NA,maxcell=5e6)
 plot(st_geometry(R_coast[R_coast$surface=="Ice",]),col="white",add=T,lwd=0.5)
 plot(st_geometry(R_ssrus),border="gray40",lwd=2,add=T)
 plot(st_geometry(R_asds),border="black",lwd=2,add=T)
 plot(st_geometry(R_rbs),border="darkgreen",lwd=2,add=T)
 plot(st_geometry(R_coast[R_coast$surface=="Land",]),col="grey",add=T)
-add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.9,offset = c(10000,60000),LatR = c(-85, -40))
+
+add_RefGrid(bb=bb,ResLat = 5,ResLon = 10,lwd=1,fontsize = 0.8,offset = c(10000,40000),LatR = c(-85, -40))
 plot(bx,lwd=2,add=T,xpd=T)
 
-Off=120 #Offset legends
-
 #Colorscale
-add_Cscale(pos='11/40',height=40,maxVal=-1,offset = Off,fontsize=0.65,width=14,lwd=1,
-           cuts = Depth_cuts,
-           cols = Depth_cols)
+add_Cscale(pos='9/40',height=40,maxVal=-1,offset=130,fontsize=0.7,
+           BoxCol=NA,TitleVAdj=-0.01,Cwdth=0.8,TckL=0.8,Tdist=0.8,
+           cuts = Depth_cuts2,
+           cols = Depth_cols2)
 
 #Legend
-Loc=add_Cscale(pos='58/80',height=43,mode='Legend',offset = Off)
-
-legend(Loc,legend=c('Areas, Subareas and Divisions','Small Scale Research Units','Research Blocks'),
-       border=c('black','gray40','darkgreen'),
-       seg.len=0,cex=0.65,
-       fill='white',
-       bg='white',
-       xpd=TRUE)
+LegOpt=list( 
+  Pos = "right",
+  Boxbd=NA,
+  BoxW= 48,
+  BoxH= 55,
+  Boxexp = c(3,0,-5,77),
+  PosX=66,
+  PosY=-10
+)
+#Adjust fontsizes
+L_ASDs$fontsize=0.7
+L_SSRUs$fontsize=0.7
+L_RBs$fontsize=0.7
+add_Legend(bb,LegOpt,Items=list(L_ASDs,L_SSRUs,L_RBs))
 
 #Add inset map
-Loc=add_Cscale(pos='500/500',height=0,mode='Legend',offset = Off)
+Loc=c(bb['xmax']+100000,bb['ymin']-80000)
 rasterImage(inset,xleft=Loc[1],
             ybottom=Loc[2],
-            xright=Loc[1]+Lx/3,
-            ytop=Loc[2]+Lx/3,
+            xright=Loc[1]+Lx/3.8,
+            ytop=Loc[2]+Lx/3.8,
             xpd=T)
 
 #Add labels

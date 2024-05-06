@@ -22,6 +22,9 @@
 #' identified and grouped (a Grp column is added to the object). This can be used, for example, to
 #' identify seamounts that are constituted of several isobaths.
 #' 
+#' @param strict logical (TRUE/FALSE), if set to TRUE (default) polygons are created only between the
+#' chosen \code{Cuts}. If set to FALSE, extra polygons are created beyond the bounds of \code{Cuts}.
+#' 
 #' @return Spatial object in your environment. Data within the resulting object contains
 #' a polygon in each row. Columns are as follows: \code{ID} is a unique polygon identifier;
 #' \code{Iso} is a contour polygon identifier; \code{Min} and \code{Max} are the range of contour values;
@@ -47,7 +50,7 @@
 #'
 #' @export
 
-get_iso_polys=function(Rast,Poly=NULL,Cuts,Cols=c("green","yellow","red"),Grp=FALSE){
+get_iso_polys=function(Rast,Poly=NULL,Cuts,Cols=c("green","yellow","red"),Grp=FALSE,strict=TRUE){
   
   if(is.null(Poly)==FALSE){
     Rast=terra::crop(Rast,Poly)
@@ -58,7 +61,9 @@ get_iso_polys=function(Rast,Poly=NULL,Cuts,Cols=c("green","yellow","red"),Grp=FA
   B=stars::st_as_stars(Rast)
   Cs=stars::st_contour(B,breaks=Cuts)
   Cs=sf::st_cast(Cs,"POLYGON",warn=FALSE)
+  if(strict==TRUE){
   Cs=Cs%>%dplyr::filter(is.finite(Min)==TRUE & is.finite(Max)==TRUE)
+  }
   Cs=Cs[,-1]
   row.names(Cs)=NULL
   #Add Isobath ID
@@ -100,6 +105,7 @@ get_iso_polys=function(Rast,Poly=NULL,Cuts,Cols=c("green","yellow","red"),Grp=FA
     Cs$Laby[which(is.na(tmp$L))]=NA
     Cs$ID=seq(1,nrow(Cs))
   }
+  Cs=st_make_valid(Cs, geos_method = "valid_linework")
   return(Cs)
 }
 

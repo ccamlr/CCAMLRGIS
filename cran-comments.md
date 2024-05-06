@@ -28,12 +28,13 @@ win-builder (devel and release, 64 and 32bit), and Rhubv2 as follows:
 
 ## Notes about CRAN edits
 
-### V4.0.8
+### V4.1.0
 
-Added create_Hashes() and add_Legend() functions. Modified get_iso_polys().
+Modified add_Legend() behavior. Updated add_Cscale(), get_iso_polys() and Basemaps.
 
 ### Previous versions
 
+* Added create_Hashes() and add_Legend() functions. Modified get_iso_polys().
 * Updated SmallBathy() and coastline accessed by load_Coastline().
 * Added Rotate_obj() function.
 * Added create_Arrow() function. Fixed bug in seabed_area(). SmallBathy is now a function, not an object.

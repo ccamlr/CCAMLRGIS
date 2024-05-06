@@ -1,3 +1,10 @@
+# CCAMLRGIS 4.1.0
+
+Modified the behavior of add_Legend() with Boxexp.
+Udpated Basemaps, now including the new legends.
+Added cell options to add_Cscale().
+Added "strict" option in get_iso_polys().
+
 # CCAMLRGIS 4.0.8
 
 Added add_Legend() and create_Hashes() functions.
