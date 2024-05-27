@@ -33,12 +33,13 @@ See https://github.com/ccamlr/CCAMLRGIS/actions/runs/8977042238
 
 ## Notes about CRAN edits
 
-### V4.1.0
+### V4.1.1
 
-Modified add_Legend() behavior. Updated add_Cscale(), get_iso_polys() and Basemaps.
+Optimized create_Arrow().
 
 ### Previous versions
 
+* Modified add_Legend() behavior. Updated add_Cscale(), get_iso_polys() and Basemaps.
 * Added create_Hashes() and add_Legend() functions. Modified get_iso_polys().
 * Updated SmallBathy() and coastline accessed by load_Coastline().
 * Added Rotate_obj() function.

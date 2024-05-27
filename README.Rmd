@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"
 )
+library(knitr)
 ```
 
 
@@ -110,11 +111,12 @@ library(terra)
 
 All spatial manipulations are made using the South Pole Lambert Azimuthal Equal Area projection (type ?CCAMLRp for more details), and follow CCAMLR's [geospatial rules].
 
-```{r Fig01,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #Map with axes, to illustrate projection
+png(filename='ReadMeFigs/ReadMe_Fig0.png',width=2000,height=2000,res=300)
 
 #Set the figure margins as c(bottom, left, top, right)
-par(mai=c(1.2,0.7,0.5,0.45),xpd=TRUE)
+par(mai=c(1.2,1.3,0.2,0.2),xpd=TRUE)
 #plot entire Coastline
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',lwd=0.1)
 #Add reference grid
@@ -127,15 +129,21 @@ text(seq(-4000000,-1000000,by=1000000),0,seq(-4,-1,by=1),cex=0.75,col='blue',adj
 text(0,seq(1000000,4000000,by=1000000),seq(1,4,by=1),cex=0.75,col='blue',adj=c(1.75,0.5))
 text(0,seq(-4000000,-1000000,by=1000000),seq(-4,-1,by=1),cex=0.75,col='blue',adj=c(1.75,0.5))
 text(0,0,0,cex=0.75,col='blue',adj=c(-0.5,-0.5))
-text(5200000,0,expression('x ('*10^6~'m)'),cex=0.75,col='blue')
-text(0,4700000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
+text(4400000,0,expression('x ('*10^6~'m)'),cex=0.75,col='blue')
+text(0,4200000,expression('y ('*10^6~'m)'),cex=0.75,col='blue')
 
+dev.off()
+```
 
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig0.png")
 ```
 
 <center>
 #### The South Pole Lambert Azimuthal Equal Area projection converts Latitudes and Longitudes into locations on a disk with x/y axes and units of meters. The South Pole is at x=0m ; y=0m. The tip of the Peninsula, for example, is around x=-2,500,000m ; y=2,000,000m.
 </center>
+
+<br>
 
 ## 1. Basemaps
 
@@ -147,15 +155,25 @@ Additional basemaps are available [here].
 
 Prior to detailing the package's capabilities, a set of basic commands are shown here to display a few core mapping elements. All scripts use the low-resolution bathymetry raster included in the package ('SmallBathy'). In order to obtain higher resolution bathymetry data, use the *Load_Bathy()* function:
 
-```{r Fig02,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #Load_Bathy() example:
 Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
+
+png(filename='ReadMeFigs/ReadMe_Fig1.1.png',width=2000,height=2000,res=300,bg="transparent")
+
 plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,legend=FALSE,mar=c(0,0,0,0))
 
+dev.off()
 
 #Please refer to ?load_Bathy for more details, including how to save the bathymetry data so that you
 #do not have to re-download it every time you need it.
 ```
+
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig1.1.png")
+```
+
 
 ```{r, echo = FALSE, message = FALSE}
 #Delete GEBCO file
@@ -164,18 +182,21 @@ Fs=Fs[grep("GEBCO",Fs)]
 a=file.remove(Fs)
 ```
 
+<br>
+
 #### Statistical Areas, Subareas and Divisions (ASDs):
 
-```{r Fig03,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig1.2.png',width=2200,height=1800,res=300)
 #Load ASDs and EEZs
 ASDs=load_ASDs()
 EEZs=load_EEZs()
 #Plot the bathymetry
-plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F,mar=c(0,0,0,2))
+plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,box=F,mar=c(0,0,0,5))
 #Add reference grid
 add_RefGrid(bb=st_bbox(SmallBathy()),ResLat=10,ResLon=20,LabLon=0,fontsize=0.75,lwd=0.75,offset = 4)
 #Add color scale
-add_Cscale(height=90,fontsize=0.75,offset=-1500,width=15,maxVal=-1,lwd=0.5)
+add_Cscale(height=70,fontsize=0.75,offset=-50,width=14,maxVal=-1,lwd=0.5)
 #Add ASD and EEZ boundaries
 plot(st_geometry(ASDs),add=T,lwd=0.75,border='red',xpd=T)
 plot(st_geometry(EEZs),add=T,lwd=0.75,border='red',xpd=T)
@@ -183,12 +204,21 @@ plot(st_geometry(EEZs),add=T,lwd=0.75,border='red',xpd=T)
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',lwd=0.01,add=T,xpd=T)
 #Add ASD labels
 add_labels(mode='auto',layer='ASDs',fontsize=0.6,col='red')
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig1.2.png")
+```
+
+<br>
 
 #### Local map (*e.g.*, Subarea 48.6):
 
-```{r Fig04,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+Additional local maps are available [here].
+
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig1.3.png',width=2000,height=1400,res=300)
 #Load ASDs
 ASDs=load_ASDs()
 #Sub-sample ASDs to only keep Subarea 48.6
@@ -196,20 +226,24 @@ S486=ASDs[ASDs$GAR_Short_Label=='486',]
 #Crop bathymetry to match the extent of S486
 B486=crop(SmallBathy(),ext(S486))
 #Plot the bathymetry
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(1.4,2,1.4,7))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(1.0,2,1.0,6))
 #Add color scale
-add_Cscale(height=80,fontsize=0.7,offset=300,width=15,lwd=0.5,maxVal=-1)
+add_Cscale(height=80,fontsize=0.7,offset=250,width=15,lwd=0.5,maxVal=-1)
 #Add coastline (for Subarea 48.6 only)
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T,xpd=T)
 #Add reference grid
-add_RefGrid(bb=st_bbox(B486),ResLat=5,ResLon=10,fontsize=0.75,lwd=0.75,offset = 100000)
+add_RefGrid(bb=st_bbox(B486),ResLat=5,ResLon=10,fontsize=0.75,lwd=0.75,offset = 50000)
 #Add Subarea 48.6 boundaries
 plot(st_geometry(S486),add=T,lwd=1,border='red',xpd=T)
 #Add a -2000m contour
 contour(B486,levels=-2000,add=T,lwd=0.5,labcex=0.3,xpd=T)
 #Add single label at the centre of the polygon (see ?Labels)
 text(Labels$x[Labels$t=='48.6'],Labels$y[Labels$t=='48.6'],labels='48.6',col='red',cex=1.5)
+dev.off()
+```
 
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig1.3.png")
 ```
 
 ## 2. Create functions
@@ -226,10 +260,12 @@ For details, type:
 ?create_Points
 ```
 
-```{r Fig05,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.1.png',width=2000,height=1400,res=300)
 
 #Prepare layout for 4 sub-plots
-par(mfrow=c(2,2),mai=c(0,0.01,0.2,0.01))
+par(mfrow=c(2,2),mai=c(0.01,0.01,0.2,0.01))
 
 #Example 1: Simple points with labels
 MyPoints=create_Points(PointData)
@@ -256,7 +292,14 @@ plot(st_geometry(MyPoints),col='cyan',main='Example 4',cex.main=0.75,cex=0.75,lw
 plot(st_geometry(Coast[Coast$ID=='All',]),add=T,col='grey',lwd=0.5)
 box()
 
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.1.png")
+```
+
+<br>
 
 #### Create lines:
 
@@ -286,10 +329,12 @@ Input=data.frame(
 )
 ```
 
-```{r Fig06,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.2.png',width=2000,height=1000,res=300)
 
 #Prepare layout for 3 sub-plots
-par(mai=c(0,0.01,0.2,0.01),mfrow=c(1,3))
+par(mai=c(0.01,0.01,0.2,0.01),mfrow=c(1,3))
 
 #Example 1: Simple and non-densified lines
 MyLines=create_Lines(LineData)
@@ -307,11 +352,20 @@ plot(st_geometry(MyLines[5:1,]),col=rainbow(nrow(MyLines)),main='Example 3',cex.
 plot(Coast[Coast$ID=='All',],col='grey',add=T,lwd=0.5)
 box()
 
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.2.png")
+```
+
+<br>
 
 Adding a buffer with the argument *SeparateBuf* set to FALSE results in a single polygon which may be viewed as a footprint:
 
-```{r Fig07,fig.align="center",out.width="80%",message=F,dpi=200,eval=T,fig.height=3}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.3.png',width=2000,height=1000,res=300)
 
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0.01,0.01,0.01,0.01))
@@ -323,8 +377,14 @@ MyLines$Buffered_AreaKm2
 
 plot(st_geometry(MyLines),col='green',lwd=1)
 box()
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.3.png")
+```
+
+<br>
 
 #### Create polygons:
 
@@ -334,10 +394,12 @@ For details, type:
 ?create_Polys
 ```
 
-```{r Fig08,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.4.png',width=2000,height=1200,res=300)
 
 #Prepare layout for 3 sub-plots
-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
+par(mfrow=c(1,3),mai=c(0.01,0.01,0.2,0.01))
 
 #Example 1: Simple and non-densified polygons
 MyPolys=create_Polys(PolyData,Densify=F)
@@ -359,10 +421,16 @@ plot(st_geometry(Coast[Coast$ID=='All',]),add=T,lwd=0.5)
 plot(st_geometry(MyPolysAfter),col='orange',add=T,lwd=0.5)
 text(MyPolysAfter$Labx,MyPolysAfter$Laby,MyPolysAfter$ID,col='white',cex=0.75)
 box()
-
+dev.off()
 ```
 
-```{r Fig08b,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=3}
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.4.png")
+```
+
+<br>
+
+```{r message=F,eval=T}
 #Convention area
 #The locations of vertices are given clockwise, starting from the northwest corner of 48.3
 CA=data.frame(
@@ -370,6 +438,9 @@ CA=data.frame(
   Lat=c(-50,-50,-45,-45,-55,-55,-60,-60),
   Lon=c(-50,30,30,80,80,150,150,-50)
 )
+
+png(filename='ReadMeFigs/ReadMe_Fig2.5.png',width=2000,height=1200,res=300)
+
 
 #Prepare layout for 2 sub-plots
 par(mfrow=c(1,2),mai=c(0,0,0.2,0))
@@ -384,7 +455,13 @@ MyPoly=create_Polys(CA,Clip = TRUE)
 plot(st_geometry(MyPoly),col='blue',border='green',main='Example 5',cex.main=0.75,lwd=2)
 box()
 
+dev.off()
 ```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.5.png")
+```
+
+<br>
 
 #### Create grids:
 
@@ -399,10 +476,12 @@ For details, type:
 ?create_PolyGrids
 ```
 
-```{r Fig09,fig.align="center",out.width="100%",message=F,dpi=200,fig.height=3,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.6.png',width=2000,height=800,res=300)
 
 #Prepare layout for 3 sub-plots
-par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
+par(mfrow=c(1,3),mai=c(0.01,0.01,0.2,0.01))
 
 #Example 1: Simple grid, using automatic colors
 MyGrid=create_PolyGrids(GridData,dlon=2,dlat=1)
@@ -418,12 +497,20 @@ box()
 MyGrid=create_PolyGrids(GridData,Area=10000,cuts=c(0,50,100,500,2000,3500),cols=c('blue','red'))
 plot(st_geometry(MyGrid),col=MyGrid$Col_Catch_sum,main='Example 3',cex.main=0.75,lwd=0.1)
 box()
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.6.png")
+```
+
+<br>
 
 Customizing a grid and adding a color scale:
 
-```{r Fig10,fig.align="center",out.width="100%",message=F,dpi=200,fig.height=5,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.7.png',width=2000,height=1500,res=300)
 
 #Prepare layout for 2 sub-plots
 par(mfrow=c(2,1),mai=c(0.2,0.05,0.1,1.3))
@@ -440,7 +527,7 @@ text(seq(0,2500,by=500),-1.5,seq(0,2500,by=500),cex=0.75,xpd=T)
 #In this case (heterogeneously distributed data) irregular cuts would be preferable
 #Such as:
 MyCuts=c(0,50,100,500,2000,2500)
-abline(v=MyCuts,col='green',lwd=0.1,lty=2) #Add classes to histogram as green dashed lines
+abline(v=MyCuts,col='green',lwd=1,lty=2) #Add classes to histogram as green dashed lines
 
 #Step 3: Generate colors according to the desired classes (MyCuts)
 Gridcol=add_col(MyGrid$Catch_sum,cuts=MyCuts,cols=c('yellow','purple'))
@@ -452,8 +539,14 @@ plot(st_geometry(MyGrid),col=Gridcol$varcol,lwd=0.1)
 add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=18,
      fontsize=0.6,lwd=0.5,height = 100) 
 box()
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.7.png")
+```
+
+<br>
 
 ### 2.2. Create Stations
 
@@ -467,7 +560,7 @@ For details, type:
 
 First, create a polygon within which stations will be created:
 
-```{r Fig11,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #Create polygons
 MyPoly=create_Polys(
         data.frame(Name="mypol",
@@ -475,18 +568,24 @@ MyPoly=create_Polys(
              Longitude=c(-170,-180,-180,-170))
         ,Densify=T)
 
-#Set the figure margins as c(bottom, left, top, right)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.8.png',width=2000,height=1000,res=300,bg="transparent")
 par(mai=c(0,0,0,0))
 plot(st_geometry(Coast[Coast$ID=='88.1',]),col='grey')
 plot(st_geometry(MyPoly),col='green',add=T)
 text(MyPoly$Labx,MyPoly$Laby,MyPoly$ID)
 box()
-
+dev.off()
 ```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.8.png")
+```
+
+<br>
 
 Example 1. Set numbers of stations, no distance constraint:
 
-```{r Fig12,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 
 #optional: crop your bathymetry raster to match the extent of your polygon
 BathyCroped=crop(SmallBathy(),ext(MyPoly))
@@ -494,22 +593,32 @@ BathyCroped=crop(SmallBathy(),ext(MyPoly))
 #Create stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10))
 
+png(filename='ReadMeFigs/ReadMe_Fig2.9.png',width=2000,height=1500,res=300)
+
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
 plot(BathyCroped,breaks=MyCols$cuts,col=MyCols$cols,legend=F,axes=F,main="Example 1")
 add_Cscale(height=90,fontsize=0.75,width=16,lwd=0.5,offset=-130,cuts=MyCols$cuts,cols=MyCols$cols)
 plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations),add=T,col='orange',cex=0.75,lwd=1.5,pch=3)
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.9.png")
+```
+
+<br>
 
 Example 2. Set numbers of stations, with distance constraint:
 
-```{r Fig13,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 
 #Create Stations
 MyStations=create_Stations(MyPoly,BathyCroped,
                            Depths=c(-2000,-1500,-1000,-550),N=c(20,15,10),dist=10)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.10.png',width=2000,height=1500,res=300)
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
@@ -519,16 +628,24 @@ plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
-
+dev.off()
 
 ```
 
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.10.png")
+```
+
+<br>
+
 Example 3. Automatic numbers of stations, with distance constraint:
 
-```{r Fig14,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 
 #Create Stations
 MyStations=create_Stations(MyPoly,BathyCroped,Depths=c(-2000,-1500,-1000,-550),Nauto=30,dist=10)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.11.png',width=2000,height=1500,res=300)
 
 #add custom colors to the bathymetry to indicate the strata of interest
 MyCols=add_col(var=c(-10000,10000),cuts=c(-2000,-1500,-1000,-550),cols=c('blue','cyan'))
@@ -538,8 +655,14 @@ plot(st_geometry(MyPoly),add=T,border='red',lwd=2,xpd=T)
 plot(st_geometry(MyStations[MyStations$Stratum=='1000-550',]),pch=21,bg='yellow',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='1500-1000',]),pch=21,bg='orange',add=T,cex=0.75,lwd=0.1)
 plot(st_geometry(MyStations[MyStations$Stratum=='2000-1500',]),pch=21,bg='red',add=T,cex=0.75,lwd=0.1)
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.11.png")
+```
+
+<br>
 
 ### 2.3. Create pies
 
@@ -559,9 +682,12 @@ View(PieData2)
 
 Example 1. Pies of constant size, all classes displayed:
 
-```{r FigP01,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.12.png',width=2000,height=1400,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(6,0,0,0))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(5.5,0,0.1,0))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -574,15 +700,22 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.5,0.45,0.12,0.45),
               PieTitle="Species")
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.12.png")
 ```
 
 <br>
 
 Example 2. Pies of constant size, selected classes displayed:
 
-```{r FigP02,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.13.png',width=2000,height=1400,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(6,0,0,0))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(5.5,0,0.1,0))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -596,15 +729,23 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.6,0.6,0.12,0.55),
               PieTitle="Selected species")
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.13.png")
 ```
 
 <br>
 
 Example 3. Pies of constant size, proportions below 25% are grouped in a 'Other' class (*N.B.*: unlike Example 2, the 'Other' class may contain classes that are displayed in the legend. Please compare Example 1 and Example 3):
 
-```{r FigP03,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.14.png',width=2000,height=1400,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(6,0,0,0))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(5.5,0,0.1,0))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -618,15 +759,22 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.55,0.55,0.12,0.45),
               PieTitle="Other (%) class")
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.14.png")
 ```
 
 <br>
 
 Example 4. Pies of variable size (here, their area is proportional to 'Catch'), all classes displayed, horizontal legend:
 
-```{r FigP04,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.15.png',width=2000,height=1400,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(6,0,0,0))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(5.5,0,0.1,0))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -640,15 +788,22 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=-0.1,PosY=-1.6,Boxexp=c(0.16,0.1,0.1,0.4),
               PieTitle="Species",SizeTitle="Catch (t.)")
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.15.png")
 ```
 
 <br>
 
 Example 5. Pies of variable size (here, their area is proportional to 'Catch'), all classes displayed, vertical legend:
 
-```{r FigP05,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.16.png',width=2000,height=1200,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0,0,0,10))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0,0.2,0,8.5))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -662,15 +817,23 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=2.32,PosY=0.1,Boxexp=c(0.35,0.32,0.02,0.15),
               PieTitle="Species",SizeTitle="Catch (t.)",Horiz=FALSE,LegSp=0.6)
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.16.png")
 ```
 
 <br>
 
 Example 6. Pies of constant size, all classes displayed. Too many pies (see next example for solution):
 
-```{r FigP06,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.17.png',width=2000,height=1400,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(6,0,0,0))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(5.5,0,0.1,0))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -681,18 +844,25 @@ MyPies=create_Pies(Input=PieData2,
 #Plot Pies
 plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
-add_PieLegend(Pies=MyPies,PosX=0.4,PosY=-1.5,Boxexp=c(0.5,0.45,0.12,0.45),
+add_PieLegend(Pies=MyPies,PosX=0.4,PosY=-1.5,Boxexp=c(0.6,0.5,0.14,0.5),
               PieTitle="Species")
+dev.off()
+```
 
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.17.png")
 ```
 
 <br>
 
 Example 7. Pies of constant size, all classes displayed. Gridded locations (in which case numerical variables in the *Input* are summed for each grid point):
 
-```{r FigP07,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.18.png',width=2000,height=1400,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(6,0,0,0))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(4.5,0,0.1,0))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -706,16 +876,22 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 #Add Pies legend
 add_PieLegend(Pies=MyPies,PosX=0.4,PosY=-1.3,Boxexp=c(0.5,0.45,0.12,0.45),
               PieTitle="Species")
-
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.18.png")
 ```
 
 <br>
 
 Example 8. Pies of variable size (here, their area is proportional to 'Catch'), all classes displayed, vertical legend, gridded locations (in which case numerical variables in the *Input* are summed for each grid point):
 
-```{r FigP08,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.19.png',width=2000,height=1200,res=300,bg="transparent")
+
 #Plot the bathymetry (See section 'Local map' where B486 was created)
-plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0,0,0,10))
+plot(B486,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=c(0,0.1,0,8.5))
 #Add coastline
 plot(Coast[Coast$ID=='48.6',],col='grey',lwd=0.01,add=T)
 #Create pies
@@ -731,8 +907,13 @@ plot(st_geometry(MyPies),col=MyPies$col,add=TRUE)
 add_PieLegend(Pies=MyPies,PosX=2.8,PosY=0.15,Boxexp=c(0.38,0.32,0.08,0.18),
               PieTitle="Species",Horiz=FALSE,SizeTitle="Catch (t.)",
               SizeTitleVadj=0.8,nSizes=2)
-
+dev.off()
 ```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.19.png")
+```
+
+<br>
 
 ### 2.4. Create Arrow
 
@@ -746,7 +927,10 @@ For details, type:
 
 Examples 1-4:
 
-```{r FigArr01,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.20.png',width=2000,height=1400,res=300)
+
 ASDs=load_ASDs()
 ASDs=ASDs[ASDs$GAR_Short_Label%in%c("481","482","483"),]
 
@@ -792,11 +976,21 @@ Arrow=create_Arrow(Input=myInput,Acol="lightblue",Hlength=20,Hwidth=20)
 plot(st_geometry(ASDs),main="Example 4")
 plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
 plot(st_geometry(Arrow),col=Arrow$col,add=TRUE)
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.20.png")
+```
+
+<br>
 
 Examples 5-8:
 
-```{r FigArr02,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig2.21.png',width=2000,height=1400,res=300)
+
 #Example 5: Dashed arrow, small dashes
 myInput=data.frame(lat=c(-61,-60,-65,-52),
                    lon=c(-60,-50,-45,-40),
@@ -843,11 +1037,18 @@ Arrow=create_Arrow(Input=myInput,Np=200,Acol=c("red","green","blue"),
 plot(st_geometry(ASDs),main="Example 8")
 plot(st_geometry(Coast[Coast$ID%in%c("48.1","48.2","48.3"),]),col="grey",add=TRUE)
 plot(st_geometry(Arrow),col=Arrow$col,add=TRUE,border=NA)
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.21.png")
+```
+
+<br>
 
 Example 9:
 
-```{r FigArr03,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #Example 9
 #Prepare mapping elements
 ASDs=ASDs[ASDs$GAR_Short_Label=="481",]
@@ -892,6 +1093,8 @@ Arrow6=create_Arrow(Input=myInput,Acol=c("purple","cyan","black"),Pwidth=2,
                     Hlength=10,Hwidth=5,Atype = "dashed",dlength = 1)
 
 
+png(filename='ReadMeFigs/ReadMe_Fig2.22.png',width=2000,height=1600,res=300)
+
 #Plot the bathymetry
 plot(B481,breaks=Depth_cuts,col=Depth_cols,legend=FALSE,axes=FALSE,mar=rep(1.5,4))
 text(-2050000,2070000,"Example 9",font=2,xpd=TRUE,cex=2)
@@ -900,14 +1103,21 @@ plot(bx,border='black',lwd=1,xpd=TRUE,add=TRUE)
 #Add coastline (for Subarea 48.6 only)
 plot(C481,col="grey",add=TRUE,xpd=T)
 #Add reference grid
-add_RefGrid(bb=bb,ResLat=2,ResLon=5,fontsize=1,lwd=0.75,offset = c(20000,30000))
+add_RefGrid(bb=bb,ResLat=2,ResLon=5,fontsize=0.8,lwd=0.75,offset = c(20000,30000))
 #Add Subarea 48.1 boundaries
 plot(st_geometry(ASDs),add=TRUE,lwd=3,border='black',xpd=T)
 #Add Arrows
 plot(st_geometry(Arrow1_4),col=Arrow1_4$col,add=TRUE,border="orange",lwd=2,xpd=T)
 plot(st_geometry(Arrow5),col=Arrow5$col,add=TRUE,border=NA,xpd=T)
 plot(st_geometry(Arrow6),col=Arrow6$col,add=TRUE,border='white',xpd=T)
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.22.png")
+```
+
+<br>
 
 ### 2.5. Create Hashes
 
@@ -921,7 +1131,7 @@ For details, type:
 
 Example:
 
-```{r FigHash01,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 
 #load ASDs
 ASDs=load_ASDs()
@@ -931,19 +1141,23 @@ angles=seq(10,355,length.out=nrow(ASDs))
 spacings=seq(3,10,length.out=nrow(ASDs))
 widths=seq(3,10,length.out=nrow(ASDs))
 
+png(filename='ReadMeFigs/ReadMe_Fig2.23.png',width=2000,height=2000,res=300,bg="transparent")
+
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0,0,0,0))
 
-plot(st_geometry(ASDs))
+plot(st_geometry(ASDs),col="white")
 for(i in seq(1,nrow(ASDs))){
   H=create_Hashes(pol=ASDs[i,],angle=angles[i],spacing=spacings[i],width=widths[i])
   plot(st_geometry(H),col=Colors[i],add=T)
 
 }
 plot(st_geometry(ASDs),lwd=2,add=T)
-
+dev.off()
 ```
-
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.23.png")
+```
 
 <br>
 
@@ -960,13 +1174,15 @@ For details, type:
 ?load_Bathy
 ```
 
-```{r Fig15,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 
 #Load ASDs, EEZs, and Coastline
 ASDs=load_ASDs()
 EEZs=load_EEZs()
 Coastline=load_Coastline()
 Coastline=Coastline[Coastline$surface=="Land",]
+
+png(filename='ReadMeFigs/ReadMe_Fig3.1.png',width=2000,height=2000,res=300,bg="transparent")
 
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0,0,0,0))
@@ -976,8 +1192,14 @@ plot(st_geometry(EEZs),col='orange',border='purple',add=T)
 plot(st_geometry(Coastline),col='grey',add=T)
 add_labels(mode='auto',layer='ASDs',fontsize=0.75,col='red')
 box()
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig3.1.png")
+```
+
+<br>
 
 ### 3.2. Offline use
 
@@ -1017,7 +1239,7 @@ For details, type:
 ?get_depths
 ```
 
-```{r Fig16,fig.align="center",out.width="100%",message=F,dpi=200,eval=T,fig.height=7}
+```{r message=F,eval=T}
 
 #Generate a dataframe
 MyData=data.frame(Lat=PointData$Lat,
@@ -1031,10 +1253,19 @@ MyDataD=get_depths(Input=MyData,Bathy=SmallBathy())
 #The resulting data looks like this (where 'd' is the depth):
 head(MyDataD)
 
+png(filename='ReadMeFigs/ReadMe_Fig4.1.png',width=2000,height=1400,res=300,bg="white")
+
 #Plot Catch vs Depth
 plot(MyDataD$d,MyDataD$Catch,xlab='Depth',ylab='Catch',pch=21,bg='red')
 
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig4.1.png")
+```
+
+<br>
 
 ### 4.2. seabed_area
 
@@ -1121,10 +1352,12 @@ For details, type:
 ```
 
 
-```{r Fig16b,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+
+png(filename='ReadMeFigs/ReadMe_Fig4.2.png',width=2000,height=1800,res=300,bg="white")
 
 #Prepare layout for 4 sub-plots
-par(mfrow=c(2,2),mai=c(0.8,0.8,0.2,0.05))
+par(mfrow=c(2,2),mai=c(0.7,0.7,0.25,0.07))
 
 #Example 1 (Intersection beyond the range of segments)
 get_C_intersection(Line1=c(-30,-55,-29,-50),Line2=c(-50,-60,-40,-60))
@@ -1142,8 +1375,14 @@ box()
 get_C_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
 text(-180,-37,"Example 4",xpd=T)
 box()
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig4.2.png")
+```
+
+<br>
 
 ### 4.6. get_iso_polys
 
@@ -1156,9 +1395,10 @@ For details, type:
 ```
 
 
-```{r Figgip1,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig4.3.png',width=2000,height=1200,res=300,bg="white")
 
-#Prepare layout for 4 sub-plots
+#Prepare layout for 3 sub-plots
 par(mfrow=c(1,3),mai=c(0,0.01,0.2,0.01))
 
 #Example 1 - Whole Convention Area 
@@ -1183,7 +1423,14 @@ IsoPols=get_iso_polys(Rast=SmallBathy(),Poly=Poly,Cuts=seq(-8000,0,length.out=10
 plot(st_geometry(Poly),main="Example 3")
 plot(st_geometry(IsoPols),col=IsoPols$c,add=TRUE)
 box()
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig4.3.png")
+```
+
+<br>
 
 ### 4.7. Rotate_obj
 
@@ -1191,7 +1438,7 @@ Rotate an *sf* or *SpatRaster* object by setting the longitude that should point
 
 ```{r message=F}
 library(gifski)
-gif_file = "Weeee.gif"
+gif_file = "ReadMeFigs/Weeee.gif"
 
 save_gif(
 for(Lonzero in c(seq(0,180,by=20),seq(-160,-20,by=20))){
@@ -1204,7 +1451,10 @@ add_RefGrid(bb=st_bbox(Rot_SmallBathy),ResLat=10,ResLon=20,LabLon = Lonzero,offs
 , gif_file, 800, 800, res = 150,delay = 0.1,progress = F)
 ```
 
-<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/Weeee.gif" width="800" height="800" />
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/ReadMeFigs/Weeee.gif" width="800" height="800" />
+
+<br>
+
 
 ## 5. Adding colors, legends and labels
 
@@ -1214,22 +1464,34 @@ Coloring bathymetry requires a vector of depth classes and a vector of colors. C
 
 #### Simple set of colors:
 
-```{r Fig17,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
-#Plot the bathymetry
-plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,mar=c(0,0,0,2))
-#Add color scale
-add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=-1500,width=16,maxVal=-1)
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig5.1.png',width=2000,height=1800,res=300,bg="transparent")
 
+#Plot the bathymetry
+plot(SmallBathy(),breaks=Depth_cuts,col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,mar=c(0,0,0,7))
+#Add color scale
+add_Cscale(cuts=Depth_cuts,cols=Depth_cols,fontsize=0.75,height=80,offset=0,width=16,maxVal=-1)
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.1.png")
 ```
 
 #### Highlighting the Fishable Depth range:
 
-```{r Fig18,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
-#Plot the bathymetry
-plot(SmallBathy(),breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE,mar=c(0,0,0,2))
-#Add color scale
-add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=-1500,width=16,maxVal=-1)
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig5.2.png',width=2000,height=1800,res=300,bg="transparent")
 
+#Plot the bathymetry
+plot(SmallBathy(),breaks=Depth_cuts2,col=Depth_cols2,axes=FALSE,box=FALSE,legend=FALSE,mar=c(0,0,0,7))
+#Add color scale
+add_Cscale(cuts=Depth_cuts2,cols=Depth_cols2,fontsize=0.75,height=80,offset=0,width=16,maxVal=-1)
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.2.png")
 ```
 
 ### 5.2. Adding colors to data
@@ -1244,9 +1506,10 @@ Adding colors to plots revolves around two functions:
 
 *add_col()* generates colors for a variable of interest as well as a set of color classes and colors to be used as inputs to the *add_Cscale()* function. Colors and color classes may be generated automatically or customized, depending on the intended appearance. Knowing the names of colors in R would be useful here (<http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf>).
 
-```{r Fig19,fig.align="center",out.width="80%",message=F,dpi=200,eval=T,fig.height=8}
+```{r message=F,eval=T}
 
 #Adding color to points
+png(filename='ReadMeFigs/ReadMe_Fig5.3.png',width=2000,height=1800,res=300,bg="white")
 
 #Prepare layout for 3 sub-plots
 par(mfrow=c(3,1),mai=c(0.1,0.1,0.1,1))
@@ -1276,10 +1539,16 @@ add_Cscale(title='Number of fishes',
            height=95,fontsize=0.75,width=16,lwd=1,offset=0,
            cuts=round(MyCols$cuts,1),cols=MyCols$cols)
 box()
-
+dev.off()
 ```
 
-```{r Fig20,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.3.png")
+```
+
+<br>
+
+```{r message=F,eval=T}
 
 #Adding colors to a grid with custom cuts (see also the last example in section 2.1.)
 
@@ -1295,15 +1564,23 @@ MyCuts=c(0,50,100,500,2000,2500)
 #Step 3: Generate colors according to the desired classes (MyCuts)
 Gridcol=add_col(MyGrid$Catch_sum,cuts=MyCuts,cols=c('blue','white','red'))
 
+png(filename='ReadMeFigs/ReadMe_Fig5.4.png',width=2000,height=1200,res=300,bg="transparent")
+
 #Step 4: Plot result and add color scale
 par(mai=c(0,0,0,1.5)) #set plot margins as c(bottom, left, top, right)
 #Use the colors generated by add_col
 plot(st_geometry(MyGrid),col=Gridcol$varcol,lwd=0.1) 
 #Add color scale using cuts and cols generated by add_col
-add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=22,
+add_Cscale(title='Sum of Catch (t)',cuts=Gridcol$cuts,cols=Gridcol$cols,width=24,
      fontsize=0.75,lwd=1) 
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.4.png")
+```
+
+<br>
 
 ### 5.3. Adding legends
 
@@ -1319,7 +1596,7 @@ To position the legend, the *add_Cscale()* function can generate legend coordina
 Legend_Coordinates=add_Cscale(pos='2/3',offset=1000,height=40,mode="Legend")
 ```
 
-```{r Fig21,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #Adding a color scale and a legend
 
 #Create some point data
@@ -1327,25 +1604,33 @@ MyPoints=create_Points(PointData)
 
 #Crop the bathymetry to match the extent of MyPoints (extended extent)
 BathyCr=crop(SmallBathy(),extend(ext(MyPoints),100000))
+
+png(filename='ReadMeFigs/ReadMe_Fig5.5.png',width=2000,height=1200,res=300,bg="transparent")
+
 #Plot the bathymetry
-plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(0,0,0,7))
+plot(BathyCr,breaks=Depth_cuts,col=Depth_cols,legend=F,axes=F,mar=c(0,0.1,0,6))
 #Add a color scale
 add_Cscale(pos='3/8',height=50,maxVal=-1,minVal=-4000,fontsize=0.75,lwd=1,width=16)
 
 #Plot points with different symbols and colors (see ?points)
+par(xpd=T)
 Psymbols=c(21,22,23,24)
 Pcolors=c('red','green','blue','yellow')
-plot(st_geometry(MyPoints[MyPoints$name=='one',]),pch=Psymbols[1],bg=Pcolors[1],add=T,xpd=T)
-plot(st_geometry(MyPoints[MyPoints$name=='two',]),pch=Psymbols[2],bg=Pcolors[2],add=T,xpd=T)
-plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3],add=T,xpd=T)
-plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T,xpd=T)
+plot(st_geometry(MyPoints[MyPoints$name=='one',]),pch=Psymbols[1],bg=Pcolors[1],add=T)
+plot(st_geometry(MyPoints[MyPoints$name=='two',]),pch=Psymbols[2],bg=Pcolors[2],add=T)
+plot(st_geometry(MyPoints[MyPoints$name=='three',]),pch=Psymbols[3],bg=Pcolors[3],add=T)
+plot(st_geometry(MyPoints[MyPoints$name=='four',]),pch=Psymbols[4],bg=Pcolors[4],add=T)
 
 #Add legend with position determined by add_Cscale
-Loc=add_Cscale(pos='7/8',height=40,mode='Legend')
+Loc=add_Cscale(pos='8/8',mode='Legend')
 legend(Loc,legend=c('one','two','three','four'),
        title='Vessel',pch=Psymbols,pt.bg=Pcolors,xpd=T,
-       box.lwd=1,cex=0.75,pt.cex=1,y.intersp=1.2)
+       box.lwd=1,cex=0.75,pt.cex=1,y.intersp=0.7,bg="white")
+dev.off()
+```
 
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.5.png")
 ```
 
 <br>
@@ -1359,7 +1644,7 @@ For a more complete and customizable approach, use the *add_Legend()* function. 
 Below is an example showing its capabilities:
 
 
-```{r AddLeg1,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #load ASDs to get their bounding box
 ASDs=load_ASDs()
 bb=st_bbox(ASDs) #Get bounding box
@@ -1531,15 +1816,21 @@ None=list(
 
 Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
 
+png(filename='ReadMeFigs/ReadMe_Fig5.6.png',width=2000,height=1600,res=300,bg="transparent")
 #Set the figure margins as c(bottom, left, top, right)
 par(mai=c(0,0,0,0))
 #Plot and add legend
 plot(bx,col="grey")
 plot(st_geometry(ASDs),add=TRUE)
 add_Legend(bb,LegOpt,Items)
+dev.off()
 ```
 
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.6.png")
+```
 
+<br>
 
 ### 5.4. Adding labels
 
@@ -1555,10 +1846,12 @@ Three modes are available within the *add_labels()* function:
 -   In 'manual' mode, users may click on their plot to position labels. An editable label table is generated to allow fine-tuning of labels appearance, and may be saved for later use. To edit the label table, double-click inside one of its cells, edit the value, then close the table.
 -   In 'input' mode, a label table that was generated in 'manual' mode is re-used.
 
-```{r Fig22,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 #Example 1: 'auto' mode
 #label ASDs in bold and red
 ASDs=load_ASDs()
+
+png(filename='ReadMeFigs/ReadMe_Fig5.7.png',width=2000,height=1600,res=300,bg="white")
 #set plot margins as c(bottom, left, top, right)
 par(mai=c(0,0,0,0))
 plot(st_geometry(ASDs))
@@ -1569,8 +1862,13 @@ EEZs=load_EEZs()
 plot(st_geometry(MPAs),add=TRUE,border='green')
 plot(st_geometry(EEZs),add=TRUE,border='green')
 add_labels(mode='auto',layer=c('EEZs','MPAs'),fontsize=1,col='green',angle=90)
-
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.7.png")
+```
+
 
 ```{r eval=F}
 #Example 2: 'auto' and 'input' modes
@@ -1610,22 +1908,46 @@ kableExtra::kable(MyPolys,row.names = F)
 The 'geometry' column contains the locations of each point of a given polygon (each row), and can be plotted using *plot(st_geometry(MyPolys))*, as shown previously in this document. Alternatively, one can use *plot(MyPolys)* directly:
 
 
-```{r Fig23,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig5.8.png',width=2000,height=1600,res=300,bg="white")
+
 plot(MyPolys)
+
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.8.png")
 ```
 
 This results in a warning *Warning: plotting the first 9 out of 25 attributes...* and a 9-panel plot as shown above, with each panel corresponding to each column present in *MyPolys* and automatic colors generated according to the values in each column. In order to plot only one variable, it must be named in the plotting command:
 
-```{r Fig24,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig5.9.png',width=2000,height=1000,res=300,bg="white")
+
 plot(MyPolys["Catch_mean"])
+
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.9.png")
 ```
 
 There are several available options, for example:
 
-```{r Fig25,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
+png(filename='ReadMeFigs/ReadMe_Fig5.10.png',width=2000,height=1000,res=300,bg="white")
+
 Gr=st_graticule(MyPolys,lon=seq(-180,180,by=5),lat=seq(-80,0,by=2.5))
 plot(MyPolys["Catch_mean"],
      graticule=Gr,axes=T,key.pos=1,key.width=0.2,key.length=0.8,breaks=seq(50,65,by=2.5))
+
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.10.png")
 ```
 
 Where:
@@ -1641,16 +1963,25 @@ Where:
 
 Additionally, *sf* objects can be plotted using *ggplot2*. For example:
 
-```{r Fig26,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 library(ggplot2)
+png(filename='ReadMeFigs/ReadMe_Fig5.11.png',width=2000,height=1000,res=300,bg="white")
+
 ggplot() + 
   geom_sf(data = MyPolys, aes(fill = Catch_mean))
+
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.11.png")
 ```
 
 Using *ggplot2* and *gridExtra*, multi-panel plots can be drawn:
 
-```{r Fig27,fig.align="center",out.width="100%",message=F,dpi=200,eval=T}
+```{r message=F,eval=T}
 library(gridExtra)
+png(filename='ReadMeFigs/ReadMe_Fig5.12.png',width=2000,height=1400,res=300,bg="white")
+
 map1 <- ggplot() +
   geom_sf(data = MyPolys, aes(fill = Catch_mean)) + 
   labs(title="Mean catch")
@@ -1664,4 +1995,10 @@ map3 <- ggplot() +
   labs(title="Polygon area")
 
 grid.arrange(map1, map2, map3, ncol=2)
+dev.off()
 ```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig5.12.png")
+```
+

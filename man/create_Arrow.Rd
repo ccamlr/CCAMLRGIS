@@ -13,7 +13,8 @@ create_Arrow(
   dlength = 0,
   Atype = "normal",
   Acol = "green",
-  Atrans = 0
+  Atrans = 0,
+  yx = FALSE
 )
 }
 \arguments{
@@ -22,7 +23,8 @@ optional third column for weights. First row is the location of the start of the
 Last row is the location of the end of the arrow (where the arrow will point to). Optional
 intermediate rows are the locations of points towards which the arrow's path will bend. 
 Weights (third column) can be added to the intermediate points to make the arrow's path
-bend more towards them.}
+bend more towards them. Projected coordinates may be used (Y then X) instead of Latitudes
+and Longitudes by setting \code{yx} to \code{TRUE}.}
 
 \item{Np}{integer, number of additional points generated to create a curved path. If the 
 arrow's path appears too segmented, increase \code{Np}.}
@@ -45,6 +47,9 @@ by \code{dlength}.}
 \item{Acol}{Color of the arrow, see \code{Atype} above.}
 
 \item{Atrans}{Numeric, transparency of the arrow, see \code{Atype} above.}
+
+\item{yx}{Logical, if set to \code{TRUE} the input coordinates are projected.
+Give Y in the first column, X in the second.}
 }
 \value{
 Spatial object in your environment with colors included in the dataframe (see examples).

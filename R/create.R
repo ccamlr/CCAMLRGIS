@@ -292,8 +292,11 @@ create_Points=function(Input,NamesIn=NULL,Buffer=0,Clip=FALSE,SeparateBuf=TRUE){
   # Run cPoints
   Output=cPoints(Input)
   # Run add_buffer
-  if(all(Buffer>0)){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
-  if(any(Buffer<0)){stop("'Buffer' should be positive")}
+  if(length(Buffer)==1){
+    if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
+  }else{
+    Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)
+  }
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
   return(Output)
