@@ -7,7 +7,8 @@
 #' Last row is the location of the end of the arrow (where the arrow will point to). Optional
 #' intermediate rows are the locations of points towards which the arrow's path will bend. 
 #' Weights (third column) can be added to the intermediate points to make the arrow's path
-#' bend more towards them.
+#' bend more towards them. Projected coordinates may be used (Y then X) instead of Latitudes
+#' and Longitudes by setting \code{yx} to \code{TRUE}.
 #' 
 #' @param Np integer, number of additional points generated to create a curved path. If the 
 #' arrow's path appears too segmented, increase \code{Np}.
@@ -30,6 +31,9 @@
 #' @param Acol Color of the arrow, see \code{Atype} above.
 #' 
 #' @param Atrans Numeric, transparency of the arrow, see \code{Atype} above.
+#' 
+#' @param yx Logical, if set to \code{TRUE} the input coordinates are projected.
+#' Give Y in the first column, X in the second.
 #' 
 #' @return Spatial object in your environment with colors included in the dataframe (see examples).
 #' 
@@ -102,7 +106,7 @@
 #' 
 #' @export
 
-create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype="normal",Acol="green",Atrans=0){
+create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype="normal",Acol="green",Atrans=0,yx=FALSE){
   
   if(Atype=="normal" & length(Acol)>1){
     stop("A 'normal' arrow can only have one color.")
@@ -138,45 +142,27 @@ create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype=
   }
   
   #Get curve
+  if(yx==FALSE){
   Ps=project_data(Ps,NamesIn=c("Lat","Lon"),append = FALSE)
-  Bs=bezier::bezier(t=seq(0,1,length=Np),p=Ps)
-  #Get perpendiculars
-  Input=data.frame(x=Bs[,2],
-                   y=Bs[,1])
-  Perps=GetPerp(Input, d=Pwidth)
-  #Get cummulated distance between points, from the head
-  Bsp=sf::st_as_sf(x=as.data.frame(Bs),coords=c(2,1),crs=6932)
-  Ds=as.numeric(sf::st_distance(Bsp,Bsp[nrow(Bsp),]))
-  #Find points covering that distance
-  Hp=max(which(Ds>Hlength)) #Head starts between Hp and Hp+1
-  HL=sf::st_linestring(sf::st_coordinates(Bsp[c(Hp,Hp+1),]))
-  HL=sf::st_sfc(HL, crs = 6932)
-  #Densify that line
-  HLs=sf::st_line_sample(HL,n=50)
-  HLs=sf::st_cast(HLs,"POINT")
-  Ds=as.numeric(sf::st_distance(HLs,Bsp[nrow(Bsp),]))
-  Hp2=max(which(Ds>Hlength))
-  if(Hp2==length(HLs)){
-    stop("Please reduce Np.")  
   }
-  Hp2=sf::st_coordinates(HLs)[c(Hp2,Hp2+1),]  #Head center start
+  Bs=bezier::bezier(t=seq(0,1,length=Np),p=Ps)
   
-  #Build cropper
-  Input=data.frame(x=c(Hp2[2,1],Bs[(Hp+1):nrow(Bs),2]),
-                   y=c(Hp2[2,2],Bs[(Hp+1):nrow(Bs),1]))
-  Cro=GetPerp(Input, d=Pwidth+1)
-  x=Cro$x
-  y=Cro$y
-  ci=grDevices::chull(x,y)
-  x=x[ci]
-  y=y[ci]
-  x=c(x,x[1])
-  y=c(y,y[1])
-  Cro=sf::st_polygon(list(cbind(x,y)))
+  #Build linestring
+  LS=sf::st_linestring(x = Bs[,2:1])
+  LS=sf::st_sfc(LS, crs = 6932)
+  #Find head point inside the line (Head center start): pt1
+  pt1=lwgeom::st_linesubstring(LS,from=0,to=1-(Hlength/as.numeric(sf::st_length(LS))))
+  pt1=sf::st_coordinates(pt1)
+  pt1=pt1[nrow(pt1),c(1,2)]
+  #Limit points of the line to just beyond pt1
+  ofs=abs(Hlength*(1-(Pwidth/Hwidth))) #distance the line can get into the head without going too far
+  ofs=ofs-0.1*ofs
+  pt2=lwgeom::st_linesubstring(LS,from=0,to=1-((Hlength-ofs)/as.numeric(sf::st_length(LS))))
+  pt2=sf::st_coordinates(pt2)
   
   #Build head
-  Input=data.frame(x=c(Hp2[,1],Bs[(Hp+1):nrow(Bs),2]),
-                   y=c(Hp2[,2],Bs[(Hp+1):nrow(Bs),1]))
+  Input=data.frame(x=c(pt1[1],Bs[nrow(Bs),2]),
+                   y=c(pt1[2],Bs[nrow(Bs),1]))
   Hea=GetPerp(Input, d=Hwidth)
   Hea=Hea[1:2,]
   x=c(Hea$x,Bs[nrow(Bs),2])
@@ -188,8 +174,13 @@ create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype=
   y=c(y,y[1])
   Hea=sf::st_polygon(list(cbind(x,y)))
   
+  #Get perpendiculars
+  Input=data.frame(x=pt2[,1],
+                   y=pt2[,2])
+  Perps=GetPerp(Input, d=Pwidth)
+  
   #Loop over perps to build squares
-  Seqs=seq(1, nrow(Perps)-2,by=2)
+  Seqs=seq(1, nrow(Perps),by=2)
   Seqs=Seqs[-length(Seqs)]
   if(dlength>0){
     dlength=round(dlength)
@@ -212,10 +203,7 @@ create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype=
   }
   
   pPl=sf::st_sfc(Pl, crs = 6932)
-  pCro=sf::st_sfc(Cro, crs = 6932)
   pHea=sf::st_sfc(Hea, crs = 6932)
-  
-  pPl=sf::st_difference(pPl,pCro)
   
   #Build color ramp
   Cols=NULL
@@ -235,6 +223,7 @@ create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype=
   }
   
   if(Atype=="dashed"){
+    pPl=pPl[sf::st_contains_properly(Hea,pPl,sparse=FALSE)==FALSE,]
     Ar=c(pPl,pHea) 
     Ardata=data.frame(col=pal(length(Ar)))
   }

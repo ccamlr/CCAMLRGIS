@@ -1,3 +1,9 @@
+# CCAMLRGIS 4.1.1
+
+Optimized create_Arrow() which should now be faster and less prone to errors,
+and added 'yx' option so that projected coordinates may be used as inputs.
+
+
 # CCAMLRGIS 4.1.0
 
 Modified the behavior of add_Legend() with Boxexp.

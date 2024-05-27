@@ -58,6 +58,6 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @importFrom magrittr %>%
 #' @importFrom stars st_as_stars st_contour
 #' @importFrom bezier bezier
-#' @importFrom lwgeom st_transform_proj
+#' @importFrom lwgeom st_transform_proj st_linesubstring
 ## usethis namespace: end
 NULL
