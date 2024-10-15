@@ -1315,7 +1315,7 @@ png(filename='ReadMeFigs/ReadMe_Fig2.25.png',width=2000,height=2000,res=300,bg="
 par(mai=c(0,0,0,0))
 
 plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 1")
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 1",col.main='grey')
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
 dev.off()
@@ -1339,7 +1339,7 @@ png(filename='ReadMeFigs/ReadMe_Fig2.26.png',width=2000,height=2000,res=300,bg="
 par(mai=c(0,0,0,0))
 
 plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 2")
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 2",col.main='grey')
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
 dev.off()
@@ -1363,7 +1363,7 @@ png(filename='ReadMeFigs/ReadMe_Fig2.27.png',width=2000,height=2000,res=300,bg="
 par(mai=c(0,0,0,0))
 
 plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 3")
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 3",col.main='grey')
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
 dev.off()
@@ -1388,7 +1388,7 @@ png(filename='ReadMeFigs/ReadMe_Fig2.28.png',width=2000,height=2000,res=300,bg="
 par(mai=c(0,0,0,0))
 
 plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 4")
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 4",col.main='grey')
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
 dev.off()
@@ -1423,7 +1423,7 @@ png(filename='ReadMeFigs/ReadMe_Fig2.29.png',width=2000,height=2000,res=300,bg="
 par(mai=c(0,0,0,0))
 
 plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 5")
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 5",col.main='grey')
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
 dev.off()
@@ -1455,7 +1455,7 @@ png(filename='ReadMeFigs/ReadMe_Fig2.30.png',width=2000,height=2000,res=300,bg="
 par(mai=c(0.5,0.5,0.5,0.5))
 
 plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',main="Example 6",
-     xlim=c(-2.5e6,2.5e6),ylim=c(-2.5e6,2.5e6))
+     xlim=c(-2.5e6,2.5e6),ylim=c(-2.5e6,2.5e6),col.main='grey')
 plot(st_geometry(Arr),col=rainbow(nrow(Arr)),add=TRUE,xpd=TRUE)
 dev.off()
 #> png 
