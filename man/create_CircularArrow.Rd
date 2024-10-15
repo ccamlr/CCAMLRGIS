@@ -148,20 +148,6 @@ plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
 
 
-#Example 6 Path along isobath
-Iso=st_as_sf(terra::as.contour(SmallBathy(),levels=-1000)) #Take isobath
-Iso=suppressWarnings(st_cast(Iso,"LINESTRING")) #convert to individual lines
-Iso$L=st_length(Iso) #Get line length
-Iso=Iso[Iso$L==max(Iso$L),] #Keep longest line (circumpolar)
-Iso=st_coordinates(Iso) #Extract coordinates
-Iso=st_polygon(list(Iso[seq(1,nrow(Iso),length.out=200),])) #Subsample
-
-Arr=create_CircularArrow(Narr=20,Spc=1,Input=Iso,
-                         Pwidth=10,Hlength=30,Hwidth=20)
-
-plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',main="Example 6",
-     xlim=c(-2.5e6,2.5e6),ylim=c(-2.5e6,2.5e6))
-plot(st_geometry(Arr),col=rainbow(nrow(Arr)),add=TRUE)
 
 
 }
