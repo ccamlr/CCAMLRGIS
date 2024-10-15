@@ -39,20 +39,24 @@
 #' \code{\link{create_Stations}}, \code{\link{add_RefGrid}}, \code{\link{add_Legend}}.
 #' 
 #' @examples
-#' \donttest{
 #' 
 #' # For more examples, see:
 #' # https://github.com/ccamlr/CCAMLRGIS#create-polygons
 #' 
 #'
 #' #Densified polygons (note the curvature of lines)
-#' 
 #' MyPolys=create_Polys(Input=PolyData)
 #' plot(st_geometry(MyPolys),col='red')
 #' text(MyPolys$Labx,MyPolys$Laby,MyPolys$ID,col='white')
 #'
+#' #Convention Area outline
+#' CA=data.frame(Name="CA",
+#'               Lat=c(-50,-50,-45,-45,-55,-55,-60,-60),
+#'               Lon=c(-50,30,30,80,80,150,150,-50))
 #' 
-#' }
+#' MyPoly=create_Polys(CA)
+#' plot(st_geometry(MyPoly),col='blue',border='green',lwd=2)
+#' 
 #' 
 #' @export
 

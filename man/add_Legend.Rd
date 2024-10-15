@@ -57,7 +57,7 @@ Add a legend to you map. Give the bounding box of your plot and lists of paramet
 
 \itemize{
   \item Text: character, text of the item.
-  \item Shape: character, shape description, one of "rectangle", "circle", "line", 
+  \item Shape: character, shape description, one of "rectangle", "circle", "ellipse", "line", 
   "arrow" or "none". Using "none" will leave a blank space that can be filled by a user-defined shape.
   \item ShpFill: character, fill color of shape, set to NA for no fill.
   \item ShpBord: character, border color of shape, set to NA for no border.
@@ -81,6 +81,9 @@ Add a legend to you map. Give the bounding box of your plot and lists of paramet
   \item RectW: numeric, width of rectangle shape.
   \item RectH: numeric, height of rectangle shape.
   \item CircD: numeric, diameter of circle shape.
+  \item EllW: numeric, width of ellipse shape.
+  \item EllH: numeric, height of ellipse shape.
+  \item EllA: numeric, angle of ellipse shape.
   \item LineTyp: numeric, type of line shape (0=blank, 1=solid, 2=dashed, 3=dotted, 4=dotdash, 5=longdash, 6=twodash).
   \item LineL: numeric, length of the line shape.
   \item ArrL: numeric, length of the arrow shape.
@@ -113,7 +116,7 @@ Title= "Title",
 Subtitle="(Subtitle)",
 Pos = "bottomright",
 BoxW= 80,
-BoxH= 140,
+BoxH= 170,
 Boxexp = c(5,-2,-4,-4),
 Titlefontsize = 2
 )
@@ -176,6 +179,37 @@ Circle2=list(
   Hashangle=0,
   Hashspacing=2,
   Hashwidth=2
+)
+
+Ellipse1=list(
+  Text="Ellipse 1", 
+  Shape="ellipse",
+  ShpFill="white",
+  ShpBord="darkblue",
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  EllW=10,
+  EllH=6,
+  EllA=35
+)
+
+Ellipse2=list(
+  Text="Ellipse 2", 
+  Shape="ellipse",
+  ShpFill="red",
+  ShpBord="green",
+  ShpHash=TRUE,
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  EllW=10,
+  EllH=7,
+  EllA=0,
+  Hashcol="black",
+  Hashangle=-45,
+  Hashspacing=1.5,
+  Hashwidth=1.5
 )
 
 Line1=list(
@@ -274,7 +308,8 @@ None=list(
 
 #Combine all items into a single list:
 
-Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
+Items=list(Rectangle1,Rectangle2,Circle1,Circle2,
+Ellipse1,Ellipse2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
 
 #manually build a bounding box (same as st_bbox(load_ASDs())):
 
@@ -289,6 +324,6 @@ add_Legend(bb,LegOpt,Items)
 
 }
 \seealso{
-\code{\link{create_Hashes}}, \code{\link{create_Arrow}}, \code{\link{add_labels}},
- \code{\link{add_Cscale}}, \code{\link{add_PieLegend}}.
+\code{\link{create_Hashes}}, \code{\link{create_Arrow}}, \code{\link{create_Ellipse}},
+\code{\link{add_labels}}, \code{\link{add_Cscale}}, \code{\link{add_PieLegend}}.
 }

@@ -2,7 +2,7 @@
 ## Test environments
 
 win-builder (devel and release, 64 and 32bit).
-devtools::check_win_devel() OK - see: https://win-builder.r-project.org/hwj3PeEOv56P/00check.log
+devtools::check_win_devel() OK - see: https://win-builder.r-project.org/azIGIL5c2if1/00check.log
 
 OK on Rhubv2 for platfroms as follows:
 
@@ -36,12 +36,15 @@ See https://github.com/ccamlr/CCAMLRGIS/actions/runs/9261819776
 
 ## Notes about CRAN edits
 
-### V4.1.1
+### V4.2.0
 
-Optimized create_Arrow().
+Added create_Ellipse() function,
+Added create_CircularArrow() function,
+Modified get_iso_polys(). 
 
 ### Previous versions
 
+* Optimized create_Arrow().
 * Modified add_Legend() behavior. Updated add_Cscale(), get_iso_polys() and Basemaps.
 * Added create_Hashes() and add_Legend() functions. Modified get_iso_polys().
 * Updated SmallBathy() and coastline accessed by load_Coastline().

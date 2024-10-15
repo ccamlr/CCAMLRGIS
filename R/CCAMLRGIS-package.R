@@ -53,10 +53,10 @@ utils::globalVariables(c('CCAMLRp','Coast','Depth_cols','Depth_cuts','Depth_cols
 #' @importFrom grDevices colorRampPalette recordPlot replayPlot chull col2rgb rgb
 #' @importFrom graphics abline legend lines par plot rect segments text  
 #' @importFrom stats median quantile sd
-#' @importFrom terra as.polygons clamp classify click crop expanse ext extend extract mask plot project rast vect
-#' @importFrom utils download.file edit globalVariables menu read.csv setTxtProgressBar txtProgressBar   
+#' @importFrom terra as.matrix as.polygons clamp classify click crop crs expanse ext extend extract mask plot project rast vect xFromCol yFromRow
+#' @importFrom utils download.file edit globalVariables menu read.csv setTxtProgressBar tail txtProgressBar   
 #' @importFrom magrittr %>%
-#' @importFrom stars st_as_stars st_contour
+#' @importFrom isoband isobands iso_to_sfg
 #' @importFrom bezier bezier
 #' @importFrom lwgeom st_transform_proj st_linesubstring
 ## usethis namespace: end

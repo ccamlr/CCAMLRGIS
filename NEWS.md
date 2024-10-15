@@ -1,3 +1,13 @@
+# CCAMLRGIS 4.2.0
+
+Added create_Ellipse() function,
+Added create_CircularArrow() function,
+Increased timeout in download within load_Bathy(),
+Moved from stars to isoband in get_iso_polys() as the former wouldn't work with large rasters (Thanks to M. D. Sumner),
+Updated bathymetry to GEBCO 2024 grid,
+Added ellipses in add_Legend(),
+Added custom path example in create_Arrow().
+
 # CCAMLRGIS 4.1.1
 
 Optimized create_Arrow() which should now be faster and less prone to errors,

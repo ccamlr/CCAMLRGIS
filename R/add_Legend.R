@@ -48,7 +48,7 @@
 #' 
 #' \itemize{
 #'   \item Text: character, text of the item.
-#'   \item Shape: character, shape description, one of "rectangle", "circle", "line", 
+#'   \item Shape: character, shape description, one of "rectangle", "circle", "ellipse", "line", 
 #'   "arrow" or "none". Using "none" will leave a blank space that can be filled by a user-defined shape.
 #'   \item ShpFill: character, fill color of shape, set to NA for no fill.
 #'   \item ShpBord: character, border color of shape, set to NA for no border.
@@ -70,6 +70,9 @@
 #'   \item RectW: numeric, width of rectangle shape.
 #'   \item RectH: numeric, height of rectangle shape.
 #'   \item CircD: numeric, diameter of circle shape.
+#'   \item EllW: numeric, width of ellipse shape.
+#'   \item EllH: numeric, height of ellipse shape.
+#'   \item EllA: numeric, angle of ellipse shape.
 #'   \item LineTyp: numeric, type of line shape (0=blank, 1=solid, 2=dashed, 3=dotted, 4=dotdash, 5=longdash, 6=twodash).
 #'   \item LineL: numeric, length of the line shape.
 #'   \item ArrL: numeric, length of the arrow shape.
@@ -91,8 +94,8 @@
 #' 
 #' 
 #' @seealso 
-#' \code{\link{create_Hashes}}, \code{\link{create_Arrow}}, \code{\link{add_labels}},
-#'  \code{\link{add_Cscale}}, \code{\link{add_PieLegend}}.
+#' \code{\link{create_Hashes}}, \code{\link{create_Arrow}}, \code{\link{create_Ellipse}},
+#' \code{\link{add_labels}}, \code{\link{add_Cscale}}, \code{\link{add_PieLegend}}.
 #'  
 #'  
 #' @examples
@@ -107,7 +110,7 @@
 #' Subtitle="(Subtitle)",
 #' Pos = "bottomright",
 #' BoxW= 80,
-#' BoxH= 140,
+#' BoxH= 170,
 #' Boxexp = c(5,-2,-4,-4),
 #' Titlefontsize = 2
 #' )
@@ -170,6 +173,37 @@
 #'   Hashangle=0,
 #'   Hashspacing=2,
 #'   Hashwidth=2
+#' )
+#' 
+#' Ellipse1=list(
+#'   Text="Ellipse 1", 
+#'   Shape="ellipse",
+#'   ShpFill="white",
+#'   ShpBord="darkblue",
+#'   Shplwd=2,
+#'   fontsize=1.2,
+#'   STSpace=3,
+#'   EllW=10,
+#'   EllH=6,
+#'   EllA=35
+#' )
+#' 
+#' Ellipse2=list(
+#'   Text="Ellipse 2", 
+#'   Shape="ellipse",
+#'   ShpFill="red",
+#'   ShpBord="green",
+#'   ShpHash=TRUE,
+#'   Shplwd=2,
+#'   fontsize=1.2,
+#'   STSpace=3,
+#'   EllW=10,
+#'   EllH=7,
+#'   EllA=0,
+#'   Hashcol="black",
+#'   Hashangle=-45,
+#'   Hashspacing=1.5,
+#'   Hashwidth=1.5
 #' )
 #' 
 #' Line1=list(
@@ -268,7 +302,8 @@
 #' 
 #' #Combine all items into a single list:
 #' 
-#' Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
+#' Items=list(Rectangle1,Rectangle2,Circle1,Circle2,
+#' Ellipse1,Ellipse2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
 #' 
 #' #manually build a bounding box (same as st_bbox(load_ASDs())):
 #' 
@@ -287,7 +322,7 @@ add_Legend=function(bb,LegOpt,Items){
   
   if(inherits(bb,"bbox")==FALSE){stop("bb is not an sf bounding box, use st_bbox() to create bb.")}
   dx=as.numeric(bb['xmax']-bb['xmin']) #x scaler
-  dy=as.numeric(bb['ymax']-bb['ymin']) #x scaler
+  dy=as.numeric(bb['ymax']-bb['ymin']) #y scaler
   d=min(c(round(dx/200),round(dy/200)))
   
   #Set defaults
@@ -502,7 +537,7 @@ add_Legend=function(bb,LegOpt,Items){
   #Loop over items and add them
   for(i in seq(1,length(Items))){
     item=Items[[i]]
-    if(!item$Shape%in%c("rectangle","circle","line","arrow","none")){stop(paste0("Argument 'Shape' mis-specified in add_Legend() for item ",i))}
+    if(!item$Shape%in%c("rectangle","circle","ellipse","line","arrow","none")){stop(paste0("Argument 'Shape' mis-specified in add_Legend() for item ",i))}
     
     #Set defaults
     if(is.null(item$ShpFill)){item$ShpFill="white"}
@@ -520,6 +555,9 @@ add_Legend=function(bb,LegOpt,Items){
     if(is.null(item$RectW)){item$RectW=10}
     if(is.null(item$RectH)){item$RectH=7}
     if(is.null(item$CircD)){item$CircD=10}
+    if(is.null(item$EllW)){item$EllW=10}
+    if(is.null(item$EllH)){item$EllH=7}
+    if(is.null(item$EllA)){item$EllA=0}
     if(is.null(item$LineTyp)){item$LineTyp=1}
     if(is.null(item$LineL)){item$LineL=10}
     if(is.null(item$ArrL)){item$ArrL=10}
@@ -572,6 +610,27 @@ add_Legend=function(bb,LegOpt,Items){
       }
       #Add text
       text(X+item$CircD*d+item$STSpace*d+item$ShiftX*d,Y,item$Text,cex=item$fontsize,adj=c(0,0.5),xpd=TRUE)
+    }
+    
+    #Circle
+    if(item$Shape=="ellipse"){
+      #Get radius
+      R=item$EllW*d/2
+      #Get center
+      Cx=X+R+item$ShiftX*d
+      Cy=Y
+      #build shape
+      sh=create_Ellipse(Latc=Cy,Lonc=Cx,Lmaj=item$EllW*20,Lmin=item$EllH*20,Ang=item$EllA,yx=TRUE)
+      #plot shape
+      plot(st_geometry(sh),add=TRUE,lwd=item$Shplwd,col=item$ShpFill,border=item$ShpBord,xpd=TRUE)
+      #Hashed?
+      if(item$ShpHash==TRUE){
+        Hh=create_Hashes(pol=sh,angle=item$Hashangle,spacing=item$Hashspacing,width=item$Hashwidth)
+        plot(Hh,add=TRUE,col=item$Hashcol,xpd=TRUE,border=NA)
+        plot(st_geometry(sh),add=TRUE,lwd=item$Shplwd,border=item$ShpBord,xpd=TRUE)
+      }
+      #Add text
+      text(X+item$EllW*d+item$STSpace*d+item$ShiftX*d,Y,item$Text,cex=item$fontsize,adj=c(0,0.5),xpd=TRUE)
     }
     
     #Line

@@ -56,15 +56,16 @@ get_iso_polys=function(Rast,Poly=NULL,Cuts,Cols=c("green","yellow","red"),Grp=FA
     Rast=terra::crop(Rast,Poly)
     Rast=terra::mask(Rast,Poly)
   }
-  Cuts=sort(Cuts)  
-  
-  B=stars::st_as_stars(Rast)
-  Cs=stars::st_contour(B,breaks=Cuts)
-  Cs=sf::st_cast(Cs,"POLYGON",warn=FALSE)
+  Cuts=sort(c(-Inf,Cuts,Inf))
+  lo=Cuts[1:(length(Cuts)-1)]
+  hi=Cuts[2:length(Cuts)]
+  Cs=isoband::isobands(x=terra::xFromCol(Rast),y=terra::yFromRow(Rast),z=terra::as.matrix(Rast,wide=TRUE),levels_low=lo,levels_hi=hi)
+  Cs=st_sf(Min=lo,Max=hi,geometry=st_sfc(isoband::iso_to_sfg(Cs),crs=terra::crs(Rast)))
+  Cs=Cs[which(st_is_empty(Cs)==FALSE),]
+  Cs=st_cast(Cs,"POLYGON",warn=FALSE)
   if(strict==TRUE){
   Cs=Cs%>%dplyr::filter(is.finite(Min)==TRUE & is.finite(Max)==TRUE)
   }
-  Cs=Cs[,-1]
   row.names(Cs)=NULL
   #Add Isobath ID
   tmp=data.frame(Min=sort(unique(Cs$Min)))

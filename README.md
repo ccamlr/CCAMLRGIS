@@ -17,9 +17,9 @@ downloads](https://cranlogs.r-pkg.org/badges/CCAMLRGIS)](https://cran.r-project.
 This package was developed to simplify the production of maps in the
 CAMLR Convention Area. It provides two main categories of functions:
 load functions and create functions. Load functions are used to import
-spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such
-as the ASD boundaries. Create functions are used to create layers from
-user data such as polygons and grids.
+spatial layers from the online [CCAMLR GIS](https://gis.ccamlr.org/)
+such as the ASD boundaries. Create functions are used to create layers
+from user data such as polygons and grids.
 
 ## Installation
 
@@ -56,6 +56,8 @@ install.packages("CCAMLRGIS")
 - 2.3. [Create Pies](#23-create-pies)
 - 2.4. [Create Arrow](#24-create-arrow)
 - 2.5. [Create Hashes](#25-create-hashes)
+- 2.6. [Create Ellipse](#26-create-ellipse)
+- 2.7. [Create Circular Arrow](#27-create-circular-arrow)
 
 3.  [Load functions](#3-load-functions)
 
@@ -168,9 +170,6 @@ plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE,legend=FALSE,mar=c(0,0,0
 dev.off()
 #> png 
 #>   2
-```
-
-``` r
 
 #Please refer to ?load_Bathy for more details, including how to save the bathymetry data so that you
 #do not have to re-download it every time you need it.
@@ -376,9 +375,6 @@ MyLines=create_Lines(LineData,Buffer=10,SeparateBuf=F)
 #The resulting polygon has an area of:
 MyLines$Buffered_AreaKm2
 #> [1] 222654.8
-```
-
-``` r
 
 plot(st_geometry(MyLines),col='green',lwd=1)
 box()
@@ -1171,6 +1167,47 @@ dev.off()
 
 <br>
 
+Example 10 (path along isobath):
+
+``` r
+#Example 10 
+#Prepare mapping elements
+Iso=st_as_sf(as.contour(SmallBathy(),levels=-1000)) #Take isobath
+Iso=suppressWarnings(st_cast(Iso,"LINESTRING")) #convert to individual lines
+Iso$L=st_length(Iso) #Get line length
+Iso=Iso[Iso$L==max(Iso$L),] #Keep longest line (circumpolar)
+Iso=st_coordinates(Iso) #Extract coordinates
+Iso=Iso[Iso[,1]>-2.1e6 & Iso[,1]<(-0.1e6) & Iso[,2]>0,] #crop line
+Inp=data.frame(Y=Iso[,2],X=Iso[,1])
+Inp=Inp[seq(nrow(Inp),1),] #Go westward
+Third=nrow(Inp)/3 #Cut in thirds
+
+#Create arrows
+Arr1=create_Arrow(Input=Inp[1:Third,],yx=TRUE)
+Arr2=create_Arrow(Input=Inp[(Third+2):(2*Third),],yx=TRUE)
+Arr3=create_Arrow(Input=Inp[(2*Third+2):nrow(Inp),],yx=TRUE)
+
+
+png(filename='ReadMeFigs/ReadMe_Fig2.22b.png',width=2000,height=1600,res=300)
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-2.5e6,0.5e6),ylim=c(0.25e6,2.75e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 10")
+plot(st_geometry(Arr1),col="darkred",add=T)
+plot(st_geometry(Arr2),col="darkred",add=T)
+plot(st_geometry(Arr3),col="darkred",add=T)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=T)
+
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.22b.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
 ### 2.5. Create Hashes
 
 This function creates hashed lines to fill a polygon. Its output is a
@@ -1212,6 +1249,247 @@ dev.off()
 ```
 
 <img src="ReadMeFigs/ReadMe_Fig2.23.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+### 2.6. Create Ellipse
+
+This function creates an ellipse. Its output is a spatial object in your
+environment, to be added to your plot.
+
+For details, type:
+
+``` r
+?create_Ellipse
+```
+
+Example:
+
+``` r
+
+El1=create_Ellipse(Latc=-61,Lonc=-50,Lmaj=500,Lmin=250,Ang=120)
+El2=create_Ellipse(Latc=-72,Lonc=-30,Lmaj=500,Lmin=500)
+Hash=create_Hashes(El2,spacing=2,width=2)
+El3=create_Ellipse(Latc=-68,Lonc=-55,Lmaj=400,Lmin=100,Ang=35)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.24.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(El1),col=rgb(0,1,0.5,alpha=0.5),add=TRUE,lwd=2)
+plot(st_geometry(El3),col=rgb(0,0.5,0.5,alpha=0.5),add=TRUE,border="orange",lwd=2)
+plot(st_geometry(Hash),add=TRUE,col="red",border=NA)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.24.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+### 2.7. Create Circular Arrow
+
+This function creates circular arrows. Its output is a spatial object in
+your environment, to be added to your plot.
+
+For details, type:
+
+``` r
+?create_CircularArrow
+```
+
+Example 1:
+
+``` r
+
+Arr=create_CircularArrow()
+
+png(filename='ReadMeFigs/ReadMe_Fig2.25.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 1")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.25.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 2:
+
+``` r
+
+Arr=create_CircularArrow(Narr=2,Spc=5)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.26.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 2")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.26.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 3:
+
+``` r
+
+Arr=create_CircularArrow(Narr=10,Spc=-4,Hwidth=15,Hlength=20)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.27.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 3")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.27.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 4:
+
+``` r
+
+Arr=create_CircularArrow(Narr=8,Spc=-2,Npa=200,Acol=c("red","orange","green"),
+                         Atrans = c(0,0.9,0),Atype = "dashed")
+
+png(filename='ReadMeFigs/ReadMe_Fig2.28.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 4")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.28.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 5 (path around two ellipses):
+
+``` r
+#Create elipses
+El1=create_Ellipse(Latc=-61,Lonc=-50,Lmaj=500,Lmin=250,Ang=120)
+El2=create_Ellipse(Latc=-68,Lonc=-57,Lmaj=400,Lmin=200,Ang=35)
+#Merge ellipses and take convex hull
+El=st_union(st_geometry(El1),st_geometry(El2))
+El=st_convex_hull(El)
+El=st_segmentize(El,dfMaxLength = 10000)
+#Go counterclockwise if desired:
+#El=st_coordinates(El)
+#El=st_polygon(list(El[nrow(El):1,])) 
+
+Arr=create_CircularArrow(Narr=10,Spc=3,Npa=200,Acol=c("green","darkgreen"),
+                         Atype = "dashed",Input=El)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.29.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 5")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.29.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 6 (path along isobath):
+
+``` r
+
+Iso=st_as_sf(as.contour(SmallBathy(),levels=-1000)) #Take isobath
+Iso=suppressWarnings(st_cast(Iso,"LINESTRING")) #convert to individual lines
+Iso$L=st_length(Iso) #Get line length
+Iso=Iso[Iso$L==max(Iso$L),] #Keep longest line (circumpolar)
+Iso=st_coordinates(Iso) #Extract coordinates
+Iso=st_polygon(list(Iso[seq(1,nrow(Iso),length.out=200),])) #Subsample
+
+Arr=create_CircularArrow(Narr=20,Spc=1,Input=Iso,
+                         Pwidth=10,Hlength=30,Hwidth=20)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.30.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0.5,0.5,0.5,0.5))
+
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',main="Example 6",
+     xlim=c(-2.5e6,2.5e6),ylim=c(-2.5e6,2.5e6))
+plot(st_geometry(Arr),col=rainbow(nrow(Arr)),add=TRUE,xpd=TRUE)
+dev.off()
+#> png 
+#>   2
+```
+
+<img src="ReadMeFigs/ReadMe_Fig2.30.png" width="100%" style="display: block; margin: auto;" />
+
+<br>
+
+Example 7 (Weddell Sea animation):
+
+``` r
+
+library(gifski)
+gif_file = "ReadMeFigs/Woooo.gif" #Path for repo
+
+save_gif(
+  for(Stp in seq(1,0,length.out=10)){
+    Arr=create_CircularArrow(Narr=8,Spc=-2,Npa=200,Acol=c("red","orange","green"),
+                             Atrans = c(0,0.9,0),Atype = "dashed",Stp=Stp)
+    Arr2=create_CircularArrow(Lmaj=600,Lmin=300,dir="ccw",Spc=50,Stp=1-Stp,
+                              Pwidth=2.5,Hlength=10,Hwidth=7,Acol="cyan")
+    plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+                col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 7")
+    plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+    plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+    plot(st_geometry(Arr2),col=Arr2$col,border=NA,add=TRUE)
+  }
+  , gif_file, 800, 800, res = 150,delay = 0.1,progress = FALSE)
+#> [1] "C:\\Users\\stephane\\Desktop\\CCAMLR\\CODES\\72 - CCAMLRGIS\\CCAMLRGIS\\ReadMeFigs\\Woooo.gif"
+```
+
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/ReadMeFigs/Woooo.gif" width="800" height="800" />
 
 <br>
 
@@ -1316,24 +1594,18 @@ head(MyData)
 #> 4 -68.36806  151.0247 69.81201
 #> 5 -63.89171  154.4327 52.32101
 #> 6 -66.35370  153.6906 78.65576
-```
-
-``` r
 
 #Get depths of locations
 MyDataD=get_depths(Input=MyData,Bathy=SmallBathy())
 #The resulting data looks like this (where 'd' is the depth):
 head(MyDataD)
-#>         Lat       Lon    Catch          d
-#> 1 -68.63966 -175.0078 53.33002 -3794.5107
-#> 2 -67.03475 -178.0322 38.66385 -3960.5574
-#> 3 -65.44164 -170.1656 20.32608 -3016.5554
-#> 4 -68.36806  151.0247 69.81201  -335.0405
-#> 5 -63.89171  154.4327 52.32101 -3235.2156
-#> 6 -66.35370  153.6906 78.65576 -1961.1792
-```
-
-``` r
+#>         Lat       Lon    Catch         d
+#> 1 -68.63966 -175.0078 53.33002 -3747.518
+#> 2 -67.03475 -178.0322 38.66385 -3960.490
+#> 3 -65.44164 -170.1656 20.32608 -2996.769
+#> 4 -68.36806  151.0247 69.81201  -336.233
+#> 5 -63.89171  154.4327 52.32101 -3237.848
+#> 6 -66.35370  153.6906 78.65576 -1966.678
 
 png(filename='ReadMeFigs/ReadMe_Fig4.1.png',width=2000,height=1400,res=300,bg="white")
 
@@ -1372,9 +1644,9 @@ FishDepth=seabed_area(SmallBathy(),MyPolys,PolyNames="ID",depth_classes=c(0,-200
 #Result looks like this (note that the 600-1800 stratum is renamed 'Fishable_area')
 head(FishDepth)
 #>      ID 0|-200 -200|-600 Fishable_area -1800|-3000 -3000|-5000
-#> 1   one      0  19300.01      41400.01    40200.01    92800.03
-#> 2   two      0    200.00       1900.00     9100.00    93400.03
-#> 3 three    800   1300.00       7600.00   229600.07   138300.04
+#> 1   one      0  19600.01      41300.01    40500.01    92300.03
+#> 2   two      0    200.00       2000.00     9200.00    93200.03
+#> 3 three    700   1400.00       8100.00   230400.07   136900.04
 ```
 
 ### 4.3. assign_areas
@@ -1396,15 +1668,12 @@ MyData=data.frame(Lat=runif(100,min=-65,max=-50),
 #The input data looks like this:
 head(MyData)
 #>         Lat      Lon
-#> 1 -52.54421 38.74173
-#> 2 -62.66283 32.30073
-#> 3 -50.14694 38.99038
-#> 4 -54.78676 36.31189
-#> 5 -52.02953 20.98631
-#> 6 -61.37509 26.03940
-```
-
-``` r
+#> 1 -64.09657 28.30445
+#> 2 -58.69579 37.83392
+#> 3 -56.73354 24.13481
+#> 4 -52.75886 39.00397
+#> 5 -52.43305 29.56917
+#> 6 -64.81853 22.20554
 
 #load ASDs and SSRUs
 ASDs=load_ASDs()
@@ -1415,30 +1684,24 @@ MyData=assign_areas(MyData,Polys=c('ASDs','SSRUs'),NamesOut=c('MyASDs','MySSRUs'
 #The output data looks like this:
 head(MyData)
 #>         Lat      Lon  MyASDs   MySSRUs
-#> 1 -52.54421 38.74173 58.4.4a 58.4.4a D
-#> 2 -62.66283 32.30073  58.4.2  58.4.2 A
-#> 3 -50.14694 38.99038 58.4.4a 58.4.4a D
-#> 4 -54.78676 36.31189 58.4.4a 58.4.4a D
-#> 5 -52.02953 20.98631    48.6    48.6 G
-#> 6 -61.37509 26.03940    48.6    48.6 F
-```
-
-``` r
+#> 1 -64.09657 28.30445    48.6    48.6 F
+#> 2 -58.69579 37.83392 58.4.4a 58.4.4a D
+#> 3 -56.73354 24.13481    48.6    48.6 G
+#> 4 -52.75886 39.00397 58.4.4a 58.4.4a D
+#> 5 -52.43305 29.56917    48.6    48.6 G
+#> 6 -64.81853 22.20554    48.6    48.6 F
 
 #count of locations per ASD
 table(MyData$MyASDs) 
 #> 
 #>    48.6  58.4.2 58.4.4a 
-#>      52       7      41
-```
-
-``` r
+#>      50       7      43
 
 #count of locations per SSRU
 table(MyData$MySSRUs) 
 #> 
 #>    48.6 F    48.6 G  58.4.2 A 58.4.4a D 
-#>        17        35         7        41
+#>        16        34         7        43
 ```
 
 ### 4.4. project_data
@@ -1463,9 +1726,6 @@ head(PointData)
 #> 4 -68.36806  151.0247   two 69.81201      87 4
 #> 5 -63.89171  154.4327 three 52.32101     552 5
 #> 6 -66.35370  153.6906  four 78.65576      22 6
-```
-
-``` r
 #Generate a dataframe with random locations
 MyData=project_data(Input=PointData,NamesIn=c('Lat','Lon'),
                     NamesOut=c('Projected_Y','Projected_X'),append=TRUE)
@@ -1503,27 +1763,18 @@ par(mfrow=c(2,2),mai=c(0.7,0.7,0.25,0.07))
 get_C_intersection(Line1=c(-30,-55,-29,-50),Line2=c(-50,-60,-40,-60))
 #> Lon Lat 
 #> -31 -60
-```
-
-``` r
 text(-40,-42,"Example 1",xpd=T)
 box()
 #Example 2 (Intersection on one of the segments)
 get_C_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-40,-60))
 #>       Lon       Lat 
 #> -29.66667 -60.00000
-```
-
-``` r
 text(-40,-41,"Example 2",xpd=T)
 box()
 #Example 3 (Crossed segments)
 get_C_intersection(Line1=c(-30,-65,-29,-50),Line2=c(-50,-60,-25,-60))
 #>       Lon       Lat 
 #> -29.66667 -60.00000
-```
-
-``` r
 text(-38,-41,"Example 3",xpd=T)
 box()
 #Example 4 (Antimeridian crossed)
@@ -1533,9 +1784,6 @@ get_C_intersection(Line1=c(-179,-60,-150,-50),Line2=c(-120,-60,-130,-62))
 #> Line=c(180,-90,180,0) or Line=c(-180,-90,-180,0).
 #>        Lon        Lat 
 #> -260.47619  -88.09524
-```
-
-``` r
 text(-180,-37,"Example 4",xpd=T)
 box()
 dev.off()
@@ -1848,7 +2096,7 @@ Title= "Title",
 Subtitle="(Subtitle)",
 Pos = "bottomright",
 BoxW= 80,
-BoxH= 140,
+BoxH= 170,
 Boxexp = c(5,-2,-4,-4),
 Titlefontsize = 2
 )
@@ -1908,6 +2156,37 @@ Circle2=list(
   Hashangle=0,
   Hashspacing=2,
   Hashwidth=2
+)
+
+Ellipse1=list(
+  Text="Ellipse 1", 
+  Shape="ellipse",
+  ShpFill="white",
+  ShpBord="darkblue",
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  EllW=10,
+  EllH=6,
+  EllA=35
+)
+
+Ellipse2=list(
+  Text="Ellipse 2", 
+  Shape="ellipse",
+  ShpFill="red",
+  ShpBord="green",
+  ShpHash=TRUE,
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  EllW=10,
+  EllH=7,
+  EllA=0,
+  Hashcol="black",
+  Hashangle=-45,
+  Hashspacing=1.5,
+  Hashwidth=1.5
 )
 
 Line1=list(
@@ -2006,7 +2285,7 @@ None=list(
 
 #Combine all items into a single list:
 
-Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
+Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Ellipse1,Ellipse2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
 
 png(filename='ReadMeFigs/ReadMe_Fig5.6.png',width=2000,height=1600,res=300,bg="transparent")
 #Set the figure margins as c(bottom, left, top, right)
@@ -2115,11 +2394,11 @@ MyPolys=create_Polys(PolyData)
 kableExtra::kable(MyPolys,row.names = F)
 ```
 
-| ID    | Catch_min | Nfishes_min | n_min | Catch_max | Nfishes_max | n_max | Catch_mean | Nfishes_mean | n_mean | Catch_sum | Nfishes_sum | n_sum | Catch_count | Nfishes_count | n_count |  Catch_sd | Nfishes_sd |     n_sd | Catch_median | Nfishes_median | n_median | geometry                     |  AreaKm2 |      Labx |     Laby |
-|:------|----------:|------------:|------:|----------:|------------:|------:|-----------:|-------------:|-------:|----------:|------------:|------:|------------:|--------------:|--------:|----------:|-----------:|---------:|-------------:|---------------:|---------:|:-----------------------------|---------:|----------:|---------:|
-| one   |  52.61262 |          11 |     1 |  71.65909 |         329 |     4 |   64.17380 |     172.5000 |    2.5 |  256.6952 |         690 |    10 |           4 |             4 |       4 |  9.084736 |   153.3917 | 1.290994 |     66.21175 |          175.0 |      2.5 | POLYGON ((-290035.9 -164487… | 187281.3 | -170519.8 | -1949051 |
-| two   |  23.12032 |         116 |     5 |  73.49383 |         954 |     8 |   51.94951 |     505.0000 |    6.5 |  207.7980 |        2020 |    26 |           4 |             4 |       4 | 22.264999 |   428.9188 | 1.290994 |     55.59195 |          475.0 |      6.5 | POLYGON ((-423880.7 -240394… |  95294.2 |       0.0 | -2483470 |
-| three |  10.23393 |          13 |     9 |  95.57774 |         988 |    14 |   52.50313 |     412.3333 |   11.5 |  315.0188 |        2474 |    69 |           6 |             6 |       6 | 32.152675 |   382.8685 | 1.870829 |     54.15367 |          341.5 |     11.5 | POLYGON ((480755.1 -2726497… | 361556.2 |  786933.1 | -2846388 |
+| ID | Catch_min | Nfishes_min | n_min | Catch_max | Nfishes_max | n_max | Catch_mean | Nfishes_mean | n_mean | Catch_sum | Nfishes_sum | n_sum | Catch_count | Nfishes_count | n_count | Catch_sd | Nfishes_sd | n_sd | Catch_median | Nfishes_median | n_median | geometry | AreaKm2 | Labx | Laby |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---|---:|---:|---:|
+| one | 52.61262 | 11 | 1 | 71.65909 | 329 | 4 | 64.17380 | 172.5000 | 2.5 | 256.6952 | 690 | 10 | 4 | 4 | 4 | 9.084736 | 153.3917 | 1.290994 | 66.21175 | 175.0 | 2.5 | POLYGON ((-290035.9 -164487… | 187281.3 | -170519.8 | -1949051 |
+| two | 23.12032 | 116 | 5 | 73.49383 | 954 | 8 | 51.94951 | 505.0000 | 6.5 | 207.7980 | 2020 | 26 | 4 | 4 | 4 | 22.264999 | 428.9188 | 1.290994 | 55.59195 | 475.0 | 6.5 | POLYGON ((-423880.7 -240394… | 95294.2 | 0.0 | -2483470 |
+| three | 10.23393 | 13 | 9 | 95.57774 | 988 | 14 | 52.50313 | 412.3333 | 11.5 | 315.0188 | 2474 | 69 | 6 | 6 | 6 | 32.152675 | 382.8685 | 1.870829 | 54.15367 | 341.5 | 11.5 | POLYGON ((480755.1 -2726497… | 361556.2 | 786933.1 | -2846388 |
 
 The ‘geometry’ column contains the locations of each point of a given
 polygon (each row), and can be plotted using
@@ -2132,9 +2411,6 @@ png(filename='ReadMeFigs/ReadMe_Fig5.8.png',width=2000,height=1600,res=300,bg="w
 plot(MyPolys)
 #> Warning: plotting the first 9 out of 25 attributes; use max.plot = 25 to plot
 #> all
-```
-
-``` r
 
 dev.off()
 #> png 
