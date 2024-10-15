@@ -8,7 +8,7 @@ load_Bathy(LocalFile, Res = 5000)
 }
 \arguments{
 \item{LocalFile}{To download the data, set to \code{FALSE}. To re-use a downloaded file, set to the full path of the file 
-(e.g., \code{LocalFile="C:/Desktop/GEBCO2023_5000.tif"}).}
+(e.g., \code{LocalFile="C:/Desktop/GEBCO2024_5000.tif"}).}
 
 \item{Res}{Desired resolution in meters. May only be one of: 500, 1000, 2500 or 5000.}
 }
@@ -16,7 +16,7 @@ load_Bathy(LocalFile, Res = 5000)
 Bathymetry raster.
 }
 \description{
-Download the up-to-date projected GEBCO data from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
+Download the up-to-date projected GEBCO data from the online CCAMLRGIS (\url{https://gis.ccamlr.org/}) and load it to your environment.
 This functions can be used in two steps, to first download the data and then use it. If you keep the downloaded data, you can then
 re-use it in all your scripts.
 }
@@ -28,7 +28,7 @@ It is strongly recommended to first download the lowest resolution data (set \co
 
 To re-use the downloaded data, you must provide the full path to that file, for example:
 
-\code{LocalFile="C:/Desktop/GEBCO2023_5000.tif"}.
+\code{LocalFile="C:/Desktop/GEBCO2024_5000.tif"}.
 
 This data was reprojected from the original GEBCO Grid after cropping at 40 degrees South. Projection was made using the Lambert
 azimuthal equal-area projection (\code{\link{CCAMLRp}}),
@@ -44,15 +44,15 @@ and the data was aggregated at several resolutions.
 #Bathy=load_Bathy(LocalFile = FALSE,Res=5000)
 #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 
-##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2023_5000.tif"):
-#Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2023_5000.tif")
+##Re-use the downloaded data (provided it's here: "C:/Desktop/GEBCO2024_5000.tif"):
+#Bathy=load_Bathy(LocalFile = "C:/Desktop/GEBCO2024_5000.tif")
 #plot(Bathy, breaks=Depth_cuts,col=Depth_cols,axes=FALSE)
 
 }
 
 }
 \references{
-GEBCO Compilation Group (2023) GEBCO 2023 Grid (doi:10.5285/f98b053b-0cbc-6c23-e053-6c86abc0af7b)
+GEBCO Compilation Group (2024) GEBCO 2024 Grid (doi:10.5285/1c44ce99-0a0d-5f4f-e063-7086abc0ea0f)
 }
 \seealso{
 \code{\link{add_col}}, \code{\link{add_Cscale}}, \code{\link{Depth_cols}}, \code{\link{Depth_cuts}},

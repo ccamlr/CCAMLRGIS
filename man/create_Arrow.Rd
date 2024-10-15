@@ -24,7 +24,8 @@ Last row is the location of the end of the arrow (where the arrow will point to)
 intermediate rows are the locations of points towards which the arrow's path will bend. 
 Weights (third column) can be added to the intermediate points to make the arrow's path
 bend more towards them. Projected coordinates may be used (Y then X) instead of Latitudes
-and Longitudes by setting \code{yx} to \code{TRUE}.}
+and Longitudes by setting \code{yx} to \code{TRUE}. Coordinates may be extracted from a
+spatial object and used as input (see Example 9 below).}
 
 \item{Np}{integer, number of additional points generated to create a curved path. If the 
 arrow's path appears too segmented, increase \code{Np}.}
@@ -119,9 +120,30 @@ Arrow=create_Arrow(Input=myInput,Np=200,Acol=c("red","green","blue"),
                    Atrans = c(0,0.9,0),Atype = "dashed",dlength = 0)
 plot(st_geometry(Arrow),col=Arrow$col,main="Example 8",border=NA)
 
+#Example 9 Path along isobath
+Iso=st_as_sf(terra::as.contour(SmallBathy(),levels=-1000)) #Take isobath
+Iso=suppressWarnings(st_cast(Iso,"LINESTRING")) #convert to individual lines
+Iso$L=st_length(Iso) #Get line length
+Iso=Iso[Iso$L==max(Iso$L),] #Keep longest line (circumpolar)
+Iso=st_coordinates(Iso) #Extract coordinates
+Iso=Iso[Iso[,1]>-2.1e6 & Iso[,1]<(-0.1e6) & Iso[,2]>0,] #crop line
+Inp=data.frame(Y=Iso[,2],X=Iso[,1])
+Inp=Inp[seq(nrow(Inp),1),] #Go westward
+Third=nrow(Inp)/3 #Cut in thirds
+Arr1=create_Arrow(Input=Inp[1:Third,],yx=TRUE)
+Arr2=create_Arrow(Input=Inp[(Third+2):(2*Third),],yx=TRUE)
+Arr3=create_Arrow(Input=Inp[(2*Third+2):nrow(Inp),],yx=TRUE)
+
+terra::plot(SmallBathy(),xlim=c(-2.5e6,0.5e6),ylim=c(0.25e6,2.75e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 9")
+plot(st_geometry(Arr1),col="darkred",add=TRUE)
+plot(st_geometry(Arr2),col="darkred",add=TRUE)
+plot(st_geometry(Arr3),col="darkred",add=TRUE)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+
 }
 \seealso{
+\code{\link{create_CircularArrow}}, \code{\link{create_Ellipse}},\code{\link{add_Legend}},
 \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
-\code{\link{create_PolyGrids}}, \code{\link{create_Stations}}, \code{\link{create_Pies}}, 
-\code{\link{add_Legend}}.
+\code{\link{create_PolyGrids}}, \code{\link{create_Stations}}, \code{\link{create_Pies}}.
 }

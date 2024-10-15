@@ -1,7 +1,7 @@
 #' CCAMLRGIS Projection
 #'
 #' The CCAMLRGIS package uses the Lambert azimuthal equal-area projection (see \url{https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection}).
-#' Source: \url{http://gis.ccamlr.org/}.
+#' Source: \url{https://gis.ccamlr.org/}.
 #' In order to align with recent developments within Geographic Information Software, this projection
 #' will be accessed via EPSG code 6932 (see \url{https://epsg.org/crs_6932/WGS-84-NSIDC-EASE-Grid-2-0-South.html}).
 #' 
@@ -16,7 +16,7 @@ NULL
 #'
 #' Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 #' within the boundaries of the Convention Area. This spatial object may be subsetted to plot the coastline for selected
-#' ASDs or EEZs (see examples). Source: \url{http://gis.ccamlr.org/}
+#' ASDs or EEZs (see examples). Source: \url{https://gis.ccamlr.org/}
 #'
 #' @docType data
 #' @usage data(Coast)

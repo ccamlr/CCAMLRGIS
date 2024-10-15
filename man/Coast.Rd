@@ -13,7 +13,7 @@ data(Coast)
 \description{
 Coastline polygons generated from \link{load_Coastline} and sub-sampled to only contain data that falls
 within the boundaries of the Convention Area. This spatial object may be subsetted to plot the coastline for selected
-ASDs or EEZs (see examples). Source: \url{http://gis.ccamlr.org/}
+ASDs or EEZs (see examples). Source: \url{https://gis.ccamlr.org/}
 }
 \examples{
 #Complete coastline:

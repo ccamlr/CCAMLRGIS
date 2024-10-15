@@ -7,7 +7,7 @@
 load_MPAs()
 }
 \description{
-Download the up-to-date spatial layer from the online CCAMLRGIS (\url{http://gis.ccamlr.org/}) and load it to your environment.
+Download the up-to-date spatial layer from the online CCAMLRGIS (\url{https://gis.ccamlr.org/}) and load it to your environment.
 See examples for offline use. All layers use the Lambert azimuthal equal-area projection
  (\code{\link{CCAMLRp}})
 }

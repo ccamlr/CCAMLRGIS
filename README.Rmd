@@ -25,7 +25,7 @@ library(knitr)
 [![Monthly downloads](https://cranlogs.r-pkg.org/badges/CCAMLRGIS)](https://cran.r-project.org/package=CCAMLRGIS)
 <!-- badges: end -->
 
-This package was developed to simplify the production of maps in the CAMLR Convention Area. It provides two main categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online [CCAMLR GIS](http://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
+This package was developed to simplify the production of maps in the CAMLR Convention Area. It provides two main categories of functions: load functions and create functions. Load functions are used to import spatial layers from the online [CCAMLR GIS](https://gis.ccamlr.org/) such as the ASD boundaries. Create functions are used to create layers from user data such as polygons and grids.
 
 ## Installation
 
@@ -61,6 +61,8 @@ set.seed(1234)
 -   2.3. [Create Pies](#23-create-pies)
 -   2.4. [Create Arrow](#24-create-arrow)
 -   2.5. [Create Hashes](#25-create-hashes)
+-   2.6. [Create Ellipse](#26-create-ellipse)
+-   2.7. [Create Circular Arrow](#27-create-circular-arrow)
 
 3.  [Load functions](#3-load-functions)
 
@@ -1119,6 +1121,47 @@ include_graphics("ReadMeFigs/ReadMe_Fig2.22.png")
 
 <br>
 
+Example 10 (path along isobath):
+
+```{r message=F,eval=T}
+#Example 10 
+#Prepare mapping elements
+Iso=st_as_sf(as.contour(SmallBathy(),levels=-1000)) #Take isobath
+Iso=suppressWarnings(st_cast(Iso,"LINESTRING")) #convert to individual lines
+Iso$L=st_length(Iso) #Get line length
+Iso=Iso[Iso$L==max(Iso$L),] #Keep longest line (circumpolar)
+Iso=st_coordinates(Iso) #Extract coordinates
+Iso=Iso[Iso[,1]>-2.1e6 & Iso[,1]<(-0.1e6) & Iso[,2]>0,] #crop line
+Inp=data.frame(Y=Iso[,2],X=Iso[,1])
+Inp=Inp[seq(nrow(Inp),1),] #Go westward
+Third=nrow(Inp)/3 #Cut in thirds
+
+#Create arrows
+Arr1=create_Arrow(Input=Inp[1:Third,],yx=TRUE)
+Arr2=create_Arrow(Input=Inp[(Third+2):(2*Third),],yx=TRUE)
+Arr3=create_Arrow(Input=Inp[(2*Third+2):nrow(Inp),],yx=TRUE)
+
+
+png(filename='ReadMeFigs/ReadMe_Fig2.22b.png',width=2000,height=1600,res=300)
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-2.5e6,0.5e6),ylim=c(0.25e6,2.75e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 10")
+plot(st_geometry(Arr1),col="darkred",add=T)
+plot(st_geometry(Arr2),col="darkred",add=T)
+plot(st_geometry(Arr3),col="darkred",add=T)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=T)
+
+dev.off()
+```
+
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.22b.png")
+```
+
+<br>
+
 ### 2.5. Create Hashes
 
 This function creates hashed lines to fill a polygon. Its output is a spatial object in your environment, to be added to your plot.
@@ -1160,6 +1203,241 @@ include_graphics("ReadMeFigs/ReadMe_Fig2.23.png")
 ```
 
 <br>
+
+
+### 2.6. Create Ellipse
+
+This function creates an ellipse. Its output is a spatial object in your environment, to be added to your plot.
+
+For details, type:
+
+```{r eval=F}
+?create_Ellipse
+```
+
+Example:
+
+```{r message=F,eval=T}
+
+El1=create_Ellipse(Latc=-61,Lonc=-50,Lmaj=500,Lmin=250,Ang=120)
+El2=create_Ellipse(Latc=-72,Lonc=-30,Lmaj=500,Lmin=500)
+Hash=create_Hashes(El2,spacing=2,width=2)
+El3=create_Ellipse(Latc=-68,Lonc=-55,Lmaj=400,Lmin=100,Ang=35)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.24.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE)
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(El1),col=rgb(0,1,0.5,alpha=0.5),add=TRUE,lwd=2)
+plot(st_geometry(El3),col=rgb(0,0.5,0.5,alpha=0.5),add=TRUE,border="orange",lwd=2)
+plot(st_geometry(Hash),add=TRUE,col="red",border=NA)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.24.png")
+```
+
+<br>
+
+### 2.7. Create Circular Arrow
+
+This function creates circular arrows. Its output is a spatial object in your environment, to be added to your plot.
+
+For details, type:
+
+```{r eval=F}
+?create_CircularArrow
+```
+
+Example 1:
+
+```{r message=F,eval=T}
+
+Arr=create_CircularArrow()
+
+png(filename='ReadMeFigs/ReadMe_Fig2.25.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 1")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.25.png")
+```
+
+<br>
+
+Example 2:
+
+```{r message=F,eval=T}
+
+Arr=create_CircularArrow(Narr=2,Spc=5)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.26.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 2")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.26.png")
+```
+
+<br>
+
+Example 3:
+
+```{r message=F,eval=T}
+
+Arr=create_CircularArrow(Narr=10,Spc=-4,Hwidth=15,Hlength=20)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.27.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 3")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.27.png")
+```
+
+<br>
+
+Example 4:
+
+```{r message=F,eval=T}
+
+Arr=create_CircularArrow(Narr=8,Spc=-2,Npa=200,Acol=c("red","orange","green"),
+                         Atrans = c(0,0.9,0),Atype = "dashed")
+
+png(filename='ReadMeFigs/ReadMe_Fig2.28.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 4")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.28.png")
+```
+
+<br>
+
+Example 5 (path around two ellipses):
+
+```{r message=F,eval=T}
+#Create elipses
+El1=create_Ellipse(Latc=-61,Lonc=-50,Lmaj=500,Lmin=250,Ang=120)
+El2=create_Ellipse(Latc=-68,Lonc=-57,Lmaj=400,Lmin=200,Ang=35)
+#Merge ellipses and take convex hull
+El=st_union(st_geometry(El1),st_geometry(El2))
+El=st_convex_hull(El)
+El=st_segmentize(El,dfMaxLength = 10000)
+#Go counterclockwise if desired:
+#El=st_coordinates(El)
+#El=st_polygon(list(El[nrow(El):1,])) 
+
+Arr=create_CircularArrow(Narr=10,Spc=3,Npa=200,Acol=c("green","darkgreen"),
+                         Atype = "dashed",Input=El)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.29.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0,0,0,0))
+
+plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+            col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 5")
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.29.png")
+```
+
+<br>
+
+Example 6 (path along isobath):
+
+```{r message=F,eval=T}
+
+Iso=st_as_sf(as.contour(SmallBathy(),levels=-1000)) #Take isobath
+Iso=suppressWarnings(st_cast(Iso,"LINESTRING")) #convert to individual lines
+Iso$L=st_length(Iso) #Get line length
+Iso=Iso[Iso$L==max(Iso$L),] #Keep longest line (circumpolar)
+Iso=st_coordinates(Iso) #Extract coordinates
+Iso=st_polygon(list(Iso[seq(1,nrow(Iso),length.out=200),])) #Subsample
+
+Arr=create_CircularArrow(Narr=20,Spc=1,Input=Iso,
+                         Pwidth=10,Hlength=30,Hwidth=20)
+
+png(filename='ReadMeFigs/ReadMe_Fig2.30.png',width=2000,height=2000,res=300,bg="transparent")
+
+#Set the figure margins as c(bottom, left, top, right)
+par(mai=c(0.5,0.5,0.5,0.5))
+
+plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',main="Example 6",
+     xlim=c(-2.5e6,2.5e6),ylim=c(-2.5e6,2.5e6))
+plot(st_geometry(Arr),col=rainbow(nrow(Arr)),add=TRUE,xpd=TRUE)
+dev.off()
+```
+```{r fig.align="center",out.width="100%",message=F,dpi=300,echo=F}
+include_graphics("ReadMeFigs/ReadMe_Fig2.30.png")
+```
+
+<br>
+
+Example 7 (Weddell Sea animation):
+
+```{r message=F,eval=T}
+
+library(gifski)
+gif_file = "ReadMeFigs/Woooo.gif" #Path for repo
+
+save_gif(
+  for(Stp in seq(1,0,length.out=10)){
+    Arr=create_CircularArrow(Narr=8,Spc=-2,Npa=200,Acol=c("red","orange","green"),
+                             Atrans = c(0,0.9,0),Atype = "dashed",Stp=Stp)
+    Arr2=create_CircularArrow(Lmaj=600,Lmin=300,dir="ccw",Spc=50,Stp=1-Stp,
+                              Pwidth=2.5,Hlength=10,Hwidth=7,Acol="cyan")
+    plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
+                col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 7")
+    plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
+    plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
+    plot(st_geometry(Arr2),col=Arr2$col,border=NA,add=TRUE)
+  }
+  , gif_file, 800, 800, res = 150,delay = 0.1,progress = FALSE)
+
+```
+
+
+<img src="https://github.com/ccamlr/CCAMLRGIS/blob/master/ReadMeFigs/Woooo.gif" width="800" height="800" />
+
+<br>
+
 
 ## 3. Load functions
 
@@ -1656,7 +1934,7 @@ Title= "Title",
 Subtitle="(Subtitle)",
 Pos = "bottomright",
 BoxW= 80,
-BoxH= 140,
+BoxH= 170,
 Boxexp = c(5,-2,-4,-4),
 Titlefontsize = 2
 )
@@ -1716,6 +1994,37 @@ Circle2=list(
   Hashangle=0,
   Hashspacing=2,
   Hashwidth=2
+)
+
+Ellipse1=list(
+  Text="Ellipse 1", 
+  Shape="ellipse",
+  ShpFill="white",
+  ShpBord="darkblue",
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  EllW=10,
+  EllH=6,
+  EllA=35
+)
+
+Ellipse2=list(
+  Text="Ellipse 2", 
+  Shape="ellipse",
+  ShpFill="red",
+  ShpBord="green",
+  ShpHash=TRUE,
+  Shplwd=2,
+  fontsize=1.2,
+  STSpace=3,
+  EllW=10,
+  EllH=7,
+  EllA=0,
+  Hashcol="black",
+  Hashangle=-45,
+  Hashspacing=1.5,
+  Hashwidth=1.5
 )
 
 Line1=list(
@@ -1814,7 +2123,7 @@ None=list(
 
 #Combine all items into a single list:
 
-Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
+Items=list(Rectangle1,Rectangle2,Circle1,Circle2,Ellipse1,Ellipse2,Line1,Line2,Arrow1,Arrow2,Arrow3,Arrow4,None)
 
 png(filename='ReadMeFigs/ReadMe_Fig5.6.png',width=2000,height=1600,res=300,bg="transparent")
 #Set the figure margins as c(bottom, left, top, right)
