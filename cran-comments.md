@@ -2,32 +2,43 @@
 ## Test environments
 
 win-builder (devel and release, 64 and 32bit).
-devtools::check_win_devel() OK - see: https://win-builder.r-project.org/azIGIL5c2if1/00check.log
+
 
 OK on Rhubv2 for platfroms as follows:
 
  1 [VM] linux          R-* (any version)                     ubuntu-latest on GitHub
- 2 [VM] macos          R-* (any version)                     macos-13 on GitHub
- 3 [VM] macos-arm64    R-* (any version)                     macos-latest on GitHub
- 4 [VM] windows        R-* (any version)                     windows-latest on GitHub
- 5 [CT] atlas          R-devel (2024-10-11 r87226)           Fedora Linux 38 (Container Image)
- 6 [CT] c23            R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
- 8 [CT] clang16        R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
- 9 [CT] clang17        R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
-10 [CT] clang18        R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
-11 [CT] clang19        R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
-12 [CT] donttest       R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
-13 [CT] gcc13          R-devel (2024-10-11 r87226)           Fedora Linux 38 (Container Image)
-14 [CT] gcc14          R-devel (2024-10-11 r87226)           Fedora Linux 40 (Container Image)
-15 [CT] intel          R-devel (2024-10-11 r87226)           Fedora Linux 38 (Container Image)
-17 [CT] nold           R-devel (2024-10-11 r87226)           Ubuntu 22.04.5 LTS
-20 [CT] ubuntu-clang   R-devel (2024-10-11 r87226)           Ubuntu 22.04.5 LTS
-21 [CT] ubuntu-gcc12   R-devel (2024-10-11 r87226)           Ubuntu 22.04.5 LTS
-22 [CT] ubuntu-next    R-4.4.1 (patched) (2024-10-11 r87226) Ubuntu 22.04.5 LTS
-23 [CT] ubuntu-release R-4.4.1 (2024-06-14)                  Ubuntu 22.04.5 LTS
+ 3 [VM] macos          R-* (any version)                     macos-13 on GitHub
+ 5 [VM] windows        R-* (any version)                     windows-latest on GitHub
+ 6 [CT] atlas          R-devel (2025-02-12 r87715)           Fedora Linux 38 (Container Image)
+ 7 [CT] c23            R-devel (2025-02-11 r87713)           Ubuntu 22.04.5 LTS
+ 9 [CT] clang-ubsan    R-devel (2025-02-12 r87715)           Ubuntu 22.04.5 LTS
+10 [CT] clang16        R-devel (2025-02-11 r87713)           Ubuntu 22.04.5 LTS
+11 [CT] clang17        R-devel (2025-02-11 r87713)           Ubuntu 22.04.5 LTS
+12 [CT] clang18        R-devel (2025-02-12 r87715)           Ubuntu 22.04.5 LTS
+13 [CT] clang19        R-devel (2025-02-11 r87713)           Ubuntu 22.04.5 LTS
+14 [CT] clang20        R-devel (2024-10-09 r87215)           Ubuntu 22.04.5 LTS
+15 [CT] donttest       R-devel (2025-02-12 r87715)           Ubuntu 22.04.5 LTS
+16 [CT] gcc13          R-devel (2025-02-12 r87715)           Fedora Linux 38 (Container Image)
+17 [CT] gcc14          R-devel (2025-02-12 r87715)           Fedora Linux 40 (Container Image)
+18 [CT] intel          R-devel (2025-02-12 r87715)           Fedora Linux 38 (Container Image)
+20 [CT] nold           R-devel (2025-02-12 r87715)           Ubuntu 22.04.5 LTS
+21 [CT] noremap        R-devel (2025-02-11 r87713)           Ubuntu 22.04.5 LTS
+24 [CT] ubuntu-clang   R-devel (2025-02-12 r87715)           Ubuntu 22.04.5 LTS
+25 [CT] ubuntu-gcc12   R-devel (2025-02-12 r87715)           Ubuntu 22.04.5 LTS
+26 [CT] ubuntu-next    R-4.4.2 (patched) (2025-02-07 r87713) Ubuntu 22.04.5 LTS
+27 [CT] ubuntu-release R-4.4.2 (2024-10-31)                  Ubuntu 22.04.5 LTS
+
+See https://github.com/ccamlr/CCAMLRGIS/actions/runs/13322608219
 
 
-See https://github.com/ccamlr/CCAMLRGIS/actions/runs/11337944291
+Tests failed on: 
+
+2 [VM] m1-san         R-* (any version)                     macos-latest on GitHub
+4 [VM] macos-arm64    R-* (any version)                     macos-latest on GitHub
+
+failed due to: 'missing terra/Meta/package.rds'
+
+
 
 ## Check results
 
