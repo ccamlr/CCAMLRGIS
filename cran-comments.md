@@ -3,6 +3,7 @@
 
 win-builder (devel and release, 64 and 32bit).
 
+
 OK on Rhubv2 for platfroms as follows:
 
  1 [VM] linux          R-* (any version)                     ubuntu-latest on GitHub
