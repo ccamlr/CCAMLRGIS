@@ -96,6 +96,7 @@ load_Coastline=function(){
   #NB: use http not https
   ccamlrgisurl="http://gis.ccamlr.org/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:coastline_v1_6932&outputFormat=json"
   CCAMLR_data = st_read(ccamlrgisurl,quiet = TRUE)
+  CCAMLR_data = st_transform(CCAMLR_data,6932)
   return(CCAMLR_data)
 }
 

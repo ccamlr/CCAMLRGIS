@@ -228,6 +228,10 @@ create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype=
   pPl=sf::st_sfc(Pl, crs = 6932)
   pHea=sf::st_sfc(Hea, crs = 6932)
   
+  #Fix head if needed
+  Iin=which(sf::st_contains_properly(Hea,pPl,sparse=FALSE)==TRUE)
+  if(length(Iin)!=0){pPl=pPl[1:max(Iin)]}
+  
   #Build color ramp
   Cols=NULL
   for(i in seq(1,length(Acol))){
@@ -242,6 +246,7 @@ create_Arrow=function(Input,Np=50,Pwidth=5,Hlength=15,Hwidth=10,dlength=0,Atype=
   if(Atype=="normal"){
     Ar=sf::st_union(pHea,pPl)
     Ar=sf::st_union(Ar)
+    Ar=sf::st_buffer(sf::st_buffer(Ar,dist=1),dist=-1)
     Ardata=data.frame(col=pal(1))
   }
   

@@ -35,14 +35,13 @@ See https://github.com/ccamlr/CCAMLRGIS/actions/runs/11337944291
 
 ## Notes about CRAN edits
 
-### V4.2.0
+### V4.2.1
 
-Added create_Ellipse() function,
-Added create_CircularArrow() function,
-Modified get_iso_polys(). 
+* Improved create_Arrow(), fixed crs for Coast and load_Coastline().
 
 ### Previous versions
 
+* Added create_Ellipse() and create_CircularArrow(). Improved get_iso_polys(). 
 * Optimized create_Arrow().
 * Modified add_Legend() behavior. Updated add_Cscale(), get_iso_polys() and Basemaps.
 * Added create_Hashes() and add_Legend() functions. Modified get_iso_polys().
