@@ -1,3 +1,10 @@
+# CCAMLRGIS 4.2.1
+
+Improved create_Arrow() to avoid the occurrence of 'strange heads' due to tight turns,
+Updated projection info of Coast,
+Added st_transform in load_Coastline(), just like in the other load_X functions to ensure consistent crs info.
+
+
 # CCAMLRGIS 4.2.0
 
 Added create_Ellipse() function,
