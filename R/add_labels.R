@@ -25,7 +25,7 @@
 #' @seealso \code{\link{Labels}}, \code{\link{load_ASDs}}, \code{\link{load_SSRUs}}, \code{\link{load_RBs}},
 #' \code{\link{load_SSMUs}}, \code{\link{load_MAs}}, \code{\link{load_EEZs}},
 #' \code{\link{load_MPAs}}, \code{\link{add_Legend}},
-#' \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
+#' \href{https://sites.stat.columbia.edu/tzheng/files/Rcolor.pdf}{R colors}.
 #'  
 #' @examples
 #' \donttest{

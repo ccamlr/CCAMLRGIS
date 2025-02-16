@@ -9,7 +9,7 @@
 #' @param cuts numeric, controls color classes. Either one value (in which case \code{n=cuts} equally
 #' spaced color classes are generated) or a vector (in which case irregular color classes are
 #' generated e.g.: \code{c(-10,0,100,2000)}).
-#' @param cols character vector of colors (see R standard color names \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{here}).
+#' @param cols character vector of colors (see R standard color names \href{https://sites.stat.columbia.edu/tzheng/files/Rcolor.pdf}{here}).
 #' \code{cols} are interpolated along \code{cuts}. Color codes as those generated,
 #' for example, by \code{\link[grDevices]{rgb}} may also be used.
 #' @return list containing the colors for the variable \code{var} (given as \code{$varcol} in the output) as
@@ -17,7 +17,7 @@
 #'
 #' @seealso 
 #' \code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \code{\link{add_Legend}},
-#'  \href{http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf}{R colors}.
+#'  \href{https://sites.stat.columbia.edu/tzheng/files/Rcolor.pdf}{R colors}.
 #' 
 #' @examples
 #' 
