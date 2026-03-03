@@ -15,7 +15,7 @@ the range of values).}
 spaced color classes are generated) or a vector (in which case irregular color classes are
 generated e.g.: \code{c(-10,0,100,2000)}).}
 
-\item{cols}{character vector of colors (see R standard color names \href{https://sites.stat.columbia.edu/tzheng/files/Rcolor.pdf}{here}).
+\item{cols}{character vector of colors.
 \code{cols} are interpolated along \code{cuts}. Color codes as those generated,
 for example, by \code{\link[grDevices]{rgb}} may also be used.}
 }
@@ -39,6 +39,5 @@ plot(st_geometry(MyPoints),pch=21,bg=MyCols$varcol,cex=2)
 
 }
 \seealso{
-\code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \code{\link{add_Legend}},
- \href{https://sites.stat.columbia.edu/tzheng/files/Rcolor.pdf}{R colors}.
+\code{\link{add_Cscale}}, \code{\link{create_PolyGrids}}, \code{\link{add_Legend}}.
 }
