@@ -3,6 +3,8 @@
 
 OK on devtools::check(): 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
+OK on devtools::check_win_devel() see here: https://github.com/ccamlr/CCAMLRGIS/actions/runs/22606796291
+
 OK on R-hub see here: https://github.com/ccamlr/CCAMLRGIS/actions/runs/22606796291
 
 

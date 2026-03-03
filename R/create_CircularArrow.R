@@ -68,63 +68,12 @@
 #' # For more examples, see:
 #' # https://github.com/ccamlr/CCAMLRGIS#27-create-circular-arrow
 #' 
-#' #Example 1
 #' Arr=create_CircularArrow()
 #' 
 #' terra::plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
 #'             col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 1")
 #' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
 #' plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
-#' 
-#' 
-#' #Example 2
-#' Arr=create_CircularArrow(Narr=2,Spc=5)
-#' 
-#' terra::plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-#'             col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 2")
-#' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
-#' plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
-#' 
-#' 
-#' #Example 3
-#' Arr=create_CircularArrow(Narr=10,Spc=-4,Hwidth=15,Hlength=20)
-#' 
-#' terra::plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-#'             col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 3")
-#' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
-#' plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
-#' 
-#' 
-#' #Example 4
-#' Arr=create_CircularArrow(Narr=8,Spc=-2,Npa=200,Acol=c("red","orange","green"),
-#'                          Atrans = c(0,0.9,0),Atype = "dashed")
-#' 
-#' terra::plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-#'             col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 4")
-#' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
-#' plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
-#' 
-#' 
-#' #Example 5 Path around two ellipses
-#' El1=create_Ellipse(Latc=-61,Lonc=-50,Lmaj=500,Lmin=250,Ang=120)
-#' El2=create_Ellipse(Latc=-68,Lonc=-57,Lmaj=400,Lmin=200,Ang=35)
-#' #Merge ellipses and take convex hull
-#' El=st_union(st_geometry(El1),st_geometry(El2))
-#' El=st_convex_hull(El)
-#' El=st_segmentize(El,dfMaxLength = 10000)
-#' #Go counterclockwise if desired:
-#' #El=st_coordinates(El)
-#' #El=st_polygon(list(El[nrow(El):1,])) 
-#' 
-#' Arr=create_CircularArrow(Narr=10,Spc=3,Npa=200,Acol=c("green","darkgreen"),
-#'                          Atype = "dashed",Input=El)
-#' 
-#' terra::plot(SmallBathy(),xlim=c(-3e6,0),ylim=c(0,3e6),breaks=Depth_cuts,
-#'             col=Depth_cols,axes=FALSE,box=FALSE,legend=FALSE,main="Example 5")
-#' plot(st_geometry(Coast[Coast$ID=='All',]),col='grey',add=TRUE)
-#' plot(st_geometry(Arr),col=Arr$col,border=NA,add=TRUE)
-#' 
-#' 
 #' 
 #' 
 #' @export
