@@ -152,15 +152,19 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #' @export
 
 create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red'),Blank=FALSE){
-  Input=as.data.frame(Input)
-  #Use NamesIn to reorder columns
-  if(is.null(NamesIn)==FALSE){
-    if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
-    if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
-    Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+  if(is.vector(Input)){
+    Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols,Blank=Blank)
+  }else{
+    Input=as.data.frame(Input)
+    #Use NamesIn to reorder columns
+    if(is.null(NamesIn)==FALSE){
+      if(length(NamesIn)!=2){stop("'NamesIn' should be a character vector of length 2")}
+      if(any(NamesIn%in%colnames(Input)==FALSE)){stop("'NamesIn' do not match column names in 'Input'")}
+      Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
+    }
+    #Run cGrid
+    Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols,Blank=Blank)
   }
-  #Run cGrid
-  Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols,Blank=Blank)
   return(Output)
 }
 
@@ -240,7 +244,7 @@ create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,Separ
   }
   # Run Clip2Coast
   if(Clip==TRUE){Output=Clip2Coast(Output)}
-
+  
   return(Output)
   
 }
@@ -394,7 +398,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
   if(class(Bathy)[1]!="SpatRaster"){
     Bathy=terra::rast(Bathy)
   }
-
+  
   #Crop Bathy
   Bathy=terra::crop(Bathy,terra::extend(ext(Poly),10000))
   
@@ -506,7 +510,7 @@ create_Stations=function(Poly,Bathy,Depths,N=NA,Nauto=NA,dist=NA,Buf=1000,ShowPr
         tmpx=Grid$X[indx]
         tmpy=Grid$Y[indx]
         lay=Grid$i[indx]
-        }
+      }
     }
     Locs=data.frame(layer=Locs[,3],
                     Stratum=IsoNames[Locs[,3]],
