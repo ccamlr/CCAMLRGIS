@@ -1937,9 +1937,7 @@ Adding colors to plots revolves around two functions:
 *add_col()* generates colors for a variable of interest as well as a set
 of color classes and colors to be used as inputs to the *add_Cscale()*
 function. Colors and color classes may be generated automatically or
-customized, depending on the intended appearance. Knowing the names of
-colors in R would be useful here
-(<https://sites.stat.columbia.edu/tzheng/files/Rcolor.pdf>).
+customized, depending on the intended appearance.
 
 ``` r
 
