@@ -10,7 +10,9 @@ create_Polys(
   Buffer = 0,
   Densify = TRUE,
   Clip = FALSE,
-  SeparateBuf = TRUE
+  SeparateBuf = TRUE,
+  Dlon = 0.1,
+  Dlat = 0.1
 )
 }
 \arguments{
@@ -40,6 +42,10 @@ than 0.1 degree longitude are added at every 0.1 degree of longitude prior to pr
 
 \item{SeparateBuf}{logical, if set to FALSE when adding a \code{Buffer},
 all spatial objects are merged, resulting in a single spatial object.}
+
+\item{Dlon}{numeric, degrees between iso-longitude grid lines used for densification.}
+
+\item{Dlat}{numeric, degrees between iso-latitude grid lines used for densification.}
 }
 \value{
 Spatial object in your environment.

@@ -1,3 +1,10 @@
+# CCAMLRGIS 4.3.0
+
+Updated bathymetry to GEBCO 2025 grid,
+Improved densification of lines,
+Added a warning in assign_areas() to indicate when a point might be on the edge of the area of interest,
+Added an option in create_PolyGrids() to build empty grids (which can then be re-used across scripts to increase consistency).
+
 # CCAMLRGIS 4.2.1
 
 Improved create_Arrow() to avoid the occurrence of 'strange heads' due to tight turns,

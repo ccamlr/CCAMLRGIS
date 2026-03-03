@@ -91,19 +91,19 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
   #Count missing locations to warn user
   Missing=which(is.na(Locs[,1])==TRUE | is.na(Locs[,2])==TRUE)
   if(length(Missing)>1){
-    warning(paste0(length(Missing),' records are missing location and will not be assigned to any area\n'))
+    warning(paste0(length(Missing),' records are missing location and will not be assigned to any area.'))
   }
   if(length(Missing)==1){
-    warning('One record is missing location and will not be assigned to any area\n')
+    warning('One record is missing location and will not be assigned to any area.')
   }
   #Count impossible locations to warn user and replace with NAs
   Impossible=which(Locs[,1]>180 | Locs[,1]<(-180) | Locs[,2]>90 | Locs[,2]<(-90))
   if(length(Impossible)>1){
-    warning(paste0(length(Impossible),' records are not on Earth and will not be assigned to any area\n'))
+    warning(paste0(length(Impossible),' records are not on Earth and will not be assigned to any area.'))
     Locs[Impossible,]=NA
   }
   if(length(Impossible)==1){
-    warning('One record is not on Earth and will not be assigned to any area\n')
+    warning('One record is not on Earth and will not be assigned to any area.')
     Locs[Impossible,]=NA
   }
   #Get uniques
@@ -128,6 +128,8 @@ assign_areas=function(Input,Polys,AreaNameFormat='GAR_Long_Label',Buffer=0,Names
     }
     #Match points to polygons
     match=sapply(st_intersects(SPls,tmpArea), function(z) if (length(z)==0) NA_integer_ else z[1])
+    match2=sapply(st_intersects(SPls,st_buffer(tmpArea,dist=1)), function(z) if (length(z)==0) NA_integer_ else z[1])
+    if(identical(match,match2)==FALSE){warning('Some record(s) might be exactly on the edge of the area of interest and will not be assigned to it.')}
     tmpArea=st_drop_geometry(tmpArea)
     if(ncol(tmpArea)==1){tmpArea$xyz123=NA}#Add empty column to avoid subsetting error when only 1 column
     match=tmpArea[match,]

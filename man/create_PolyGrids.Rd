@@ -11,7 +11,8 @@ create_PolyGrids(
   dlat = NA,
   Area = NA,
   cuts = 100,
-  cols = c("green", "yellow", "red")
+  cols = c("green", "yellow", "red"),
+  Blank = FALSE
 )
 }
 \arguments{
@@ -35,26 +36,35 @@ the \code{Input}. Latitudes name must be given first, e.g.:
 \item{cuts}{numeric, number of desired color classes.}
 
 \item{cols}{character, desired colors. If more that one color is provided, a linear color gradient is generated.}
+
+\item{Blank}{logical, \code{TRUE} or \code{FALSE}. If \code{TRUE}, creates an empty grid spanning the bounding box
+given in the \code{Input} as: \code{c(LatMin,LatMax,LonMin,LonMax)}. The script might struggle to reach equal-area
+gridding if the desired cell \code{Area} is too large, and/or the \code{Input} bounding box is too small,
+and/or the \code{Input} bounding box does not span -180 to 180 degrees longitude. Use \code{Blank=TRUE} with caution.}
 }
 \value{
 Spatial object in your environment.
+
+if \code{Blank=FALSE}:
+
 Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
 median of values in each cell is returned. In addition, for each cell, its area (AreaKm2), projected 
-centroid (Centrex, Centrey) and unprojected centroid (Centrelon, Centrelat) is given.
+centroid (Centrex, Centrey) and unprojected centroid (Centrelon, Centrelat) is given. Also, colors are
+generated for each aggregated values according to the chosen \code{cuts} and \code{cols}. To generate a
+custom color scale after the grid creation, refer to \code{\link{add_col}} and \code{\link{add_Cscale}}.
 
-To see the data contained in your spatial object, type: \code{View(MyGrid)}.
 
-Also, colors are generated for each aggregated values according to the chosen \code{cuts} 
-and \code{cols}.
+if \code{Blank=TRUE}:
 
-To generate a custom color scale after the grid creation, refer to \code{\link{add_col}} and 
-\code{\link{add_Cscale}}. See Example 4 below.
+An empty grid is generated. It can be re-used across scripts in conjunction
+with \code{\link{assign_areas}}.
 }
 \description{
 Create a polygon grid to spatially aggregate data in cells of chosen size.
 Cell size may be specified in degrees or as a desired area in square kilometers
-(in which case cells are of equal area).
+(in which case cells are of equal area). Using \code{Blank=TRUE} (with caution) produces
+an empty grid.
 }
 \examples{
 \donttest{

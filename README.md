@@ -136,7 +136,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig0.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig0.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <center>
 
@@ -175,7 +175,7 @@ dev.off()
 #do not have to re-download it every time you need it.
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig1.1.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig1.1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -204,7 +204,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig1.2.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig1.2.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -240,7 +240,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig1.3.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig1.3.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 ## 2. Create functions
 
@@ -296,7 +296,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.1.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -356,7 +356,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.2.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.2.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -383,7 +383,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.3.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.3.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -427,7 +427,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.4.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.4.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -461,7 +461,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.5.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.5.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -502,7 +502,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.6.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.6.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -544,7 +544,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.7.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.7.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -585,7 +585,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.8.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.8.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -612,7 +612,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.9.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.9.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -639,7 +639,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.10.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.10.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -665,7 +665,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.11.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.11.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -722,7 +722,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.12.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.12.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -752,7 +752,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.13.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.13.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -785,7 +785,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.14.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.14.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -816,7 +816,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.15.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.15.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -847,7 +847,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.16.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.16.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -877,7 +877,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.17.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.17.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -909,7 +909,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.18.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.18.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -944,7 +944,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.19.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.19.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1029,7 +1029,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.20.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.20.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1090,7 +1090,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.21.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.21.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1163,7 +1163,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.22.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.22.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1204,7 +1204,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.22b.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.22b.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1248,7 +1248,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.23.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.23.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1288,7 +1288,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.24.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.24.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1323,7 +1323,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.25.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.25.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1347,7 +1347,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.26.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.26.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1371,7 +1371,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.27.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.27.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1396,7 +1396,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.28.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.28.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1431,7 +1431,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.29.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.29.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1462,7 +1462,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig2.30.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig2.30.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1530,7 +1530,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig3.1.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig3.1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1599,13 +1599,13 @@ head(MyData)
 MyDataD=get_depths(Input=MyData,Bathy=SmallBathy())
 #The resulting data looks like this (where 'd' is the depth):
 head(MyDataD)
-#>         Lat       Lon    Catch         d
-#> 1 -68.63966 -175.0078 53.33002 -3747.518
-#> 2 -67.03475 -178.0322 38.66385 -3960.490
-#> 3 -65.44164 -170.1656 20.32608 -2996.769
-#> 4 -68.36806  151.0247 69.81201  -336.233
-#> 5 -63.89171  154.4327 52.32101 -3237.848
-#> 6 -66.35370  153.6906 78.65576 -1966.678
+#>         Lat       Lon    Catch          d
+#> 1 -68.63966 -175.0078 53.33002 -3747.2375
+#> 2 -67.03475 -178.0322 38.66385 -3937.6699
+#> 3 -65.44164 -170.1656 20.32608 -2996.7708
+#> 4 -68.36806  151.0247 69.81201  -336.2562
+#> 5 -63.89171  154.4327 52.32101 -3237.8303
+#> 6 -66.35370  153.6906 78.65576 -1961.9777
 
 png(filename='ReadMeFigs/ReadMe_Fig4.1.png',width=2000,height=1400,res=300,bg="white")
 
@@ -1617,7 +1617,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig4.1.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig4.1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1645,8 +1645,8 @@ FishDepth=seabed_area(SmallBathy(),MyPolys,PolyNames="ID",depth_classes=c(0,-200
 head(FishDepth)
 #>      ID 0|-200 -200|-600 Fishable_area -1800|-3000 -3000|-5000
 #> 1   one      0  19600.01      41300.01    40500.01    92300.03
-#> 2   two      0    200.00       2000.00     9200.00    93200.03
-#> 3 three    700   1400.00       8100.00   230400.07   136900.04
+#> 2   two      0    200.00       2000.00     9400.00    93000.03
+#> 3 three    700   1400.00       8100.00   231800.07   135500.04
 ```
 
 ### 4.3. assign_areas
@@ -1791,7 +1791,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig4.2.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig4.2.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1845,7 +1845,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig4.3.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig4.3.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -1906,7 +1906,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.1.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.1.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 #### Highlighting the Fishable Depth range:
 
@@ -1922,7 +1922,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.2.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.2.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 ### 5.2. Adding colors to data
 
@@ -1979,7 +1979,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.3.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.3.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -2013,7 +2013,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.4.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.4.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -2070,7 +2070,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.5.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.5.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -2299,7 +2299,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.6.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.6.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 <br>
 
@@ -2344,7 +2344,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.7.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.7.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 #Example 2: 'auto' and 'input' modes
@@ -2392,6 +2392,7 @@ MyPolys=create_Polys(PolyData)
 
 #MyPolys is an sf object; it is a data frame that includes a column named 'geometry':
 kableExtra::kable(MyPolys,row.names = F)
+#> systemfonts and textshaping have been compiled with different versions of Freetype. Because of this, textshaping will not use the font cache provided by systemfonts
 ```
 
 | ID | Catch_min | Nfishes_min | n_min | Catch_max | Nfishes_max | n_max | Catch_mean | Nfishes_mean | n_mean | Catch_sum | Nfishes_sum | n_sum | Catch_count | Nfishes_count | n_count | Catch_sd | Nfishes_sd | n_sd | Catch_median | Nfishes_median | n_median | geometry | AreaKm2 | Labx | Laby |
@@ -2417,7 +2418,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.8.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.8.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 This results in a warning *Warning: plotting the first 9 out of 25
 attributes…* and a 9-panel plot as shown above, with each panel
@@ -2435,7 +2436,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.9.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.9.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 There are several available options, for example:
 
@@ -2451,7 +2452,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.10.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.10.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 Where:
 
@@ -2478,7 +2479,7 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.11.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.11.png" alt="" width="100%" style="display: block; margin: auto;" />
 
 Using *ggplot2* and *gridExtra*, multi-panel plots can be drawn:
 
@@ -2504,4 +2505,4 @@ dev.off()
 #>   2
 ```
 
-<img src="ReadMeFigs/ReadMe_Fig5.12.png" width="100%" style="display: block; margin: auto;" />
+<img src="ReadMeFigs/ReadMe_Fig5.12.png" alt="" width="100%" style="display: block; margin: auto;" />
