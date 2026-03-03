@@ -25,7 +25,8 @@
 #' than 0.1 degree longitude are added at every 0.1 degree of longitude prior to projection
 #' (compare examples 1 and 2 below). 
 #' @param Clip logical, if set to TRUE, polygon parts that fall on land are removed (see \link{Clip2Coast}).
-#' 
+#' @param Dlon numeric, degrees between iso-longitude grid lines used for densification.
+#' @param Dlat numeric, degrees between iso-latitude grid lines used for densification.
 #' @return Spatial object in your environment.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 #' within polygons. For each numeric variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
@@ -60,7 +61,7 @@
 #' 
 #' @export
 
-create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE){
+create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,SeparateBuf=TRUE,Dlon=0.1,Dlat=0.1){
   # Load data
   Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
@@ -70,7 +71,7 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   # Run cPolys
-  Output=cPolys(Input,Densify=Densify)
+  Output=cPolys(Input,Densify=Densify,Dlon=Dlon,Dlat=Dlat)
   # Run add_buffer
   if(length(Buffer)==1){
     if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}
@@ -86,7 +87,8 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #'
 #' Create a polygon grid to spatially aggregate data in cells of chosen size.
 #' Cell size may be specified in degrees or as a desired area in square kilometers
-#' (in which case cells are of equal area).
+#' (in which case cells are of equal area). Using \code{Blank=TRUE} (with caution) produces
+#' an empty grid.
 #'
 #' @param Input input dataframe.
 #' 
@@ -104,19 +106,26 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #' @param Area numeric, area in square kilometers of the grid cells. The smaller the \code{Area}, the longer it will take.
 #' @param cuts numeric, number of desired color classes.
 #' @param cols character, desired colors. If more that one color is provided, a linear color gradient is generated.
+#' @param Blank logical, \code{TRUE} or \code{FALSE}. If \code{TRUE}, creates an empty grid spanning the bounding box
+#' given in the \code{Input} as: \code{c(LatMin,LatMax,LonMin,LonMax)}. The script might struggle to reach equal-area
+#' gridding if the desired cell \code{Area} is too large, and/or the \code{Input} bounding box is too small,
+#' and/or the \code{Input} bounding box does not span -180 to 180 degrees longitude. Use \code{Blank=TRUE} with caution.
 #' @return Spatial object in your environment.
+#' 
+#' if \code{Blank=FALSE}:
+#' 
 #' Data within the resulting spatial object contains the data provided in the \code{Input} after aggregation
 #' within cells. For each Variable, the minimum, maximum, mean, sum, count, standard deviation, and, 
 #' median of values in each cell is returned. In addition, for each cell, its area (AreaKm2), projected 
-#' centroid (Centrex, Centrey) and unprojected centroid (Centrelon, Centrelat) is given.
+#' centroid (Centrex, Centrey) and unprojected centroid (Centrelon, Centrelat) is given. Also, colors are
+#' generated for each aggregated values according to the chosen \code{cuts} and \code{cols}. To generate a
+#' custom color scale after the grid creation, refer to \code{\link{add_col}} and \code{\link{add_Cscale}}.
 #' 
-#' To see the data contained in your spatial object, type: \code{View(MyGrid)}.
 #' 
-#' Also, colors are generated for each aggregated values according to the chosen \code{cuts} 
-#' and \code{cols}.
+#' if \code{Blank=TRUE}:
 #' 
-#' To generate a custom color scale after the grid creation, refer to \code{\link{add_col}} and 
-#' \code{\link{add_Cscale}}. See Example 4 below.
+#' An empty grid is generated. It can be re-used across scripts in conjunction
+#' with \code{\link{assign_areas}}.
 #' 
 #' @seealso 
 #' \code{\link{create_Points}}, \code{\link{create_Lines}}, \code{\link{create_Polys}},
@@ -142,7 +151,7 @@ create_Polys=function(Input,NamesIn=NULL,Buffer=0,Densify=TRUE,Clip=FALSE,Separa
 #' 
 #' @export
 
-create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red')){
+create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,cols=c('green','yellow','red'),Blank=FALSE){
   Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
   if(is.null(NamesIn)==FALSE){
@@ -151,7 +160,7 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   #Run cGrid
-  Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols)
+  Output=cGrid(Input,dlon=dlon,dlat=dlat,Area=Area,cuts=cuts,cols=cols,Blank=Blank)
   return(Output)
 }
 
@@ -182,6 +191,8 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
 #' @param Clip logical, if set to TRUE, polygon parts (from buffered lines) that fall on land are removed (see \link{Clip2Coast}).
 #' @param SeparateBuf logical, if set to FALSE when adding a \code{Buffer},
 #' all spatial objects are merged, resulting in a single spatial object.
+#' @param Dlon numeric, degrees between iso-longitude grid lines used for densification.
+#' @param Dlat numeric, degrees between iso-latitude grid lines used for densification.
 #' 
 #' @return Spatial object in your environment.
 #' Data within the resulting spatial object contains the data provided in the \code{Input} plus
@@ -210,7 +221,7 @@ create_PolyGrids=function(Input,NamesIn=NULL,dlon=NA,dlat=NA,Area=NA,cuts=100,co
 #' 
 #' @export
 
-create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE){
+create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,SeparateBuf=TRUE,Dlon=0.1,Dlat=0.1){
   # Load data
   Input=as.data.frame(Input)
   #Use NamesIn to reorder columns
@@ -220,7 +231,7 @@ create_Lines=function(Input,NamesIn=NULL,Buffer=0,Densify=FALSE,Clip=FALSE,Separ
     Input=Input[,c(NamesIn,colnames(Input)[which(!colnames(Input)%in%NamesIn)])]
   }
   # Run cLines
-  Output=cLines(Input,Densify=Densify)
+  Output=cLines(Input,Densify=Densify,Dlon=Dlon,Dlat=Dlat)
   # Run add_buffer
   if(length(Buffer)==1){
     if(Buffer>0){Output=add_buffer(Output,buf=Buffer,SeparateBuf=SeparateBuf)}

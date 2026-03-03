@@ -1,4 +1,4 @@
-cLines=function(Input,Densify=FALSE){
+cLines=function(Input,Densify=FALSE,Dlon=0.1,Dlat=0.1){
   #Build Line list
   Ll=list()
   Input[,1]=as.character(Input[,1])
@@ -12,7 +12,7 @@ cLines=function(Input,Densify=FALSE){
     if(length(diflons)>1){diflons=max(abs(diflons[diflons!=0]))}
     if(length(diflons)==0){diflons=0}
     if(diflons>0.1 & Densify==TRUE){
-      tmp=DensifyData(lons,lats)
+      tmp=DensifyData(lons,lats,Dlon=Dlon,Dlat=Dlat)
       lons=tmp[,1]
       lats=tmp[,2]
     }

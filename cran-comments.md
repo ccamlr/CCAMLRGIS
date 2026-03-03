@@ -35,12 +35,14 @@ See https://github.com/ccamlr/CCAMLRGIS/actions/runs/13359474758
 
 ## Notes about CRAN edits
 
-### V4.2.1
+### V4.3.0
 
-* Improved create_Arrow(), fixed crs for Coast and load_Coastline().
+* Improved DensifyData(), assign_areas() and create_PolyGrids().
+
 
 ### Previous versions
 
+* Improved create_Arrow(), fixed crs for Coast and load_Coastline().
 * Added create_Ellipse() and create_CircularArrow(). Improved get_iso_polys(). 
 * Optimized create_Arrow().
 * Modified add_Legend() behavior. Updated add_Cscale(), get_iso_polys() and Basemaps.
