@@ -3,9 +3,9 @@
 
 OK on devtools::check(): 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-OK on devtools::check_win_devel() see here: 
+OK on devtools::check_win_devel() see here: https://win-builder.r-project.org/Ib8Ob5Zfm4KB/00check.log
 
-OK on R-hub see here: 
+OK on R-hub see here: https://github.com/ccamlr/CCAMLRGIS/actions/runs/22611909725
 
 
 ## Notes about CRAN edits
