@@ -37,7 +37,7 @@ Each of the following sections contain code to produce maps that were published 
 5.  [WG-FSA](#5-wg-fsa)
 6.  [SC-Other](#6-sc-other)
 
-    6.1. [WS-48.2-2026](#6.1-ws-48.2-2026)
+    6.1. [WS-48.2-2026](#61-ws-482-2026)
 
 
 ------------------------------------------------------------------------
