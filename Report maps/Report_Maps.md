@@ -62,4 +62,10 @@ published in CCAMLR reports.
 
 ### 6.1. WS-48.2-2026
 
-*Coming soon*
+An R script along with all resources needed to reproduce Figure 2 of
+[WS-48.2-2026](https://meetings.ccamlr.org/en/ws-48-2-2026) are
+available in the [WS-482-2026
+folder](https://github.com/ccamlr/geospatial_operations/tree/main/Scripts).
+The resulting map is shown below (*N.B.*: The currents shown on the
+original map were added manually, and given in ‘Add_Currents.pptx’), as
+well as the areas of the marine part of each plotted polygon.
