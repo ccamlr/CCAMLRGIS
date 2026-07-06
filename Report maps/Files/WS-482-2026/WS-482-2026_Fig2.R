@@ -143,8 +143,9 @@ Ar=as.numeric(round(st_area(Polys)/1e6))
 
 Areas=data.frame(
   Polygon=Polys$Polygon,
-  `Marine Area km2`=Ar
+  Marine_Area_km2=Ar
 )
 #Export areas
 write.csv(Areas,"Report maps/Files/WS-482-2026/WS-482-2026_Polygon_Areas.csv",row.names = F)
 #Export polygons
+st_write(Polys,"Report maps/Files/WS-482-2026/WS482_Polys.gpkg")
